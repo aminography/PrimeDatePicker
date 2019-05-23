@@ -1,6 +1,6 @@
-# `PrimeCalendar` :zap:
+# `PrimeDatePicker` :zap:
   
-**`PrimeCalendar`** makes working with Persian/Hijri/Civil dates also their conversion to each other easier.
+**`PrimeDatePicker`** is a tool to select a date.
   
 ![](static/prime_logo.png)
   
