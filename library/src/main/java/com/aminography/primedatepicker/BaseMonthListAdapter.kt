@@ -8,30 +8,31 @@ import android.view.ViewGroup
 import android.widget.AbsListView.LayoutParams
 import android.widget.BaseAdapter
 import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.common.CalendarFactory
+import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primecalendar.hijri.HijriCalendar
+import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import java.util.*
 
 /**
- * An adapter for a list of [MonthView] items.
+ * An adapter for a list of [BaseMonthView] items.
  */
-abstract class MonthAdapter(
+abstract class BaseMonthListAdapter(
         private val context: Context,
         protected val controller: DatePickerController,
         @ColorInt val mainColor: Int? = null
-) : BaseAdapter(), MonthView.OnDayClickListener {
-
-    private var mSelectedDay: CalendarDay? = null
+) : BaseAdapter(), BaseMonthView.OnDayClickListener {
 
     /**
      * Updates the selected day and related parameters.
      *
      * @param day The day to highlight
      */
-    var selectedDay: CalendarDay?
-        get() = mSelectedDay
-        set(day) {
-            mSelectedDay = day
+    var selectedDay: BaseCalendar? = null
+        set(value) {
+            field = value
             notifyDataSetChanged()
         }
 
@@ -43,8 +44,12 @@ abstract class MonthAdapter(
     /**
      * Set up the gesture detector and selected time
      */
-    protected fun init() {
-        mSelectedDay = CalendarDay(System.currentTimeMillis())
+    private fun init() {
+        selectedDay = when (CurrentCalendarType.type) {
+            CalendarType.CIVIL -> CivilCalendar()
+            CalendarType.PERSIAN -> PersianCalendar()
+            CalendarType.HIJRI -> HijriCalendar()
+        }
     }
 
     override fun getCount(): Int {
@@ -80,10 +85,10 @@ abstract class MonthAdapter(
 
     @SuppressLint("NewApi")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val v: MonthView
+        val v: BaseMonthView
         var drawingParams: HashMap<String, Int>? = null
         if (convertView != null) {
-            v = convertView as MonthView
+            v = convertView as BaseMonthView
             // We store the drawing parameters in the view so it can be recycled
             @Suppress("UNCHECKED_CAST")
             drawingParams = v.tag as HashMap<String, Int>
@@ -115,29 +120,29 @@ abstract class MonthAdapter(
 
         var selectedDay = -1
         if (isSelectedDayInMonth(year, month)) {
-            selectedDay = mSelectedDay!!.day
+            selectedDay = this.selectedDay!!.dayOfMonth
         }
 
         // Invokes requestLayout() to ensure that the recycled view is set with the appropriate
         // height/number of weeks before being displayed.
         v.reuse()
 
-        drawingParams[MonthView.VIEW_PARAMS_SELECTED_DAY] = selectedDay
-        drawingParams[MonthView.VIEW_PARAMS_YEAR] = year
-        drawingParams[MonthView.VIEW_PARAMS_MONTH] = month
-        drawingParams[MonthView.VIEW_PARAMS_WEEK_START] = controller.firstDayOfWeek
+        drawingParams[BaseMonthView.VIEW_PARAMS_SELECTED_DAY] = selectedDay
+        drawingParams[BaseMonthView.VIEW_PARAMS_YEAR] = year
+        drawingParams[BaseMonthView.VIEW_PARAMS_MONTH] = month
+        drawingParams[BaseMonthView.VIEW_PARAMS_WEEK_START] = controller.firstDayOfWeek
         v.setMonthParams(drawingParams)
         v.invalidate()
         return v
     }
 
-    abstract fun createMonthView(context: Context): MonthView
+    abstract fun createMonthView(context: Context): BaseMonthView
 
     private fun isSelectedDayInMonth(year: Int, month: Int): Boolean {
-        return mSelectedDay!!.year == year && mSelectedDay!!.month == month
+        return selectedDay!!.year == year && selectedDay!!.month == month
     }
 
-    override fun onDayClick(view: MonthView, day: CalendarDay) {
+    override fun onDayClick(view: BaseMonthView, day: BaseCalendar) {
         onDayTapped(day)
     }
 
@@ -146,64 +151,13 @@ abstract class MonthAdapter(
      *
      * @param day The day that was tapped
      */
-    private fun onDayTapped(day: CalendarDay) {
-        controller.onDayOfMonthSelected(day.year, day.month, day.day)
+    private fun onDayTapped(day: BaseCalendar) {
+        controller.onDayOfMonthSelected(day.year, day.month, day.dayOfMonth)
         selectedDay = day
-    }
-
-    /**
-     * A convenience class to represent a specific date.
-     */
-    class CalendarDay {
-        var year: Int = 0
-        var month: Int = 0
-        var day: Int = 0
-        private var baseCalendar: BaseCalendar? = null
-
-        constructor() {
-            setTime(System.currentTimeMillis())
-        }
-
-        constructor(timeInMillis: Long) {
-            setTime(timeInMillis)
-        }
-
-        constructor(calendar: BaseCalendar) {
-            year = calendar.year
-            month = calendar.month
-            day = calendar.dayOfMonth
-        }
-
-        constructor(year: Int, month: Int, day: Int) {
-            setDay(year, month, day)
-        }
-
-        fun set(date: CalendarDay) {
-            year = date.year
-            month = date.month
-            day = date.day
-        }
-
-        fun setDay(year: Int, month: Int, day: Int) {
-            this.year = year
-            this.month = month
-            this.day = day
-        }
-
-        private fun setTime(timeInMillis: Long) {
-            if (baseCalendar == null) {
-                baseCalendar = CalendarFactory.newInstance(CurrentCalendarType.type)
-            }
-            baseCalendar!!.timeInMillis = timeInMillis
-            year = baseCalendar!!.year
-            month = baseCalendar!!.month
-            day = baseCalendar!!.dayOfMonth
-        }
     }
 
     companion object {
         const val MONTHS_IN_YEAR = 12
-        protected const val WEEK_7_OVERHANG_HEIGHT = 7
     }
 
 }

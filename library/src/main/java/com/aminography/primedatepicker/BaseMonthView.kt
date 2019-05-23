@@ -5,22 +5,18 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.graphics.Paint.Style
-import android.graphics.Rect
 import android.graphics.Typeface
-import android.os.Bundle
 import android.support.annotation.ColorInt
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat
-import android.support.v4.widget.ExploreByTouchHelper
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primecalendar.hijri.HijriCalendar
+import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.TypefaceHelper
@@ -32,33 +28,36 @@ import java.util.*
  * A calendar-like view displaying a specified month and the appropriate selectable day numbers
  * within the specified month.
  */
-abstract class MonthView @JvmOverloads constructor(
+abstract class BaseMonthView @JvmOverloads constructor(
         context: Context,
         attr: AttributeSet? = null,
-        private var mController: DatePickerController? = null,
+        private var controller: DatePickerController? = null,
         @ColorInt var mainColor: Int? = null
 ) : View(context, attr) {
 
-    protected val mDayLabelCalendar: BaseCalendar
+    private val mDayLabelCalendar: BaseCalendar
     private val mStringBuilder: StringBuilder
     private val baseCalendar: BaseCalendar
-    private val mTouchHelper: MonthViewTouchHelper
+
     // affects the padding on the sides of this view
     protected var mEdgePadding = 0
     protected var mMonthNumPaint: Paint? = null
-    protected var mMonthTitlePaint: Paint? = null
+    private var mMonthTitlePaint: Paint? = null
     protected var mSelectedCirclePaint: Paint? = null
-    protected var mMonthDayLabelPaint: Paint? = null
+    private var mMonthDayLabelPaint: Paint? = null
+
     // The Julian day of the first day displayed by this item
     protected var mFirstJulianDay = -1
     // The month of the first day in this week
     protected var mFirstMonth = -1
     // The month of the last day in this week
     protected var mLastMonth = -1
+
     var month: Int = 0
         protected set
     var year: Int = 0
         protected set
+
     // Quick reference to the width of this view, matches parent
     protected var mWidth: Int = 0
     // The height this view should draw at in pixels, set by height param
@@ -75,33 +74,30 @@ abstract class MonthView @JvmOverloads constructor(
     protected var mNumDays = DEFAULT_NUM_DAYS
     // The number of days + a spot for week number if it is displayed
     protected var mNumCells = mNumDays
+
     // The left edge of the selected day
     protected var mSelectedLeft = -1
     // The right edge of the selected day
     protected var mSelectedRight = -1
-    protected var mNumRows = DEFAULT_NUM_ROWS
+
+    private var mNumRows = DEFAULT_NUM_ROWS
 
     // Optional listener for handling day click actions
-    protected var mOnDayClickListener: OnDayClickListener? = null
+    private var mOnDayClickListener: OnDayClickListener? = null
     protected var mDayTextColor: Int = 0
     protected var mSelectedDayTextColor: Int = 0
-    protected var mSelectedDayColor: Int = 0
-    protected var mMonthDayTextColor: Int = 0
+    private var mSelectedDayColor: Int = 0
+    private var mMonthDayTextColor: Int = 0
     protected var mTodayNumberColor: Int = 0
     protected var mHighlightedDayTextColor: Int = 0
     protected var mDisabledDayTextColor: Int = 0
-    protected var mMonthTitleColor: Int = 0
-    // Whether to prevent setting the accessibility delegate
-    private val mLockAccessibilityDelegate: Boolean
+    private var mMonthTitleColor: Int = 0
     private var mDayOfWeekStart = 0
-
-    protected val monthViewTouchHelper: MonthViewTouchHelper
-        get() = MonthViewTouchHelper(this)
 
     /**
      * A wrapper to the MonthHeaderSize to allow override it in children
      */
-    protected val monthHeaderSize: Int
+    private val monthHeaderSize: Int
         get() = MONTH_HEADER_SIZE
 
     private val monthAndYearString: String
@@ -112,19 +108,6 @@ abstract class MonthView @JvmOverloads constructor(
                 CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(baseCalendar.monthName + " " + baseCalendar.year)
                 CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(baseCalendar.monthName + " " + baseCalendar.year)
             }
-        }
-
-    /**
-     * @return The date that has accessibility focus, or `null` if no date
-     * has focus
-     */
-    val accessibilityFocus: MonthAdapter.CalendarDay?
-        get() {
-            val day = mTouchHelper.focusedVirtualView
-            if (day >= 0) {
-                return MonthAdapter.CalendarDay(year, month, day)
-            }
-            return null
         }
 
     init {
@@ -155,38 +138,24 @@ abstract class MonthView @JvmOverloads constructor(
 
         mRowHeight = (res.getDimensionPixelOffset(R.dimen.date_picker_view_animator_height) - monthHeaderSize) / MAX_NUM_ROWS
 
-        // Set up accessibility components.
-        mTouchHelper = monthViewTouchHelper
-        ViewCompat.setAccessibilityDelegate(this, mTouchHelper)
-        ViewCompat.setImportantForAccessibility(this, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES)
-        mLockAccessibilityDelegate = true
-
         // Sets up any standard paints that will be used
         initView()
     }
 
     fun setDatePickerController(controller: DatePickerController) {
-        mController = controller
-    }
-
-    override fun setAccessibilityDelegate(delegate: View.AccessibilityDelegate?) {
-        // Workaround for a JB MR1 issue where accessibility delegates on
-        // top-level ListView items are overwritten.
-        if (!mLockAccessibilityDelegate) {
-            super.setAccessibilityDelegate(delegate)
-        }
+        this.controller = controller
     }
 
     fun setOnDayClickListener(listener: OnDayClickListener) {
         mOnDayClickListener = listener
     }
 
-    public override fun dispatchHoverEvent(event: MotionEvent): Boolean {
-        // First right-of-refusal goes the touch exploration helper.
-        return if (mTouchHelper.dispatchHoverEvent(event)) {
-            true
-        } else super.dispatchHoverEvent(event)
-    }
+//    public override fun dispatchHoverEvent(event: MotionEvent): Boolean {
+//        // First right-of-refusal goes the touch exploration helper.
+//        return if (mTouchHelper.dispatchHoverEvent(event)) {
+//            true
+//        } else super.dispatchHoverEvent(event)
+//    }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
@@ -204,12 +173,12 @@ abstract class MonthView @JvmOverloads constructor(
      * Sets up the text and style properties for painting. Override this if you
      * want to use a different paint.
      */
-    protected fun initView() {
+    private fun initView() {
         mMonthTitlePaint = Paint()
         mMonthTitlePaint?.isFakeBoldText = true
         mMonthTitlePaint?.isAntiAlias = true
         mMonthTitlePaint?.textSize = MONTH_LABEL_TEXT_SIZE.toFloat()
-        val typeface = Typeface.create(TypefaceHelper.get(context, mController!!.typeface), Typeface.BOLD)
+        val typeface = Typeface.create(TypefaceHelper.get(context, controller!!.typeface), Typeface.BOLD)
         mMonthTitlePaint?.typeface = typeface
         mMonthTitlePaint?.color = mDayTextColor
         mMonthTitlePaint?.textAlign = Align.CENTER
@@ -221,14 +190,14 @@ abstract class MonthView @JvmOverloads constructor(
         mSelectedCirclePaint?.color = mSelectedDayColor
         mSelectedCirclePaint?.textAlign = Align.CENTER
         mSelectedCirclePaint?.style = Style.FILL
-        mSelectedCirclePaint?.typeface = TypefaceHelper.get(context, mController!!.typeface)
+        mSelectedCirclePaint?.typeface = TypefaceHelper.get(context, controller!!.typeface)
         mSelectedCirclePaint?.alpha = SELECTED_CIRCLE_ALPHA
 
         mMonthDayLabelPaint = Paint()
         mMonthDayLabelPaint?.isAntiAlias = true
         mMonthDayLabelPaint?.textSize = MONTH_DAY_LABEL_TEXT_SIZE.toFloat()
         mMonthDayLabelPaint?.color = mMonthDayTextColor
-        mMonthDayLabelPaint?.typeface = TypefaceHelper.get(context, mController!!.typeface)
+        mMonthDayLabelPaint?.typeface = TypefaceHelper.get(context, controller!!.typeface)
         mMonthDayLabelPaint?.style = Style.FILL
         mMonthDayLabelPaint?.textAlign = Align.CENTER
         mMonthDayLabelPaint?.isFakeBoldText = true
@@ -238,7 +207,7 @@ abstract class MonthView @JvmOverloads constructor(
         mMonthNumPaint?.textSize = MINI_DAY_NUMBER_TEXT_SIZE.toFloat()
         mMonthNumPaint?.style = Style.FILL
         mMonthNumPaint?.textAlign = Align.CENTER
-        mMonthNumPaint?.typeface = TypefaceHelper.get(context, mController!!.typeface)
+        mMonthNumPaint?.typeface = TypefaceHelper.get(context, controller!!.typeface)
         mMonthNumPaint?.isFakeBoldText = false
     }
 
@@ -303,9 +272,6 @@ abstract class MonthView @JvmOverloads constructor(
             }
         }
         mNumRows = calculateNumRows()
-
-        // Invalidate cached accessibility information.
-        mTouchHelper.invalidateRoot()
     }
 
     fun setSelectedDay(day: Int) {
@@ -337,9 +303,6 @@ abstract class MonthView @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         mWidth = w
-
-        // Invalidate cached accessibility information.
-        mTouchHelper.invalidateRoot()
     }
 
     private fun drawMonthTitle(canvas: Canvas) {
@@ -371,7 +334,7 @@ abstract class MonthView @JvmOverloads constructor(
                 CalendarType.HIJRI -> localWeekDisplayName.substring(2, 4)
             }
 
-            canvas.drawText(weekString, x.toFloat(), y.toFloat(), mMonthDayLabelPaint)
+            canvas.drawText(weekString, x.toFloat(), y.toFloat(), mMonthDayLabelPaint!!)
         }
     }
 
@@ -381,7 +344,7 @@ abstract class MonthView @JvmOverloads constructor(
      *
      * @param canvas The canvas to draw on
      */
-    protected fun drawMonthNums(canvas: Canvas) {
+    private fun drawMonthNums(canvas: Canvas) {
         var y = (mRowHeight + MINI_DAY_NUMBER_TEXT_SIZE) / 2 - DAY_SEPARATOR_WIDTH + monthHeaderSize - mEdgePadding / 2
         val dayWidthHalf = (mWidth - mEdgePadding * 2) / (mNumDays * 2.0f)
         var j = findDayOffset()
@@ -453,7 +416,7 @@ abstract class MonthView @JvmOverloads constructor(
      * @param x The x position of the touch event
      * @return The day number
      */
-    protected fun getInternalDayFromLocation(x: Float, y: Float): Int {
+    private fun getInternalDayFromLocation(x: Float, y: Float): Int {
         var y = y
         y += (mEdgePadding / 2).toFloat()
         val dayStart = mEdgePadding
@@ -491,13 +454,11 @@ abstract class MonthView @JvmOverloads constructor(
             return
         }
 
-
-        if (mOnDayClickListener != null) {
-            mOnDayClickListener!!.onDayClick(this, MonthAdapter.CalendarDay(year, month, day))
+        mOnDayClickListener?.apply {
+            val calendar = Utils.newCalendar()
+            calendar.setDate(year, month, day)
+            onDayClick(this@BaseMonthView, calendar)
         }
-
-        // This is a no-op if accessibility is turned off.
-        mTouchHelper.sendEventForVirtualView(day, AccessibilityEvent.TYPE_VIEW_CLICKED)
     }
 
     /**
@@ -506,7 +467,7 @@ abstract class MonthView @JvmOverloads constructor(
      * Integer.MAX_VALUE.
      */
     protected fun isOutOfRange(year: Int, month: Int, day: Int): Boolean {
-        if (mController!!.selectableDays != null) {
+        if (controller!!.selectableDays != null) {
             return !isSelectable(year, month, day)
         }
 
@@ -518,7 +479,7 @@ abstract class MonthView @JvmOverloads constructor(
     }
 
     private fun isSelectable(year: Int, month: Int, day: Int): Boolean {
-        mController!!.selectableDays?.apply {
+        controller!!.selectableDays?.apply {
             for (c in this) {
                 if (year < c.year) {
                     break
@@ -547,11 +508,11 @@ abstract class MonthView @JvmOverloads constructor(
     private fun isBeforeMin(year: Int, month: Int, day: Int): Boolean {
         val func = "isBeforeMin > "
 
-        if (mController == null) {
+        if (controller == null) {
             Log.d(TAG, "$func #> false + controller == null")
             return false
         }
-        val minDate = mController!!.minDate
+        val minDate = controller!!.minDate
         val day = func + "input: " + year + "-" + month + "-" + day + " *** minDate: " + minDate?.year + "-" + minDate?.month + "-" + minDate?.dayOfMonth + " "
 
         if (minDate == null) {
@@ -582,11 +543,11 @@ abstract class MonthView @JvmOverloads constructor(
     private fun isAfterMax(year: Int, month: Int, day: Int): Boolean {
         val func = "isAfterMax > "
 
-        if (mController == null) {
+        if (controller == null) {
             Log.d(TAG, "$func #> false + controller == null")
             return false
         }
-        val maxDate = mController!!.maxDate
+        val maxDate = controller!!.maxDate
         val day = func + "input: " + year + "-" + month + "-" + day + " *** maxDate: " + maxDate?.year + "-" + maxDate?.month + "-" + maxDate?.dayOfMonth + " "
 
         if (maxDate == null) {
@@ -621,7 +582,7 @@ abstract class MonthView @JvmOverloads constructor(
      * @return true if the given date should be highlighted
      */
     protected fun isHighlighted(year: Int, month: Int, day: Int): Boolean {
-        val highlightedDays = mController!!.highlightedDays ?: return false
+        val highlightedDays = controller!!.highlightedDays ?: return false
         for (c in highlightedDays) {
             if (year < c.year) {
                 break
@@ -647,143 +608,10 @@ abstract class MonthView @JvmOverloads constructor(
     }
 
     /**
-     * Clears accessibility focus within the view. No-op if the view does not
-     * contain accessibility focus.
-     */
-    fun clearAccessibilityFocus() {
-        mTouchHelper.clearFocusedVirtualView()
-    }
-
-    /**
-     * Attempts to restore accessibility focus to the specified date.
-     *
-     * @param day The date which should receive focus
-     * @return `false` if the date is not valid for this month view, or
-     * `true` if the date received focus
-     */
-    fun restoreAccessibilityFocus(day: MonthAdapter.CalendarDay): Boolean {
-        if (day.year != year || day.month != month || day.day > mNumCells) {
-            return false
-        }
-        mTouchHelper.focusedVirtualView = day.day
-        return true
-    }
-
-    /**
      * Handles callbacks when the user clicks on a time object.
      */
     interface OnDayClickListener {
-        fun onDayClick(view: MonthView, day: MonthAdapter.CalendarDay)
-    }
-
-    /**
-     * Provides a virtual view hierarchy for interfacing with an accessibility
-     * service.
-     */
-    protected open inner class MonthViewTouchHelper(host: View) : ExploreByTouchHelper(host) {
-
-        private val mTempRect = Rect()
-        private val mTempCalendar = CalendarFactory.newInstance(CurrentCalendarType.type)
-
-        fun setFocusedVirtualView(virtualViewId: Int) {
-            getAccessibilityNodeProvider(this@MonthView).performAction(
-                    virtualViewId, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS, null)
-        }
-
-        fun clearFocusedVirtualView() {
-            val focusedVirtualView = focusedVirtualView
-            if (focusedVirtualView != ExploreByTouchHelper.INVALID_ID) {
-                getAccessibilityNodeProvider(this@MonthView).performAction(
-                        focusedVirtualView,
-                        AccessibilityNodeInfoCompat.ACTION_CLEAR_ACCESSIBILITY_FOCUS, null)
-            }
-        }
-
-        override fun getVirtualViewAt(x: Float, y: Float): Int {
-            val day = getDayFromLocation(x, y)
-            return if (day >= 0) {
-                day
-            } else ExploreByTouchHelper.INVALID_ID
-        }
-
-        override fun getVisibleVirtualViews(virtualViewIds: MutableList<Int>) {
-            for (day in 1..mNumCells) {
-                virtualViewIds.add(day)
-            }
-        }
-
-        override fun onPopulateEventForVirtualView(virtualViewId: Int, event: AccessibilityEvent) {
-            event.contentDescription = getItemDescription(virtualViewId)
-        }
-
-        override fun onPopulateNodeForVirtualView(virtualViewId: Int,
-                                                  node: AccessibilityNodeInfoCompat) {
-            getItemBounds(virtualViewId, mTempRect)
-
-            node.contentDescription = getItemDescription(virtualViewId)
-            node.setBoundsInParent(mTempRect)
-            node.addAction(AccessibilityNodeInfo.ACTION_CLICK)
-
-            if (virtualViewId == mSelectedDay) {
-                node.isSelected = true
-            }
-
-        }
-
-        override fun onPerformActionForVirtualView(virtualViewId: Int, action: Int,
-                                                   arguments: Bundle?): Boolean {
-            when (action) {
-                AccessibilityNodeInfo.ACTION_CLICK -> {
-                    onDayClick(virtualViewId)
-                    return true
-                }
-            }
-
-            return false
-        }
-
-        /**
-         * Calculates the bounding rectangle of a given time object.
-         *
-         * @param day  The day to calculate bounds for
-         * @param rect The rectangle in which to store the bounds
-         */
-        protected fun getItemBounds(day: Int, rect: Rect) {
-            val offsetX = mEdgePadding
-            val offsetY = monthHeaderSize
-            val cellHeight = mRowHeight
-            val cellWidth = (mWidth - 2 * mEdgePadding) / mNumDays
-            val index = day - 1 + findDayOffset()
-            val row = index / mNumDays
-            val column = index % mNumDays
-            val x = offsetX + column * cellWidth
-            val y = offsetY + row * cellHeight
-
-            rect.set(x, y, x + cellWidth, y + cellHeight)
-        }
-
-        /**
-         * Generates a description for a given time object. Since this
-         * description will be spoken, the components are ordered by descending
-         * specificity as DAY MONTH YEAR.
-         *
-         * @param day The day to generate a description for
-         * @return A description of the time object
-         */
-        protected fun getItemDescription(day: Int): CharSequence {
-            mTempCalendar.setDate(year, month, day)
-
-            val date = when (CurrentCalendarType.type) {
-                CalendarType.CIVIL -> mTempCalendar.longDateString
-                CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(mTempCalendar.longDateString)
-                CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(mTempCalendar.longDateString)
-            }
-
-            return if (day == mSelectedDay) {
-                context.getString(R.string.mdtp_item_is_selected, date)
-            } else date
-
-        }
+        fun onDayClick(view: BaseMonthView, day: BaseCalendar)
     }
 
     private fun pxFromDp(context: Context, dp: Float): Float {
@@ -841,7 +669,7 @@ abstract class MonthView @JvmOverloads constructor(
         protected const val DEFAULT_FOCUS_MONTH = -1
         protected const val DEFAULT_NUM_ROWS = 6
         protected const val MAX_NUM_ROWS = 6
-        private val TAG = MonthView::class.java.canonicalName
+        private val TAG = BaseMonthView::class.java.canonicalName
         private const val SELECTED_CIRCLE_ALPHA = 255
         protected var DEFAULT_HEIGHT = 32
         protected var MIN_HEIGHT = 10

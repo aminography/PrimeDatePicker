@@ -1,13 +1,14 @@
 package com.aminography.primedatepicker
 
 import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primedatepicker.fragment.DateCalendarPickerBottomSheetDialogFragment
 
 /**
  * Controller class to communicate among the various components of the date picker dialog.
  */
 interface DatePickerController {
 
-    val selectedDay: MonthAdapter.CalendarDay
+    val selectedDay: BaseCalendar
 
     val highlightedDays: Array<BaseCalendar>?
 

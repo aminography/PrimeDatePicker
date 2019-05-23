@@ -16,7 +16,7 @@ class SimpleMonthView @JvmOverloads constructor(
         attr: AttributeSet? = null,
         controller: DatePickerController? = null,
         @ColorInt mainColor: Int? = null
-) : MonthView(context, attr, controller, mainColor) {
+) : BaseMonthView(context, attr, controller, mainColor) {
 
     private var typefaceBold = Typeface.create(TypefaceHelper[context, controller?.typeface], Typeface.BOLD)
     private var typefaceNormal = Typeface.create(TypefaceHelper[context, controller?.typeface], Typeface.NORMAL)

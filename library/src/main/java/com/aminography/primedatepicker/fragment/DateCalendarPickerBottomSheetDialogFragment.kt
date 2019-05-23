@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker
+package com.aminography.primedatepicker.fragment
 
 import android.annotation.SuppressLint
 import android.app.Dialog
@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.view.animation.AlphaAnimation
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -21,26 +20,23 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.persian.PersianCalendar
-import com.aminography.primedatepicker.fragment.BaseBottomSheetDialogFragment
+import com.aminography.primedatepicker.*
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.TimeUtils
 import com.aminography.primedatepicker.tools.Utils
 import java.util.*
 
-//import kotlinx.android.synthetic.main.fragment_date_calendar_picker_bottom_sheet.view.*
-
-
-class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_calendar_picker_bottom_sheet), View.OnClickListener {
+class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_calendar_picker_bottom_sheet) {
 
     private val mBaseCalendar = CalendarFactory.newInstance(CurrentCalendarType.type)
     private var mCallBack: OnDateSetListener? = null
     private val mListeners = HashSet<OnDateChangedListener>()
     private var mOnCancelListener: DialogInterface.OnCancelListener? = null
     private var mOnDismissListener: DialogInterface.OnDismissListener? = null
-    private var mAnimator: AccessibleDateAnimator? = null
+    private var container: FrameLayout? = null
 
-    private var mDayPickerView: DayPickerView? = null
+    private var mBaseMonthListView: BaseMonthListView? = null
     private var mCurrentView = UNINITIALIZED
     private var mMinYear = DEFAULT_START_YEAR
     private var mMaxYear = DEFAULT_END_YEAR
@@ -48,7 +44,6 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
     private var mMaxDate: BaseCalendar? = null
     private var mHighlightedDays: Array<BaseCalendar>? = null
     private var mSelectableDays: Array<BaseCalendar>? = null
-    private var mHapticFeedbackController: HapticFeedbackController? = null
     private var mDelayAnimation = true
 
     private var mDayPickerDescription: String? = null
@@ -81,8 +76,9 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
         override val selectableDays: Array<BaseCalendar>?
             get() = mSelectableDays
 
-        override val selectedDay: MonthAdapter.CalendarDay
-            get() = MonthAdapter.CalendarDay(mBaseCalendar)
+        override val selectedDay: BaseCalendar
+            get() = mBaseCalendar
+//            get() = BaseCalendar(mBaseCalendar)
 
         override// Ensure no years can be selected outside of the given minimum date
         val minYear: Int
@@ -109,8 +105,8 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
                     throw IllegalArgumentException("Value must be between Calendar.SUNDAY and " + "Calendar.SATURDAY")
                 }
                 mWeekStart = startOfWeek
-                if (mDayPickerView != null) {
-                    mDayPickerView!!.onChange()
+                if (mBaseMonthListView != null) {
+                    mBaseMonthListView!!.onChange()
                 }
             }
 
@@ -121,17 +117,14 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
             }
 
         override fun onYearSelected(year: Int) {
-            adjustDayInMonthIfNeeded(mBaseCalendar.month, year)
             mBaseCalendar.setDate(year, mBaseCalendar.month, mBaseCalendar.dayOfMonth)
             updatePickers()
             setCurrentView(MONTH_AND_DAY_VIEW)
-            updateDisplay(true)
         }
 
         override fun onDayOfMonthSelected(year: Int, month: Int, day: Int) {
             mBaseCalendar.setDate(year, month, day)
             updatePickers()
-            updateDisplay(true)
 
             val date = when (CurrentCalendarType.type) {
                 CalendarType.CIVIL -> TimeUtils.formatSimpleDate(mBaseCalendar)
@@ -161,14 +154,14 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
             findViewById<Button>(R.id.negativeButton).setOnClickListener { dismiss() }
 
             findViewById<Button>(R.id.todayButton).setOnClickListener {
-                val calendarDay = MonthAdapter.CalendarDay()
-                mDayPickerView!!.goTo(calendarDay, false, true, true)
-                mDatePickerController.onDayOfMonthSelected(calendarDay.year, calendarDay.month, calendarDay.day)
+                val calendarDay = Utils.newCalendar()
+                mBaseMonthListView!!.goTo(calendarDay, false, true, true)
+                mDatePickerController.onDayOfMonthSelected(calendarDay.year, calendarDay.month, calendarDay.dayOfMonth)
             }
 
             val currentView = MONTH_AND_DAY_VIEW
 
-            mDayPickerView = SimpleDayPickerView(activity!!.applicationContext, mDatePickerController, mainColor)
+            mBaseMonthListView = SimpleMonthListView(activity!!.applicationContext, null, mDatePickerController, mainColor)
             mDayPickerDescription = resources.getString(R.string.mdtp_day_picker_description)
             mSelectDay = resources.getString(R.string.mdtp_select_day)
             mYearPickerDescription = resources.getString(R.string.mdtp_year_picker_description)
@@ -188,22 +181,10 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
                 mTimeTextView?.setBackgroundColor(this)
             }
 
-            mAnimator = rootView.findViewById(R.id.animator)
-            mAnimator!!.addView(mDayPickerView)
-            mAnimator!!.setDateMillis(mBaseCalendar.timeInMillis)
-            // TODO: Replace with animation decided upon by the design team.
-            val animation = AlphaAnimation(0.0f, 1.0f)
-            animation.duration = ANIMATION_DURATION.toLong()
-            mAnimator!!.inAnimation = animation
-            // TODO: Replace with animation decided upon by the design team.
-            val animation2 = AlphaAnimation(1.0f, 0.0f)
-            animation2.duration = ANIMATION_DURATION.toLong()
-            mAnimator!!.outAnimation = animation2
+            container = rootView.findViewById(R.id.container)
+            container!!.addView(mBaseMonthListView)
 
-            updateDisplay(false)
             setCurrentView(currentView)
-
-            mHapticFeedbackController = HapticFeedbackController(activity!!)
 
             // Added by Amin ---------------------------------------------------------------------------
             if (mMinDate != null) setMinDate(mMinDate)
@@ -248,21 +229,10 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
         }
     }
 
-
     fun initialize(callBack: OnDateSetListener, year: Int, monthOfYear: Int, dayOfMonth: Int, @ColorInt mainColor: Int? = null) {
         mCallBack = callBack
         this.mainColor = mainColor
         mBaseCalendar.setDate(year, monthOfYear, dayOfMonth)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mHapticFeedbackController!!.start()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        mHapticFeedbackController!!.stop()
     }
 
     override fun onCancel(dialog: DialogInterface?) {
@@ -289,39 +259,14 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
                     //                    pulseAnimator.setStartDelay(ANIMATION_DELAY);
                     mDelayAnimation = false
                 }
-                mDayPickerView!!.onDateChanged()
+                mBaseMonthListView!!.onDateChanged()
                 if (mCurrentView != viewIndex) {
                     //                    mMonthAndDayView.setSelected(true);
                     //                    mYearView.setSelected(false);
-                    mAnimator!!.displayedChild = MONTH_AND_DAY_VIEW
                     mCurrentView = viewIndex
                 }
                 //                pulseAnimator.start();
-
-                val date = when (CurrentCalendarType.type) {
-                    CalendarType.CIVIL -> mBaseCalendar.longDateString
-                    CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(mBaseCalendar.longDateString)
-                    CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(mBaseCalendar.longDateString)
-                }
-                val dayString = PersianUtils.convertLatinDigitsToPersian(date)
-                mAnimator!!.contentDescription = "$mDayPickerDescription: $dayString"
-                Utils.tryAccessibilityAnnounce(mAnimator, mSelectDay)
             }
-        }
-    }
-
-    private fun updateDisplay(announce: Boolean) {
-        // Accessibility.
-        val millis = mBaseCalendar.timeInMillis
-        mAnimator!!.setDateMillis(millis)
-        val monthAndDayText = PersianUtils.convertLatinDigitsToPersian(
-                mBaseCalendar.monthName + " " +
-                        mBaseCalendar.dayOfMonth
-        )
-
-        if (announce) {
-            val fullDateText = PersianUtils.convertLatinDigitsToPersian(mBaseCalendar.longDateString)
-            Utils.tryAccessibilityAnnounce(mAnimator, fullDateText)
         }
     }
 
@@ -332,8 +277,8 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 
         mMinYear = startYear
         mMaxYear = endYear
-        if (mDayPickerView != null) {
-            mDayPickerView!!.onChange()
+        if (mBaseMonthListView != null) {
+            mBaseMonthListView!!.onChange()
         }
     }
 
@@ -350,8 +295,8 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
         mMinDate!!.set(Calendar.SECOND, 0)
         mMinDate!!.set(Calendar.MILLISECOND, 0)
 
-        if (mDayPickerView != null) {
-            mDayPickerView!!.onChange()
+        if (mBaseMonthListView != null) {
+            mBaseMonthListView!!.onChange()
         }
         Log.d(TAG, "setMinDate: " + mMinDate!!.year + "-" + mMinDate!!.month + "-" + mMinDate!!.dayOfMonth)
     }
@@ -369,8 +314,8 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
         mMaxDate!!.set(Calendar.SECOND, 0)
         mMaxDate!!.set(Calendar.MILLISECOND, 0)
 
-        if (mDayPickerView != null) {
-            mDayPickerView!!.onChange()
+        if (mBaseMonthListView != null) {
+            mBaseMonthListView!!.onChange()
         }
         Log.d(TAG, "setMaxDate: " + mMaxDate!!.year + "-" + mMaxDate!!.month + "-" + mMaxDate!!.dayOfMonth)
     }
@@ -408,26 +353,6 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 
     fun setOnDismissListener(onDismissListener: DialogInterface.OnDismissListener) {
         mOnDismissListener = onDismissListener
-    }
-
-    // If the newly selected month / year does not contain the currently selected day number,
-    // change the selected day number to the last day of the selected month or year.
-    //      e.g. Switching from Mar to Apr when Mar 31 is selected -> Apr 30
-    //      e.g. Switching from 2012 to 2013 when Feb 29, 2012 is selected -> Feb 28, 2013
-    private fun adjustDayInMonthIfNeeded(month: Int, year: Int) {
-        //        int day = mBaseCalendar.getDayOfMonth();
-        //        int daysInMonth = Utils.getDaysInMonth(month, year);
-        //        if (day > daysInMonth) {
-        //            mBaseCalendar.setPersianDate(Persian);
-        //        } TODO
-    }
-
-    override fun onClick(v: View) {
-        //        if (v.getId() == R.id.date_picker_year) {
-        //            setCurrentView(YEAR_VIEW);
-        //        } else if (v.getId() == R.id.date_picker_month_and_day) {
-        //            setCurrentView(MONTH_AND_DAY_VIEW);
-        //        }
     }
 
     private fun updatePickers() {

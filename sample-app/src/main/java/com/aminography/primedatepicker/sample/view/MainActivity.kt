@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.DateCalendarPickerBottomSheetDialogFragment
+import com.aminography.primedatepicker.fragment.DateCalendarPickerBottomSheetDialogFragment
 import com.aminography.primedatepicker.sample.R
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.longToast

@@ -6,9 +6,9 @@ import android.support.annotation.ColorInt
 /**
  * An adapter for a list of [SimpleMonthView] items.
  */
-class SimpleMonthAdapter(context: Context, controller: DatePickerController, @ColorInt mainColor: Int? = null) : MonthAdapter(context, controller, mainColor) {
+class SimpleMonthListAdapter(context: Context, controller: DatePickerController, @ColorInt mainColor: Int? = null) : BaseMonthListAdapter(context, controller, mainColor) {
 
-    override fun createMonthView(context: Context): MonthView {
+    override fun createMonthView(context: Context): BaseMonthView {
         return SimpleMonthView(context, null, controller, mainColor)
     }
 

@@ -1,48 +1,46 @@
 package com.aminography.primedatepicker
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
-import android.os.Bundle
 import android.os.Handler
 import android.support.annotation.ColorInt
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.view.ViewConfiguration
-import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.AbsListView
 import android.widget.AbsListView.OnScrollListener
 import android.widget.ListView
+import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
-import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.fragment.DateCalendarPickerBottomSheetDialogFragment
 import com.aminography.primedatepicker.tools.CurrentCalendarType
-import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.Utils
 
 /**
  * This displays a list of months in a calendar format with selectable days.
  */
-abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBottomSheetDialogFragment.OnDateChangedListener {
+abstract class BaseMonthListView @JvmOverloads constructor(
+        context: Context,
+        attributeSet: AttributeSet? = null,
+        private var controller: DatePickerController? = null,
+        @ColorInt protected var mainColor: Int? = 0
+) : ListView(context, attributeSet),
+        OnScrollListener,
+        DateCalendarPickerBottomSheetDialogFragment.OnDateChangedListener {
 
     // These affect the scroll speed and feel
     private var mFriction = 1.0f
 
-    private var mContext: Context? = null
     protected var mHandler: Handler? = null
 
     // highlighted time
-    private var mSelectedDay = MonthAdapter.CalendarDay()
-    private var mAdapter: MonthAdapter? = null
+    private var mSelectedDay: BaseCalendar? = Utils.newCalendar()
+    private var mAdapter: BaseMonthListAdapter? = null
 
-    private var mTempDay = MonthAdapter.CalendarDay()
+    private var mTempDay: BaseCalendar? = Utils.newCalendar()
 
     // When the week starts; numbered like Time.<WEEKDAY> (e.g. SUNDAY=0).
     protected var mFirstDayOfWeek: Int = 0
-
-    // The last name announced by accessibility
-    protected var mPrevMonthName: CharSequence? = null
 
     // which month should be displayed/highlighted [0-11]
     private var mCurrentMonthDisplayed: Int = 0
@@ -56,10 +54,12 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
     // used for tracking what state listview is in
     protected var mCurrentScrollState = OnScrollListener.SCROLL_STATE_IDLE
     private var mScrollStateChangedRunnable = ScrollStateRunnable()
-    private var mController: DatePickerController? = null
     private var mPerformingScroll: Boolean = false
-    @ColorInt
-    protected var mainColor: Int? = null
+
+    init {
+        init()
+        setController()
+    }
 
     /**
      * Gets the position of the view that is most prominently displayed within the list view.
@@ -86,29 +86,19 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
             return firstPosition + mostVisibleIndex
         }
 
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        init(context)
+    private fun setController() {
+        controller?.apply {
+            registerOnDateChangedListener(this@BaseMonthListView)
+            refreshAdapter()
+            onDateChanged()
+        }
     }
 
-    constructor(context: Context, controller: DatePickerController, @ColorInt mainColor: Int?) : super(context) {
-        this.mainColor = mainColor
-        init(context)
-        setController(controller)
-    }
-
-    private fun setController(controller: DatePickerController) {
-        mController = controller
-        mController!!.registerOnDateChangedListener(this)
-        refreshAdapter()
-        onDateChanged()
-    }
-
-    fun init(context: Context) {
+    private fun init() {
         mHandler = Handler()
         layoutParams = AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT)
         setDrawSelectorOnTop(false)
 
-        mContext = context
         setUpListView()
     }
 
@@ -122,7 +112,7 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
      */
     private fun refreshAdapter() {
         if (mAdapter == null) {
-            mAdapter = createMonthAdapter(context, mController!!)
+            mAdapter = createMonthAdapter(context, controller!!)
         } else {
             mAdapter!!.selectedDay = mSelectedDay
         }
@@ -130,7 +120,7 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
         adapter = mAdapter
     }
 
-    abstract fun createMonthAdapter(context: Context, controller: DatePickerController): MonthAdapter
+    abstract fun createMonthAdapter(context: Context, controller: DatePickerController): BaseMonthListAdapter
 
     /*
      * Sets all the required fields for the list view. Override this method to
@@ -167,18 +157,18 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
      * visible
      * @return Whether or not the view animated to the new location
      */
-    fun goTo(day: MonthAdapter.CalendarDay, animate: Boolean, setSelected: Boolean, forceScroll: Boolean): Boolean {
+    fun goTo(day: BaseCalendar, animate: Boolean, setSelected: Boolean, forceScroll: Boolean): Boolean {
 
         // Set the selected day
         if (setSelected) {
-            mSelectedDay.set(day)
+            mSelectedDay?.timeInMillis = day.timeInMillis
         }
 
-        mTempDay.set(day)
-        var position = (day.year - mController!!.minYear) * MonthAdapter.MONTHS_IN_YEAR + day.month
+        mTempDay?.timeInMillis = day.timeInMillis
+        var position = (day.year - controller!!.minYear) * BaseMonthListAdapter.MONTHS_IN_YEAR + day.month
 
         // Added by Amin ---------------------------------------------------------------------------
-        val min = mController!!.minDate
+        val min = controller!!.minDate
         if (min != null) {
             position -= min.month
             if (position < 0) {
@@ -220,7 +210,7 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
         // Check if the selected day is now outside of our visible range
         // and if so scroll to the month that contains it
         if (position != selectedPosition || forceScroll) {
-            setMonthDisplayed(mTempDay)
+            setMonthDisplayed(mTempDay!!)
             mPreviousScrollState = OnScrollListener.SCROLL_STATE_FLING
             if (animate) {
                 smoothScrollToPositionFromTop(position, LIST_TOP_OFFSET, GOTO_SCROLL_DURATION)
@@ -229,7 +219,7 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
                 postSetSelection(position)
             }
         } else if (setSelected) {
-            setMonthDisplayed(mSelectedDay)
+            setMonthDisplayed(mSelectedDay!!)
         }
         return false
     }
@@ -245,8 +235,8 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
      * month.
      */
     override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
-        if (view.getChildAt(0) == null) return //TODO
-        val child = view.getChildAt(0) as MonthView
+        if (view.getChildAt(0) == null) return
+        val child = view.getChildAt(0) as BaseMonthView
 
         // Figure out where we are
         mPreviousScrollPosition = (view.firstVisiblePosition * child.height - child.bottom).toLong()
@@ -257,7 +247,7 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
      * Sets the month displayed at the top of this view based on time. Override
      * to add custom events when the title is changed.
      */
-    private fun setMonthDisplayed(date: MonthAdapter.CalendarDay) {
+    private fun setMonthDisplayed(date: BaseCalendar) {
         mCurrentMonthDisplayed = date.month
         invalidateViews()
     }
@@ -268,147 +258,9 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
     }
 
     override fun onDateChanged() {
-        goTo(mController!!.selectedDay, false, true, true)
-    }
-
-    /**
-     * Attempts to return the date that has accessibility focus.
-     *
-     * @return The date that has accessibility focus, or `null` if no date
-     * has focus.
-     */
-    private fun findAccessibilityFocus(): MonthAdapter.CalendarDay? {
-        val childCount = childCount
-        for (i in 0 until childCount) {
-            val child = getChildAt(i)
-            if (child is MonthView) {
-                val focus = child.accessibilityFocus
-                if (focus != null) {
-                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        // Clear focus to avoid ListView bug in Jelly Bean MR1.
-                        child.clearAccessibilityFocus()
-                    }
-                    return focus
-                }
-            }
+        controller?.apply {
+            goTo(selectedDay, false, true, true)
         }
-
-        return null
-    }
-
-    /**
-     * Attempts to restore accessibility focus to a given date. No-op if
-     * `day` is `null`.
-     *
-     * @param day The date that should receive accessibility focus
-     * @return `true` if focus was restored
-     */
-    private fun restoreAccessibilityFocus(day: MonthAdapter.CalendarDay?): Boolean {
-        if (day == null) {
-            return false
-        }
-
-        val childCount = childCount
-        for (i in 0 until childCount) {
-            val child = getChildAt(i)
-            if (child is MonthView) {
-                if (child.restoreAccessibilityFocus(day)) {
-                    return true
-                }
-            }
-        }
-
-        return false
-    }
-
-    override fun layoutChildren() {
-        val focusedDay = findAccessibilityFocus()
-        super.layoutChildren()
-        if (mPerformingScroll) {
-            mPerformingScroll = false
-        } else {
-            restoreAccessibilityFocus(focusedDay)
-        }
-    }
-
-    override fun onInitializeAccessibilityEvent(event: AccessibilityEvent) {
-        super.onInitializeAccessibilityEvent(event)
-        event.itemCount = -1
-    }
-
-    /**
-     * Necessary for accessibility, to ensure we support "scrolling" forward and backward
-     * in the month list.
-     */
-    override fun onInitializeAccessibilityNodeInfo(info: AccessibilityNodeInfo) {
-        super.onInitializeAccessibilityNodeInfo(info)
-        if (Build.VERSION.SDK_INT >= 21) {
-            info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_BACKWARD)
-            info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD)
-        } else {
-            info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD)
-            info.addAction(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD)
-        }
-    }
-
-    /**
-     * When scroll forward/backward events are received, announce the newly scrolled-to month.
-     */
-    @SuppressLint("NewApi")
-    override fun performAccessibilityAction(action: Int, arguments: Bundle): Boolean {
-        if (action != AccessibilityNodeInfo.ACTION_SCROLL_FORWARD && action != AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD) {
-            return super.performAccessibilityAction(action, arguments)
-        }
-
-        // Figure out what month is showing.
-        val firstVisiblePosition = firstVisiblePosition
-        val month = firstVisiblePosition % 12
-        val year = firstVisiblePosition / 12 + mController!!.minYear
-
-        //        // Added by Amin ---------------------------------------------------------------------------
-        //        PersianCalendar min = controller.getMinDate();
-        //        PersianCalendar max = controller.getMaxDate();
-        //        if (min != null && max != null) {
-        //            int index = firstVisiblePosition + min.getMonth();
-        //            month = index % MonthAdapter.MONTHS_IN_YEAR;
-        //            year = index / MonthAdapter.MONTHS_IN_YEAR + controller.getMinYear();
-        //        }
-        //        // Added by Amin ---------------------------------------------------------------------------
-
-        val day = MonthAdapter.CalendarDay(year, month, 1)
-
-        // Scroll either forward or backward one month.
-        if (action == AccessibilityNodeInfo.ACTION_SCROLL_FORWARD) {
-            day.month = day.month + 1
-            if (day.month == 12) {
-                day.month = 0
-                day.year = day.year + 1
-            }
-        } else if (action == AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD) {
-            val firstVisibleView = getChildAt(0)
-            // If the view is fully visible, jump one month back. Otherwise, we'll just jump
-            // to the first day of first visible month.
-            if (firstVisibleView != null && firstVisibleView.top >= -1) {
-                // There's an off-by-one somewhere, so the top of the first visible item will
-                // actually be -1 when it's at the exact top.
-                day.month = day.month - 1
-                if (day.month == -1) {
-                    day.month = 11
-                    day.year = day.year - 1
-                }
-            }
-        }
-
-        // Go to that month.
-        val date = when (CurrentCalendarType.type) {
-            CalendarType.CIVIL -> getMonthAndYearString(day)
-            CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(getMonthAndYearString(day))
-            CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(getMonthAndYearString(day))
-        }
-        Utils.tryAccessibilityAnnounce(this, date)
-        goTo(day, true, false, true)
-        mPerformingScroll = true
-        return true
     }
 
     protected inner class ScrollStateRunnable : Runnable {
@@ -479,9 +331,9 @@ abstract class DayPickerView : ListView, OnScrollListener, DateCalendarPickerBot
         private const val TAG = "MonthFragment"
         var LIST_TOP_OFFSET = -1 // so that the top line will be
 
-        private fun getMonthAndYearString(day: MonthAdapter.CalendarDay): String {
+        private fun getMonthAndYearString(day: BaseCalendar): String {
             val calendar = CalendarFactory.newInstance(CurrentCalendarType.type)
-            calendar.setDate(day.year, day.month, day.day)
+            calendar.setDate(day.year, day.month, day.dayOfMonth)
             return "${calendar.monthName} ${calendar.year}"
         }
     }

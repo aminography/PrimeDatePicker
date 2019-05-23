@@ -1,11 +1,12 @@
 package com.aminography.primedatepicker.tools
 
-import android.annotation.SuppressLint
-import android.os.Build
-import android.view.View
+import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.civil.CivilCalendarUtils
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.hijri.HijriCalendarUtils
+import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primecalendar.persian.PersianCalendarUtils
 
 /**
@@ -13,18 +14,11 @@ import com.aminography.primecalendar.persian.PersianCalendarUtils
  */
 object Utils {
 
-    private val isJellybeanOrLater: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
-
-    /**
-     * Try to speak the specified text, for accessibility. Only available on JB or later.
-     *
-     * @param text Text to announce.
-     */
-    @SuppressLint("NewApi")
-    fun tryAccessibilityAnnounce(view: View?, text: CharSequence?) {
-        if (isJellybeanOrLater && view != null && text != null) {
-            view.announceForAccessibility(text)
+    fun newCalendar(): BaseCalendar {
+        return when (CurrentCalendarType.type) {
+            CalendarType.CIVIL -> CivilCalendar()
+            CalendarType.PERSIAN -> PersianCalendar()
+            CalendarType.HIJRI -> HijriCalendar()
         }
     }
 
