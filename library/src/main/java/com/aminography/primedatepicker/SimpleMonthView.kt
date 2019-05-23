@@ -38,35 +38,35 @@ class SimpleMonthView @JvmOverloads constructor(
                     x.toFloat(),
                     (y - context.resources.getDimensionPixelSize(R.dimen.mdtp_day_number_size) / 3).toFloat(),
                     context.resources.getDimensionPixelSize(R.dimen.mdtp_day_number_select_circle_radius).toFloat(),
-                    mSelectedCirclePaint!!
+                    selectedCirclePaint!!
             )
         }
 
         if (isHighlighted(year, month, day)) {
-            mMonthNumPaint!!.typeface = typefaceBold
+            monthNumPaint!!.typeface = typefaceBold
         } else {
-            mMonthNumPaint!!.typeface = typefaceNormal
+            monthNumPaint!!.typeface = typefaceNormal
         }
 
         if (isOutOfRange(year, month, day)) {
-            mMonthNumPaint!!.color = mDisabledDayTextColor
+            monthNumPaint!!.color = mDisabledDayTextColor
         } else if (mSelectedDay == day) {
-            mMonthNumPaint!!.color = mSelectedDayTextColor
+            monthNumPaint!!.color = mSelectedDayTextColor
         } else if (mHasToday && mToday == day) {
-            mMonthNumPaint!!.color = mTodayNumberColor
+            monthNumPaint!!.color = mTodayNumberColor
         } else {
-            mMonthNumPaint!!.color = if (isHighlighted(year, month, day)) mHighlightedDayTextColor else mDayTextColor
+            monthNumPaint!!.color = if (isHighlighted(year, month, day)) mHighlightedDayTextColor else mDayTextColor
         }
 
-        mMonthNumPaint!!.typeface = typefaceNormal
-        mMonthNumPaint!!.textSize = context.resources.getDimensionPixelSize(R.dimen.mdtp_day_number_size).toFloat()
+        monthNumPaint!!.typeface = typefaceNormal
+        monthNumPaint!!.textSize = context.resources.getDimensionPixelSize(R.dimen.mdtp_day_number_size).toFloat()
 
         val date = when (CurrentCalendarType.type) {
             CalendarType.CIVIL -> String.format(Locale.getDefault(), "%d", day)
             CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", day))
             CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", day))
         }
-        canvas.drawText(date, x.toFloat(), y.toFloat(), mMonthNumPaint!!)
+        canvas.drawText(date, x.toFloat(), y.toFloat(), monthNumPaint!!)
     }
 
 }

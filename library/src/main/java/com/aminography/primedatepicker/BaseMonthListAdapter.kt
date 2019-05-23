@@ -71,17 +71,11 @@ abstract class BaseMonthListAdapter(
         return (controller.maxYear - controller.minYear + 1) * MONTHS_IN_YEAR
     }
 
-    override fun getItem(position: Int): Any? {
-        return null
-    }
+    override fun getItem(position: Int): Any? = null
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun hasStableIds(): Boolean {
-        return true
-    }
+    override fun hasStableIds(): Boolean = true
 
     @SuppressLint("NewApi")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

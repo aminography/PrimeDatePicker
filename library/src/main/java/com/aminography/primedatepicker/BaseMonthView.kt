@@ -12,11 +12,8 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.aminography.primecalendar.base.BaseCalendar
-import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primecalendar.hijri.HijriCalendar
-import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.TypefaceHelper
@@ -40,11 +37,11 @@ abstract class BaseMonthView @JvmOverloads constructor(
     private val baseCalendar: BaseCalendar
 
     // affects the padding on the sides of this view
-    protected var mEdgePadding = 0
-    protected var mMonthNumPaint: Paint? = null
-    private var mMonthTitlePaint: Paint? = null
-    protected var mSelectedCirclePaint: Paint? = null
-    private var mMonthDayLabelPaint: Paint? = null
+    private var mEdgePadding = 0
+    protected var monthNumPaint: Paint? = null
+    private var monthTitlePaint: Paint? = null
+    protected var selectedCirclePaint: Paint? = null
+    private var monthDayLabelPaint: Paint? = null
 
     // The Julian day of the first day displayed by this item
     protected var mFirstJulianDay = -1
@@ -59,9 +56,9 @@ abstract class BaseMonthView @JvmOverloads constructor(
         protected set
 
     // Quick reference to the width of this view, matches parent
-    protected var mWidth: Int = 0
+    private var mWidth: Int = 0
     // The height this view should draw at in pixels, set by height param
-    protected var mRowHeight = DEFAULT_HEIGHT
+    private var mRowHeight = DEFAULT_HEIGHT
     // If this view contains the today
     protected var mHasToday = false
     // Which day is selected [0-6] or -1 if no day is selected
@@ -69,11 +66,11 @@ abstract class BaseMonthView @JvmOverloads constructor(
     // Which day is today [0-6] or -1 if no day is today
     protected var mToday = DEFAULT_SELECTED_DAY
     // Which day of the week to start on [0-6]
-    protected var mWeekStart = DEFAULT_WEEK_START
+    private var mWeekStart = DEFAULT_WEEK_START
     // How many days to display
-    protected var mNumDays = DEFAULT_NUM_DAYS
+    private var mNumDays = DEFAULT_NUM_DAYS
     // The number of days + a spot for week number if it is displayed
-    protected var mNumCells = mNumDays
+    private var mNumCells = mNumDays
 
     // The left edge of the selected day
     protected var mSelectedLeft = -1
@@ -150,13 +147,6 @@ abstract class BaseMonthView @JvmOverloads constructor(
         mOnDayClickListener = listener
     }
 
-//    public override fun dispatchHoverEvent(event: MotionEvent): Boolean {
-//        // First right-of-refusal goes the touch exploration helper.
-//        return if (mTouchHelper.dispatchHoverEvent(event)) {
-//            true
-//        } else super.dispatchHoverEvent(event)
-//    }
-
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_UP -> {
@@ -174,41 +164,41 @@ abstract class BaseMonthView @JvmOverloads constructor(
      * want to use a different paint.
      */
     private fun initView() {
-        mMonthTitlePaint = Paint()
-        mMonthTitlePaint?.isFakeBoldText = true
-        mMonthTitlePaint?.isAntiAlias = true
-        mMonthTitlePaint?.textSize = MONTH_LABEL_TEXT_SIZE.toFloat()
-        val typeface = Typeface.create(TypefaceHelper.get(context, controller!!.typeface), Typeface.BOLD)
-        mMonthTitlePaint?.typeface = typeface
-        mMonthTitlePaint?.color = mDayTextColor
-        mMonthTitlePaint?.textAlign = Align.CENTER
-        mMonthTitlePaint?.style = Style.FILL
+        monthTitlePaint = Paint()
+        monthTitlePaint?.isFakeBoldText = true
+        monthTitlePaint?.isAntiAlias = true
+        monthTitlePaint?.textSize = MONTH_LABEL_TEXT_SIZE.toFloat()
+        val typeface = Typeface.create(TypefaceHelper[context, controller!!.typeface], Typeface.BOLD)
+        monthTitlePaint?.typeface = typeface
+        monthTitlePaint?.color = mDayTextColor
+        monthTitlePaint?.textAlign = Align.CENTER
+        monthTitlePaint?.style = Style.FILL
 
-        mSelectedCirclePaint = Paint()
-        mSelectedCirclePaint?.isFakeBoldText = true
-        mSelectedCirclePaint?.isAntiAlias = true
-        mSelectedCirclePaint?.color = mSelectedDayColor
-        mSelectedCirclePaint?.textAlign = Align.CENTER
-        mSelectedCirclePaint?.style = Style.FILL
-        mSelectedCirclePaint?.typeface = TypefaceHelper.get(context, controller!!.typeface)
-        mSelectedCirclePaint?.alpha = SELECTED_CIRCLE_ALPHA
+        selectedCirclePaint = Paint()
+        selectedCirclePaint?.isFakeBoldText = true
+        selectedCirclePaint?.isAntiAlias = true
+        selectedCirclePaint?.color = mSelectedDayColor
+        selectedCirclePaint?.textAlign = Align.CENTER
+        selectedCirclePaint?.style = Style.FILL
+        selectedCirclePaint?.typeface = TypefaceHelper[context, controller!!.typeface]
+        selectedCirclePaint?.alpha = SELECTED_CIRCLE_ALPHA
 
-        mMonthDayLabelPaint = Paint()
-        mMonthDayLabelPaint?.isAntiAlias = true
-        mMonthDayLabelPaint?.textSize = MONTH_DAY_LABEL_TEXT_SIZE.toFloat()
-        mMonthDayLabelPaint?.color = mMonthDayTextColor
-        mMonthDayLabelPaint?.typeface = TypefaceHelper.get(context, controller!!.typeface)
-        mMonthDayLabelPaint?.style = Style.FILL
-        mMonthDayLabelPaint?.textAlign = Align.CENTER
-        mMonthDayLabelPaint?.isFakeBoldText = true
+        monthDayLabelPaint = Paint()
+        monthDayLabelPaint?.isAntiAlias = true
+        monthDayLabelPaint?.textSize = MONTH_DAY_LABEL_TEXT_SIZE.toFloat()
+        monthDayLabelPaint?.color = mMonthDayTextColor
+        monthDayLabelPaint?.typeface = TypefaceHelper[context, controller!!.typeface]
+        monthDayLabelPaint?.style = Style.FILL
+        monthDayLabelPaint?.textAlign = Align.CENTER
+        monthDayLabelPaint?.isFakeBoldText = true
 
-        mMonthNumPaint = Paint()
-        mMonthNumPaint?.isAntiAlias = true
-        mMonthNumPaint?.textSize = MINI_DAY_NUMBER_TEXT_SIZE.toFloat()
-        mMonthNumPaint?.style = Style.FILL
-        mMonthNumPaint?.textAlign = Align.CENTER
-        mMonthNumPaint?.typeface = TypefaceHelper.get(context, controller!!.typeface)
-        mMonthNumPaint?.isFakeBoldText = false
+        monthNumPaint = Paint()
+        monthNumPaint?.isAntiAlias = true
+        monthNumPaint?.textSize = MINI_DAY_NUMBER_TEXT_SIZE.toFloat()
+        monthNumPaint?.style = Style.FILL
+        monthNumPaint?.textAlign = Align.CENTER
+        monthNumPaint?.typeface = TypefaceHelper[context, controller!!.typeface]
+        monthNumPaint?.isFakeBoldText = false
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -308,7 +298,7 @@ abstract class BaseMonthView @JvmOverloads constructor(
     private fun drawMonthTitle(canvas: Canvas) {
         val x = mWidth /*+ 2 * mEdgePadding*/ / 2
         val y = (monthHeaderSize - MONTH_DAY_LABEL_TEXT_SIZE) / 2 - mEdgePadding / 3
-        canvas.drawText(monthAndYearString, x.toFloat(), y.toFloat(), mMonthTitlePaint)
+        canvas.drawText(monthAndYearString, x.toFloat(), y.toFloat(), monthTitlePaint!!)
     }
 
     private fun drawMonthDayLabels(canvas: Canvas) {
@@ -334,7 +324,7 @@ abstract class BaseMonthView @JvmOverloads constructor(
                 CalendarType.HIJRI -> localWeekDisplayName.substring(2, 4)
             }
 
-            canvas.drawText(weekString, x.toFloat(), y.toFloat(), mMonthDayLabelPaint!!)
+            canvas.drawText(weekString, x.toFloat(), y.toFloat(), monthDayLabelPaint!!)
         }
     }
 
