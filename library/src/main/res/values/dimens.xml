@@ -1,0 +1,26 @@
+<resources>
+
+    <!-- Material Size -->
+    <dimen name="material_size_48">48dp</dimen>
+    <dimen name="material_size_32">32dp</dimen>
+    <dimen name="material_size_24">24dp</dimen>
+    <dimen name="material_size_16">16dp</dimen>
+    <dimen name="material_size_8">8dp</dimen>
+    <dimen name="material_size_4">4dp</dimen>
+    <dimen name="material_size_2">2dp</dimen>
+
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_normal">15sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+
+    <dimen name="text_size_number_picker">24sp</dimen>
+
+    <dimen name="date_picker_view_animator_height">276dp</dimen>
+    <dimen name="mdtp_day_number_size">13sp</dimen>
+    <dimen name="mdtp_day_number_size_large">15sp</dimen>
+    <dimen name="mdtp_month_label_size">15sp</dimen>
+    <dimen name="mdtp_month_list_item_header_height">86dp</dimen>
+    <dimen name="mdtp_month_day_label_text_size">12sp</dimen>
+    <dimen name="mdtp_day_number_select_circle_radius">16dp</dimen>
+
+</resources>
