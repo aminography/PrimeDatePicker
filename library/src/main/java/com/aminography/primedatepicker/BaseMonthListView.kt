@@ -54,7 +54,6 @@ abstract class BaseMonthListView @JvmOverloads constructor(
     // used for tracking what state listview is in
     protected var mCurrentScrollState = OnScrollListener.SCROLL_STATE_IDLE
     private var mScrollStateChangedRunnable = ScrollStateRunnable()
-    private var mPerformingScroll: Boolean = false
 
     init {
         init()
@@ -319,10 +318,9 @@ abstract class BaseMonthListView @JvmOverloads constructor(
 
     companion object {
 
-        // The number of days to display in each week
-        val DAYS_PER_WEEK = 7
         // Affects when the month selection will change while scrolling up
         protected val SCROLL_HYST_WEEKS = 2
+
         // How long the GoTo fling animation should last
         protected const val GOTO_SCROLL_DURATION = 250
         // How long to wait after receiving an onScrollStateChanged notification
@@ -330,11 +328,5 @@ abstract class BaseMonthListView @JvmOverloads constructor(
         protected const val SCROLL_CHANGE_DELAY = 40
         private const val TAG = "MonthFragment"
         var LIST_TOP_OFFSET = -1 // so that the top line will be
-
-        private fun getMonthAndYearString(day: BaseCalendar): String {
-            val calendar = CalendarFactory.newInstance(CurrentCalendarType.type)
-            calendar.setDate(day.year, day.month, day.dayOfMonth)
-            return "${calendar.monthName} ${calendar.year}"
-        }
     }
 }

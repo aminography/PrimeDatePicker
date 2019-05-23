@@ -143,15 +143,6 @@ abstract class BaseMonthListAdapter(
     }
 
     override fun onDayClick(view: BaseMonthView, day: BaseCalendar) {
-        onDayTapped(day)
-    }
-
-    /**
-     * Maintains the same hour/min/sec but moves the day to the tapped day.
-     *
-     * @param day The day that was tapped
-     */
-    private fun onDayTapped(day: BaseCalendar) {
         controller.onDayOfMonthSelected(day.year, day.month, day.dayOfMonth)
         selectedDay = day
     }
