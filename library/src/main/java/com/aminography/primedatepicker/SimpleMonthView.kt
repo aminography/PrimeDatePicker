@@ -6,23 +6,20 @@ import android.graphics.Typeface
 import android.support.annotation.ColorInt
 import android.util.AttributeSet
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.tools.CurrentCalendarType
+import com.aminography.primedatepicker.tools.PersianUtils
+import com.aminography.primedatepicker.tools.TypefaceHelper
 import java.util.*
 
-class SimpleMonthView : MonthView {
+class SimpleMonthView @JvmOverloads constructor(
+        context: Context,
+        attr: AttributeSet? = null,
+        controller: DatePickerController? = null,
+        @ColorInt mainColor: Int? = null
+) : MonthView(context, attr, controller, mainColor) {
 
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
-
-    constructor(context: Context, attr: AttributeSet?, controller: DatePickerController, @ColorInt mainColor: Int? = null) : super(context, attr, controller, mainColor) {
-        this.controller = controller
-        typefaceBold = Typeface.create(TypefaceHelper[context, controller.typeface], Typeface.BOLD)
-        typefaceNormal = Typeface.create(TypefaceHelper[context, controller.typeface], Typeface.NORMAL)
-    }
-
-    private var typefaceBold: Typeface? = null
-    private var typefaceNormal: Typeface? = null
-    private var controller: DatePickerController? = null
+    private var typefaceBold = Typeface.create(TypefaceHelper[context, controller?.typeface], Typeface.BOLD)
+    private var typefaceNormal = Typeface.create(TypefaceHelper[context, controller?.typeface], Typeface.NORMAL)
 
     override fun drawMonthDay(
             canvas: Canvas,

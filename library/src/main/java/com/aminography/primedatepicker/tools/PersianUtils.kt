@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker
+package com.aminography.primedatepicker.tools
 
 /**
  * Created by Amin on 3/11/2018.

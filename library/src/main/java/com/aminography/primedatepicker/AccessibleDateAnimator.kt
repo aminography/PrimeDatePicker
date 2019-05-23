@@ -5,8 +5,12 @@ import android.util.AttributeSet
 import android.view.accessibility.AccessibilityEvent
 import android.widget.ViewAnimator
 import com.aminography.primecalendar.common.CalendarFactory
+import com.aminography.primedatepicker.tools.CurrentCalendarType
 
-class AccessibleDateAnimator(context: Context, attrs: AttributeSet) : ViewAnimator(context, attrs) {
+class AccessibleDateAnimator(
+        context: Context,
+        attrs: AttributeSet
+) : ViewAnimator(context, attrs) {
 
     private var dateMillis: Long = 0
 

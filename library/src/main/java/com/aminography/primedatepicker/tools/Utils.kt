@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker
+package com.aminography.primedatepicker.tools
 
 import android.annotation.SuppressLint
 import android.os.Build

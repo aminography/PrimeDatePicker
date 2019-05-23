@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker
+package com.aminography.primedatepicker.fragment
 
 import android.app.Dialog
 import android.content.Context
