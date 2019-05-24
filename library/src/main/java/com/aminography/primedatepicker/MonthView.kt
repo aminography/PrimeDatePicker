@@ -131,7 +131,7 @@ class MonthView @JvmOverloads constructor(
 //            rowHeight = (viewHeight - (monthHeaderHeight + weekHeaderHeight)) / MAX_NUM_ROWS
 //            requestLayout()
 //        }
-        rowHeight = (2.5 * dayLabelTextSize).toInt()
+        rowHeight = (2.75 * dayLabelTextSize).toInt()
 
         monthLabelPaint = Paint().apply {
             textSize = monthLabelTextSize.toFloat()
