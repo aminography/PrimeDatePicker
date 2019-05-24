@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.support.annotation.ColorInt
 import android.support.design.widget.BottomSheetBehavior
@@ -20,7 +21,10 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.persian.PersianCalendar
-import com.aminography.primedatepicker.*
+import com.aminography.primedatepicker.BaseMonthListView
+import com.aminography.primedatepicker.DatePickerController
+import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.SimpleMonthListView
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.TimeUtils
@@ -42,8 +46,7 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
     private var mMaxYear = DEFAULT_END_YEAR
     private var mMinDate: BaseCalendar? = null
     private var mMaxDate: BaseCalendar? = null
-    private var mHighlightedDays: Array<BaseCalendar>? = null
-    private var mSelectableDays: Array<BaseCalendar>? = null
+    private var mSelectableDays: Set<BaseCalendar>? = null
     private var mDelayAnimation = true
 
     private var mDayPickerDescription: String? = null
@@ -53,15 +56,6 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
     private var fontName: String? = null
     private var mTimeTextView: TextView? = null
 
-    @ColorInt
-    private var mainColor: Int? = null
-
-    private var mWeekStart = when (CurrentCalendarType.type) {
-        CalendarType.CIVIL -> Calendar.SUNDAY
-        CalendarType.PERSIAN -> Calendar.SATURDAY
-        CalendarType.HIJRI -> Calendar.SATURDAY
-    }
-
     private val mDatePickerController = object : DatePickerController {
 
         override val minDate: BaseCalendar?
@@ -70,10 +64,7 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
         override val maxDate: BaseCalendar?
             get() = mMaxDate
 
-        override val highlightedDays: Array<BaseCalendar>?
-            get() = mHighlightedDays
-
-        override val selectableDays: Array<BaseCalendar>?
+        override val selectableDays: Set<BaseCalendar>?
             get() = mSelectableDays
 
         override val selectedDay: BaseCalendar
@@ -83,31 +74,19 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
         override// Ensure no years can be selected outside of the given minimum date
         val minYear: Int
             get() {
-                if (mSelectableDays != null) {
-                    return mSelectableDays!![0].year
-                }
+//                if (mSelectableDays != null) {
+//                    return mSelectableDays!![0].year
+//                }
                 return if (mMinDate != null && mMinDate!!.year > mMinYear) mMinDate!!.year else mMinYear
             }
 
         override// Ensure no years can be selected outside of the given maximum date
         val maxYear: Int
             get() {
-                if (mSelectableDays != null) {
-                    return mSelectableDays!![mSelectableDays!!.size - 1].year
-                }
+//                if (mSelectableDays != null) {
+//                    return mSelectableDays!![mSelectableDays!!.size - 1].year
+//                }
                 return if (mMaxDate != null && mMaxDate!!.year < mMaxYear) mMaxDate!!.year else mMaxYear
-            }
-
-        override var firstDayOfWeek: Int
-            get() = mWeekStart
-            set(startOfWeek) {
-                if (startOfWeek < Calendar.SUNDAY || startOfWeek > Calendar.SATURDAY) {
-                    throw IllegalArgumentException("Value must be between Calendar.SUNDAY and " + "Calendar.SATURDAY")
-                }
-                mWeekStart = startOfWeek
-                if (mBaseMonthListView != null) {
-                    mBaseMonthListView!!.onChange()
-                }
             }
 
         override var typeface: String?
@@ -116,11 +95,11 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
                 this@DateCalendarPickerBottomSheetDialogFragment.fontName = fontName
             }
 
-        override fun onYearSelected(year: Int) {
-            mBaseCalendar.setDate(year, mBaseCalendar.month, mBaseCalendar.dayOfMonth)
-            updatePickers()
-            setCurrentView(MONTH_AND_DAY_VIEW)
-        }
+//        override fun onYearSelected(year: Int) {
+//            mBaseCalendar.setDate(year, mBaseCalendar.month, mBaseCalendar.dayOfMonth)
+//            updatePickers()
+//            setCurrentView(MONTH_AND_DAY_VIEW)
+//        }
 
         override fun onDayOfMonthSelected(year: Int, month: Int, day: Int) {
             mBaseCalendar.setDate(year, month, day)
@@ -161,7 +140,7 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 
             val currentView = MONTH_AND_DAY_VIEW
 
-            mBaseMonthListView = SimpleMonthListView(activity!!.applicationContext, null, mDatePickerController, mainColor)
+            mBaseMonthListView = SimpleMonthListView(activity!!.applicationContext, null, mDatePickerController)
             mDayPickerDescription = resources.getString(R.string.mdtp_day_picker_description)
             mSelectDay = resources.getString(R.string.mdtp_select_day)
             mYearPickerDescription = resources.getString(R.string.mdtp_year_picker_description)
@@ -177,12 +156,13 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
 //                CalendarType.PERSIAN -> Typeface.createFromAsset(context.assets, TypefaceHelper.FONT_PATH)
 //                CalendarType.HIJRI -> Typeface.createFromAsset(context.assets, TypefaceHelper.FONT_PATH)
             }
-            mainColor?.apply {
-                mTimeTextView?.setBackgroundColor(this)
-            }
+//            mainColor?.apply {
+//                mTimeTextView?.setBackgroundColor(this)
+//            }
 
             container = rootView.findViewById(R.id.container)
-            container!!.addView(mBaseMonthListView)
+//            container?.setBackgroundColor(Color.YELLOW)
+            container?.addView(mBaseMonthListView)
 
             setCurrentView(currentView)
 
@@ -229,9 +209,8 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
         }
     }
 
-    fun initialize(callBack: OnDateSetListener, year: Int, monthOfYear: Int, dayOfMonth: Int, @ColorInt mainColor: Int? = null) {
+    fun initialize(callBack: OnDateSetListener, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         mCallBack = callBack
-        this.mainColor = mainColor
         mBaseCalendar.setDate(year, monthOfYear, dayOfMonth)
     }
 
@@ -321,25 +300,14 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
     }
 
     /**
-     * Sets an array of dates which should be highlighted when the picker is drawn
-     *
-     * @param highlightedDays an Array of Calendar objects containing the dates to be highlighted
-     */
-    fun setHighlightedDays(highlightedDays: Array<BaseCalendar>) {
-        // Sort the array to optimize searching over it later on
-        Arrays.sort(highlightedDays)
-        this.mHighlightedDays = highlightedDays
-    }
-
-    /**
      * Set's a list of days which are the only valid selections.
      * Setting this value will take precedence over using setMinDate() and setMaxDate()
      *
      * @param selectableDays an Array of Calendar Objects containing the selectable dates
      */
-    fun setSelectableDays(selectableDays: Array<BaseCalendar>) {
+    fun setSelectableDays(selectableDays: Set<BaseCalendar>) {
         // Sort the array to optimize searching over it later on
-        Arrays.sort(selectableDays)
+//        Arrays.sort(selectableDays)
         this.mSelectableDays = selectableDays
     }
 
@@ -406,8 +374,7 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
          */
         fun newInstance(
                 callBack: OnDateSetListener,
-                initCalendar: BaseCalendar,
-                @ColorInt mainColor: Int? = null
+                initCalendar: BaseCalendar
         ): DateCalendarPickerBottomSheetDialogFragment {
 
             val initYear = initCalendar.year
@@ -425,7 +392,7 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
             }
 
             val fragment = DateCalendarPickerBottomSheetDialogFragment()
-            fragment.initialize(callBack, initYear, initMonthOfYear, initDayOfMonth, mainColor)
+            fragment.initialize(callBack, initYear, initMonthOfYear, initDayOfMonth)
             return fragment
         }
     }

@@ -10,12 +10,11 @@ import android.util.AttributeSet
 class SimpleMonthListView @JvmOverloads constructor(
         context: Context,
         attributeSet: AttributeSet? = null,
-        controller: DatePickerController? = null,
-        @ColorInt mainColor: Int? = 0
-) : BaseMonthListView(context, attributeSet, controller, mainColor) {
+        controller: DatePickerController? = null
+) : BaseMonthListView(context, attributeSet, controller) {
 
     override fun createMonthAdapter(context: Context, controller: DatePickerController): BaseMonthListAdapter {
-        return SimpleMonthListAdapter(context, controller, mainColor)
+        return SimpleMonthListAdapter(context, controller)
     }
 
 }

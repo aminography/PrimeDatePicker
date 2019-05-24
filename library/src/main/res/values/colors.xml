@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00A693</color>
-    <color name="colorPrimaryDark">#00796B</color>
-    <color name="colorPrimaryLight">#B2DFDB</color>
-    <color name="colorAccent">#FF9800</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#7566F4</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
 
     <color name="textColorPrimary">#212121</color>
     <color name="textColorSecondary">#757575</color>
     <color name="textColorGreen">#08b108</color>
     <color name="textColorRed">#e23232</color>
 
-    <color name="white">#FFFFFF</color>
-    <color name="mdtp_date_selected_color">#7566F4</color>
-    <color name="mdtp_date_today_color">@color/colorPrimary</color>
-    <color name="mdtp_date_picker_text_normal">#ff212121</color>
-    <color name="mdtp_date_picker_text_highlighted">@color/mdtp_date_picker_text_normal</color>
-    <color name="mdtp_date_picker_text_disabled">#ccc</color>
-    <color name="mdtp_date_picker_month_day">#7566F4</color>
+    <color name="defaultMonthLabelTextColor">@color/textColorPrimary</color>
+    <color name="defaultWeekLabelTextColor">@color/colorAccent</color>
+    <color name="defaultDayLabelTextColor">@color/textColorPrimary</color>
+    <color name="defaultTodayLabelTextColor">@color/colorPrimary</color>
+    <color name="defaultSelectedDayLabelTextColor">@color/white</color>
+    <color name="defaultSelectedDayCircleColor">@color/colorAccent</color>
+    <color name="defaultDisabledDayLabelTextColor">@color/textColorSecondary</color>
 
 </resources>

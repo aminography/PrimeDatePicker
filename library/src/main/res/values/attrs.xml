@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="BezierCurveBulgeLayout">
-        <attr name="curveWidth" format="dimension"/>
-        <attr name="flatWidth" format="dimension"/>
-        <attr name="flatHeight" format="dimension"/>
-        <attr name="bulgeColor" format="color"/>
-        <attr name="bulgeType" format="enum">
-            <enum name="bulge" value="0"/>
-            <enum name="notch" value="1"/>
-        </attr>
+    <declare-styleable name="MonthView">
+        <attr name="monthLabelTextColor" format="color" />
+        <attr name="weekLabelTextColor" format="color" />
+        <attr name="dayLabelTextColor" format="color" />
+        <attr name="todayLabelTextColor" format="color" />
+        <attr name="selectedDayLabelTextColor" format="color" />
+        <attr name="selectedDayCircleColor" format="color" />
+        <attr name="disabledDayLabelTextColor" format="color" />
+
+        <attr name="monthLabelTextSize" format="dimension" />
+        <attr name="weekLabelTextSize" format="dimension" />
+        <attr name="dayLabelTextSize" format="dimension" />
+
+        <attr name="sidePadding" format="dimension" />
+        <attr name="monthLabelTopPadding" format="dimension" />
+        <attr name="monthLabelBottomPadding" format="dimension" />
+        <attr name="weekLabelTopPadding" format="dimension" />
+        <attr name="weekLabelBottomPadding" format="dimension" />
     </declare-styleable>
 </resources>

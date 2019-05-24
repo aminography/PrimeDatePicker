@@ -7,11 +7,33 @@
     android:fitsSystemWindows="true"
     tools:context=".view.MainActivity">
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="OPEN" />
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/civilButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Civil" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/persianButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Persian" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/hijriButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Hijri" />
+
+
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

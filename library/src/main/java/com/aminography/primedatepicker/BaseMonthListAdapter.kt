@@ -2,7 +2,6 @@ package com.aminography.primedatepicker
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.annotation.ColorInt
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView.LayoutParams
@@ -14,22 +13,17 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.tools.CurrentCalendarType
+import org.jetbrains.anko.dip
 import java.util.*
 
 /**
- * An adapter for a list of [BaseMonthView] items.
+ * An adapter for a list of [MonthView] items.
  */
 abstract class BaseMonthListAdapter(
         private val context: Context,
-        protected val controller: DatePickerController,
-        @ColorInt val mainColor: Int? = null
-) : BaseAdapter(), BaseMonthView.OnDayClickListener {
+        protected val controller: DatePickerController
+) : BaseAdapter(), MonthView.OnDayClickListener {
 
-    /**
-     * Updates the selected day and related parameters.
-     *
-     * @param day The day to highlight
-     */
     var selectedDay: BaseCalendar? = null
         set(value) {
             field = value
@@ -79,25 +73,18 @@ abstract class BaseMonthListAdapter(
 
     @SuppressLint("NewApi")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val v: BaseMonthView
-        var drawingParams: HashMap<String, Int>? = null
+        val monthView: MonthView
         if (convertView != null) {
-            v = convertView as BaseMonthView
-            // We store the drawing parameters in the view so it can be recycled
+            monthView = convertView as MonthView
             @Suppress("UNCHECKED_CAST")
-            drawingParams = v.tag as HashMap<String, Int>
+            (monthView.tag as HashMap<String, Int>).clear()
         } else {
-            v = createMonthView(context)
-            // Set up the new view
-            val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-            v.layoutParams = params
-            v.isClickable = true
-            v.setOnDayClickListener(this)
+            monthView = createMonthView(context).apply {
+                layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+                isClickable = true
+                setOnDayClickListener(this@BaseMonthListAdapter)
+            }
         }
-        if (drawingParams == null) {
-            drawingParams = HashMap()
-        }
-        drawingParams.clear()
 
         var month = position % MONTHS_IN_YEAR
         var year = position / MONTHS_IN_YEAR + controller.minYear
@@ -119,24 +106,24 @@ abstract class BaseMonthListAdapter(
 
         // Invokes requestLayout() to ensure that the recycled view is set with the appropriate
         // height/number of weeks before being displayed.
-        v.reuse()
+        monthView.reuse()
 
-        drawingParams[BaseMonthView.VIEW_PARAMS_SELECTED_DAY] = selectedDay
-        drawingParams[BaseMonthView.VIEW_PARAMS_YEAR] = year
-        drawingParams[BaseMonthView.VIEW_PARAMS_MONTH] = month
-        drawingParams[BaseMonthView.VIEW_PARAMS_WEEK_START] = controller.firstDayOfWeek
-        v.setMonthParams(drawingParams)
-        v.invalidate()
-        return v
+        val drawingParams = HashMap<String, Int>()
+        drawingParams[MonthView.VIEW_PARAMS_SELECTED_DAY] = selectedDay
+        drawingParams[MonthView.VIEW_PARAMS_YEAR] = year
+        drawingParams[MonthView.VIEW_PARAMS_MONTH] = month
+        monthView.setMonthParams(drawingParams)
+        monthView.invalidate()
+        return monthView
     }
 
-    abstract fun createMonthView(context: Context): BaseMonthView
+    abstract fun createMonthView(context: Context): MonthView
 
     private fun isSelectedDayInMonth(year: Int, month: Int): Boolean {
         return selectedDay!!.year == year && selectedDay!!.month == month
     }
 
-    override fun onDayClick(view: BaseMonthView, day: BaseCalendar) {
+    override fun onDayClick(view: MonthView, day: BaseCalendar) {
         controller.onDayOfMonthSelected(day.year, day.month, day.dayOfMonth)
         selectedDay = day
     }

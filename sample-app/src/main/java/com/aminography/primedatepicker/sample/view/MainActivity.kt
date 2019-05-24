@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button.setOnClickListener {
+        civilButton.setOnClickListener {
             DateCalendarPickerBottomSheetDialogFragment.newInstance(object : DateCalendarPickerBottomSheetDialogFragment.OnDateSetListener {
 
                 override fun onDateSet(calendar: BaseCalendar) {
@@ -25,6 +25,26 @@ class MainActivity : AppCompatActivity() {
                 }
             }, CalendarFactory.newInstance(CalendarType.CIVIL)).show(supportFragmentManager)
         }
+
+        persianButton.setOnClickListener {
+            DateCalendarPickerBottomSheetDialogFragment.newInstance(object : DateCalendarPickerBottomSheetDialogFragment.OnDateSetListener {
+
+                override fun onDateSet(calendar: BaseCalendar) {
+                    longToast(calendar.longDateString)
+                }
+            }, CalendarFactory.newInstance(CalendarType.PERSIAN)).show(supportFragmentManager)
+        }
+
+        hijriButton.setOnClickListener {
+            DateCalendarPickerBottomSheetDialogFragment.newInstance(object : DateCalendarPickerBottomSheetDialogFragment.OnDateSetListener {
+
+                override fun onDateSet(calendar: BaseCalendar) {
+                    longToast(calendar.longDateString)
+                }
+            }, CalendarFactory.newInstance(CalendarType.HIJRI)).show(supportFragmentManager)
+        }
+
+        civilButton.performClick()
     }
 
 }

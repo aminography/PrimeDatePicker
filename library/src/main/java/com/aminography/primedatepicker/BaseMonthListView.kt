@@ -2,7 +2,6 @@ package com.aminography.primedatepicker
 
 import android.content.Context
 import android.os.Handler
-import android.support.annotation.ColorInt
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
@@ -11,9 +10,7 @@ import android.widget.AbsListView
 import android.widget.AbsListView.OnScrollListener
 import android.widget.ListView
 import com.aminography.primecalendar.base.BaseCalendar
-import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primedatepicker.fragment.DateCalendarPickerBottomSheetDialogFragment
-import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.Utils
 
 /**
@@ -22,8 +19,7 @@ import com.aminography.primedatepicker.tools.Utils
 abstract class BaseMonthListView @JvmOverloads constructor(
         context: Context,
         attributeSet: AttributeSet? = null,
-        private var controller: DatePickerController? = null,
-        @ColorInt protected var mainColor: Int? = 0
+        private var controller: DatePickerController? = null
 ) : ListView(context, attributeSet),
         OnScrollListener,
         DateCalendarPickerBottomSheetDialogFragment.OnDateChangedListener {
@@ -38,9 +34,6 @@ abstract class BaseMonthListView @JvmOverloads constructor(
     private var mAdapter: BaseMonthListAdapter? = null
 
     private var mTempDay: BaseCalendar? = Utils.newCalendar()
-
-    // When the week starts; numbered like Time.<WEEKDAY> (e.g. SUNDAY=0).
-    protected var mFirstDayOfWeek: Int = 0
 
     // which month should be displayed/highlighted [0-11]
     private var mCurrentMonthDisplayed: Int = 0
@@ -235,7 +228,7 @@ abstract class BaseMonthListView @JvmOverloads constructor(
      */
     override fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
         if (view.getChildAt(0) == null) return
-        val child = view.getChildAt(0) as BaseMonthView
+        val child = view.getChildAt(0) as MonthView
 
         // Figure out where we are
         mPreviousScrollPosition = (view.firstVisiblePosition * child.height - child.bottom).toLong()

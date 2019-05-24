@@ -10,11 +10,7 @@ interface DatePickerController {
 
     val selectedDay: BaseCalendar
 
-    val highlightedDays: Array<BaseCalendar>?
-
-    val selectableDays: Array<BaseCalendar>?
-
-    val firstDayOfWeek: Int
+    val selectableDays: Set<BaseCalendar>?
 
     val minYear: Int
 
@@ -25,8 +21,6 @@ interface DatePickerController {
     val maxDate: BaseCalendar?
 
     var typeface: String?
-
-    fun onYearSelected(year: Int)
 
     fun onDayOfMonthSelected(year: Int, month: Int, day: Int)
 

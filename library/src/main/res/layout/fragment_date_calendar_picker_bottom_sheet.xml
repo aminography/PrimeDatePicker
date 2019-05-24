@@ -63,8 +63,7 @@
             android:id="@+id/dateText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/material_size_8"
-            android:background="@color/mdtp_date_picker_month_day"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:paddingTop="@dimen/material_size_16"
             android:paddingBottom="@dimen/material_size_16"
@@ -75,7 +74,7 @@
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/date_picker_view_animator_height" />
+            android:layout_height="280dp" />
 
     </LinearLayout>
 
