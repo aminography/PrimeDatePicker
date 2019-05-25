@@ -26,7 +26,9 @@ import com.aminography.primedatepicker.tools.Utils
 import org.jetbrains.anko.dip
 import java.util.*
 
-
+/**
+ * @author aminography
+ */
 @Suppress("ConstantConditionIf")
 class MyMonthView @JvmOverloads constructor(
         context: Context,
@@ -149,7 +151,8 @@ class MyMonthView @JvmOverloads constructor(
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
 
         minCellHeight = dayLabelTextSize.toFloat()
-        cellHeight = 2.75f * dayLabelTextSize
+//        cellHeight = 2.75f * dayLabelTextSize
+        cellHeight = dp(48f).toFloat()
         cellWidth = (viewWidth - (paddingLeft + paddingRight)) / 7.toFloat()
 
         initPaints()

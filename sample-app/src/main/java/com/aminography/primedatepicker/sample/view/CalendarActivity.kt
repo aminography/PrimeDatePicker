@@ -18,7 +18,8 @@ class CalendarActivity : AppCompatActivity() {
 
         val adapter = PrimeAdapter.with(recyclerView)
                 .setLayoutManager(LinearLayoutManager(this))
-                .setSnapHelper(MyLinearSnapHelper())
+//                .setSnapHelper(MyLinearSnapHelper())
+                .setSnapHelper(StartSnapHelper())
                 .setHasFixedSize(true)
                 .setDivider()
                 .set()
