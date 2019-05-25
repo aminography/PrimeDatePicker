@@ -18,12 +18,16 @@ class CalendarActivity : AppCompatActivity() {
 
         val adapter = PrimeAdapter.with(recyclerView)
                 .setLayoutManager(LinearLayoutManager(this))
+                .setSnapHelper(MyLinearSnapHelper())
                 .set()
                 .build(MonthListAdapter::class.java)
 
         val list = arrayListOf<PrimeDataHolder>()
         for (i in 0 until 12) {
             list.add(MonthDataHolder(2019, i))
+        }
+        for (i in 0 until 12) {
+            list.add(MonthDataHolder(2020, i))
         }
         adapter.replaceDataList(list)
     }
