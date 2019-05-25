@@ -25,6 +25,8 @@ class MonthViewActivity : AppCompatActivity() {
         monthView.maxDateCalendar = maxDateCalendar
 
         selectedDayButton.setOnClickListener {
+            selectSingleDateRadioButton.isChecked = true
+            monthView.selectType = MyMonthView.SelectType.SINGLE
             monthView.selectedDay = 15
         }
 

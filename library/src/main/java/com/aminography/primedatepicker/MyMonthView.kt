@@ -34,6 +34,9 @@ class MyMonthView @JvmOverloads constructor(
         @StyleRes defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    private val dp = dip(1)
+    private fun dp(value: Int) = dp.times(value)
+
     private var monthLabelTextColor: Int = 0
     private var weekLabelTextColor: Int = 0
     private var dayLabelTextColor: Int = 0
@@ -66,7 +69,7 @@ class MyMonthView @JvmOverloads constructor(
     private var monthHeaderHeight = 0
     private var weekHeaderHeight = 0
 
-    private val defaultCellHeight = dip(36)
+    private val defaultCellHeight = dp(36)
     private var minCellHeight: Int = 0
     private var cellHeight = defaultCellHeight
     private var cellWidth = cellHeight
@@ -74,7 +77,7 @@ class MyMonthView @JvmOverloads constructor(
     private var month = 0
     private var year = 0
 
-    var selectType: SelectType = SelectType.SINGLE
+    var selectType: SelectType? = null
         set(value) {
             field = value
             when (value) {
@@ -304,7 +307,7 @@ class MyMonthView @JvmOverloads constructor(
                 canvas.drawCircle(
                         x.toFloat(),
                         (monthHeaderHeight / 2).toFloat(),
-                        dip(1).toFloat(),
+                        dp(1).toFloat(),
                         this
                 )
             }
@@ -362,7 +365,7 @@ class MyMonthView @JvmOverloads constructor(
                     canvas.drawCircle(
                             x.toFloat(),
                             (monthHeaderHeight + weekHeaderHeight / 2).toFloat(),
-                            dip(1).toFloat(),
+                            dp(1).toFloat(),
                             this
                     )
                 }
@@ -422,7 +425,7 @@ class MyMonthView @JvmOverloads constructor(
                     canvas.drawCircle(
                             x.toFloat(),
                             y.toFloat(),
-                            dip(1).toFloat(),
+                            dp(1).toFloat(),
                             this
                     )
                 }
@@ -441,10 +444,11 @@ class MyMonthView @JvmOverloads constructor(
             SelectType.SINGLE -> {
                 selectedDayBackgroundPaint?.apply {
                     if (dayOfMonth == selectedDay) {
+                        val radius = Math.min(width, height).toFloat() / 2 - dp(2)
                         canvas.drawCircle(
                                 x.toFloat(),
                                 y.toFloat(),
-                                Math.min(width, height).toFloat() / 2,
+                                radius,
                                 this
                         )
                     }
@@ -452,14 +456,14 @@ class MyMonthView @JvmOverloads constructor(
             }
             SelectType.START_RANGE, SelectType.END_RANGE -> {
                 selectedDayBackgroundPaint?.apply {
-                    val radius = Math.min(width, height).toFloat() / 2 - dip(2)
+                    val radius = Math.min(width, height).toFloat() / 2 - dp(2)
                     when (dayOfMonth) {
                         startRangeDay -> {
                             if (startRangeDay == endRangeDay) {
                                 canvas.drawCircle(
                                         x.toFloat(),
                                         y.toFloat(),
-                                        Math.min(width, height).toFloat() / 2,
+                                        radius,
                                         this
                                 )
                             } else {
@@ -596,7 +600,7 @@ class MyMonthView @JvmOverloads constructor(
     private fun findDayByCoordinates(inputX: Float, inputY: Float): Int? {
         if (inputX < sidePadding || inputX > viewWidth - sidePadding) return null
 
-        val y = inputY - dip(12)
+        val y = inputY - dp(12)
         val row = ((y - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
         var column = ((inputX - sidePadding) * 7 / (viewWidth - 2 * sidePadding)).toInt()
 

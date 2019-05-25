@@ -8,7 +8,7 @@
     <color name="transparent">#00000000</color>
 
     <color name="textColorPrimary">#212121</color>
-    <color name="textColorSecondary">#757575</color>
+    <color name="textColorSecondary">#AFAFAF</color>
     <color name="textColorGreen">#08b108</color>
     <color name="textColorRed">#e23232</color>
 
