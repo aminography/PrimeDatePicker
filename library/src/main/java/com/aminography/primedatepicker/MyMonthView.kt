@@ -151,8 +151,7 @@ class MyMonthView @JvmOverloads constructor(
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
 
         minCellHeight = dayLabelTextSize.toFloat()
-//        cellHeight = 2.75f * dayLabelTextSize
-        cellHeight = dp(48f).toFloat()
+        cellHeight = 2.75f * dayLabelTextSize
         cellWidth = (viewWidth - (paddingLeft + paddingRight)) / 7.toFloat()
 
         initPaints()
@@ -242,6 +241,7 @@ class MyMonthView @JvmOverloads constructor(
         updateToday()
         updateSpreadingWeeks()
 
+        requestLayout()
         invalidate()
     }
 
