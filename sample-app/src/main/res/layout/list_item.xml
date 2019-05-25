@@ -8,12 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/material_size_16"
         android:background="@color/white"
         android:paddingLeft="@dimen/material_size_16"
         android:paddingTop="@dimen/material_size_16"
         android:paddingRight="@dimen/material_size_16"
         android:paddingBottom="@dimen/material_size_16" />
-
 
 </FrameLayout>

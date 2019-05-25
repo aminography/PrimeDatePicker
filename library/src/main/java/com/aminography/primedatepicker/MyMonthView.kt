@@ -199,6 +199,11 @@ class MyMonthView @JvmOverloads constructor(
             isAntiAlias = true
             isFakeBoldText = true
         }
+
+        if (isInEditMode) {
+            val calendar = Utils.newCalendar()
+            setDate(calendar.year, calendar.month)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

@@ -19,6 +19,8 @@ class CalendarActivity : AppCompatActivity() {
         val adapter = PrimeAdapter.with(recyclerView)
                 .setLayoutManager(LinearLayoutManager(this))
                 .setSnapHelper(MyLinearSnapHelper())
+                .setHasFixedSize(true)
+                .setDivider()
                 .set()
                 .build(MonthListAdapter::class.java)
 
