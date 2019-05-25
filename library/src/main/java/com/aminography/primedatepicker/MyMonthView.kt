@@ -8,6 +8,8 @@ import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.graphics.Paint.Style
 import android.graphics.Typeface
+import android.os.Parcel
+import android.os.Parcelable
 import android.support.annotation.AttrRes
 import android.support.annotation.StyleRes
 import android.support.annotation.StyleableRes
@@ -24,6 +26,7 @@ import com.aminography.primedatepicker.tools.Utils
 import org.jetbrains.anko.dip
 import java.util.*
 
+
 private const val SHOW_GUIDE_LINES = false
 
 @Suppress("ConstantConditionIf")
@@ -35,7 +38,7 @@ class MyMonthView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private val dp = dip(1)
-    private fun dp(value: Int) = dp.times(value)
+    private fun dp(value: Float) = dp.times(value).toInt()
 
     private var monthLabelTextColor: Int = 0
     private var weekLabelTextColor: Int = 0
@@ -69,7 +72,7 @@ class MyMonthView @JvmOverloads constructor(
     private var monthHeaderHeight = 0
     private var weekHeaderHeight = 0
 
-    private val defaultCellHeight = dp(36)
+    private val defaultCellHeight = dp(36f)
     private var minCellHeight: Int = 0
     private var cellHeight = defaultCellHeight
     private var cellWidth = cellHeight
@@ -89,6 +92,7 @@ class MyMonthView @JvmOverloads constructor(
                 SelectType.END_RANGE -> selectedDay = null
             }
         }
+
     private var startRangeDay: Int? = null
         set(value) {
             field = value
@@ -307,7 +311,7 @@ class MyMonthView @JvmOverloads constructor(
                 canvas.drawCircle(
                         x.toFloat(),
                         (monthHeaderHeight / 2).toFloat(),
-                        dp(1).toFloat(),
+                        dp(1f).toFloat(),
                         this
                 )
             }
@@ -365,7 +369,7 @@ class MyMonthView @JvmOverloads constructor(
                     canvas.drawCircle(
                             x.toFloat(),
                             (monthHeaderHeight + weekHeaderHeight / 2).toFloat(),
-                            dp(1).toFloat(),
+                            dp(1f).toFloat(),
                             this
                     )
                 }
@@ -425,7 +429,7 @@ class MyMonthView @JvmOverloads constructor(
                     canvas.drawCircle(
                             x.toFloat(),
                             y.toFloat(),
-                            dp(1).toFloat(),
+                            dp(1f).toFloat(),
                             this
                     )
                 }
@@ -440,11 +444,11 @@ class MyMonthView @JvmOverloads constructor(
     }
 
     private fun drawDayBackground(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Int, y: Int, width: Int, height: Int) {
+        val radius = Math.min(width, height).toFloat() / 2 - dp(1.5f)
         when (selectType) {
             SelectType.SINGLE -> {
                 selectedDayBackgroundPaint?.apply {
                     if (dayOfMonth == selectedDay) {
-                        val radius = Math.min(width, height).toFloat() / 2 - dp(2)
                         canvas.drawCircle(
                                 x.toFloat(),
                                 y.toFloat(),
@@ -456,10 +460,9 @@ class MyMonthView @JvmOverloads constructor(
             }
             SelectType.START_RANGE, SelectType.END_RANGE -> {
                 selectedDayBackgroundPaint?.apply {
-                    val radius = Math.min(width, height).toFloat() / 2 - dp(2)
                     when (dayOfMonth) {
                         startRangeDay -> {
-                            if (startRangeDay == endRangeDay) {
+                            if (endRangeDay == null || startRangeDay == endRangeDay) {
                                 canvas.drawCircle(
                                         x.toFloat(),
                                         y.toFloat(),
@@ -473,13 +476,27 @@ class MyMonthView @JvmOverloads constructor(
                                         radius,
                                         this
                                 )
-                                canvas.drawRect(
-                                        x.toFloat(),
-                                        y - radius,
-                                        (x + cellWidth / 2).toFloat(),
-                                        y + radius,
-                                        this
-                                )
+                                // RTLize for Persian and Hijri Calendars
+                                when (CurrentCalendarType.type) {
+                                    CalendarType.CIVIL -> {
+                                        canvas.drawRect(
+                                                x.toFloat(),
+                                                y - radius,
+                                                (x + cellWidth / 2).toFloat(),
+                                                y + radius,
+                                                this
+                                        )
+                                    }
+                                    CalendarType.PERSIAN, CalendarType.HIJRI -> {
+                                        canvas.drawRect(
+                                                (x - cellWidth / 2).toFloat(),
+                                                y - radius,
+                                                x.toFloat(),
+                                                y + radius,
+                                                this
+                                        )
+                                    }
+                                }
                             }
                         }
                         endRangeDay -> {
@@ -489,13 +506,27 @@ class MyMonthView @JvmOverloads constructor(
                                     radius,
                                     this
                             )
-                            canvas.drawRect(
-                                    (x - cellWidth / 2).toFloat(),
-                                    y - radius,
-                                    x.toFloat(),
-                                    y + radius,
-                                    this
-                            )
+                            // RTLize for Persian and Hijri Calendars
+                            when (CurrentCalendarType.type) {
+                                CalendarType.CIVIL -> {
+                                    canvas.drawRect(
+                                            (x - cellWidth / 2).toFloat(),
+                                            y - radius,
+                                            x.toFloat(),
+                                            y + radius,
+                                            this
+                                    )
+                                }
+                                CalendarType.PERSIAN, CalendarType.HIJRI -> {
+                                    canvas.drawRect(
+                                            x.toFloat(),
+                                            y - radius,
+                                            (x + cellWidth / 2).toFloat(),
+                                            y + radius,
+                                            this
+                                    )
+                                }
+                            }
                         }
                         in ((startRangeDay ?: -1) + 1)..((endRangeDay ?: +1) - 1) -> {
                             canvas.drawRect(
@@ -600,7 +631,7 @@ class MyMonthView @JvmOverloads constructor(
     private fun findDayByCoordinates(inputX: Float, inputY: Float): Int? {
         if (inputX < sidePadding || inputX > viewWidth - sidePadding) return null
 
-        val y = inputY - dp(12)
+        val y = inputY - dp(12f)
         val row = ((y - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
         var column = ((inputX - sidePadding) * 7 / (viewWidth - 2 * sidePadding)).toInt()
 
@@ -644,6 +675,67 @@ class MyMonthView @JvmOverloads constructor(
 
     interface OnDayClickListener {
         fun onDayClick(view: MyMonthView, day: BaseCalendar)
+    }
+
+    // Save/Restore States -------------------------------------------------------------------------
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        val savedState = SavedState(superState)
+        savedState.selectType = selectType?.ordinal ?: -1
+        savedState.selectedDay = selectedDay ?: -1
+        savedState.startRangeDay = startRangeDay ?: -1
+        savedState.endRangeDay = endRangeDay ?: -1
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as SavedState
+        super.onRestoreInstanceState(savedState.superState)
+        selectType = if (savedState.selectType != -1) SelectType.values()[savedState.selectType] else null
+        selectedDay = if (savedState.selectedDay != -1) savedState.selectedDay else null
+        startRangeDay = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
+        endRangeDay = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
+    }
+
+    private class SavedState : View.BaseSavedState {
+
+        internal var selectType: Int = -1
+        internal var selectedDay: Int = -1
+        internal var startRangeDay: Int = -1
+        internal var endRangeDay: Int = -1
+
+        internal constructor(superState: Parcelable?) : super(superState)
+
+        private constructor(input: Parcel) : super(input) {
+            selectType = input.readInt()
+            selectedDay = input.readInt()
+            startRangeDay = input.readInt()
+            endRangeDay = input.readInt()
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeInt(selectType)
+            out.writeInt(selectedDay)
+            out.writeInt(startRangeDay)
+            out.writeInt(endRangeDay)
+        }
+
+        companion object {
+
+            @Suppress("unused")
+            @JvmField
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(input: Parcel): SavedState {
+                    return SavedState(input)
+                }
+
+                override fun newArray(size: Int): Array<SavedState?> {
+                    return arrayOfNulls(size)
+                }
+            }
+        }
     }
 
 }

@@ -17,11 +17,11 @@ class MonthViewActivity : AppCompatActivity() {
         monthView.setDate(calendar.year, calendar.month)
 
         val minDateCalendar = Utils.newCalendar()
-        minDateCalendar.dayOfMonth = 7
+        minDateCalendar.dayOfMonth = 4
         monthView.minDateCalendar = minDateCalendar
 
         val maxDateCalendar = Utils.newCalendar()
-        maxDateCalendar.dayOfMonth = 23
+        maxDateCalendar.dayOfMonth = 28
         monthView.maxDateCalendar = maxDateCalendar
 
         selectedDayButton.setOnClickListener {
