@@ -33,6 +33,13 @@
             android:layout_gravity="center"
             android:text="Hijri" />
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/monthViewButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="MonthView" />
+
 
     </LinearLayout>
 

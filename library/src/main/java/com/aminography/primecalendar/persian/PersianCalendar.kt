@@ -15,16 +15,28 @@ class PersianCalendar : BaseCalendar(TimeZone.getDefault(), Locale.getDefault())
 
     private var persianYear: Int = 0
     private var persianMonth: Int = 0
-    private var persianDay: Int = 0
+    private var persianDayOfMonth: Int = 0
 
-    override val year: Int
+    override var year: Int = persianYear
         get() = persianYear
+        set(value) {
+            field = value
+            setDate(value, month, dayOfMonth)
+        }
 
-    override val month: Int
+    override var month: Int = persianMonth
         get() = persianMonth
+        set(value) {
+            field = value
+            setDate(year, value, dayOfMonth)
+        }
 
-    override val dayOfMonth: Int
-        get() = persianDay
+    override var dayOfMonth: Int = persianDayOfMonth
+        get() = persianDayOfMonth
+        set(value) {
+            field = value
+            setDate(year, month, value)
+        }
 
     override val monthName: String
         get() = PersianCalendarUtils.persianMonthNames[persianMonth]
@@ -51,8 +63,8 @@ class PersianCalendar : BaseCalendar(TimeZone.getDefault(), Locale.getDefault())
     override fun setDate(year: Int, month: Int, dayOfMonth: Int) {
         persianYear = year
         persianMonth = month
-        persianDay = dayOfMonth
-        val gregorianYearMonthDay = PersianCalendarUtils.persianToGregorian(DateHolder(persianYear, persianMonth, persianDay))
+        persianDayOfMonth = dayOfMonth
+        val gregorianYearMonthDay = PersianCalendarUtils.persianToGregorian(DateHolder(persianYear, persianMonth, persianDayOfMonth))
         super.setDate(gregorianYearMonthDay.year, gregorianYearMonthDay.month, gregorianYearMonthDay.day)
     }
 
@@ -65,8 +77,8 @@ class PersianCalendar : BaseCalendar(TimeZone.getDefault(), Locale.getDefault())
         }
 
         when (field) {
-            YEAR -> setDate(persianYear + amount, persianMonth, persianDay)
-            MONTH -> setDate(persianYear + (persianMonth + amount) / 12, (persianMonth + amount) % 12, persianDay)
+            YEAR -> setDate(persianYear + amount, persianMonth, persianDayOfMonth)
+            MONTH -> setDate(persianYear + (persianMonth + amount) / 12, (persianMonth + amount) % 12, persianDayOfMonth)
             else -> {
                 super.add(field, amount)
                 recalculate()
@@ -112,7 +124,7 @@ class PersianCalendar : BaseCalendar(TimeZone.getDefault(), Locale.getDefault())
         )
         persianYear = persianYearMonthDay.year
         persianMonth = persianYearMonthDay.month
-        persianDay = persianYearMonthDay.day
+        persianDayOfMonth = persianYearMonthDay.day
     }
 
     // ---------------------------------------------------------------------------------------------

@@ -12,14 +12,26 @@ import java.util.*
  */
 class CivilCalendar : BaseCalendar() {
 
-    override val year: Int
+    override var year: Int = get(Calendar.YEAR)
         get() = get(Calendar.YEAR)
+        set(value) {
+            field = value
+            set(Calendar.YEAR, value)
+        }
 
-    override val month: Int
+    override var month: Int = get(Calendar.MONTH)
         get() = get(Calendar.MONTH)
+        set(value) {
+            field = value
+            set(Calendar.MONTH, value)
+        }
 
-    override val dayOfMonth: Int
+    override var dayOfMonth: Int = get(Calendar.DAY_OF_MONTH)
         get() = get(Calendar.DAY_OF_MONTH)
+        set(value) {
+            field = value
+            set(Calendar.DAY_OF_MONTH, value)
+        }
 
     override val monthName: String
         get() = getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH)

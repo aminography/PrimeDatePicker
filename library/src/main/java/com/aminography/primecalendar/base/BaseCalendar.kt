@@ -8,11 +8,11 @@ import java.util.*
  */
 abstract class BaseCalendar : GregorianCalendar, IConverter {
 
-    abstract val year: Int
+    abstract var year: Int
 
-    abstract val month: Int
+    abstract var month: Int
 
-    abstract val dayOfMonth: Int
+    abstract var dayOfMonth: Int
 
     abstract val monthName: String
 

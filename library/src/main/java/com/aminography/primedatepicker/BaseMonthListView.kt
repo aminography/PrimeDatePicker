@@ -30,23 +30,23 @@ abstract class BaseMonthListView @JvmOverloads constructor(
     protected var mHandler: Handler? = null
 
     // highlighted time
-    private var mSelectedDay: BaseCalendar? = Utils.newCalendar()
+    private var selectedDay: BaseCalendar? = Utils.newCalendar()
     private var mAdapter: BaseMonthListAdapter? = null
 
-    private var mTempDay: BaseCalendar? = Utils.newCalendar()
+    private var tempDay: BaseCalendar? = Utils.newCalendar()
 
     // which month should be displayed/highlighted [0-11]
-    private var mCurrentMonthDisplayed: Int = 0
+    private var currentMonthDisplayed: Int = 0
 
     // used for tracking during a scroll
-    private var mPreviousScrollPosition: Long = 0
+    private var previousScrollPosition: Long = 0
 
     // used for tracking what state listview is in
-    protected var mPreviousScrollState = OnScrollListener.SCROLL_STATE_IDLE
+    protected var previousScrollState = OnScrollListener.SCROLL_STATE_IDLE
 
     // used for tracking what state listview is in
-    protected var mCurrentScrollState = OnScrollListener.SCROLL_STATE_IDLE
-    private var mScrollStateChangedRunnable = ScrollStateRunnable()
+    protected var currentScrollState = OnScrollListener.SCROLL_STATE_IDLE
+    private var scrollStateChangedRunnable = ScrollStateRunnable()
 
     init {
         init()
@@ -99,14 +99,14 @@ abstract class BaseMonthListView @JvmOverloads constructor(
     }
 
     /**
-     * Creates a new adapter if necessary and sets up its parameters. Override
-     * this method to provide a custom adapter.
+     * Creates a new mAdapter if necessary and sets up its parameters. Override
+     * this method to provide a custom mAdapter.
      */
     private fun refreshAdapter() {
         if (mAdapter == null) {
             mAdapter = createMonthAdapter(context, controller!!)
         } else {
-            mAdapter!!.selectedDay = mSelectedDay
+            mAdapter?.selectedDay = selectedDay
         }
         // refresh the view with the new parameters
         adapter = mAdapter
@@ -153,10 +153,10 @@ abstract class BaseMonthListView @JvmOverloads constructor(
 
         // Set the selected day
         if (setSelected) {
-            mSelectedDay?.timeInMillis = day.timeInMillis
+            selectedDay?.timeInMillis = day.timeInMillis
         }
 
-        mTempDay?.timeInMillis = day.timeInMillis
+        tempDay?.timeInMillis = day.timeInMillis
         var position = (day.year - controller!!.minYear) * BaseMonthListAdapter.MONTHS_IN_YEAR + day.month
 
         // Added by Amin ---------------------------------------------------------------------------
@@ -193,17 +193,14 @@ abstract class BaseMonthListView @JvmOverloads constructor(
         }
 
         if (setSelected) {
-            mAdapter!!.selectedDay = mSelectedDay
+            mAdapter!!.selectedDay = selectedDay
         }
 
-        if (Log.isLoggable(TAG, Log.DEBUG)) {
-            Log.d(TAG, "GoTo position $position")
-        }
         // Check if the selected day is now outside of our visible range
         // and if so scroll to the month that contains it
         if (position != selectedPosition || forceScroll) {
-            setMonthDisplayed(mTempDay!!)
-            mPreviousScrollState = OnScrollListener.SCROLL_STATE_FLING
+            setMonthDisplayed(tempDay!!)
+            previousScrollState = OnScrollListener.SCROLL_STATE_FLING
             if (animate) {
                 smoothScrollToPositionFromTop(position, LIST_TOP_OFFSET, GOTO_SCROLL_DURATION)
                 return true
@@ -211,7 +208,7 @@ abstract class BaseMonthListView @JvmOverloads constructor(
                 postSetSelection(position)
             }
         } else if (setSelected) {
-            setMonthDisplayed(mSelectedDay!!)
+            setMonthDisplayed(selectedDay!!)
         }
         return false
     }
@@ -231,8 +228,8 @@ abstract class BaseMonthListView @JvmOverloads constructor(
         val child = view.getChildAt(0) as MonthView
 
         // Figure out where we are
-        mPreviousScrollPosition = (view.firstVisiblePosition * child.height - child.bottom).toLong()
-        mPreviousScrollState = mCurrentScrollState
+        previousScrollPosition = (view.firstVisiblePosition * child.height - child.bottom).toLong()
+        previousScrollState = currentScrollState
     }
 
     /**
@@ -240,13 +237,13 @@ abstract class BaseMonthListView @JvmOverloads constructor(
      * to add custom events when the title is changed.
      */
     private fun setMonthDisplayed(date: BaseCalendar) {
-        mCurrentMonthDisplayed = date.month
+        currentMonthDisplayed = date.month
         invalidateViews()
     }
 
     override fun onScrollStateChanged(view: AbsListView, scrollState: Int) {
         // use a post to prevent re-entering onScrollStateChanged before it exits
-        mScrollStateChangedRunnable.doScrollStateChange(scrollState)
+        scrollStateChangedRunnable.doScrollStateChange(scrollState)
     }
 
     override fun onDateChanged() {
@@ -256,7 +253,7 @@ abstract class BaseMonthListView @JvmOverloads constructor(
     }
 
     protected inner class ScrollStateRunnable : Runnable {
-        private var mNewState: Int = 0
+        private var newState: Int = 0
 
         /**
          * Sets up the runnable with a short delay in case the scroll state
@@ -266,21 +263,20 @@ abstract class BaseMonthListView @JvmOverloads constructor(
          */
         fun doScrollStateChange(scrollState: Int) {
             mHandler?.removeCallbacks(this)
-            mNewState = scrollState
+            newState = scrollState
             mHandler?.postDelayed(this, SCROLL_CHANGE_DELAY.toLong())
         }
 
         override fun run() {
-            mCurrentScrollState = mNewState
+            currentScrollState = newState
             if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG,
-                        "new scroll state: $mNewState old state: $mPreviousScrollState")
+                Log.d(TAG, "new scroll state: $newState old state: $previousScrollState")
             }
             // Fix the position after a scroll or a fling ends
-            if (mNewState == OnScrollListener.SCROLL_STATE_IDLE
-                    && mPreviousScrollState != OnScrollListener.SCROLL_STATE_IDLE
-                    && mPreviousScrollState != OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                mPreviousScrollState = mNewState
+            if (newState == OnScrollListener.SCROLL_STATE_IDLE
+                    && previousScrollState != OnScrollListener.SCROLL_STATE_IDLE
+                    && previousScrollState != OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                previousScrollState = newState
                 var i = 0
                 var child: View? = getChildAt(i)
                 while (child != null && child.bottom <= 0) {
@@ -304,21 +300,19 @@ abstract class BaseMonthListView @JvmOverloads constructor(
                     }
                 }
             } else {
-                mPreviousScrollState = mNewState
+                previousScrollState = newState
             }
         }
     }
 
     companion object {
 
-        // Affects when the month selection will change while scrolling up
-        protected val SCROLL_HYST_WEEKS = 2
-
         // How long the GoTo fling animation should last
         protected const val GOTO_SCROLL_DURATION = 250
-        // How long to wait after receiving an onScrollStateChanged notification
-        // before acting on it
+
+        // How long to wait after receiving an onScrollStateChanged notification before acting on it
         protected const val SCROLL_CHANGE_DELAY = 40
+
         private const val TAG = "MonthFragment"
         var LIST_TOP_OFFSET = -1 // so that the top line will be
     }

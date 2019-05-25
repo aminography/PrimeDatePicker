@@ -80,19 +80,25 @@ class MonthView @JvmOverloads constructor(
     private var year = 0
 
     private var viewWidth = 0
+
     // The height this view should draw at in pixels, set by height param
     private var rowHeight = defaultRowHeight
     //        set(value) {
 //            field = if (value < minRowHeight) minRowHeight else value
 //        }
+
     // If this view contains the today
     private var hasToday = false
+
     // Which day is selected [0-6] or -1 if no day is selected
     private var selectedDay = -1
+
     // Which day is today [0-6] or -1 if no day is today
     private var todayDayOfMonth = DEFAULT_SELECTED_DAY
+
     // Which day of the week to start on [0-6]
     private var weekStart = DEFAULT_WEEK_START
+
     // The number of days + a spot for week number if it is displayed
     private var daysInMonth = 7
 
@@ -216,13 +222,15 @@ class MonthView @JvmOverloads constructor(
             throw Exception("You must specify month and year for this view")
         }
         tag = params
-        // We keep the current value for any params not present
-        if (params.containsKey(VIEW_PARAMS_HEIGHT)) {
-            rowHeight = params[VIEW_PARAMS_HEIGHT]!!
-            if (rowHeight < minRowHeight) {
-                rowHeight = minRowHeight
-            }
-        }
+
+//        // We keep the current value for any params not present
+//        if (params.containsKey(VIEW_PARAMS_HEIGHT)) {
+//            rowHeight = params[VIEW_PARAMS_HEIGHT]!!
+//            if (rowHeight < minRowHeight) {
+//                rowHeight = minRowHeight
+//            }
+//        }
+
         if (params.containsKey(VIEW_PARAMS_SELECTED_DAY)) {
             selectedDay = params[VIEW_PARAMS_SELECTED_DAY]!!
         }
@@ -455,14 +463,14 @@ class MonthView @JvmOverloads constructor(
      * @param canvas The canvas to draw on
      * @param year   The year of this month day
      * @param month  The month of this month day
-     * @param day    The day number of this month day
+     * @param dayOfMonth    The day number of this month day
      * @param x      The default x position to draw the day number
      * @param y      The default y position to draw the day number
      * @param width  The width of the day number rect
      * @param height The height of the day number rect
      */
-    private fun drawMonthDay(canvas: Canvas, year: Int, month: Int, day: Int, x: Int, y: Int, width: Int, height: Int) {
-        if (selectedDay == day) {
+    private fun drawMonthDay(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Int, y: Int, width: Int, height: Int) {
+        if (selectedDay == dayOfMonth) {
             canvas.drawCircle(
                     x.toFloat(),
                     y.toFloat(),
@@ -472,11 +480,11 @@ class MonthView @JvmOverloads constructor(
         }
 
         dayLabelPaint?.apply {
-            color = if (isOutOfRange(year, month, day)) {
+            color = if (isOutOfRange(year, month, dayOfMonth)) {
                 disabledDayLabelTextColor
-            } else if (selectedDay == day) {
+            } else if (selectedDay == dayOfMonth) {
                 selectedDayLabelTextColor
-            } else if (hasToday && todayDayOfMonth == day) {
+            } else if (hasToday && todayDayOfMonth == dayOfMonth) {
                 todayLabelTextColor
             } else {
                 dayLabelTextColor
@@ -487,9 +495,9 @@ class MonthView @JvmOverloads constructor(
         }
 
         val date = when (CurrentCalendarType.type) {
-            CalendarType.CIVIL -> String.format(Locale.getDefault(), "%d", day)
-            CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", day))
-            CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", day))
+            CalendarType.CIVIL -> String.format(Locale.getDefault(), "%d", dayOfMonth)
+            CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
+            CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
         }
 
         dayLabelPaint?.apply {
@@ -582,10 +590,9 @@ class MonthView @JvmOverloads constructor(
      * Integer.MAX_VALUE.
      */
     private fun isOutOfRange(year: Int, month: Int, day: Int): Boolean {
-        if (datePickerController?.selectableDays != null) {
+        datePickerController?.selectableDays?.apply {
             return !isSelectable(year, month, day)
         }
-
         return if (isBeforeMin(year, month, day)) {
             true
         } else {
@@ -593,27 +600,9 @@ class MonthView @JvmOverloads constructor(
         }
     }
 
-    private fun isSelectable(year: Int, month: Int, day: Int): Boolean {
-        datePickerController?.selectableDays?.apply {
-            for (c in this) {
-                if (year < c.year) {
-                    break
-                }
-                if (year > c.year) {
-                    continue
-                }
-                if (month < c.month) {
-                    break
-                }
-                if (month > c.month) {
-                    continue
-                }
-                if (day < c.dayOfMonth) {
-                    break
-                }
-                if (day > c.dayOfMonth) {
-                    continue
-                }
+    private fun isSelectable(year: Int, month: Int, dayOfMonth: Int): Boolean {
+        datePickerController?.selectableDays?.forEach {
+            if (it.year == year && it.month == month && it.dayOfMonth == dayOfMonth) {
                 return true
             }
         }
@@ -697,22 +686,8 @@ class MonthView @JvmOverloads constructor(
     }
 
     companion object {
-        /**
-         * This sets the height of this week in pixels
-         */
-        const val VIEW_PARAMS_HEIGHT = "height"
-        /**
-         * This specifies the position (or weeks since the epoch) of this week.
-         */
         const val VIEW_PARAMS_MONTH = "month"
-        /**
-         * This specifies the position (or weeks since the epoch) of this week.
-         */
         const val VIEW_PARAMS_YEAR = "year"
-        /**
-         * This sets one of the days in this view as selected [Calendar.SUNDAY]
-         * through [Calendar.SATURDAY].
-         */
         const val VIEW_PARAMS_SELECTED_DAY = "selected_day"
 
         private val TAG = MonthView::class.java.canonicalName
@@ -721,7 +696,6 @@ class MonthView @JvmOverloads constructor(
         private const val DEFAULT_SELECTED_DAY = -1
         private const val DEFAULT_WEEK_START = Calendar.SATURDAY
         private const val DEFAULT_NUM_ROWS = 6
-        private const val MAX_NUM_ROWS = 6
 
     }
 

@@ -15,16 +15,28 @@ class HijriCalendar : BaseCalendar(TimeZone.getDefault(), Locale.getDefault()) {
 
     private var hijriYear: Int = 0
     private var hijriMonth: Int = 0
-    private var hijriDay: Int = 0
+    private var hijriDayOfMonth: Int = 0
 
-    override val year: Int
+    override var year: Int = hijriYear
         get() = hijriYear
+        set(value) {
+            field = value
+            setDate(value, month, dayOfMonth)
+        }
 
-    override val month: Int
+    override var month: Int = hijriMonth
         get() = hijriMonth
+        set(value) {
+            field = value
+            setDate(year, value, dayOfMonth)
+        }
 
-    override val dayOfMonth: Int
-        get() = hijriDay
+    override var dayOfMonth: Int = hijriDayOfMonth
+        get() = hijriDayOfMonth
+        set(value) {
+            field = value
+            setDate(year, month, value)
+        }
 
     override val monthName: String
         get() = HijriCalendarUtils.monthNames[hijriMonth]
@@ -51,8 +63,8 @@ class HijriCalendar : BaseCalendar(TimeZone.getDefault(), Locale.getDefault()) {
     override fun setDate(year: Int, month: Int, dayOfMonth: Int) {
         hijriYear = year
         hijriMonth = month
-        hijriDay = dayOfMonth
-        val gregorianYearMonthDay = HijriCalendarUtils.hijriToGregorian(DateHolder(hijriYear, hijriMonth, hijriDay))
+        hijriDayOfMonth = dayOfMonth
+        val gregorianYearMonthDay = HijriCalendarUtils.hijriToGregorian(DateHolder(hijriYear, hijriMonth, hijriDayOfMonth))
         super.setDate(gregorianYearMonthDay.year, gregorianYearMonthDay.month, gregorianYearMonthDay.day)
     }
 
@@ -65,8 +77,8 @@ class HijriCalendar : BaseCalendar(TimeZone.getDefault(), Locale.getDefault()) {
         }
 
         when (field) {
-            YEAR -> setDate(hijriYear + amount, hijriMonth, hijriDay)
-            MONTH -> setDate(hijriYear + (hijriMonth + amount) / 12, (hijriMonth + amount) % 12, hijriDay)
+            YEAR -> setDate(hijriYear + amount, hijriMonth, hijriDayOfMonth)
+            MONTH -> setDate(hijriYear + (hijriMonth + amount) / 12, (hijriMonth + amount) % 12, hijriDayOfMonth)
             else -> {
                 super.add(field, amount)
                 recalculate()
@@ -112,7 +124,7 @@ class HijriCalendar : BaseCalendar(TimeZone.getDefault(), Locale.getDefault()) {
         )
         hijriYear = hijriYearMonthDay.year
         hijriMonth = hijriYearMonthDay.month
-        hijriDay = hijriYearMonthDay.day
+        hijriDayOfMonth = hijriYearMonthDay.day
     }
 
     // ---------------------------------------------------------------------------------------------
