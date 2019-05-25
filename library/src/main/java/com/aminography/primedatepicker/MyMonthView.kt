@@ -69,6 +69,9 @@ class MyMonthView @JvmOverloads constructor(
             invalidate()
         }
 
+    private var maxHeight: Float = 0f
+        get() = field
+
     private var viewWidth = 0
     private var monthHeaderHeight = 0
     private var weekHeaderHeight = 0
@@ -209,6 +212,7 @@ class MyMonthView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * 6 + paddingBottom
         val height = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * spreadingWeeks + paddingBottom
         setMeasuredDimension(View.MeasureSpec.getSize(widthMeasureSpec), height.toInt())
     }

@@ -25,6 +25,8 @@ class CalendarActivity : AppCompatActivity() {
                 .set()
                 .build(MonthListAdapter::class.java)
 
+//        recyclerView.layoutParams.height = maxHeight
+
         val list = arrayListOf<PrimeDataHolder>()
         for (i in 0 until 12) {
             list.add(MonthDataHolder(2019, i))
