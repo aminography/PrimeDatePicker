@@ -24,9 +24,9 @@ object Utils {
 
     fun getDaysInMonth(month: Int, year: Int): Int {
         return when (CurrentCalendarType.type) {
-            CalendarType.CIVIL -> CivilCalendarUtils.getMonthLength(year, month)
-            CalendarType.PERSIAN -> PersianCalendarUtils.getMonthLength(year, month)
-            CalendarType.HIJRI -> HijriCalendarUtils.getMonthLength(year, month)
+            CalendarType.CIVIL -> CivilCalendarUtils.monthLength(year, month)
+            CalendarType.PERSIAN -> PersianCalendarUtils.monthLength(year, month)
+            CalendarType.HIJRI -> HijriCalendarUtils.monthLength(year, month)
         }
     }
 
