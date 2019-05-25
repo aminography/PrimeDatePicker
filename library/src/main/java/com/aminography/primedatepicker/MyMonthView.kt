@@ -27,8 +27,6 @@ import org.jetbrains.anko.dip
 import java.util.*
 
 
-private const val SHOW_GUIDE_LINES = false
-
 @Suppress("ConstantConditionIf")
 class MyMonthView @JvmOverloads constructor(
         context: Context,
@@ -37,6 +35,8 @@ class MyMonthView @JvmOverloads constructor(
         @StyleRes defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    @Suppress("PrivatePropertyName")
+    private val SHOW_GUIDE_LINES = false
     private val dp = dip(1)
     private fun dp(value: Float) = dp.times(value).toInt()
 
@@ -51,7 +51,6 @@ class MyMonthView @JvmOverloads constructor(
     private var monthLabelTextSize: Int = 0
     private var weekLabelTextSize: Int = 0
     private var dayLabelTextSize: Int = 0
-    private var sidePadding: Int = 0
     private var monthLabelTopPadding: Int = 0
     private var monthLabelBottomPadding: Int = 0
     private var weekLabelTopPadding: Int = 0
@@ -61,7 +60,7 @@ class MyMonthView @JvmOverloads constructor(
     private var weekLabelPaint: Paint? = null
     private var dayLabelPaint: Paint? = null
     private var selectedDayBackgroundPaint: Paint? = null
-    private var fontTypeface: Typeface? = null
+    var fontTypeface: Typeface? = null
         set(value) {
             field = value
             initPaints()
@@ -72,10 +71,10 @@ class MyMonthView @JvmOverloads constructor(
     private var monthHeaderHeight = 0
     private var weekHeaderHeight = 0
 
-    private val defaultCellHeight = dp(36f)
-    private var minCellHeight: Int = 0
-    private var cellHeight = defaultCellHeight
-    private var cellWidth = cellHeight
+    private val defaultCellHeight = dp(36f).toFloat()
+    private var minCellHeight: Float = 0f
+    private var cellHeight: Float = defaultCellHeight
+    private var cellWidth: Float = cellHeight
 
     private var month = 0
     private var year = 0
@@ -139,7 +138,6 @@ class MyMonthView @JvmOverloads constructor(
             weekLabelTextSize = getDimensionPixelSize(R.styleable.MonthView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
             dayLabelTextSize = getDimensionPixelSize(R.styleable.MonthView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
 
-            sidePadding = getDimensionPixelSize(R.styleable.MonthView_sidePadding, resources.getDimensionPixelSize(R.dimen.defaultSidePadding))
             monthLabelTopPadding = getDimensionPixelSize(R.styleable.MonthView_monthLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTopPadding))
             monthLabelBottomPadding = getDimensionPixelSize(R.styleable.MonthView_monthLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding))
             weekLabelTopPadding = getDimensionPixelSize(R.styleable.MonthView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
@@ -150,9 +148,9 @@ class MyMonthView @JvmOverloads constructor(
         monthHeaderHeight = monthLabelTextSize + monthLabelTopPadding + monthLabelBottomPadding
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
 
-        minCellHeight = dayLabelTextSize
-        cellHeight = (2.75 * dayLabelTextSize).toInt()
-        cellWidth = (viewWidth - sidePadding * 2) / 7
+        minCellHeight = dayLabelTextSize.toFloat()
+        cellHeight = 2.75f * dayLabelTextSize
+        cellWidth = (viewWidth - (paddingLeft + paddingRight)) / 7.toFloat()
 
         initPaints()
     }
@@ -204,13 +202,13 @@ class MyMonthView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val height = monthHeaderHeight + weekHeaderHeight + cellHeight * spreadingWeeks
-        setMeasuredDimension(View.MeasureSpec.getSize(widthMeasureSpec), height)
+        val height = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * spreadingWeeks + paddingBottom
+        setMeasuredDimension(View.MeasureSpec.getSize(widthMeasureSpec), height.toInt())
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         viewWidth = w
-        cellWidth = (viewWidth - sidePadding * 2) / 7
+        cellWidth = (viewWidth - (paddingLeft + paddingRight)) / 7.toFloat()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -259,7 +257,7 @@ class MyMonthView @JvmOverloads constructor(
 
     private fun drawMonthLabel(canvas: Canvas) {
         val x = viewWidth / 2
-        val y = (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2 + monthLabelTopPadding
+        val y = paddingTop + (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2 + monthLabelTopPadding
 
         var monthAndYearString = "${firstDayOfMonthCalendar.monthName} ${firstDayOfMonthCalendar.year}"
         monthAndYearString = when (CurrentCalendarType.type) {
@@ -284,10 +282,10 @@ class MyMonthView @JvmOverloads constructor(
                 style = Style.FILL
                 alpha = 50
                 canvas.drawRect(
-                        sidePadding.toFloat(),
-                        0f,
-                        (viewWidth - sidePadding).toFloat(),
-                        monthHeaderHeight.toFloat(),
+                        paddingLeft.toFloat(),
+                        paddingTop.toFloat(),
+                        viewWidth - paddingRight.toFloat(),
+                        paddingTop + monthHeaderHeight.toFloat(),
                         this
                 )
             }
@@ -297,7 +295,7 @@ class MyMonthView @JvmOverloads constructor(
                 style = Style.FILL
                 canvas.drawCircle(
                         x.toFloat(),
-                        (monthHeaderHeight / 2).toFloat(),
+                        paddingTop + (monthHeaderHeight / 2).toFloat(),
                         dp(1f).toFloat(),
                         this
                 )
@@ -306,16 +304,16 @@ class MyMonthView @JvmOverloads constructor(
     }
 
     private fun drawWeekLabels(canvas: Canvas) {
-        val y = monthHeaderHeight + (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2 + weekLabelTopPadding
+        val y = paddingTop + monthHeaderHeight + (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2 + weekLabelTopPadding
 
         for (i in 0 until 7) {
             val dayOfWeek = (i + weekStart) % 7
 
             // RTLize for Persian and Hijri Calendars
             val x = when (CurrentCalendarType.type) {
-                CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + sidePadding
-                CalendarType.PERSIAN -> (2 * (6 - i) + 1) * (cellWidth / 2) + sidePadding
-                CalendarType.HIJRI -> (2 * (6 - i) + 1) * (cellWidth / 2) + sidePadding
+                CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
+                CalendarType.PERSIAN -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
+                CalendarType.HIJRI -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
             }
 
             dayOfWeekLabelCalendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
@@ -330,7 +328,7 @@ class MyMonthView @JvmOverloads constructor(
             weekLabelPaint?.apply {
                 canvas.drawText(
                         weekString,
-                        x.toFloat(),
+                        x,
                         y.toFloat() - ((descent() + ascent()) / 2),
                         this
                 )
@@ -342,10 +340,10 @@ class MyMonthView @JvmOverloads constructor(
                     color = Color.GRAY
                     style = Style.STROKE
                     canvas.drawRect(
-                            (x - cellWidth / 2).toFloat(),
-                            monthHeaderHeight.toFloat(),
-                            (x + cellWidth / 2).toFloat(),
-                            (monthHeaderHeight + weekHeaderHeight).toFloat(),
+                            (x - cellWidth / 2),
+                            paddingTop + monthHeaderHeight.toFloat(),
+                            (x + cellWidth / 2),
+                            paddingTop + monthHeaderHeight + weekHeaderHeight.toFloat(),
                             this
                     )
                 }
@@ -354,8 +352,8 @@ class MyMonthView @JvmOverloads constructor(
                     color = Color.RED
                     style = Style.FILL
                     canvas.drawCircle(
-                            x.toFloat(),
-                            (monthHeaderHeight + weekHeaderHeight / 2).toFloat(),
+                            x,
+                            paddingTop + (monthHeaderHeight + weekHeaderHeight / 2).toFloat(),
                             dp(1f).toFloat(),
                             this
                     )
@@ -370,10 +368,10 @@ class MyMonthView @JvmOverloads constructor(
                 style = Style.FILL
                 alpha = 50
                 canvas.drawRect(
-                        sidePadding.toFloat(),
-                        monthHeaderHeight.toFloat(),
-                        viewWidth.toFloat() - sidePadding.toFloat(),
-                        (monthHeaderHeight + weekHeaderHeight).toFloat(),
+                        paddingLeft.toFloat(),
+                        paddingTop + monthHeaderHeight.toFloat(),
+                        viewWidth.toFloat() - paddingRight.toFloat(),
+                        paddingTop + (monthHeaderHeight + weekHeaderHeight).toFloat(),
                         this
                 )
             }
@@ -381,16 +379,16 @@ class MyMonthView @JvmOverloads constructor(
     }
 
     private fun drawDayLabels(canvas: Canvas) {
-        var topY = monthHeaderHeight + weekHeaderHeight
+        var topY: Float = (paddingTop + monthHeaderHeight + weekHeaderHeight).toFloat()
         var offset = weekOffset(firstDayOfMonthDayOfWeek)
         for (dayNumber in 1..daysInMonth) {
             val y = topY + cellHeight / 2
 
             // RTLize for Persian and Hijri Calendars
             val x = when (CurrentCalendarType.type) {
-                CalendarType.CIVIL -> ((2 * offset + 1) * (cellWidth / 2) + sidePadding)
-                CalendarType.PERSIAN -> ((2 * (6 - offset) + 1) * (cellWidth / 2) + sidePadding)
-                CalendarType.HIJRI -> ((2 * (6 - offset) + 1) * (cellWidth / 2) + sidePadding)
+                CalendarType.CIVIL -> ((2 * offset + 1) * (cellWidth / 2) + paddingLeft)
+                CalendarType.PERSIAN -> ((2 * (6 - offset) + 1) * (cellWidth / 2) + paddingLeft)
+                CalendarType.HIJRI -> ((2 * (6 - offset) + 1) * (cellWidth / 2) + paddingLeft)
             }
 
             drawDayBackground(canvas, year, month, dayNumber, x, y, cellWidth, cellHeight)
@@ -402,10 +400,10 @@ class MyMonthView @JvmOverloads constructor(
                     color = Color.GRAY
                     style = Style.STROKE
                     canvas.drawRect(
-                            (x - cellWidth / 2).toFloat(),
-                            topY.toFloat(),
-                            (x + cellWidth / 2).toFloat(),
-                            (topY + cellHeight).toFloat(),
+                            x - cellWidth / 2,
+                            topY,
+                            x + cellWidth / 2,
+                            topY + cellHeight,
                             this
                     )
                 }
@@ -414,8 +412,8 @@ class MyMonthView @JvmOverloads constructor(
                     color = Color.RED
                     style = Style.FILL
                     canvas.drawCircle(
-                            x.toFloat(),
-                            y.toFloat(),
+                            x,
+                            y,
                             dp(1f).toFloat(),
                             this
                     )
@@ -430,15 +428,15 @@ class MyMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawDayBackground(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Int, y: Int, width: Int, height: Int) {
-        val radius = Math.min(width, height).toFloat() / 2 - dp(1.5f)
+    private fun drawDayBackground(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
+        val radius = Math.min(width, height) / 2 - dp(1.5f)
         when (selectType) {
             SelectType.SINGLE -> {
                 selectedDayBackgroundPaint?.apply {
                     if (dayOfMonth == selectedDay) {
                         canvas.drawCircle(
-                                x.toFloat(),
-                                y.toFloat(),
+                                x,
+                                y,
                                 radius,
                                 this
                         )
@@ -451,15 +449,15 @@ class MyMonthView @JvmOverloads constructor(
                         startRangeDay -> {
                             if (endRangeDay == null || startRangeDay == endRangeDay) {
                                 canvas.drawCircle(
-                                        x.toFloat(),
-                                        y.toFloat(),
+                                        x,
+                                        y,
                                         radius,
                                         this
                                 )
                             } else {
                                 canvas.drawCircle(
-                                        x.toFloat(),
-                                        y.toFloat(),
+                                        x,
+                                        y,
                                         radius,
                                         this
                                 )
@@ -467,18 +465,18 @@ class MyMonthView @JvmOverloads constructor(
                                 when (CurrentCalendarType.type) {
                                     CalendarType.CIVIL -> {
                                         canvas.drawRect(
-                                                x.toFloat(),
+                                                x,
                                                 y - radius,
-                                                (x + cellWidth / 2).toFloat(),
+                                                (x + cellWidth / 2),
                                                 y + radius,
                                                 this
                                         )
                                     }
                                     CalendarType.PERSIAN, CalendarType.HIJRI -> {
                                         canvas.drawRect(
-                                                (x - cellWidth / 2).toFloat(),
+                                                x - cellWidth / 2,
                                                 y - radius,
-                                                x.toFloat(),
+                                                x,
                                                 y + radius,
                                                 this
                                         )
@@ -488,8 +486,8 @@ class MyMonthView @JvmOverloads constructor(
                         }
                         endRangeDay -> {
                             canvas.drawCircle(
-                                    x.toFloat(),
-                                    y.toFloat(),
+                                    x,
+                                    y,
                                     radius,
                                     this
                             )
@@ -497,18 +495,18 @@ class MyMonthView @JvmOverloads constructor(
                             when (CurrentCalendarType.type) {
                                 CalendarType.CIVIL -> {
                                     canvas.drawRect(
-                                            (x - cellWidth / 2).toFloat(),
+                                            x - cellWidth / 2,
                                             y - radius,
-                                            x.toFloat(),
+                                            x,
                                             y + radius,
                                             this
                                     )
                                 }
                                 CalendarType.PERSIAN, CalendarType.HIJRI -> {
                                     canvas.drawRect(
-                                            x.toFloat(),
+                                            x,
                                             y - radius,
-                                            (x + cellWidth / 2).toFloat(),
+                                            x + cellWidth / 2,
                                             y + radius,
                                             this
                                     )
@@ -517,9 +515,9 @@ class MyMonthView @JvmOverloads constructor(
                         }
                         in ((startRangeDay ?: -1) + 1)..((endRangeDay ?: +1) - 1) -> {
                             canvas.drawRect(
-                                    (x - cellWidth / 2).toFloat(),
+                                    x - cellWidth / 2,
                                     y - radius,
-                                    (x + cellWidth / 2).toFloat(),
+                                    x + cellWidth / 2,
                                     y + radius,
                                     this
                             )
@@ -530,7 +528,7 @@ class MyMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawDayLabel(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Int, y: Int, width: Int, height: Int) {
+    private fun drawDayLabel(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
         dayLabelPaint?.apply {
             color = if (isOutOfRange(year, month, dayOfMonth)) {
                 disabledDayLabelTextColor
@@ -571,8 +569,8 @@ class MyMonthView @JvmOverloads constructor(
         dayLabelPaint?.apply {
             canvas.drawText(
                     date,
-                    x.toFloat(),
-                    y.toFloat() - ((descent() + ascent()) / 2),
+                    x,
+                    y - (descent() + ascent()) / 2,
                     this
             )
         }
@@ -621,11 +619,11 @@ class MyMonthView @JvmOverloads constructor(
     }
 
     private fun findDayByCoordinates(inputX: Float, inputY: Float): Int? {
-        if (inputX < sidePadding || inputX > viewWidth - sidePadding) return null
+        if (inputX < paddingLeft || inputX > viewWidth - paddingRight) return null
 
         val y = inputY - dp(12f)
         val row = ((y - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
-        var column = ((inputX - sidePadding) * 7 / (viewWidth - 2 * sidePadding)).toInt()
+        var column = ((inputX - paddingLeft) * 7 / (viewWidth - (paddingLeft + paddingRight))).toInt()
 
         // RTLize for Persian and Hijri Calendars
         column = when (CurrentCalendarType.type) {
