@@ -25,7 +25,7 @@ abstract class BaseMonthListView @JvmOverloads constructor(
         DateCalendarPickerBottomSheetDialogFragment.OnDateChangedListener {
 
     // These affect the scroll speed and feel
-    private var mFriction = 1.0f
+    private var scrollingFriction = 1.0f
 
     protected var mHandler: Handler? = null
 
@@ -90,8 +90,23 @@ abstract class BaseMonthListView @JvmOverloads constructor(
         mHandler = Handler()
         layoutParams = AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT)
         setDrawSelectorOnTop(false)
-
         setUpListView()
+    }
+
+    private fun setUpListView() {
+        // Transparent background on scroll
+        cacheColorHint = 0
+        // No dividers
+        divider = null
+        // Items are clickable
+        itemsCanFocus = true
+        // The thumb gets in the way, so disable it
+        isFastScrollEnabled = false
+        isVerticalScrollBarEnabled = false
+        setOnScrollListener(this)
+        setFadingEdgeLength(0)
+        // Make the scrolling behavior nicer
+        setFriction(ViewConfiguration.getScrollFriction() * scrollingFriction)
     }
 
     fun onChange() {
@@ -113,26 +128,6 @@ abstract class BaseMonthListView @JvmOverloads constructor(
     }
 
     abstract fun createMonthAdapter(context: Context, controller: DatePickerController): BaseMonthListAdapter
-
-    /*
-     * Sets all the required fields for the list view. Override this method to
-     * set a different list view behavior.
-     */
-    private fun setUpListView() {
-        // Transparent background on scroll
-        cacheColorHint = 0
-        // No dividers
-        divider = null
-        // Items are clickable
-        itemsCanFocus = true
-        // The thumb gets in the way, so disable it
-        isFastScrollEnabled = false
-        isVerticalScrollBarEnabled = false
-        setOnScrollListener(this)
-        setFadingEdgeLength(0)
-        // Make the scrolling behavior nicer
-        setFriction(ViewConfiguration.getScrollFriction() * mFriction)
-    }
 
     /**
      * This moves to the specified time in the view. If the time is not already
@@ -160,9 +155,8 @@ abstract class BaseMonthListView @JvmOverloads constructor(
         var position = (day.year - controller!!.minYear) * BaseMonthListAdapter.MONTHS_IN_YEAR + day.month
 
         // Added by Amin ---------------------------------------------------------------------------
-        val min = controller!!.minDate
-        if (min != null) {
-            position -= min.month
+        controller?.minDate?.apply {
+            position -= month
             if (position < 0) {
                 position = 0
             }
@@ -253,6 +247,7 @@ abstract class BaseMonthListView @JvmOverloads constructor(
     }
 
     protected inner class ScrollStateRunnable : Runnable {
+
         private var newState: Int = 0
 
         /**
