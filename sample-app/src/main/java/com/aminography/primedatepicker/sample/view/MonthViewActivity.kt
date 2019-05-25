@@ -24,12 +24,6 @@ class MonthViewActivity : AppCompatActivity() {
         maxDateCalendar.dayOfMonth = 28
         monthView.maxDateCalendar = maxDateCalendar
 
-        selectedDayButton.setOnClickListener {
-            selectSingleDateRadioButton.isChecked = true
-            monthView.selectType = MyMonthView.SelectType.SINGLE
-            monthView.selectedDay = 15
-        }
-
         selectSingleDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
                 monthView.selectType = MyMonthView.SelectType.SINGLE

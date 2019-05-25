@@ -91,25 +91,12 @@ class MyMonthView @JvmOverloads constructor(
                 SelectType.START_RANGE -> selectedDay = null
                 SelectType.END_RANGE -> selectedDay = null
             }
+            invalidate()
         }
 
     private var startRangeDay: Int? = null
-        set(value) {
-            field = value
-            invalidate()
-        }
-
     private var endRangeDay: Int? = null
-        set(value) {
-            field = value
-            invalidate()
-        }
-
-    var selectedDay: Int? = null
-        set(value) {
-            field = value
-            invalidate()
-        }
+    private var selectedDay: Int? = null
 
     private var hasToday = false
     private var todayDayOfMonth = -1
@@ -598,7 +585,10 @@ class MyMonthView @JvmOverloads constructor(
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
                         when (selectType) {
-                            SelectType.SINGLE -> selectedDay = dayOfMonth
+                            SelectType.SINGLE -> {
+                                selectedDay = dayOfMonth
+                                invalidate()
+                            }
                             SelectType.START_RANGE -> {
                                 endRangeDay?.let { end ->
                                     if (dayOfMonth > end) {
@@ -606,11 +596,13 @@ class MyMonthView @JvmOverloads constructor(
                                     }
                                 }
                                 startRangeDay = dayOfMonth
+                                invalidate()
                             }
                             SelectType.END_RANGE -> {
                                 startRangeDay?.let { start ->
                                     if (dayOfMonth >= start) {
                                         endRangeDay = dayOfMonth
+                                        invalidate()
                                     }
                                 }
                             }
@@ -696,6 +688,7 @@ class MyMonthView @JvmOverloads constructor(
         selectedDay = if (savedState.selectedDay != -1) savedState.selectedDay else null
         startRangeDay = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
         endRangeDay = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
+        invalidate()
     }
 
     private class SavedState : View.BaseSavedState {
