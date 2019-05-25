@@ -2,6 +2,7 @@ package com.aminography.primedatepicker.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import com.aminography.primeadapter.PrimeAdapter
 import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primedatepicker.sample.R
@@ -16,6 +17,7 @@ class CalendarActivity : AppCompatActivity() {
         setContentView(R.layout.activity_calendar)
 
         val adapter = PrimeAdapter.with(recyclerView)
+                .setLayoutManager(LinearLayoutManager(this))
                 .set()
                 .build(MonthListAdapter::class.java)
 
