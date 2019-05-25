@@ -8,11 +8,11 @@
     <color name="transparent">#00000000</color>
 
     <color name="textColorPrimary">#212121</color>
-    <color name="textColorSecondary">#AFAFAF</color>
+    <color name="textColorSecondary">#9A9A9A</color>
     <color name="textColorGreen">#08b108</color>
     <color name="textColorRed">#e23232</color>
 
-    <color name="defaultMonthLabelTextColor">@color/textColorPrimary</color>
+    <color name="defaultMonthLabelTextColor">@color/textColorSecondary</color>
     <color name="defaultWeekLabelTextColor">@color/colorAccent</color>
     <color name="defaultDayLabelTextColor">@color/textColorPrimary</color>
     <color name="defaultTodayLabelTextColor">@color/colorPrimary</color>

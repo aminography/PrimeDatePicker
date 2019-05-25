@@ -441,7 +441,7 @@ class MyMonthView @JvmOverloads constructor(
     }
 
     private fun drawDayBackground(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
-        val radius = Math.min(width, height) / 2 - dp(1.5f)
+        val radius = Math.min(width, height) / 2 - dp(2f)
         when (selectType) {
             SelectType.SINGLE -> {
                 selectedDayBackgroundPaint?.apply {
