@@ -12,7 +12,6 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.AttrRes
 import android.support.annotation.StyleRes
-import android.support.annotation.StyleableRes
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
