@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.sample.view.dataholder
+package com.aminography.primedatepicker.calendarview.dataholder
 
 import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primeadapter.annotation.DataHolder

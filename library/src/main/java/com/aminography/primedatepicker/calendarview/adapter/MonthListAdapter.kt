@@ -1,9 +1,9 @@
-package com.aminography.primedatepicker.sample.view.adapter
+package com.aminography.primedatepicker.calendarview.adapter
 
 import com.aminography.primeadapter.PrimeAdapter
 import com.aminography.primeadapter.PrimeViewHolder
-import com.aminography.primedatepicker.sample.view.dataholder.MonthDataHolder
-import com.aminography.primedatepicker.sample.view.viewholder.MonthViewHolder
+import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
+import com.aminography.primedatepicker.calendarview.viewholder.MonthViewHolder
 
 class MonthListAdapter : PrimeAdapter() {
 

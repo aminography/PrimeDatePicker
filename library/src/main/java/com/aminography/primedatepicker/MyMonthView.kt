@@ -32,7 +32,7 @@ import java.util.*
 @Suppress("ConstantConditionIf")
 class MyMonthView @JvmOverloads constructor(
         context: Context,
-        @StyleableRes attrs: AttributeSet? = null,
+        attrs: AttributeSet? = null,
         @AttrRes defStyleAttr: Int = 0,
         @StyleRes defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr) {

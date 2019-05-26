@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
@@ -37,6 +39,9 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     implementation 'com.aminography:primecalendar:1.0.3'
+    implementation 'com.aminography:primeadapter:1.0.6'
+    compileOnly 'com.aminography:primeadapter-annotation:1.0.6'
+    kapt 'com.aminography:primeadapter-processor:1.0.6'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
