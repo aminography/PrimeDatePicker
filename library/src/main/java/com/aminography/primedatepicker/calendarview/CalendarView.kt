@@ -53,7 +53,7 @@ class CalendarView @JvmOverloads constructor(
                 add(MonthDataHolder(y, m))
             }
             adapter.replaceDataList(this)
-            recyclerView.scrollToPosition(12)
+            recyclerView.smoothScrollToPosition(12)
         }
     }
 
