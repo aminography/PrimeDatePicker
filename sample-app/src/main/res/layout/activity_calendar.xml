@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Goto Past" />
+            android:text="Past" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/nowButton"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Goto Future" />
+            android:text="Future" />
 
     </LinearLayout>
 
