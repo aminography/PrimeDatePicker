@@ -7,9 +7,17 @@
     tools:context="com.aminography.primedatepicker.sample.view.CalendarActivity">
 
     <com.aminography.primedatepicker.calendarview.CalendarView
-        android:id="@+id/recyclerView"
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="327dp"
         android:layout_gravity="top" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/gotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_margin="@dimen/material_size_16"
+        android:text="Goto" />
 
 </FrameLayout>
