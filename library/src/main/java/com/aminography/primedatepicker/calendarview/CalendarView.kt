@@ -84,7 +84,7 @@ class CalendarView @JvmOverloads constructor(
             adapter.replaceDataList(this)
             isInTransition = true
             recyclerView.touchEnabled = false
-            recyclerView.smoothScrollToPosition(size)
+            recyclerView.smoothScrollToPosition(size - 1)
         }
     }
 
