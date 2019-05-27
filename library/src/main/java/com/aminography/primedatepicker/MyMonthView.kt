@@ -116,17 +116,27 @@ class MyMonthView @JvmOverloads constructor(
     @Suppress("MemberVisibilityCanBePrivate")
     var onDayClickListener: OnDayClickListener? = null
 
+    private var denyInvalidate = false
+
     var minDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            invalidate()
+            if (!denyInvalidate) invalidate()
         }
 
     var maxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            invalidate()
+            if (!denyInvalidate) invalidate()
         }
+
+    fun setMinMaxDateCalendar(minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?) {
+        denyInvalidate = true
+        this.minDateCalendar = minDateCalendar
+        this.maxDateCalendar = maxDateCalendar
+        denyInvalidate = false
+        invalidate()
+    }
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.MonthView, defStyleAttr, defStyleRes).apply {

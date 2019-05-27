@@ -13,7 +13,6 @@ import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.tools.Utils
-import java.util.*
 
 
 /**
@@ -33,7 +32,7 @@ class CalendarView @JvmOverloads constructor(
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
     private var layoutManager = LinearLayoutManager(context)
-    private var centeredData: ArrayList<PrimeDataHolder>? = null
+    private var centeredData: MutableList<PrimeDataHolder>? = null
     private var isInTransition = false
     private var isInLoading = false
 
@@ -114,7 +113,7 @@ class CalendarView @JvmOverloads constructor(
             }
             val dataHolder = adapter.getItem(position) as MonthDataHolder
 
-            val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
+            val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, minDateCalendar, maxDateCalendar, DEFAULT_TRANSITION_FACTOR)
             val isForward = CalendarViewUtils.isForward(dataHolder.year, dataHolder.month, year, month)
             transitionData?.apply {
                 var isLastTransitionItemRemoved = false

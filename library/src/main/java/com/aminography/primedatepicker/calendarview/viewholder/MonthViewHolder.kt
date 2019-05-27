@@ -14,6 +14,7 @@ class MonthViewHolder(
         with(itemView) {
             dataHolder.apply {
                 monthView.setDate(year, month)
+                monthView.setMinMaxDateCalendar(minDateCalendar, maxDateCalendar)
             }
         }
     }
