@@ -11,6 +11,7 @@ import com.aminography.primeadapter.PrimeAdapter
 import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
+import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.tools.Utils
 
@@ -24,7 +25,7 @@ class CalendarView @JvmOverloads constructor(
         attrs: AttributeSet? = null,
         @AttrRes defStyleAttr: Int = 0,
         @StyleRes defStyleRes: Int = 0
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
     private val DEFAULT_LOAD_FACTOR = 12
     private val DEFAULT_TRANSITION_FACTOR = 2
@@ -39,7 +40,7 @@ class CalendarView @JvmOverloads constructor(
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
 
-    var minDateCalendar: BaseCalendar? = null
+    override var minDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
             val minOffset = field?.let { min ->
@@ -62,7 +63,7 @@ class CalendarView @JvmOverloads constructor(
             }
         }
 
-    var maxDateCalendar: BaseCalendar? = null
+    override var maxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
             val maxOffset = field?.let { max ->
@@ -97,6 +98,8 @@ class CalendarView @JvmOverloads constructor(
                 .set()
                 .build(MonthListAdapter::class.java)
 
+        adapter.iMonthViewHolderCallback = this
+
         val calendar = Utils.newCalendar()
         goto(calendar.year, calendar.month, false)
     }
@@ -113,7 +116,7 @@ class CalendarView @JvmOverloads constructor(
             }
             val dataHolder = adapter.getItem(position) as MonthDataHolder
 
-            val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, minDateCalendar, maxDateCalendar, DEFAULT_TRANSITION_FACTOR)
+            val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
             val isForward = CalendarViewUtils.isForward(dataHolder.year, dataHolder.month, year, month)
             transitionData?.apply {
                 var isLastTransitionItemRemoved = false

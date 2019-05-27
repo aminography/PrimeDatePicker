@@ -18,7 +18,7 @@ internal object CalendarViewUtils {
             } ?: Int.MAX_VALUE
 
             val max = if (maxOffset < (offset + loadFactor - 1)) maxOffset else (offset + loadFactor - 1)
-            createDataList(offset, max, minDateCalendar, maxDateCalendar)
+            createDataList(offset, max)
         } else {
             val offset = year * 12 + month - 1
             val minOffset = minDateCalendar?.let { min ->
@@ -26,7 +26,7 @@ internal object CalendarViewUtils {
             } ?: Int.MIN_VALUE
 
             val min = if (minOffset > (offset - loadFactor + 1)) minOffset else (offset - loadFactor + 1)
-            createDataList(min, offset, minDateCalendar, maxDateCalendar)
+            createDataList(min, offset)
         }
     }
 
@@ -43,10 +43,10 @@ internal object CalendarViewUtils {
 
         val min = if (minOffset > (centerOffset - loadFactor)) minOffset else (centerOffset - loadFactor)
         val max = if (maxOffset < (centerOffset + loadFactor)) maxOffset else (centerOffset + loadFactor)
-        return createDataList(min, max, minDateCalendar, maxDateCalendar)
+        return createDataList(min, max)
     }
 
-    fun transitionData(currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, transitionFactor: Int): MutableList<PrimeDataHolder>? {
+    fun transitionData(currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int, transitionFactor: Int): MutableList<PrimeDataHolder>? {
         val current = currentYear * 12 + currentMonth
         val target = targetYear * 12 + targetMonth
         return if (current == target) {
@@ -54,20 +54,20 @@ internal object CalendarViewUtils {
         } else {
             if (current < target) {
                 if (target - current - 1 <= transitionFactor) {
-                    createDataList(current - 1, target + 1, minDateCalendar, maxDateCalendar)
+                    createDataList(current - 1, target + 1)
                 } else {
                     arrayListOf<PrimeDataHolder>().apply {
-                        addAll(createDataList(current - 1, Math.ceil(current + transitionFactor / 2.0).toInt(), minDateCalendar, maxDateCalendar))
-                        addAll(createDataList(Math.floor(target - transitionFactor / 2.0).toInt(), target + 1, minDateCalendar, maxDateCalendar))
+                        addAll(createDataList(current - 1, Math.ceil(current + transitionFactor / 2.0).toInt()))
+                        addAll(createDataList(Math.floor(target - transitionFactor / 2.0).toInt(), target + 1))
                     }
                 }
             } else {
                 if (current - target - 1 <= transitionFactor) {
-                    createDataList(target - 1, current + 1, minDateCalendar, maxDateCalendar)
+                    createDataList(target - 1, current + 1)
                 } else {
                     arrayListOf<PrimeDataHolder>().apply {
-                        addAll(createDataList(target - 1, Math.ceil(target + transitionFactor / 2.0).toInt(), minDateCalendar, maxDateCalendar))
-                        addAll(createDataList(Math.floor(current - transitionFactor / 2.0).toInt(), current + 1, minDateCalendar, maxDateCalendar))
+                        addAll(createDataList(target - 1, Math.ceil(target + transitionFactor / 2.0).toInt()))
+                        addAll(createDataList(Math.floor(current - transitionFactor / 2.0).toInt(), current + 1))
                     }
                 }
             }
@@ -90,10 +90,10 @@ internal object CalendarViewUtils {
     fun isForward(currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int) =
             (targetYear * 12 + targetMonth) > (currentYear * 12 + currentMonth)
 
-    private fun createDataList(lower: Int, upper: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?): MutableList<PrimeDataHolder> {
+    private fun createDataList(lower: Int, upper: Int): MutableList<PrimeDataHolder> {
         return arrayListOf<PrimeDataHolder>().apply {
             for (offset in lower..upper) {
-                add(MonthDataHolder(offset / 12, offset % 12, minDateCalendar, maxDateCalendar))
+                add(MonthDataHolder(offset / 12, offset % 12))
             }
         }
     }
