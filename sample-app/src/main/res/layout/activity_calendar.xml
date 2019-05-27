@@ -9,7 +9,7 @@
     <com.aminography.primedatepicker.calendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="327dp"
+        android:layout_height="380dp"
         android:layout_gravity="top" />
 
     <LinearLayout
