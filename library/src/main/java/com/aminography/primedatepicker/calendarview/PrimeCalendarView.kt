@@ -13,6 +13,7 @@ import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
+import com.aminography.primedatepicker.monthview.PrimeMonthView
 import com.aminography.primedatepicker.tools.Utils
 
 
@@ -84,6 +85,12 @@ class PrimeCalendarView @JvmOverloads constructor(
             } else {
                 goto(dataHolder.year, dataHolder.month, false)
             }
+        }
+
+    override var pickType: PrimeMonthView.PickType? = null
+        set(value) {
+            field = value
+            adapter.notifyDataSetChanged()
         }
 
     init {

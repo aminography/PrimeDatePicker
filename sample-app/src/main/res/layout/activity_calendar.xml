@@ -9,7 +9,7 @@
     <com.aminography.primedatepicker.calendarview.PrimeCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:layout_height="330dp"
         android:layout_gravity="top" />
 
     <LinearLayout
@@ -18,6 +18,35 @@
         android:layout_gravity="center_horizontal|bottom"
         android:layout_margin="@dimen/material_size_16"
         android:orientation="vertical">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/material_size_16"
+            android:layout_marginBottom="@dimen/material_size_16"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/selectSingleDateRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Single Date" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/selectStartDateRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Date" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/selectEndDateRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End Date" />
+
+        </RadioGroup>
+
 
         <LinearLayout
             android:layout_width="match_parent"

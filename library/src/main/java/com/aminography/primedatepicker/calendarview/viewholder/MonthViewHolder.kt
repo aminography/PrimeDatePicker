@@ -20,7 +20,8 @@ class MonthViewHolder(
             dataHolder.apply {
                 monthView.setDate(year, month)
                 callback?.apply {
-                    monthView.setMinMaxDateCalendar(minDateCalendar, maxDateCalendar)
+                    monthView.setMinMaxDateCalendar(minDateCalendar, maxDateCalendar, false)
+                    monthView.pickType = pickType
                 }
             }
         }

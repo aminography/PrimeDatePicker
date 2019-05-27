@@ -130,12 +130,12 @@ class PrimeMonthView @JvmOverloads constructor(
             if (!isInternalChange) invalidate()
         }
 
-    fun setMinMaxDateCalendar(minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?) {
+    fun setMinMaxDateCalendar(minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, invalidate: Boolean = true) {
         isInternalChange = true
         this.minDateCalendar = minDateCalendar
         this.maxDateCalendar = maxDateCalendar
         isInternalChange = false
-        invalidate()
+        if (invalidate) invalidate()
     }
 
     init {

@@ -2,6 +2,7 @@ package com.aminography.primedatepicker.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.aminography.primedatepicker.monthview.PrimeMonthView
 import com.aminography.primedatepicker.sample.R
 import com.aminography.primedatepicker.tools.Utils
 import kotlinx.android.synthetic.main.activity_calendar.*
@@ -38,6 +39,24 @@ class CalendarActivity : AppCompatActivity() {
             val maxDateCalendar = Utils.newCalendar()
             maxDateCalendar.add(Calendar.MONTH, 3)
             calendarView.maxDateCalendar = maxDateCalendar
+        }
+
+        selectSingleDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
+            if (button.isPressed && isChecked) {
+                calendarView.pickType = PrimeMonthView.PickType.SINGLE
+            }
+        }
+
+        selectStartDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
+            if (button.isPressed && isChecked) {
+                calendarView.pickType = PrimeMonthView.PickType.START_RANGE
+            }
+        }
+
+        selectEndDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
+            if (button.isPressed && isChecked) {
+                calendarView.pickType = PrimeMonthView.PickType.END_RANGE
+            }
         }
 
     }
