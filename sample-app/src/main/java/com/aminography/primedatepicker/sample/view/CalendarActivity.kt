@@ -20,12 +20,12 @@ class CalendarActivity : AppCompatActivity() {
         }
 
         gotoPastButton.setOnClickListener {
-//            calendarView.goto(2018, 11, true)
-            calendarView.goto(2014, 9, true)
+            calendarView.goto(2019, 1, true)
+//            calendarView.goto(2014, 9, true)
         }
         gotoFutureButton.setOnClickListener {
-//            calendarView.goto(2019, 3, true)
-            calendarView.goto(2022, 1, true)
+            calendarView.goto(2019, 10, true)
+//            calendarView.goto(2022, 1, true)
         }
 
     }
