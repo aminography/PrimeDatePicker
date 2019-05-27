@@ -20,29 +20,31 @@
         android:orientation="vertical">
 
         <RadioGroup
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/material_size_16"
-            android:layout_marginBottom="@dimen/material_size_16"
+            android:layout_margin="@dimen/material_size_16"
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/selectSingleDateRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Single Date" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/selectStartDateRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Start Date" />
 
             <android.support.v7.widget.AppCompatRadioButton
                 android:id="@+id/selectEndDateRadioButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="End Date" />
 
         </RadioGroup>
