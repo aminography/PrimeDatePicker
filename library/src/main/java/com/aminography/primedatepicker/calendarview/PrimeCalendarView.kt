@@ -20,7 +20,7 @@ import com.aminography.primedatepicker.tools.Utils
  * @author aminography
  */
 @Suppress("PrivatePropertyName")
-class CalendarView @JvmOverloads constructor(
+class PrimeCalendarView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         @AttrRes defStyleAttr: Int = 0,

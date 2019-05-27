@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="MonthView">
+    <declare-styleable name="PrimeMonthView">
         <attr name="monthLabelTextColor" format="color" />
         <attr name="weekLabelTextColor" format="color" />
         <attr name="dayLabelTextColor" format="color" />
         <attr name="todayLabelTextColor" format="color" />
-        <attr name="selectedDayLabelTextColor" format="color" />
-        <attr name="selectedDayCircleColor" format="color" />
+        <attr name="pickedDayLabelTextColor" format="color" />
+        <attr name="pickedDayCircleColor" format="color" />
         <attr name="disabledDayLabelTextColor" format="color" />
 
         <attr name="monthLabelTextSize" format="dimension" />
         <attr name="weekLabelTextSize" format="dimension" />
         <attr name="dayLabelTextSize" format="dimension" />
 
-        <attr name="sidePadding" format="dimension" />
         <attr name="monthLabelTopPadding" format="dimension" />
         <attr name="monthLabelBottomPadding" format="dimension" />
         <attr name="weekLabelTopPadding" format="dimension" />

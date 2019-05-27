@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.aminography.primedatepicker.MyMonthView
+    <com.aminography.primedatepicker.PrimeMonthView
         android:id="@+id/monthView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

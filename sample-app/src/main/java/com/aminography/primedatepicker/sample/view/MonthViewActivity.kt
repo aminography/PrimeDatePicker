@@ -4,10 +4,11 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.MyMonthView
+import com.aminography.primedatepicker.PrimeMonthView
+import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
+import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
 import com.aminography.primedatepicker.tools.CurrentCalendarType
-import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.Utils
 import kotlinx.android.synthetic.main.activity_month_view.*
 
@@ -38,24 +39,21 @@ class MonthViewActivity : AppCompatActivity() {
 
         selectSingleDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                monthView.selectType = MyMonthView.SelectType.SINGLE
+                monthView.pickType = PrimeMonthView.PickType.SINGLE
             }
         }
 
         selectStartDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                monthView.selectType = MyMonthView.SelectType.START_RANGE
+                monthView.pickType = PrimeMonthView.PickType.START_RANGE
             }
         }
 
         selectEndDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                monthView.selectType = MyMonthView.SelectType.END_RANGE
+                monthView.pickType = PrimeMonthView.PickType.END_RANGE
             }
         }
     }
 }
-
-const val FONT_PATH_PERSIAN = "fonts/IRANSans(FaNum).ttf"
-const val FONT_PATH_ARABIC = "fonts/Uthmani.otf"
 

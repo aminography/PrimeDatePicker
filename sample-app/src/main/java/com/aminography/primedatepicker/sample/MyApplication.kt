@@ -15,3 +15,6 @@ class MyApplication : Application() {
     }
 
 }
+
+const val FONT_PATH_PERSIAN = "fonts/IRANSans(FaNum).ttf"
+const val FONT_PATH_ARABIC = "fonts/Uthmani.otf"

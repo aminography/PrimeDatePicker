@@ -17,7 +17,6 @@
     <dimen name="defaultWeekLabelTextSize">13sp</dimen>
     <dimen name="defaultDayLabelTextSize">13sp</dimen>
 
-    <dimen name="defaultSidePadding">24dp</dimen>
     <dimen name="defaultMonthLabelTopPadding">16dp</dimen>
     <dimen name="defaultMonthLabelBottomPadding">16dp</dimen>
     <dimen name="defaultWeekLabelTopPadding">8dp</dimen>

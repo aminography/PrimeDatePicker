@@ -29,7 +29,7 @@ import java.util.*
  * @author aminography
  */
 @Suppress("ConstantConditionIf")
-class MyMonthView @JvmOverloads constructor(
+class PrimeMonthView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         @AttrRes defStyleAttr: Int = 0,
@@ -69,7 +69,6 @@ class MyMonthView @JvmOverloads constructor(
         }
 
     private var maxHeight: Float = 0f
-        get() = field
 
     private var viewWidth = 0
     private var monthHeaderHeight = 0
@@ -83,23 +82,23 @@ class MyMonthView @JvmOverloads constructor(
     private var month = 0
     private var year = 0
 
-    var selectType: SelectType? = null
+    var pickType: PickType? = null
         set(value) {
             field = value
             when (value) {
-                SelectType.SINGLE -> {
-                    startRangeDay = null
-                    endRangeDay = null
+                PickType.SINGLE -> {
+                    pickedStartRangeDay = null
+                    pickedEndRangeDay = null
                 }
-                SelectType.START_RANGE -> selectedDay = null
-                SelectType.END_RANGE -> selectedDay = null
+                PickType.START_RANGE -> pickedSingleDay = null
+                PickType.END_RANGE -> pickedSingleDay = null
             }
             invalidate()
         }
 
-    private var startRangeDay: Int? = null
-    private var endRangeDay: Int? = null
-    private var selectedDay: Int? = null
+    private var pickedStartRangeDay: Int? = null
+    private var pickedEndRangeDay: Int? = null
+    private var pickedSingleDay: Int? = null
 
     private var hasToday = false
     private var todayDayOfMonth = -1
@@ -116,46 +115,46 @@ class MyMonthView @JvmOverloads constructor(
     @Suppress("MemberVisibilityCanBePrivate")
     var onDayClickListener: OnDayClickListener? = null
 
-    private var denyInvalidate = false
+    private var isInternalChange = false
 
     var minDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            if (!denyInvalidate) invalidate()
+            if (!isInternalChange) invalidate()
         }
 
     var maxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            if (!denyInvalidate) invalidate()
+            if (!isInternalChange) invalidate()
         }
 
     fun setMinMaxDateCalendar(minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?) {
-        denyInvalidate = true
+        isInternalChange = true
         this.minDateCalendar = minDateCalendar
         this.maxDateCalendar = maxDateCalendar
-        denyInvalidate = false
+        isInternalChange = false
         invalidate()
     }
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.MonthView, defStyleAttr, defStyleRes).apply {
-            monthLabelTextColor = getColor(R.styleable.MonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
-            weekLabelTextColor = getColor(R.styleable.MonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
-            dayLabelTextColor = getColor(R.styleable.MonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
-            todayLabelTextColor = getColor(R.styleable.MonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.defaultTodayLabelTextColor))
-            selectedDayLabelTextColor = getColor(R.styleable.MonthView_selectedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
-            selectedDayCircleColor = getColor(R.styleable.MonthView_selectedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
-            disabledDayLabelTextColor = getColor(R.styleable.MonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDisabledDayLabelTextColor))
+        context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
+            monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
+            weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
+            dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
+            todayLabelTextColor = getColor(R.styleable.PrimeMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.defaultTodayLabelTextColor))
+            selectedDayLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
+            selectedDayCircleColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
+            disabledDayLabelTextColor = getColor(R.styleable.PrimeMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDisabledDayLabelTextColor))
 
-            monthLabelTextSize = getDimensionPixelSize(R.styleable.MonthView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
-            weekLabelTextSize = getDimensionPixelSize(R.styleable.MonthView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
-            dayLabelTextSize = getDimensionPixelSize(R.styleable.MonthView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
+            monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
+            weekLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
+            dayLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
 
-            monthLabelTopPadding = getDimensionPixelSize(R.styleable.MonthView_monthLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTopPadding))
-            monthLabelBottomPadding = getDimensionPixelSize(R.styleable.MonthView_monthLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding))
-            weekLabelTopPadding = getDimensionPixelSize(R.styleable.MonthView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
-            weekLabelBottomPadding = getDimensionPixelSize(R.styleable.MonthView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
+            monthLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTopPadding))
+            monthLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding))
+            weekLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
+            weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
             recycle()
         }
 
@@ -451,10 +450,10 @@ class MyMonthView @JvmOverloads constructor(
 
     private fun drawDayBackground(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
         val radius = Math.min(width, height) / 2 - dp(2f)
-        when (selectType) {
-            SelectType.SINGLE -> {
+        when (pickType) {
+            PickType.SINGLE -> {
                 selectedDayBackgroundPaint?.apply {
-                    if (dayOfMonth == selectedDay) {
+                    if (dayOfMonth == pickedSingleDay) {
                         canvas.drawCircle(
                                 x,
                                 y,
@@ -464,11 +463,11 @@ class MyMonthView @JvmOverloads constructor(
                     }
                 }
             }
-            SelectType.START_RANGE, SelectType.END_RANGE -> {
+            PickType.START_RANGE, PickType.END_RANGE -> {
                 selectedDayBackgroundPaint?.apply {
                     when (dayOfMonth) {
-                        startRangeDay -> {
-                            if (endRangeDay == null || startRangeDay == endRangeDay) {
+                        pickedStartRangeDay -> {
+                            if (pickedEndRangeDay == null || pickedStartRangeDay == pickedEndRangeDay) {
                                 canvas.drawCircle(
                                         x,
                                         y,
@@ -505,7 +504,7 @@ class MyMonthView @JvmOverloads constructor(
                                 }
                             }
                         }
-                        endRangeDay -> {
+                        pickedEndRangeDay -> {
                             canvas.drawCircle(
                                     x,
                                     y,
@@ -534,7 +533,7 @@ class MyMonthView @JvmOverloads constructor(
                                 }
                             }
                         }
-                        in ((startRangeDay ?: -1) + 1)..((endRangeDay ?: +1) - 1) -> {
+                        in ((pickedStartRangeDay ?: -1) + 1)..((pickedEndRangeDay ?: +1) - 1) -> {
                             canvas.drawRect(
                                     x - cellWidth / 2,
                                     y - radius,
@@ -553,21 +552,21 @@ class MyMonthView @JvmOverloads constructor(
         dayLabelPaint?.apply {
             color = if (isOutOfRange(year, month, dayOfMonth)) {
                 disabledDayLabelTextColor
-            } else if (selectType == SelectType.SINGLE) {
-                if (dayOfMonth == selectedDay) {
+            } else if (pickType == PickType.SINGLE) {
+                if (dayOfMonth == pickedSingleDay) {
                     selectedDayLabelTextColor
                 } else {
                     dayLabelTextColor
                 }
-            } else if (selectType == SelectType.START_RANGE || selectType == SelectType.END_RANGE) {
+            } else if (pickType == PickType.START_RANGE || pickType == PickType.END_RANGE) {
                 when (dayOfMonth) {
-                    startRangeDay -> {
+                    pickedStartRangeDay -> {
                         selectedDayLabelTextColor
                     }
-                    endRangeDay -> {
+                    pickedEndRangeDay -> {
                         selectedDayLabelTextColor
                     }
-                    in ((startRangeDay ?: -1) + 1)..((endRangeDay ?: +1) - 1) -> {
+                    in ((pickedStartRangeDay ?: -1) + 1)..((pickedEndRangeDay ?: +1) - 1) -> {
                         selectedDayLabelTextColor
                     }
                     else -> {
@@ -603,24 +602,24 @@ class MyMonthView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
-                        when (selectType) {
-                            SelectType.SINGLE -> {
-                                selectedDay = dayOfMonth
+                        when (pickType) {
+                            PickType.SINGLE -> {
+                                pickedSingleDay = dayOfMonth
                                 invalidate()
                             }
-                            SelectType.START_RANGE -> {
-                                endRangeDay?.let { end ->
+                            PickType.START_RANGE -> {
+                                pickedEndRangeDay?.let { end ->
                                     if (dayOfMonth > end) {
-                                        endRangeDay = null
+                                        pickedEndRangeDay = null
                                     }
                                 }
-                                startRangeDay = dayOfMonth
+                                pickedStartRangeDay = dayOfMonth
                                 invalidate()
                             }
-                            SelectType.END_RANGE -> {
-                                startRangeDay?.let { start ->
+                            PickType.END_RANGE -> {
+                                pickedStartRangeDay?.let { start ->
                                     if (dayOfMonth >= start) {
-                                        endRangeDay = dayOfMonth
+                                        pickedEndRangeDay = dayOfMonth
                                         invalidate()
                                     }
                                 }
@@ -630,7 +629,7 @@ class MyMonthView @JvmOverloads constructor(
                         onDayClickListener?.apply {
                             val calendar = Utils.newCalendar()
                             calendar.setDate(year, month, dayOfMonth)
-                            onDayClick(this@MyMonthView, calendar)
+                            onDayClick(this@PrimeMonthView, calendar)
                         }
                     }
                 }
@@ -682,14 +681,14 @@ class MyMonthView @JvmOverloads constructor(
                         (year == max.year && month == max.month && dayOfMonth > max.dayOfMonth)
             } ?: false
 
-    enum class SelectType {
+    enum class PickType {
         SINGLE,
         START_RANGE,
         END_RANGE
     }
 
     interface OnDayClickListener {
-        fun onDayClick(view: MyMonthView, day: BaseCalendar)
+        fun onDayClick(view: PrimeMonthView, day: BaseCalendar)
     }
 
     // Save/Restore States -------------------------------------------------------------------------
@@ -697,20 +696,20 @@ class MyMonthView @JvmOverloads constructor(
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
-        savedState.selectType = selectType?.ordinal ?: -1
-        savedState.selectedDay = selectedDay ?: -1
-        savedState.startRangeDay = startRangeDay ?: -1
-        savedState.endRangeDay = endRangeDay ?: -1
+        savedState.selectType = pickType?.ordinal ?: -1
+        savedState.selectedDay = pickedSingleDay ?: -1
+        savedState.startRangeDay = pickedStartRangeDay ?: -1
+        savedState.endRangeDay = pickedEndRangeDay ?: -1
         return savedState
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
-        selectType = if (savedState.selectType != -1) SelectType.values()[savedState.selectType] else null
-        selectedDay = if (savedState.selectedDay != -1) savedState.selectedDay else null
-        startRangeDay = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
-        endRangeDay = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
+        pickType = if (savedState.selectType != -1) PickType.values()[savedState.selectType] else null
+        pickedSingleDay = if (savedState.selectedDay != -1) savedState.selectedDay else null
+        pickedStartRangeDay = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
+        pickedEndRangeDay = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
         invalidate()
     }
 

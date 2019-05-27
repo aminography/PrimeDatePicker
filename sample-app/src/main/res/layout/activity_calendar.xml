@@ -6,7 +6,7 @@
     android:background="#EDEDED"
     tools:context="com.aminography.primedatepicker.sample.view.CalendarActivity">
 
-    <com.aminography.primedatepicker.calendarview.CalendarView
+    <com.aminography.primedatepicker.calendarview.PrimeCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="380dp"
