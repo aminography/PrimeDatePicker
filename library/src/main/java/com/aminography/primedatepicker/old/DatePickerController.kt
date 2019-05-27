@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker
+package com.aminography.primedatepicker.old
 
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primedatepicker.fragment.DateCalendarPickerBottomSheetDialogFragment

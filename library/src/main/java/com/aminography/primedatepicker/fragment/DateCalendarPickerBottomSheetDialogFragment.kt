@@ -3,9 +3,7 @@ package com.aminography.primedatepicker.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
-import android.graphics.Color
 import android.os.Bundle
-import android.support.annotation.ColorInt
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
 import android.support.v4.content.ContextCompat
@@ -21,10 +19,10 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.persian.PersianCalendar
-import com.aminography.primedatepicker.BaseMonthListView
-import com.aminography.primedatepicker.DatePickerController
+import com.aminography.primedatepicker.old.BaseMonthListView
+import com.aminography.primedatepicker.old.DatePickerController
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.SimpleMonthListView
+import com.aminography.primedatepicker.old.SimpleMonthListView
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.TimeUtils

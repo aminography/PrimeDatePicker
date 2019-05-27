@@ -4,7 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.PrimeMonthView
+import com.aminography.primedatepicker.monthview.PrimeMonthView
 import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R

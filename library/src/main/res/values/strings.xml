@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">library</string>
+    <string name="app_name">PrimeDatePicker</string>
 
     <string name="mdtp_day_picker_description">Month grid of days</string>
     <string name="mdtp_select_day">Select month and day</string>
