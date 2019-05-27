@@ -31,12 +31,14 @@ class CalendarActivity : AppCompatActivity() {
 
         setMinDateButton.setOnClickListener {
             val minDateCalendar = Utils.newCalendar()
+            minDateCalendar.dayOfMonth = 10
             minDateCalendar.add(Calendar.MONTH, -3)
             calendarView.minDateCalendar = minDateCalendar
         }
 
         setMaxDateButton.setOnClickListener {
             val maxDateCalendar = Utils.newCalendar()
+            maxDateCalendar.dayOfMonth = 20
             maxDateCalendar.add(Calendar.MONTH, 3)
             calendarView.maxDateCalendar = maxDateCalendar
         }
