@@ -27,7 +27,7 @@ class CalendarView @JvmOverloads constructor(
         @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    private val DEFAULT_LOAD_FACTOR = 24
+    private val DEFAULT_LOAD_FACTOR = 12
     private val DEFAULT_TRANSITION_FACTOR = 2
 
     private var adapter: MonthListAdapter
@@ -56,9 +56,12 @@ class CalendarView @JvmOverloads constructor(
                 .build(MonthListAdapter::class.java)
 
         minDateCalendar = Utils.newCalendar()
+        minDateCalendar?.year = 2018
         minDateCalendar?.month = 1
+
         maxDateCalendar = Utils.newCalendar()
-        maxDateCalendar?.month = 10
+        maxDateCalendar?.year = 2020
+        maxDateCalendar?.month = 7
 
         val calendar = Utils.newCalendar()
         goto(calendar.year, calendar.month, false)
@@ -70,7 +73,10 @@ class CalendarView @JvmOverloads constructor(
         }
         centeredData = CalendarViewUtils.centeredData(year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
         if (animate) {
-            val position = layoutManager.findFirstVisibleItemPosition()
+            var position = layoutManager.findFirstCompletelyVisibleItemPosition()
+            if (position == RecyclerView.NO_POSITION) {
+                position = layoutManager.findFirstVisibleItemPosition()
+            }
             val dataHolder = adapter.getItem(position) as MonthDataHolder
 
             val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
@@ -146,41 +152,57 @@ class CalendarView @JvmOverloads constructor(
             }
         }
 
-//        override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
-//            super.onScrolled(view, dx, dy)
-//            if (!isInTransition) {
-//                if (dy > 0) { // scroll down
-//                    val visibleItemCount = layoutManager.childCount
-//                    val totalItemCount = layoutManager.itemCount
-//                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-//
-//                    if (!isInLoading && (visibleItemCount + firstVisibleItemPosition >= totalItemCount)) {
-//                        isInLoading = true
-//                        val dataHolder = adapter.getItem(totalItemCount - 1) as MonthDataHolder
-//                        val moreData = CalendarViewUtils.moreData(dataHolder.year, dataHolder.month, DEFAULT_LOAD_FACTOR, true)
-//                        centeredData?.apply {
-//                            addAll(size, moreData)
-//                            adapter.replaceDataList(this)
-//                        }
-//                        isInLoading = false
-//                    }
-//                } else if (dy < 0) {
-//                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-//
-//                    if (!isInLoading && firstVisibleItemPosition == 0) {
-//                        isInLoading = true
-//                        val dataHolder = adapter.getItem(0) as MonthDataHolder
-//                        val moreData = CalendarViewUtils.moreData(dataHolder.year, dataHolder.month, DEFAULT_LOAD_FACTOR, false)
-//                        centeredData?.apply {
-//                            addAll(0, moreData)
-//                            adapter.replaceDataList(this)
-//                            recyclerView.fastScrollTo(DEFAULT_LOAD_FACTOR + 1)
-//                        }
-//                        isInLoading = false
-//                    }
-//                }
-//            }
-//        }
+        override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(view, dx, dy)
+            if (!isInTransition) {
+                if (dy > 0) { // scroll down
+                    val visibleItemCount = layoutManager.childCount
+                    val totalItemCount = layoutManager.itemCount
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                    if (!isInLoading && (visibleItemCount + firstVisibleItemPosition >= totalItemCount)) {
+                        isInLoading = true
+                        val dataHolder = adapter.getItem(totalItemCount - 1) as MonthDataHolder
+                        val offset = dataHolder.year * 12 + dataHolder.month
+                        val maxOffset = maxDateCalendar?.let { max ->
+                            max.year * 12 + max.month
+                        } ?: Int.MAX_VALUE
+
+                        if (offset < maxOffset) {
+                            val moreData = CalendarViewUtils.moreData(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, true)
+                            centeredData?.apply {
+                                addAll(size, moreData)
+                                adapter.replaceDataList(this)
+                            }
+                        }
+                        isInLoading = false
+                    }
+                } else if (dy < 0) {
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                    if (!isInLoading && firstVisibleItemPosition == 0) {
+                        isInLoading = true
+                        val dataHolder = adapter.getItem(0) as MonthDataHolder
+                        val offset = dataHolder.year * 12 + dataHolder.month
+                        val minOffset = minDateCalendar?.let { min ->
+                            min.year * 12 + min.month
+                        } ?: Int.MIN_VALUE
+
+                        if (offset > minOffset) {
+                            val moreData = CalendarViewUtils.moreData(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, false)
+                            centeredData?.apply {
+                                addAll(0, moreData)
+                                adapter.replaceDataList(this)
+                                findPosition(dataHolder.year, dataHolder.month, this)?.apply {
+                                    recyclerView.fastScrollTo(this)
+                                }
+                            }
+                        }
+                        isInLoading = false
+                    }
+                }
+            }
+        }
     }
 
 }

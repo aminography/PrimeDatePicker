@@ -10,18 +10,28 @@ import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
  */
 internal object CalendarViewUtils {
 
-    fun moreData(year: Int, month: Int, loadFactor: Int, isForward: Boolean): ArrayList<PrimeDataHolder> {
+    fun moreData(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int, isForward: Boolean): ArrayList<PrimeDataHolder> {
         return if (isForward) {
             val offset = year * 12 + month + 1
+            val maxOffset = maxDateCalendar?.let { max ->
+                max.year * 12 + max.month
+            } ?: Int.MAX_VALUE
+
+            val max = if (maxOffset < (offset + loadFactor - 1)) maxOffset else (offset + loadFactor - 1)
             arrayListOf<PrimeDataHolder>().apply {
-                for (i in offset..(offset + loadFactor - 1)) {
+                for (i in offset..max) {
                     add(createDataHolder(i))
                 }
             }
         } else {
             val offset = year * 12 + month - 1
+            val minOffset = minDateCalendar?.let { min ->
+                min.year * 12 + min.month
+            } ?: Int.MIN_VALUE
+
+            val min = if (minOffset > (offset - loadFactor + 1)) minOffset else (offset - loadFactor + 1)
             arrayListOf<PrimeDataHolder>().apply {
-                for (i in (offset - loadFactor + 1)..offset) {
+                for (i in min..offset) {
                     add(createDataHolder(i))
                 }
             }
@@ -86,79 +96,17 @@ internal object CalendarViewUtils {
         }
     }
 
-//    fun transitionData(currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, transitionFactor: Int): List<PrimeDataHolder>? {
-//        val currentOffset = currentYear * 12 + currentMonth
-//        val targetOffset = targetYear * 12 + targetMonth
-//
-//        return if (currentOffset == targetOffset) {
-//            null
-//        } else {
-//            val minOffset = minDateCalendar?.let { min ->
-//                min.year * 12 + min.month
-//            } ?: Int.MIN_VALUE
-//
-//            val maxOffset = maxDateCalendar?.let { max ->
-//                max.year * 12 + max.month
-//            } ?: Int.MAX_VALUE
-//
-//            var min = 0
-//            var max = 0
-//
-//            arrayListOf<PrimeDataHolder>().apply {
-//                if (currentOffset < targetOffset) {
-//                    if (targetOffset - currentOffset - 1 <= transitionFactor) {
-//                        min = if (minOffset > (currentOffset - 1)) minOffset else (currentOffset - 1)
-//                        max = if (maxOffset < (targetOffset + 1)) maxOffset else (targetOffset + 1)
-//                        for (i in min..max) {
-//                            add(createDataHolder(i))
-//                        }
-//                    } else {
-//                        min = if (minOffset > (currentOffset - 1)) minOffset else (currentOffset - 1)
-//                        max = if (maxOffset < Math.ceil(currentOffset + transitionFactor / 2.0).toInt()) maxOffset else Math.ceil(currentOffset + transitionFactor / 2.0).toInt()
-//                        for (i in min..max) {
-//                            add(createDataHolder(i))
-//                        }
-//                        min = if (minOffset > Math.floor(targetOffset - transitionFactor / 2.0).toInt()) minOffset else Math.floor(targetOffset - transitionFactor / 2.0).toInt()
-//                        max = if (maxOffset < (targetOffset + 1)) maxOffset else (targetOffset + 1)
-//                        for (i in min..max) {
-//                            add(createDataHolder(i))
-//                        }
-//                    }
-//                } else {
-//                    if (currentOffset - targetOffset - 1 <= transitionFactor) {
-//                        min = if (minOffset > (targetOffset - 1)) minOffset else (targetOffset - 1)
-//                        max = if (maxOffset < (currentOffset + 1)) maxOffset else (currentOffset + 1)
-//                        for (i in min..max) {
-//                            add(createDataHolder(i))
-//                        }
-//                    } else {
-//                        min = if (minOffset > (targetOffset - 1)) minOffset else (targetOffset - 1)
-//                        max = if (maxOffset < Math.ceil(targetOffset + transitionFactor / 2.0).toInt()) maxOffset else Math.ceil(targetOffset + transitionFactor / 2.0).toInt()
-//                        for (i in min..max) {
-//                            add(createDataHolder(i))
-//                        }
-//                        min = if (minOffset > Math.floor(currentOffset - transitionFactor / 2.0).toInt()) minOffset else Math.floor(currentOffset - transitionFactor / 2.0).toInt()
-//                        max = if (maxOffset < (currentOffset + 1)) maxOffset else (currentOffset + 1)
-//                        for (i in min..max) {
-//                            add(createDataHolder(i))
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     fun isOutOfRange(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?) =
             isBeforeMin(year, month, minDateCalendar) || isAfterMax(year, month, maxDateCalendar)
 
     private fun isBeforeMin(year: Int, month: Int, minDateCalendar: BaseCalendar?): Boolean =
             minDateCalendar?.let { min ->
-                year < min.year || month < min.month
+                year < min.year || (year == min.year && month < min.month)
             } ?: false
 
     private fun isAfterMax(year: Int, month: Int, maxDateCalendar: BaseCalendar?): Boolean =
             maxDateCalendar?.let { max ->
-                year > max.year || month > max.month
+                year > max.year || (year == max.year && month > max.month)
             } ?: false
 
     fun isForward(currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int) =

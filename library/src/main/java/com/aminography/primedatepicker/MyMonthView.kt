@@ -660,12 +660,16 @@ class MyMonthView @JvmOverloads constructor(
 
     private fun isBeforeMin(year: Int, month: Int, dayOfMonth: Int): Boolean =
             minDateCalendar?.let { min ->
-                year < min.year || month < min.month || dayOfMonth < min.dayOfMonth
+                year < min.year ||
+                        (year == min.year && month < min.month) ||
+                        (year == min.year && month == min.month && dayOfMonth < min.dayOfMonth)
             } ?: false
 
     private fun isAfterMax(year: Int, month: Int, dayOfMonth: Int): Boolean =
             maxDateCalendar?.let { max ->
-                year > max.year || month > max.month || dayOfMonth > max.dayOfMonth
+                year > max.year ||
+                        (year == max.year && month > max.month) ||
+                        (year == max.year && month == max.month && dayOfMonth > max.dayOfMonth)
             } ?: false
 
     enum class SelectType {
