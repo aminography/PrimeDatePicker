@@ -40,8 +40,51 @@ class CalendarView @JvmOverloads constructor(
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
 
-    private var minDateCalendar: BaseCalendar? = null
-    private var maxDateCalendar: BaseCalendar? = null
+    var minDateCalendar: BaseCalendar? = null
+        set(value) {
+            field = value
+            val minOffset = field?.let { min ->
+                min.year * 12 + min.month
+            } ?: Int.MIN_VALUE
+
+            var position = layoutManager.findFirstCompletelyVisibleItemPosition()
+            if (position == RecyclerView.NO_POSITION) {
+                position = layoutManager.findFirstVisibleItemPosition()
+            }
+            val dataHolder = adapter.getItem(position) as MonthDataHolder
+            val offset = dataHolder.offset
+
+            if (offset < minOffset) {
+                minDateCalendar?.apply {
+                    goto(year, month, false)
+                }
+            } else {
+                goto(dataHolder.year, dataHolder.month, false)
+            }
+        }
+
+    var maxDateCalendar: BaseCalendar? = null
+        set(value) {
+            field = value
+            val maxOffset = field?.let { max ->
+                max.year * 12 + max.month
+            } ?: Int.MAX_VALUE
+
+            var position = layoutManager.findLastCompletelyVisibleItemPosition()
+            if (position == RecyclerView.NO_POSITION) {
+                position = layoutManager.findLastVisibleItemPosition()
+            }
+            val dataHolder = adapter.getItem(position) as MonthDataHolder
+            val offset = dataHolder.offset
+
+            if (offset > maxOffset) {
+                maxDateCalendar?.apply {
+                    goto(year, month, false)
+                }
+            } else {
+                goto(dataHolder.year, dataHolder.month, false)
+            }
+        }
 
     init {
         addView(recyclerView)
@@ -54,14 +97,6 @@ class CalendarView @JvmOverloads constructor(
                 .setDivider()
                 .set()
                 .build(MonthListAdapter::class.java)
-
-        minDateCalendar = Utils.newCalendar()
-        minDateCalendar?.year = 2018
-        minDateCalendar?.month = 1
-
-        maxDateCalendar = Utils.newCalendar()
-        maxDateCalendar?.year = 2020
-        maxDateCalendar?.month = 7
 
         val calendar = Utils.newCalendar()
         goto(calendar.year, calendar.month, false)
@@ -96,8 +131,10 @@ class CalendarView @JvmOverloads constructor(
                 adapter.replaceDataList(this)
                 isInTransition = true
                 recyclerView.touchEnabled = false
+
                 gotoYear = year
                 gotoMonth = month
+
                 if (isForward) {
                     recyclerView.fastScrollTo(1)
                     recyclerView.smoothScrollTo(if (isLastTransitionItemRemoved) size - 1 else size - 2)
@@ -119,7 +156,7 @@ class CalendarView @JvmOverloads constructor(
     private fun findPosition(year: Int, month: Int, data: List<PrimeDataHolder>?): Int? {
         data?.apply {
             val dataHolder = get(0) as MonthDataHolder
-            val firstOffset = dataHolder.year * 12 + dataHolder.month
+            val firstOffset = dataHolder.offset
             val targetOffset = year * 12 + month
             return targetOffset - firstOffset
         }
@@ -163,7 +200,7 @@ class CalendarView @JvmOverloads constructor(
                     if (!isInLoading && (visibleItemCount + firstVisibleItemPosition >= totalItemCount)) {
                         isInLoading = true
                         val dataHolder = adapter.getItem(totalItemCount - 1) as MonthDataHolder
-                        val offset = dataHolder.year * 12 + dataHolder.month
+                        val offset = dataHolder.offset
                         val maxOffset = maxDateCalendar?.let { max ->
                             max.year * 12 + max.month
                         } ?: Int.MAX_VALUE
@@ -183,7 +220,7 @@ class CalendarView @JvmOverloads constructor(
                     if (!isInLoading && firstVisibleItemPosition == 0) {
                         isInLoading = true
                         val dataHolder = adapter.getItem(0) as MonthDataHolder
-                        val offset = dataHolder.year * 12 + dataHolder.month
+                        val offset = dataHolder.offset
                         val minOffset = minDateCalendar?.let { min ->
                             min.year * 12 + min.month
                         } ?: Int.MIN_VALUE

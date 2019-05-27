@@ -17,28 +17,56 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_margin="@dimen/material_size_16"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/gotoPastButton"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Past" />
+            android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/nowButton"
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/setMinDateButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Set Min Date" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/setMaxDateButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Set Max Date" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Now" />
+            android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/gotoFutureButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Future" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/gotoPastButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Past" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/nowButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Now" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/gotoFutureButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Future" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

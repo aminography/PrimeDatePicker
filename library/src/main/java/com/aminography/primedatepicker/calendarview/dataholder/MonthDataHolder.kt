@@ -7,4 +7,9 @@ import com.aminography.primeadapter.annotation.DataHolder
 data class MonthDataHolder(
         val year: Int,
         val month: Int
-) : PrimeDataHolder()
+) : PrimeDataHolder() {
+
+    val offset: Int
+        get() = year * 12 + month
+
+}
