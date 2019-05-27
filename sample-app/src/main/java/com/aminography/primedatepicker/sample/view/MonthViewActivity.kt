@@ -55,5 +55,6 @@ class MonthViewActivity : AppCompatActivity() {
             }
         }
     }
+
 }
 
