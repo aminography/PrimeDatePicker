@@ -13,4 +13,12 @@ interface IMonthViewHolderCallback {
     val maxDateCalendar: BaseCalendar?
 
     val pickType: PrimeMonthView.PickType?
+
+    val pickedStartRangeDay: BaseCalendar?
+
+    val pickedEndRangeDay: BaseCalendar?
+
+    val pickedSingleDay: BaseCalendar?
+
+    fun onDayClick(day: BaseCalendar)
 }

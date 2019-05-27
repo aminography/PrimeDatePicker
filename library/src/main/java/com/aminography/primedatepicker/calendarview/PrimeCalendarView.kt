@@ -93,6 +93,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             adapter.notifyDataSetChanged()
         }
 
+    override var pickedStartRangeDay: BaseCalendar? = null
+    override var pickedEndRangeDay: BaseCalendar? = null
+    override var pickedSingleDay: BaseCalendar? = null
+
     init {
         addView(recyclerView)
         recyclerView.addOnScrollListener(OnScrollListener())
@@ -170,6 +174,20 @@ class PrimeCalendarView @JvmOverloads constructor(
             return targetOffset - firstOffset
         }
         return null
+    }
+
+    override fun onDayClick(day: BaseCalendar) {
+        when (pickType) {
+            PrimeMonthView.PickType.SINGLE -> {
+                pickedSingleDay = day
+            }
+            PrimeMonthView.PickType.START_RANGE -> {
+                pickedStartRangeDay = day
+            }
+            PrimeMonthView.PickType.END_RANGE -> {
+                pickedEndRangeDay = day
+            }
+        }
     }
 
     private inner class OnScrollListener : RecyclerView.OnScrollListener() {

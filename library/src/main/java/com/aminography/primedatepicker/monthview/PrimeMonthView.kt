@@ -97,9 +97,9 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
         }
 
-    private var pickedStartRangeDay: Int? = null
-    private var pickedEndRangeDay: Int? = null
-    private var pickedSingleDay: Int? = null
+    var pickedStartRangeDay: Int? = null
+    var pickedEndRangeDay: Int? = null
+    var pickedSingleDay: Int? = null
 
     private var hasToday = false
     private var todayDayOfMonth = -1
