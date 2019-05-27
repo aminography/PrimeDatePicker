@@ -9,6 +9,24 @@ import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
  */
 internal object CalendarViewUtils {
 
+    fun moreData(year: Int, month: Int, loadFactor: Int, isForward: Boolean): ArrayList<PrimeDataHolder> {
+        return if (isForward) {
+            val offset = year * 12 + month + 1
+            arrayListOf<PrimeDataHolder>().apply {
+                for (i in offset..(offset + loadFactor - 1)) {
+                    add(createDataHolder(i))
+                }
+            }
+        } else {
+            val offset = year * 12 + month - 1
+            arrayListOf<PrimeDataHolder>().apply {
+                for (i in (offset - loadFactor + 1)..offset) {
+                    add(createDataHolder(i))
+                }
+            }
+        }
+    }
+
     fun centeredData(year: Int, month: Int, loadFactor: Int): ArrayList<PrimeDataHolder> {
         val center = year * 12 + month
         return arrayListOf<PrimeDataHolder>().apply {
