@@ -491,7 +491,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun drawDayBackground(canvas: Canvas, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
         val radius = Math.min(width, height) / 2 - dp(2f)
         selectedDayBackgroundPaint?.apply {
-            when (MonthViewUtils.pickedDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
+            when (MonthViewUtils.findDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
                 PickedDayState.PICKED_SINGLE -> {
                     canvas.drawCircle(x, y, radius, this)
                 }
@@ -537,7 +537,7 @@ class PrimeMonthView @JvmOverloads constructor(
             color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar)) {
                 disabledDayLabelTextColor
             } else if (pickType != PickType.NOTHING) {
-                when (MonthViewUtils.pickedDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
+                when (MonthViewUtils.findDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
                     PickedDayState.PICKED_SINGLE -> {
                         selectedDayLabelTextColor
                     }

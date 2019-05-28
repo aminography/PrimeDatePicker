@@ -11,18 +11,19 @@ import com.aminography.primedatepicker.PickType
 @Suppress("MemberVisibilityCanBePrivate")
 internal object MonthViewUtils {
 
-    fun pickedDayState(
+    fun findDayState(
             year: Int,
             month: Int,
             dayOfMonth: Int,
             pickType: PickType,
-            pickedSingleCalendar: BaseCalendar?,
+            pickedSingleDayCalendar: BaseCalendar?,
             pickedStartRangeCalendar: BaseCalendar?,
             pickedEndRangeCalendar: BaseCalendar?
     ): PrimeMonthView.PickedDayState {
+
         when (pickType) {
             PickType.SINGLE -> {
-                pickedSingleCalendar?.let { single ->
+                pickedSingleDayCalendar?.let { single ->
                     if (DateUtils.isSame(year, month, dayOfMonth, single)) {
                         return PrimeMonthView.PickedDayState.PICKED_SINGLE
                     }
