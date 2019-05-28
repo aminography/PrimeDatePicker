@@ -75,9 +75,9 @@ internal object CalendarViewUtils {
         }
     }
 
-    private fun createList(lower: Int, upper: Int): MutableList<PrimeDataHolder> {
+    private fun createList(lowerOffset: Int, upperOffset: Int): MutableList<PrimeDataHolder> {
         return arrayListOf<PrimeDataHolder>().apply {
-            for (offset in lower..upper) {
+            for (offset in lowerOffset..upperOffset) {
                 add(MonthDataHolder(offset / 12, offset % 12))
             }
         }
