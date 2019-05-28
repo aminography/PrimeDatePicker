@@ -223,7 +223,7 @@ class PrimeMonthView @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * 6 + paddingBottom
         val height = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * spreadingWeeks + paddingBottom
-        setMeasuredDimension(View.MeasureSpec.getSize(widthMeasureSpec), height.toInt())
+        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height.toInt())
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -534,7 +534,7 @@ class PrimeMonthView @JvmOverloads constructor(
                                 }
                             }
                         }
-                        in ((pickedStartRangeDay ?: -1) + 1)..((pickedEndRangeDay ?: +1) - 1) -> {
+                        in ((pickedStartRangeDay ?: -1) + 1) until (pickedEndRangeDay ?: +1) -> {
                             canvas.drawRect(
                                     x - cellWidth / 2,
                                     y - radius,
@@ -567,7 +567,7 @@ class PrimeMonthView @JvmOverloads constructor(
                     pickedEndRangeDay -> {
                         selectedDayLabelTextColor
                     }
-                    in ((pickedStartRangeDay ?: -1) + 1)..((pickedEndRangeDay ?: +1) - 1) -> {
+                    in ((pickedStartRangeDay ?: -1) + 1) until (pickedEndRangeDay ?: +1) -> {
                         selectedDayLabelTextColor
                     }
                     else -> {
@@ -714,7 +714,7 @@ class PrimeMonthView @JvmOverloads constructor(
         invalidate()
     }
 
-    private class SavedState : View.BaseSavedState {
+    private class SavedState : BaseSavedState {
 
         internal var selectType: Int = -1
         internal var selectedDay: Int = -1
