@@ -19,61 +19,48 @@ object PersianUtils {
     )
 
     fun convertDigitsToLatin(input: String?): String? {
-        var str: String? = input ?: return null
-        str = str!!.replace('\u0660', '0')
-        str = str.replace('\u0661', '1')
-        str = str.replace('\u0662', '2')
-        str = str.replace('\u0663', '3')
-        str = str.replace('\u0664', '4')
-        str = str.replace('\u0665', '5')
-        str = str.replace('\u0666', '6')
-        str = str.replace('\u0667', '7')
-        str = str.replace('\u0668', '8')
-        str = str.replace('\u0669', '9')
+        input?.let {
+            var str = it
+            str = str.replace('\u0660', '0')
+            str = str.replace('\u0661', '1')
+            str = str.replace('\u0662', '2')
+            str = str.replace('\u0663', '3')
+            str = str.replace('\u0664', '4')
+            str = str.replace('\u0665', '5')
+            str = str.replace('\u0666', '6')
+            str = str.replace('\u0667', '7')
+            str = str.replace('\u0668', '8')
+            str = str.replace('\u0669', '9')
 
-        str = str.replace('\u06f0', '0')
-        str = str.replace('\u06f1', '1')
-        str = str.replace('\u06f2', '2')
-        str = str.replace('\u06f3', '3')
-        str = str.replace('\u06f4', '4')
-        str = str.replace('\u06f5', '5')
-        str = str.replace('\u06f6', '6')
-        str = str.replace('\u06f7', '7')
-        str = str.replace('\u06f8', '8')
-        str = str.replace('\u06f9', '9')
-        return str
+            str = str.replace('\u06f0', '0')
+            str = str.replace('\u06f1', '1')
+            str = str.replace('\u06f2', '2')
+            str = str.replace('\u06f3', '3')
+            str = str.replace('\u06f4', '4')
+            str = str.replace('\u06f5', '5')
+            str = str.replace('\u06f6', '6')
+            str = str.replace('\u06f7', '7')
+            str = str.replace('\u06f8', '8')
+            str = str.replace('\u06f9', '9')
+            return str
+        } ?: return null
     }
 
-    fun convertLatinDigitsToPersian(input: String): String {
-        var str = input
-        str = str.replace('0', '\u06f0')
-        str = str.replace('1', '\u06f1')
-        str = str.replace('2', '\u06f2')
-        str = str.replace('3', '\u06f3')
-        str = str.replace('4', '\u06f4')
-        str = str.replace('5', '\u06f5')
-        str = str.replace('6', '\u06f6')
-        str = str.replace('7', '\u06f7')
-        str = str.replace('8', '\u06f8')
-        str = str.replace('9', '\u06f9')
-        return str
-    }
-
-    fun relaxKafLetters(input: String): String {
-        var str = input
-        str = str.replace('\u06A9', '\u0643')
-        str = str.replace('\u063B', '\u0643')
-        str = str.replace('\u063C', '\u0643')
-        str = str.replace('\u06AA', '\u0643')
-        str = str.replace('\u06AB', '\u0643')
-        str = str.replace('\u06AC', '\u0643')
-        str = str.replace('\u06AD', '\u0643')
-        str = str.replace('\u06AE', '\u0643')
-        str = str.replace('\u0762', '\u0643')
-        str = str.replace('\u0763', '\u0643')
-        str = str.replace('\u0764', '\u0643')
-        str = str.replace('\u077F', '\u0643')
-        return str
+    fun convertLatinDigitsToPersian(input: String?): String? {
+        input?.let {
+            var str = it
+            str = str.replace('0', '\u06f0')
+            str = str.replace('1', '\u06f1')
+            str = str.replace('2', '\u06f2')
+            str = str.replace('3', '\u06f3')
+            str = str.replace('4', '\u06f4')
+            str = str.replace('5', '\u06f5')
+            str = str.replace('6', '\u06f6')
+            str = str.replace('7', '\u06f7')
+            str = str.replace('8', '\u06f8')
+            str = str.replace('9', '\u06f9')
+            return str
+        } ?: return null
     }
 
     fun convertToPersianDigits(num: Int): String {
