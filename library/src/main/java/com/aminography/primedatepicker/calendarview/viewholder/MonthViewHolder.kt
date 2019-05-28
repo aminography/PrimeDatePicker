@@ -25,30 +25,10 @@ class MonthViewHolder(
                 callback?.apply {
                     monthView.setMinMaxDateCalendar(minDateCalendar, maxDateCalendar, false)
 
-                    monthView.pickedSingleDay = null
-                    monthView.pickedStartRangeDay = null
-                    monthView.pickedEndRangeDay = null
-                    when (pickType) {
-                        PrimeMonthView.PickType.SINGLE -> {
-                            pickedSingleDay?.let { day ->
-                                if (day.year == year && day.month == month) {
-                                    monthView.pickedSingleDay = day.dayOfMonth
-                                }
-                            }
-                        }
-                        PrimeMonthView.PickType.START_RANGE, PrimeMonthView.PickType.END_RANGE -> {
-                            pickedStartRangeDay?.let { day ->
-                                if (day.year == year && day.month == month) {
-                                    monthView.pickedStartRangeDay = day.dayOfMonth
-                                }
-                            }
-                            pickedEndRangeDay?.let { day ->
-                                if (day.year == year && day.month == month) {
-                                    monthView.pickedEndRangeDay = day.dayOfMonth
-                                }
-                            }
-                        }
-                    }
+                    monthView.pickedSingleCalendar = pickedSingleDay
+                    monthView.pickedStartRangeCalendar = pickedStartRangeDay
+                    monthView.pickedEndRangeCalendar = pickedEndRangeDay
+
                     monthView.pickType = pickType
                 }
             }

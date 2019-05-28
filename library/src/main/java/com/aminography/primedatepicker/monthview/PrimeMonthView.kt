@@ -88,18 +88,21 @@ class PrimeMonthView @JvmOverloads constructor(
             field = value
             when (value) {
                 PickType.SINGLE -> {
-                    pickedStartRangeDay = null
-                    pickedEndRangeDay = null
+                    pickedStartRangeCalendar = null
+                    pickedEndRangeCalendar = null
                 }
-                PickType.START_RANGE -> pickedSingleDay = null
-                PickType.END_RANGE -> pickedSingleDay = null
+                PickType.START_RANGE -> pickedSingleCalendar = null
+                PickType.END_RANGE -> pickedSingleCalendar = null
             }
             invalidate()
         }
 
-    var pickedStartRangeDay: Int? = null
-    var pickedEndRangeDay: Int? = null
-    var pickedSingleDay: Int? = null
+    var pickedSingleCalendar: BaseCalendar? = null
+    private var pickedSingleState = PickedSingleState.NOT_CONTAINS
+
+    var pickedStartRangeCalendar: BaseCalendar? = null
+    var pickedEndRangeCalendar: BaseCalendar? = null
+    private var pickedRangeState = PickedRangeState.NO_RANGE
 
     private var hasToday = false
     private var todayDayOfMonth = -1
@@ -232,6 +235,9 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
+        pickedSingleState = MonthViewUtils.pickedSingleState(year, month, pickedSingleCalendar)
+        pickedRangeState = MonthViewUtils.pickedRangeState(year, month, pickedStartRangeCalendar, pickedEndRangeCalendar)
+
         drawMonthLabel(canvas)
         drawWeekLabels(canvas)
         drawDayLabels(canvas)
@@ -412,8 +418,8 @@ class PrimeMonthView @JvmOverloads constructor(
                 CalendarType.HIJRI -> ((2 * (6 - offset) + 1) * (cellWidth / 2) + paddingLeft)
             }
 
-            drawDayBackground(canvas, year, month, dayNumber, x, y, cellWidth, cellHeight)
-            drawDayLabel(canvas, year, month, dayNumber, x, y, cellWidth, cellHeight)
+            drawDayBackground(canvas, dayNumber, x, y, cellWidth, cellHeight)
+            drawDayLabel(canvas, dayNumber, x, y, cellWidth, cellHeight)
 
             if (SHOW_GUIDE_LINES) {
                 Paint().apply {
@@ -449,128 +455,73 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawDayBackground(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
+    private fun drawDayBackground(canvas: Canvas, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
         val radius = Math.min(width, height) / 2 - dp(2f)
-        when (pickType) {
-            PickType.SINGLE -> {
-                selectedDayBackgroundPaint?.apply {
-                    if (dayOfMonth == pickedSingleDay) {
-                        canvas.drawCircle(
-                                x,
-                                y,
-                                radius,
-                                this
-                        )
+        selectedDayBackgroundPaint?.apply {
+            pickType?.let { pickType ->
+                when (MonthViewUtils.pickedDayState(year, month, dayOfMonth, pickType, pickedSingleCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
+                    PickedDayState.PICKED_SINGLE -> {
+                        canvas.drawCircle(x, y, radius, this)
                     }
-                }
-            }
-            PickType.START_RANGE, PickType.END_RANGE -> {
-                selectedDayBackgroundPaint?.apply {
-                    when (dayOfMonth) {
-                        pickedStartRangeDay -> {
-                            if (pickedEndRangeDay == null || pickedStartRangeDay == pickedEndRangeDay) {
-                                canvas.drawCircle(
-                                        x,
-                                        y,
-                                        radius,
-                                        this
-                                )
-                            } else {
-                                canvas.drawCircle(
-                                        x,
-                                        y,
-                                        radius,
-                                        this
-                                )
-                                // RTLize for Persian and Hijri Calendars
-                                when (CurrentCalendarType.type) {
-                                    CalendarType.CIVIL -> {
-                                        canvas.drawRect(
-                                                x,
-                                                y - radius,
-                                                (x + cellWidth / 2),
-                                                y + radius,
-                                                this
-                                        )
-                                    }
-                                    CalendarType.PERSIAN, CalendarType.HIJRI -> {
-                                        canvas.drawRect(
-                                                x - cellWidth / 2,
-                                                y - radius,
-                                                x,
-                                                y + radius,
-                                                this
-                                        )
-                                    }
-                                }
+                    PickedDayState.START_OF_RANGE_SINGLE -> {
+                        canvas.drawCircle(x, y, radius, this)
+                    }
+                    PickedDayState.START_OF_RANGE -> {
+                        canvas.drawCircle(x, y, radius, this)
+                        // RTLize for Persian and Hijri Calendars
+                        when (CurrentCalendarType.type) {
+                            CalendarType.CIVIL -> {
+                                canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
+                            }
+                            CalendarType.PERSIAN, CalendarType.HIJRI -> {
+                                canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
                             }
                         }
-                        pickedEndRangeDay -> {
-                            canvas.drawCircle(
-                                    x,
-                                    y,
-                                    radius,
-                                    this
-                            )
-                            // RTLize for Persian and Hijri Calendars
-                            when (CurrentCalendarType.type) {
-                                CalendarType.CIVIL -> {
-                                    canvas.drawRect(
-                                            x - cellWidth / 2,
-                                            y - radius,
-                                            x,
-                                            y + radius,
-                                            this
-                                    )
-                                }
-                                CalendarType.PERSIAN, CalendarType.HIJRI -> {
-                                    canvas.drawRect(
-                                            x,
-                                            y - radius,
-                                            x + cellWidth / 2,
-                                            y + radius,
-                                            this
-                                    )
-                                }
+                    }
+                    PickedDayState.IN_RANGE -> {
+                        canvas.drawRect(x - cellWidth / 2, y - radius, x + cellWidth / 2, y + radius, this)
+                    }
+                    PickedDayState.END_OF_RANGE -> {
+                        canvas.drawCircle(x, y, radius, this)
+                        // RTLize for Persian and Hijri Calendars
+                        when (CurrentCalendarType.type) {
+                            CalendarType.CIVIL -> {
+                                canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
+                            }
+                            CalendarType.PERSIAN, CalendarType.HIJRI -> {
+                                canvas.drawRect(x, y - radius, x + cellWidth / 2, y + radius, this)
                             }
                         }
-                        in ((pickedStartRangeDay ?: -1) + 1) until (pickedEndRangeDay ?: +1) -> {
-                            canvas.drawRect(
-                                    x - cellWidth / 2,
-                                    y - radius,
-                                    x + cellWidth / 2,
-                                    y + radius,
-                                    this
-                            )
-                        }
+                    }
+                    PickedDayState.NOTHING -> {
                     }
                 }
             }
         }
     }
 
-    private fun drawDayLabel(canvas: Canvas, year: Int, month: Int, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
+    private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
         dayLabelPaint?.apply {
             color = if (isOutOfRange(year, month, dayOfMonth)) {
                 disabledDayLabelTextColor
-            } else if (pickType == PickType.SINGLE) {
-                if (dayOfMonth == pickedSingleDay) {
-                    selectedDayLabelTextColor
-                } else {
-                    dayLabelTextColor
-                }
-            } else if (pickType == PickType.START_RANGE || pickType == PickType.END_RANGE) {
-                when (dayOfMonth) {
-                    pickedStartRangeDay -> {
+            } else if (pickType != null) {
+                when (MonthViewUtils.pickedDayState(year, month, dayOfMonth, pickType!!, pickedSingleCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
+                    PickedDayState.PICKED_SINGLE -> {
                         selectedDayLabelTextColor
                     }
-                    pickedEndRangeDay -> {
+                    PickedDayState.START_OF_RANGE_SINGLE -> {
                         selectedDayLabelTextColor
                     }
-                    in ((pickedStartRangeDay ?: -1) + 1) until (pickedEndRangeDay ?: +1) -> {
+                    PickedDayState.START_OF_RANGE -> {
                         selectedDayLabelTextColor
                     }
-                    else -> {
+                    PickedDayState.IN_RANGE -> {
+                        selectedDayLabelTextColor
+                    }
+                    PickedDayState.END_OF_RANGE -> {
+                        selectedDayLabelTextColor
+                    }
+                    PickedDayState.NOTHING -> {
                         dayLabelTextColor
                     }
                 }
@@ -603,33 +554,40 @@ class PrimeMonthView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
+
+                        val calendar = Utils.newCalendar()
+                        calendar.setDate(year, month, dayOfMonth)
+
                         when (pickType) {
                             PickType.SINGLE -> {
-                                pickedSingleDay = dayOfMonth
+                                pickedSingleCalendar = calendar
                                 invalidate()
                             }
                             PickType.START_RANGE -> {
-                                pickedEndRangeDay?.let { end ->
-                                    if (dayOfMonth > end) {
-                                        pickedEndRangeDay = null
-                                    }
-                                }
-                                pickedStartRangeDay = dayOfMonth
+//                                pickedEndRangeDay?.let { end ->
+//                                    if (dayOfMonth > end) {
+//                                        pickedEndRangeDay = null
+//                                    }
+//                                }
+                                pickedStartRangeCalendar = calendar
+                                pickedRangeState = MonthViewUtils.pickedRangeState(year, month, pickedStartRangeCalendar, pickedEndRangeCalendar)
                                 invalidate()
                             }
                             PickType.END_RANGE -> {
-                                pickedStartRangeDay?.let { start ->
-                                    if (dayOfMonth >= start) {
-                                        pickedEndRangeDay = dayOfMonth
-                                        invalidate()
-                                    }
-                                }
+//                                pickedStartRangeDay?.let { start ->
+//                                    if (dayOfMonth >= start) {
+//                                        pickedEndRangeDay = dayOfMonth
+//                                        pickedEndRangeCalendar = calendar
+//                                        invalidate()
+//                                    }
+//                                }
+                                pickedEndRangeCalendar = calendar
+                                pickedRangeState = MonthViewUtils.pickedRangeState(year, month, pickedStartRangeCalendar, pickedEndRangeCalendar)
+                                invalidate()
                             }
                         }
 
                         onDayClickListener?.apply {
-                            val calendar = Utils.newCalendar()
-                            calendar.setDate(year, month, dayOfMonth)
                             onDayClick(this@PrimeMonthView, calendar)
                         }
                     }
@@ -688,6 +646,30 @@ class PrimeMonthView @JvmOverloads constructor(
         END_RANGE
     }
 
+    enum class PickedDayState {
+        PICKED_SINGLE,
+        START_OF_RANGE_SINGLE,
+        START_OF_RANGE,
+        IN_RANGE,
+        END_OF_RANGE,
+        NOTHING
+    }
+
+    enum class PickedSingleState {
+        NOT_CONTAINS,
+        CONTAINS,
+    }
+
+    enum class PickedRangeState {
+        NO_RANGE,
+        BEFORE_START,
+        CONTAINS_START,
+        FULLY_IN_RANGE,
+        CONTAINS_END,
+        CONTAINS_START_END,
+        AFTER_END
+    }
+
     interface OnDayClickListener {
         fun onDayClick(view: PrimeMonthView, day: BaseCalendar)
     }
@@ -698,9 +680,9 @@ class PrimeMonthView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
         savedState.selectType = pickType?.ordinal ?: -1
-        savedState.selectedDay = pickedSingleDay ?: -1
-        savedState.startRangeDay = pickedStartRangeDay ?: -1
-        savedState.endRangeDay = pickedEndRangeDay ?: -1
+//        savedState.selectedDay = pickedSingleDay ?: -1
+//        savedState.startRangeDay = pickedStartRangeDay ?: -1
+//        savedState.endRangeDay = pickedEndRangeDay ?: -1
         return savedState
     }
 
@@ -708,9 +690,9 @@ class PrimeMonthView @JvmOverloads constructor(
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
         pickType = if (savedState.selectType != -1) PickType.values()[savedState.selectType] else null
-        pickedSingleDay = if (savedState.selectedDay != -1) savedState.selectedDay else null
-        pickedStartRangeDay = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
-        pickedEndRangeDay = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
+//        pickedSingleDay = if (savedState.selectedDay != -1) savedState.selectedDay else null
+//        pickedStartRangeDay = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
+//        pickedEndRangeDay = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
         invalidate()
     }
 

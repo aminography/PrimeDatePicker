@@ -188,6 +188,14 @@ class PrimeCalendarView @JvmOverloads constructor(
                 pickedEndRangeDay = day
             }
         }
+
+        var position = layoutManager.findLastCompletelyVisibleItemPosition()
+        if (position == RecyclerView.NO_POSITION) {
+            position = layoutManager.findLastVisibleItemPosition()
+        }
+        val dataHolder = adapter.getItem(position) as MonthDataHolder
+        goto(dataHolder.year, dataHolder.month, false)
+
     }
 
     private inner class OnScrollListener : RecyclerView.OnScrollListener() {
