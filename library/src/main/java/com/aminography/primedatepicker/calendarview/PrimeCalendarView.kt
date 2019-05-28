@@ -15,6 +15,7 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
+import com.aminography.primedatepicker.monthOffset
 import com.aminography.primedatepicker.tools.Utils
 
 
@@ -45,9 +46,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var minDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            val minOffset = field?.let { min ->
-                min.year * 12 + min.month
-            } ?: Int.MIN_VALUE
+            val minOffset = field?.monthOffset() ?: Int.MIN_VALUE
 
             val dataHolder = findFirstVisibleItem()
             val offset = dataHolder.offset
@@ -64,9 +63,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var maxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            val maxOffset = field?.let { max ->
-                max.year * 12 + max.month
-            } ?: Int.MAX_VALUE
+            val maxOffset = field?.monthOffset() ?: Int.MAX_VALUE
 
             val dataHolder = findLastVisibleItem()
             val offset = dataHolder.offset
@@ -135,7 +132,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 var isLastTransitionItemRemoved = false
                 if (isForward) {
                     maxDateCalendar?.let { max ->
-                        val maxOffset = max.year * 12 + max.month
+                        val maxOffset = max.monthOffset()
                         val targetOffset = year * 12 + month
                         if (maxOffset == targetOffset) {
                             transitionData.removeAt(transitionData.size - 1)
@@ -256,9 +253,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         isInLoading = true
                         val dataHolder = adapter.getItem(totalItemCount - 1) as MonthDataHolder
                         val offset = dataHolder.offset
-                        val maxOffset = maxDateCalendar?.let { max ->
-                            max.year * 12 + max.month
-                        } ?: Int.MAX_VALUE
+                        val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
                             val moreData = CalendarViewUtils.extendMoreList(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, true)
@@ -276,9 +271,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         isInLoading = true
                         val dataHolder = adapter.getItem(0) as MonthDataHolder
                         val offset = dataHolder.offset
-                        val minOffset = minDateCalendar?.let { min ->
-                            min.year * 12 + min.month
-                        } ?: Int.MIN_VALUE
+                        val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
                             val moreData = CalendarViewUtils.extendMoreList(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, false)

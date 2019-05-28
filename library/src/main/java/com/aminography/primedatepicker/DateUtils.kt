@@ -17,8 +17,8 @@ internal object DateUtils {
 
     fun isBetweenExclusive(year: Int, month: Int, dayOfMonth: Int, start: BaseCalendar, end: BaseCalendar): Boolean {
         val offset = year * 12 + month
-        val startOffset = start.year * 12 + start.month
-        val endOffset = end.year * 12 + end.month
+        val startOffset = start.monthOffset()
+        val endOffset = end.monthOffset()
 
         return if (offset == startOffset && (startOffset == endOffset)) {
             dayOfMonth > start.dayOfMonth && dayOfMonth < end.dayOfMonth

@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.calendarview
 import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
+import com.aminography.primedatepicker.monthOffset
 
 
 /**
@@ -13,18 +14,14 @@ internal object CalendarViewUtils {
 
     fun extendMoreList(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int, isForward: Boolean): MutableList<PrimeDataHolder> {
         return if (isForward) {
-            val offset = year * 12 + month + 1
-            val maxOffset = maxDateCalendar?.let { max ->
-                max.year * 12 + max.month
-            } ?: Int.MAX_VALUE
+            val offset = (year * 12 + month) + 1
+            val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
             val max = if (maxOffset < (offset + loadFactor - 1)) maxOffset else (offset + loadFactor - 1)
             createList(offset, max)
         } else {
-            val offset = year * 12 + month - 1
-            val minOffset = minDateCalendar?.let { min ->
-                min.year * 12 + min.month
-            } ?: Int.MIN_VALUE
+            val offset = (year * 12 + month) - 1
+            val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
             val min = if (minOffset > (offset - loadFactor + 1)) minOffset else (offset - loadFactor + 1)
             createList(min, offset)
@@ -34,13 +31,8 @@ internal object CalendarViewUtils {
     fun createPivotList(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int): MutableList<PrimeDataHolder> {
         val centerOffset = year * 12 + month
 
-        val minOffset = minDateCalendar?.let { min ->
-            min.year * 12 + min.month
-        } ?: Int.MIN_VALUE
-
-        val maxOffset = maxDateCalendar?.let { max ->
-            max.year * 12 + max.month
-        } ?: Int.MAX_VALUE
+        val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
+        val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
         val min = if (minOffset > (centerOffset - loadFactor)) minOffset else (centerOffset - loadFactor)
         val max = if (maxOffset < (centerOffset + loadFactor)) maxOffset else (centerOffset + loadFactor)
