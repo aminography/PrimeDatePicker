@@ -11,7 +11,7 @@ import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 @Suppress("MemberVisibilityCanBePrivate")
 internal object CalendarViewUtils {
 
-    fun moreData(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int, isForward: Boolean): MutableList<PrimeDataHolder> {
+    fun extendMoreList(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int, isForward: Boolean): MutableList<PrimeDataHolder> {
         return if (isForward) {
             val offset = year * 12 + month + 1
             val maxOffset = maxDateCalendar?.let { max ->
@@ -31,7 +31,7 @@ internal object CalendarViewUtils {
         }
     }
 
-    fun centeredData(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int): MutableList<PrimeDataHolder> {
+    fun createPivotList(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int): MutableList<PrimeDataHolder> {
         val centerOffset = year * 12 + month
 
         val minOffset = minDateCalendar?.let { min ->
@@ -47,7 +47,7 @@ internal object CalendarViewUtils {
         return createDataList(min, max)
     }
 
-    fun transitionData(currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int, transitionFactor: Int): MutableList<PrimeDataHolder>? {
+    fun createTransitionList(currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int, transitionFactor: Int): MutableList<PrimeDataHolder>? {
         val current = currentYear * 12 + currentMonth
         val target = targetYear * 12 + targetMonth
         return if (current == target) {

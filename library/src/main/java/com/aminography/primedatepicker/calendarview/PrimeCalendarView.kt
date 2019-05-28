@@ -35,7 +35,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
     private var layoutManager = LinearLayoutManager(context)
-    private var centeredData: MutableList<PrimeDataHolder>? = null
+    private var dataList: MutableList<PrimeDataHolder>? = null
     private var isInTransition = false
     private var isInLoading = false
 
@@ -125,11 +125,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
             return
         }
-        centeredData = CalendarViewUtils.centeredData(year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
+        dataList = CalendarViewUtils.createPivotList(year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
         if (animate) {
             val dataHolder = findFirstVisibleItem()
 
-            val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
+            val transitionData = CalendarViewUtils.createTransitionList(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
             val isForward = DateUtils.isBefore(dataHolder.year, dataHolder.month, year, month)
             transitionData?.apply {
                 var isLastTransitionItemRemoved = false
@@ -159,7 +159,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         } else {
-            centeredData?.apply {
+            dataList?.apply {
                 adapter.replaceDataList(this)
                 findPosition(year, month, this)?.apply {
                     recyclerView.fastScrollTo(this)
@@ -230,7 +230,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 RecyclerView.SCROLL_STATE_IDLE -> {
                     if (isInTransition) {
                         postDelayed({
-                            centeredData?.apply {
+                            dataList?.apply {
                                 adapter.replaceDataList(this)
                                 findPosition(gotoYear, gotoMonth, this)?.apply {
                                     recyclerView.fastScrollTo(this)
@@ -261,8 +261,8 @@ class PrimeCalendarView @JvmOverloads constructor(
                         } ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
-                            val moreData = CalendarViewUtils.moreData(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, true)
-                            centeredData?.apply {
+                            val moreData = CalendarViewUtils.extendMoreList(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, true)
+                            dataList?.apply {
                                 addAll(size, moreData)
                                 adapter.replaceDataList(this)
                             }
@@ -281,8 +281,8 @@ class PrimeCalendarView @JvmOverloads constructor(
                         } ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
-                            val moreData = CalendarViewUtils.moreData(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, false)
-                            centeredData?.apply {
+                            val moreData = CalendarViewUtils.extendMoreList(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, false)
+                            dataList?.apply {
                                 addAll(0, moreData)
                                 adapter.replaceDataList(this)
                                 findPosition(dataHolder.year, dataHolder.month, this)?.apply {
