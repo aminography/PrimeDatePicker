@@ -285,7 +285,7 @@ class MonthView @JvmOverloads constructor(
         val x = viewWidth / 2
         val y = (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2 + monthLabelTopPadding
 
-        var monthAndYearString: String? = "${firstDayOfMonthCalendar.monthName} ${firstDayOfMonthCalendar.year}"
+        var monthAndYearString = "${firstDayOfMonthCalendar.monthName} ${firstDayOfMonthCalendar.year}"
         monthAndYearString = when (CurrentCalendarType.type) {
             CalendarType.CIVIL -> monthAndYearString
             CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)

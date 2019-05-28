@@ -100,7 +100,7 @@ class PrimeMonthView @JvmOverloads constructor(
                     pickedEndRangeCalendar = null
                 }
             }
-            invalidate()
+//            invalidate()
         }
 
     var pickedSingleDayCalendar: BaseCalendar? = null
@@ -318,7 +318,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val x = viewWidth / 2
         val y = paddingTop + (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2 + monthLabelTopPadding
 
-        var monthAndYearString: String? = "${firstDayOfMonthCalendar.monthName} ${firstDayOfMonthCalendar.year}"
+        var monthAndYearString = "${firstDayOfMonthCalendar.monthName} ${firstDayOfMonthCalendar.year}"
         monthAndYearString = when (CurrentCalendarType.type) {
             CalendarType.CIVIL -> monthAndYearString
             CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)

@@ -21,7 +21,6 @@ class MonthViewHolder(
         with(itemView) {
             dataHolder.apply {
                 monthView.onDayClickListener = this@MonthViewHolder
-                monthView.setDate(year, month)
                 callback?.apply {
                     monthView.setMinMaxDateCalendar(minDateCalendar, maxDateCalendar, false)
 
@@ -31,6 +30,7 @@ class MonthViewHolder(
 
                     monthView.pickType = pickType
                 }
+                monthView.setDate(year, month)
             }
         }
     }
