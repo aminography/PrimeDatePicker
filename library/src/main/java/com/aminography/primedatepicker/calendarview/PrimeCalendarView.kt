@@ -157,14 +157,14 @@ class PrimeCalendarView @JvmOverloads constructor(
         } else {
             dataList?.apply {
                 adapter.replaceDataList(this)
-                findPosition(year, month, this)?.apply {
+                findPositionInList(year, month, this)?.apply {
                     recyclerView.fastScrollTo(this)
                 }
             }
         }
     }
 
-    private fun findPosition(year: Int, month: Int, data: List<PrimeDataHolder>?): Int? {
+    private fun findPositionInList(year: Int, month: Int, data: List<PrimeDataHolder>?): Int? {
         data?.apply {
             val dataHolder = get(0) as MonthDataHolder
             val firstOffset = dataHolder.offset
@@ -228,7 +228,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         postDelayed({
                             dataList?.apply {
                                 adapter.replaceDataList(this)
-                                findPosition(gotoYear, gotoMonth, this)?.apply {
+                                findPositionInList(gotoYear, gotoMonth, this)?.apply {
                                     recyclerView.fastScrollTo(this)
                                 }
                                 isInTransition = false
@@ -277,7 +277,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                             dataList?.apply {
                                 addAll(0, moreData)
                                 adapter.replaceDataList(this)
-                                findPosition(dataHolder.year, dataHolder.month, this)?.apply {
+                                findPositionInList(dataHolder.year, dataHolder.month, this)?.apply {
                                     recyclerView.fastScrollTo(this)
                                 }
                             }
