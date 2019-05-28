@@ -131,7 +131,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             val dataHolder = findFirstVisibleItem()
 
             val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
-            val isForward = DateUtils.isAfter(dataHolder.year, dataHolder.month, year, month)
+            val isForward = DateUtils.isBefore(dataHolder.year, dataHolder.month, year, month)
             transitionData?.apply {
                 var isLastTransitionItemRemoved = false
                 if (isForward) {
