@@ -4,7 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.monthview.PrimeMonthView
+import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
@@ -39,19 +39,19 @@ class MonthViewActivity : AppCompatActivity() {
 
         selectSingleDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                monthView.pickType = PrimeMonthView.PickType.SINGLE
+                monthView.pickType = PickType.SINGLE
             }
         }
 
         selectStartDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                monthView.pickType = PrimeMonthView.PickType.START_RANGE
+                monthView.pickType = PickType.START_RANGE
             }
         }
 
         selectEndDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                monthView.pickType = PrimeMonthView.PickType.END_RANGE
+                monthView.pickType = PickType.END_RANGE
             }
         }
     }

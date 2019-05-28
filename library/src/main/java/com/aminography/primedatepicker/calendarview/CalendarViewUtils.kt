@@ -8,6 +8,7 @@ import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 /**
  * @author aminography
  */
+@Suppress("MemberVisibilityCanBePrivate")
 internal object CalendarViewUtils {
 
     fun moreData(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int, isForward: Boolean): MutableList<PrimeDataHolder> {
@@ -73,22 +74,6 @@ internal object CalendarViewUtils {
             }
         }
     }
-
-    fun isOutOfRange(year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?) =
-            isBeforeMin(year, month, minDateCalendar) || isAfterMax(year, month, maxDateCalendar)
-
-    private fun isBeforeMin(year: Int, month: Int, minDateCalendar: BaseCalendar?): Boolean =
-            minDateCalendar?.let { min ->
-                year < min.year || (year == min.year && month < min.month)
-            } ?: false
-
-    private fun isAfterMax(year: Int, month: Int, maxDateCalendar: BaseCalendar?): Boolean =
-            maxDateCalendar?.let { max ->
-                year > max.year || (year == max.year && month > max.month)
-            } ?: false
-
-    fun isForward(currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int) =
-            (targetYear * 12 + targetMonth) > (currentYear * 12 + currentMonth)
 
     private fun createDataList(lower: Int, upper: Int): MutableList<PrimeDataHolder> {
         return arrayListOf<PrimeDataHolder>().apply {

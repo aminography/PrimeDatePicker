@@ -1,7 +1,7 @@
 package com.aminography.primedatepicker.calendarview.callback
 
 import com.aminography.primecalendar.base.BaseCalendar
-import com.aminography.primedatepicker.monthview.PrimeMonthView
+import com.aminography.primedatepicker.PickType
 
 /**
  * @author aminography
@@ -12,7 +12,7 @@ interface IMonthViewHolderCallback {
 
     val maxDateCalendar: BaseCalendar?
 
-    val pickType: PrimeMonthView.PickType?
+    val pickType: PickType
 
     val pickedStartRangeDay: BaseCalendar?
 

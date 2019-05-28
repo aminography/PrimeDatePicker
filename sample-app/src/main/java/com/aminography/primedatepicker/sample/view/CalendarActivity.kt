@@ -2,6 +2,7 @@ package com.aminography.primedatepicker.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.monthview.PrimeMonthView
 import com.aminography.primedatepicker.sample.R
 import com.aminography.primedatepicker.tools.Utils
@@ -45,19 +46,19 @@ class CalendarActivity : AppCompatActivity() {
 
         selectSingleDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                calendarView.pickType = PrimeMonthView.PickType.SINGLE
+                calendarView.pickType = PickType.SINGLE
             }
         }
 
         selectStartDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                calendarView.pickType = PrimeMonthView.PickType.START_RANGE
+                calendarView.pickType = PickType.START_RANGE
             }
         }
 
         selectEndDateRadioButton.setOnCheckedChangeListener { button, isChecked ->
             if (button.isPressed && isChecked) {
-                calendarView.pickType = PrimeMonthView.PickType.END_RANGE
+                calendarView.pickType = PickType.END_RANGE
             }
         }
 

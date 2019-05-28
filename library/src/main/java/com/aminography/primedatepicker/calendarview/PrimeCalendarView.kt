@@ -10,10 +10,11 @@ import android.widget.FrameLayout
 import com.aminography.primeadapter.PrimeAdapter
 import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primedatepicker.DateUtils
+import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
-import com.aminography.primedatepicker.monthview.MonthViewUtils
 import com.aminography.primedatepicker.monthview.PrimeMonthView
 import com.aminography.primedatepicker.tools.Utils
 
@@ -26,7 +27,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         @AttrRes defStyleAttr: Int = 0,
-        @StyleRes defStyleRes: Int = 0
+        @Suppress("UNUSED_PARAMETER") @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
     private val DEFAULT_LOAD_FACTOR = 12
@@ -80,16 +81,21 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
 
-    override var pickType: PrimeMonthView.PickType? = null
+    override var pickType = PickType.NOTHING
         set(value) {
             field = value
             when (value) {
-                PrimeMonthView.PickType.SINGLE -> {
+                PickType.SINGLE -> {
                     pickedStartRangeDay = null
                     pickedEndRangeDay = null
                 }
-                PrimeMonthView.PickType.START_RANGE -> pickedSingleDay = null
-                PrimeMonthView.PickType.END_RANGE -> pickedSingleDay = null
+                PickType.START_RANGE -> pickedSingleDay = null
+                PickType.END_RANGE -> pickedSingleDay = null
+                PickType.NOTHING -> {
+                    pickedSingleDay = null
+                    pickedStartRangeDay = null
+                    pickedEndRangeDay = null
+                }
             }
             adapter.notifyDataSetChanged()
         }
@@ -117,7 +123,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     fun goto(year: Int, month: Int, animate: Boolean = false) {
-        if (CalendarViewUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
+        if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
             return
         }
         centeredData = CalendarViewUtils.centeredData(year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
@@ -125,7 +131,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             val dataHolder = findFirstVisibleItem()
 
             val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
-            val isForward = CalendarViewUtils.isForward(dataHolder.year, dataHolder.month, year, month)
+            val isForward = DateUtils.isAfter(dataHolder.year, dataHolder.month, year, month)
             transitionData?.apply {
                 var isLastTransitionItemRemoved = false
                 if (isForward) {
@@ -191,19 +197,21 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     override fun onDayClick(day: BaseCalendar) {
         when (pickType) {
-            PrimeMonthView.PickType.SINGLE -> {
+            PickType.SINGLE -> {
                 pickedSingleDay = day
             }
-            PrimeMonthView.PickType.START_RANGE -> {
-                if (MonthViewUtils.isAfter(day.year, day.month, day.dayOfMonth, pickedEndRangeDay)) {
+            PickType.START_RANGE -> {
+                if (DateUtils.isAfter(day.year, day.month, day.dayOfMonth, pickedEndRangeDay)) {
                     pickedEndRangeDay = null
                 }
                 pickedStartRangeDay = day
             }
-            PrimeMonthView.PickType.END_RANGE -> {
-                if (!MonthViewUtils.isBefore(day.year, day.month, day.dayOfMonth, pickedStartRangeDay)) {
+            PickType.END_RANGE -> {
+                if (!DateUtils.isBefore(day.year, day.month, day.dayOfMonth, pickedStartRangeDay)) {
                     pickedEndRangeDay = day
                 }
+            }
+            PickType.NOTHING -> {
             }
         }
 
