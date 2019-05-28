@@ -30,7 +30,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         @Suppress("UNUSED_PARAMETER") @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
-    private val DEFAULT_LOAD_FACTOR = 12
+    private val DEFAULT_LOAD_FACTOR = 24
     private val DEFAULT_TRANSITION_FACTOR = 2
 
     private var adapter: MonthListAdapter
