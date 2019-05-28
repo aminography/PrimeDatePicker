@@ -4,12 +4,12 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.DateUtils
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
 import com.aminography.primedatepicker.tools.CurrentCalendarType
-import com.aminography.primedatepicker.tools.Utils
 import kotlinx.android.synthetic.main.activity_month_view.*
 
 class MonthViewActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class MonthViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_month_view)
 
-        val calendar = Utils.newCalendar()
+        val calendar = DateUtils.newCalendar()
         monthView.setDate(calendar.year, calendar.month)
 
         val typeface: Typeface? = when (CurrentCalendarType.type) {
@@ -29,11 +29,11 @@ class MonthViewActivity : AppCompatActivity() {
 
         monthView.fontTypeface = typeface
 
-        val minDateCalendar = Utils.newCalendar()
+        val minDateCalendar = DateUtils.newCalendar()
         minDateCalendar.dayOfMonth = 4
         monthView.minDateCalendar = minDateCalendar
 
-        val maxDateCalendar = Utils.newCalendar()
+        val maxDateCalendar = DateUtils.newCalendar()
         maxDateCalendar.dayOfMonth = 28
         monthView.maxDateCalendar = maxDateCalendar
 

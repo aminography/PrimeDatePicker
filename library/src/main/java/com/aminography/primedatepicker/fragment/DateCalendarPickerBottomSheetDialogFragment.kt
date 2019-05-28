@@ -19,14 +19,14 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.persian.PersianCalendar
+import com.aminography.primedatepicker.DateUtils
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.old.BaseMonthListView
 import com.aminography.primedatepicker.old.DatePickerController
-import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.old.SimpleMonthListView
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.TimeUtils
-import com.aminography.primedatepicker.tools.Utils
 import java.util.*
 
 class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_calendar_picker_bottom_sheet) {
@@ -131,8 +131,8 @@ class DateCalendarPickerBottomSheetDialogFragment : BaseBottomSheetDialogFragmen
             findViewById<Button>(R.id.negativeButton).setOnClickListener { dismiss() }
 
             findViewById<Button>(R.id.todayButton).setOnClickListener {
-                val calendarDay = Utils.newCalendar()
-                mBaseMonthListView!!.goTo(calendarDay, false, true, true)
+                val calendarDay = DateUtils.newCalendar()
+                mBaseMonthListView!!.goTo(calendarDay, false, setSelected = true, forceScroll = true)
                 mDatePickerController.onDayOfMonthSelected(calendarDay.year, calendarDay.month, calendarDay.dayOfMonth)
             }
 

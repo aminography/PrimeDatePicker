@@ -24,7 +24,6 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
-import com.aminography.primedatepicker.tools.Utils
 import org.jetbrains.anko.dip
 import java.util.*
 
@@ -254,7 +253,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         if (isInEditMode) {
-            val calendar = Utils.newCalendar()
+            val calendar = DateUtils.newCalendar()
             setDate(calendar.year, calendar.month)
         }
     }
@@ -283,7 +282,7 @@ class PrimeMonthView @JvmOverloads constructor(
         firstDayOfMonthCalendar.setDate(year, month, 1)
         firstDayOfMonthDayOfWeek = firstDayOfMonthCalendar.get(Calendar.DAY_OF_WEEK)
 
-        daysInMonth = Utils.getDaysInMonth(month, year)
+        daysInMonth = DateUtils.getDaysInMonth(month, year)
         weekStart = when (CurrentCalendarType.type) {
             CalendarType.CIVIL -> Calendar.SUNDAY
             CalendarType.PERSIAN -> Calendar.SATURDAY
@@ -591,7 +590,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
 
-                        val calendar = Utils.newCalendar()
+                        val calendar = DateUtils.newCalendar()
                         calendar.setDate(year, month, dayOfMonth)
                         onDayClicked(calendar)
                     }

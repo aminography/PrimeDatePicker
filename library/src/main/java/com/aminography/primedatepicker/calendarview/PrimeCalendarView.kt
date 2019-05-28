@@ -16,7 +16,6 @@ import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.monthOffset
-import com.aminography.primedatepicker.tools.Utils
 
 
 /**
@@ -114,7 +113,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         adapter.iMonthViewHolderCallback = this
 
-        val calendar = Utils.newCalendar()
+        val calendar = DateUtils.newCalendar()
         goto(calendar.year, calendar.month, false)
     }
 

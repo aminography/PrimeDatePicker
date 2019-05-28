@@ -19,10 +19,10 @@ import android.view.View
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.DateUtils
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
-import com.aminography.primedatepicker.tools.Utils
 import org.jetbrains.anko.dip
 import java.util.*
 
@@ -32,7 +32,7 @@ import java.util.*
  */
 class MonthView @JvmOverloads constructor(
         context: Context,
-        @StyleableRes attrs: AttributeSet? = null,
+        attrs: AttributeSet? = null,
         @AttrRes defStyleAttr: Int = 0,
         @StyleRes defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr) {
@@ -253,7 +253,7 @@ class MonthView @JvmOverloads constructor(
             CalendarType.HIJRI -> Calendar.SATURDAY
         }
 
-        daysInMonth = Utils.getDaysInMonth(month, year)
+        daysInMonth = DateUtils.getDaysInMonth(month, year)
         for (i in 0 until daysInMonth) {
             val day = i + 1
             if (sameDay(day, todayCalendar)) {
@@ -579,7 +579,7 @@ class MonthView @JvmOverloads constructor(
         }
 
         onDayClickListener?.apply {
-            val calendar = Utils.newCalendar()
+            val calendar = DateUtils.newCalendar()
             calendar.setDate(year, month, day)
             onDayClick(this@MonthView, calendar)
         }
