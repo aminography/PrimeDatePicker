@@ -13,6 +13,7 @@ import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
+import com.aminography.primedatepicker.monthview.MonthViewUtils
 import com.aminography.primedatepicker.monthview.PrimeMonthView
 import com.aminography.primedatepicker.tools.Utils
 
@@ -48,11 +49,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 min.year * 12 + min.month
             } ?: Int.MIN_VALUE
 
-            var position = layoutManager.findFirstCompletelyVisibleItemPosition()
-            if (position == RecyclerView.NO_POSITION) {
-                position = layoutManager.findFirstVisibleItemPosition()
-            }
-            val dataHolder = adapter.getItem(position) as MonthDataHolder
+            val dataHolder = findFirstVisibleItem()
             val offset = dataHolder.offset
 
             if (offset < minOffset) {
@@ -71,11 +68,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 max.year * 12 + max.month
             } ?: Int.MAX_VALUE
 
-            var position = layoutManager.findLastCompletelyVisibleItemPosition()
-            if (position == RecyclerView.NO_POSITION) {
-                position = layoutManager.findLastVisibleItemPosition()
-            }
-            val dataHolder = adapter.getItem(position) as MonthDataHolder
+            val dataHolder = findLastVisibleItem()
             val offset = dataHolder.offset
 
             if (offset > maxOffset) {
@@ -90,12 +83,20 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickType: PrimeMonthView.PickType? = null
         set(value) {
             field = value
+            when (value) {
+                PrimeMonthView.PickType.SINGLE -> {
+                    pickedStartRangeDay = null
+                    pickedEndRangeDay = null
+                }
+                PrimeMonthView.PickType.START_RANGE -> pickedSingleDay = null
+                PrimeMonthView.PickType.END_RANGE -> pickedSingleDay = null
+            }
             adapter.notifyDataSetChanged()
         }
 
+    override var pickedSingleDay: BaseCalendar? = null
     override var pickedStartRangeDay: BaseCalendar? = null
     override var pickedEndRangeDay: BaseCalendar? = null
-    override var pickedSingleDay: BaseCalendar? = null
 
     init {
         addView(recyclerView)
@@ -121,11 +122,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
         centeredData = CalendarViewUtils.centeredData(year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
         if (animate) {
-            var position = layoutManager.findFirstCompletelyVisibleItemPosition()
-            if (position == RecyclerView.NO_POSITION) {
-                position = layoutManager.findFirstVisibleItemPosition()
-            }
-            val dataHolder = adapter.getItem(position) as MonthDataHolder
+            val dataHolder = findFirstVisibleItem()
 
             val transitionData = CalendarViewUtils.transitionData(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
             val isForward = CalendarViewUtils.isForward(dataHolder.year, dataHolder.month, year, month)
@@ -176,26 +173,42 @@ class PrimeCalendarView @JvmOverloads constructor(
         return null
     }
 
+    private fun findFirstVisibleItem(): MonthDataHolder {
+        var position = layoutManager.findFirstCompletelyVisibleItemPosition()
+        if (position == RecyclerView.NO_POSITION) {
+            position = layoutManager.findFirstVisibleItemPosition()
+        }
+        return adapter.getItem(position) as MonthDataHolder
+    }
+
+    private fun findLastVisibleItem(): MonthDataHolder {
+        var position = layoutManager.findLastCompletelyVisibleItemPosition()
+        if (position == RecyclerView.NO_POSITION) {
+            position = layoutManager.findLastVisibleItemPosition()
+        }
+        return adapter.getItem(position) as MonthDataHolder
+    }
+
     override fun onDayClick(day: BaseCalendar) {
         when (pickType) {
             PrimeMonthView.PickType.SINGLE -> {
                 pickedSingleDay = day
             }
             PrimeMonthView.PickType.START_RANGE -> {
+                if (MonthViewUtils.isAfter(day.year, day.month, day.dayOfMonth, pickedEndRangeDay)) {
+                    pickedEndRangeDay = null
+                }
                 pickedStartRangeDay = day
             }
             PrimeMonthView.PickType.END_RANGE -> {
-                pickedEndRangeDay = day
+                if (!MonthViewUtils.isBefore(day.year, day.month, day.dayOfMonth, pickedStartRangeDay)) {
+                    pickedEndRangeDay = day
+                }
             }
         }
 
-        var position = layoutManager.findLastCompletelyVisibleItemPosition()
-        if (position == RecyclerView.NO_POSITION) {
-            position = layoutManager.findLastVisibleItemPosition()
-        }
-        val dataHolder = adapter.getItem(position) as MonthDataHolder
+        val dataHolder = findLastVisibleItem()
         goto(dataHolder.year, dataHolder.month, false)
-
     }
 
     private inner class OnScrollListener : RecyclerView.OnScrollListener() {

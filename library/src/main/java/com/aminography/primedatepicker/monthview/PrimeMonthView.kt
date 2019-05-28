@@ -98,11 +98,8 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
     var pickedSingleCalendar: BaseCalendar? = null
-    private var pickedSingleState = PickedSingleState.NOT_CONTAINS
-
     var pickedStartRangeCalendar: BaseCalendar? = null
     var pickedEndRangeCalendar: BaseCalendar? = null
-    private var pickedRangeState = PickedRangeState.NO_RANGE
 
     private var hasToday = false
     private var todayDayOfMonth = -1
@@ -235,9 +232,6 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        pickedSingleState = MonthViewUtils.pickedSingleState(year, month, pickedSingleCalendar)
-        pickedRangeState = MonthViewUtils.pickedRangeState(year, month, pickedStartRangeCalendar, pickedEndRangeCalendar)
-
         drawMonthLabel(canvas)
         drawWeekLabels(canvas)
         drawDayLabels(canvas)
@@ -522,7 +516,11 @@ class PrimeMonthView @JvmOverloads constructor(
                         selectedDayLabelTextColor
                     }
                     PickedDayState.NOTHING -> {
-                        dayLabelTextColor
+                        if (hasToday && dayOfMonth == todayDayOfMonth) {
+                            todayLabelTextColor
+                        } else {
+                            dayLabelTextColor
+                        }
                     }
                 }
             } else if (hasToday && dayOfMonth == todayDayOfMonth) {
@@ -564,26 +562,17 @@ class PrimeMonthView @JvmOverloads constructor(
                                 invalidate()
                             }
                             PickType.START_RANGE -> {
-//                                pickedEndRangeDay?.let { end ->
-//                                    if (dayOfMonth > end) {
-//                                        pickedEndRangeDay = null
-//                                    }
-//                                }
+                                if (MonthViewUtils.isAfter(year, month, dayOfMonth, pickedEndRangeCalendar)) {
+                                    pickedEndRangeCalendar = null
+                                }
                                 pickedStartRangeCalendar = calendar
-                                pickedRangeState = MonthViewUtils.pickedRangeState(year, month, pickedStartRangeCalendar, pickedEndRangeCalendar)
                                 invalidate()
                             }
                             PickType.END_RANGE -> {
-//                                pickedStartRangeDay?.let { start ->
-//                                    if (dayOfMonth >= start) {
-//                                        pickedEndRangeDay = dayOfMonth
-//                                        pickedEndRangeCalendar = calendar
-//                                        invalidate()
-//                                    }
-//                                }
-                                pickedEndRangeCalendar = calendar
-                                pickedRangeState = MonthViewUtils.pickedRangeState(year, month, pickedStartRangeCalendar, pickedEndRangeCalendar)
-                                invalidate()
+                                if (!MonthViewUtils.isBefore(year, month, dayOfMonth, pickedStartRangeCalendar)) {
+                                    pickedEndRangeCalendar = calendar
+                                    invalidate()
+                                }
                             }
                         }
 
@@ -624,21 +613,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun isOutOfRange(year: Int, month: Int, day: Int): Boolean =
-            isBeforeMin(year, month, day) || isAfterMax(year, month, day)
-
-    private fun isBeforeMin(year: Int, month: Int, dayOfMonth: Int): Boolean =
-            minDateCalendar?.let { min ->
-                year < min.year ||
-                        (year == min.year && month < min.month) ||
-                        (year == min.year && month == min.month && dayOfMonth < min.dayOfMonth)
-            } ?: false
-
-    private fun isAfterMax(year: Int, month: Int, dayOfMonth: Int): Boolean =
-            maxDateCalendar?.let { max ->
-                year > max.year ||
-                        (year == max.year && month > max.month) ||
-                        (year == max.year && month == max.month && dayOfMonth > max.dayOfMonth)
-            } ?: false
+            MonthViewUtils.isBefore(year, month, day, minDateCalendar) || MonthViewUtils.isAfter(year, month, day, maxDateCalendar)
 
     enum class PickType {
         SINGLE,
@@ -653,21 +628,6 @@ class PrimeMonthView @JvmOverloads constructor(
         IN_RANGE,
         END_OF_RANGE,
         NOTHING
-    }
-
-    enum class PickedSingleState {
-        NOT_CONTAINS,
-        CONTAINS,
-    }
-
-    enum class PickedRangeState {
-        NO_RANGE,
-        BEFORE_START,
-        CONTAINS_START,
-        FULLY_IN_RANGE,
-        CONTAINS_END,
-        CONTAINS_START_END,
-        AFTER_END
     }
 
     interface OnDayClickListener {

@@ -72,43 +72,19 @@ internal object MonthViewUtils {
         }
     }
 
-    fun pickedSingleState(year: Int, month: Int, pickedSingleCalendar: BaseCalendar?): PrimeMonthView.PickedSingleState {
-        val offset = year * 12 + month
-        var pickedOffset: Int? = null
-        pickedSingleCalendar?.let { day ->
-            pickedOffset = day.year * 12 + day.month
-        }
+    fun isBefore(year: Int, month: Int, dayOfMonth: Int, calendar: BaseCalendar?): Boolean =
+            calendar?.let { min ->
+                year < min.year ||
+                        (year == min.year && month < min.month) ||
+                        (year == min.year && month == min.month && dayOfMonth < min.dayOfMonth)
+            } ?: false
 
-        return when (offset) {
-            (pickedOffset ?: Int.MAX_VALUE) -> PrimeMonthView.PickedSingleState.CONTAINS
-            else -> PrimeMonthView.PickedSingleState.NOT_CONTAINS
-        }
-    }
+    fun isAfter(year: Int, month: Int, dayOfMonth: Int, calendar: BaseCalendar?): Boolean =
+            calendar?.let { max ->
+                year > max.year ||
+                        (year == max.year && month > max.month) ||
+                        (year == max.year && month == max.month && dayOfMonth > max.dayOfMonth)
+            } ?: false
 
-    fun pickedRangeState(year: Int, month: Int, pickedStartRangeCalendar: BaseCalendar?, pickedEndRangeCalendar: BaseCalendar?): PrimeMonthView.PickedRangeState {
-        val offset = year * 12 + month
-        var startOffset: Int? = null
-        var endOffset: Int? = null
-        pickedStartRangeCalendar?.let { day ->
-            startOffset = day.year * 12 + day.month
-        }
-        pickedEndRangeCalendar?.let { day ->
-            endOffset = day.year * 12 + day.month
-        }
-
-        return when {
-            offset == (startOffset ?: Int.MIN_VALUE) && offset == (endOffset
-                    ?: Int.MAX_VALUE) -> PrimeMonthView.PickedRangeState.CONTAINS_START_END
-            offset == (startOffset
-                    ?: Int.MIN_VALUE) -> PrimeMonthView.PickedRangeState.CONTAINS_START
-            offset == (endOffset ?: Int.MAX_VALUE) -> PrimeMonthView.PickedRangeState.CONTAINS_END
-            offset > (startOffset ?: Int.MIN_VALUE) && offset < (endOffset
-                    ?: Int.MAX_VALUE) -> PrimeMonthView.PickedRangeState.FULLY_IN_RANGE
-            offset < (startOffset ?: Int.MIN_VALUE) -> PrimeMonthView.PickedRangeState.BEFORE_START
-            offset > (endOffset ?: Int.MAX_VALUE) -> PrimeMonthView.PickedRangeState.AFTER_END
-            else -> PrimeMonthView.PickedRangeState.NO_RANGE
-        }
-
-    }
 
 }
