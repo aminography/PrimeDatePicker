@@ -14,11 +14,11 @@ interface IMonthViewHolderCallback {
 
     val pickType: PickType
 
-    val pickedStartRangeDay: BaseCalendar?
+    val pickedStartRangeCalendar: BaseCalendar?
 
-    val pickedEndRangeDay: BaseCalendar?
+    val pickedEndRangeCalendar: BaseCalendar?
 
-    val pickedSingleDay: BaseCalendar?
+    val pickedSingleDayCalendar: BaseCalendar?
 
     fun onDayClick(day: BaseCalendar)
 }

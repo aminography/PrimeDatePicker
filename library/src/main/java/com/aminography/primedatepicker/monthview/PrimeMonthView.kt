@@ -93,10 +93,10 @@ class PrimeMonthView @JvmOverloads constructor(
                     pickedStartRangeCalendar = null
                     pickedEndRangeCalendar = null
                 }
-                PickType.START_RANGE -> pickedSingleCalendar = null
-                PickType.END_RANGE -> pickedSingleCalendar = null
+                PickType.START_RANGE -> pickedSingleDayCalendar = null
+                PickType.END_RANGE -> pickedSingleDayCalendar = null
                 PickType.NOTHING -> {
-                    pickedSingleCalendar = null
+                    pickedSingleDayCalendar = null
                     pickedStartRangeCalendar = null
                     pickedEndRangeCalendar = null
                 }
@@ -104,7 +104,7 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
         }
 
-    var pickedSingleCalendar: BaseCalendar? = null
+    var pickedSingleDayCalendar: BaseCalendar? = null
     var pickedStartRangeCalendar: BaseCalendar? = null
     var pickedEndRangeCalendar: BaseCalendar? = null
 
@@ -128,9 +128,9 @@ class PrimeMonthView @JvmOverloads constructor(
     var minDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            pickedSingleCalendar?.let { single ->
+            pickedSingleDayCalendar?.let { single ->
                 if (DateUtils.isBefore(single, value)) {
-                    pickedSingleCalendar = value
+                    pickedSingleDayCalendar = value
                 }
             }
             pickedStartRangeCalendar?.let { start ->
@@ -150,9 +150,9 @@ class PrimeMonthView @JvmOverloads constructor(
     var maxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            pickedSingleCalendar?.let { single ->
+            pickedSingleDayCalendar?.let { single ->
                 if (DateUtils.isAfter(single, value)) {
-                    pickedSingleCalendar = value
+                    pickedSingleDayCalendar = value
                 }
             }
             pickedStartRangeCalendar?.let { start ->
@@ -491,7 +491,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun drawDayBackground(canvas: Canvas, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
         val radius = Math.min(width, height) / 2 - dp(2f)
         selectedDayBackgroundPaint?.apply {
-            when (MonthViewUtils.pickedDayState(year, month, dayOfMonth, pickType, pickedSingleCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
+            when (MonthViewUtils.pickedDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
                 PickedDayState.PICKED_SINGLE -> {
                     canvas.drawCircle(x, y, radius, this)
                 }
@@ -537,7 +537,7 @@ class PrimeMonthView @JvmOverloads constructor(
             color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar)) {
                 disabledDayLabelTextColor
             } else if (pickType != PickType.NOTHING) {
-                when (MonthViewUtils.pickedDayState(year, month, dayOfMonth, pickType, pickedSingleCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
+                when (MonthViewUtils.pickedDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
                     PickedDayState.PICKED_SINGLE -> {
                         selectedDayLabelTextColor
                     }
@@ -605,7 +605,7 @@ class PrimeMonthView @JvmOverloads constructor(
         calendar.apply {
             when (pickType) {
                 PickType.SINGLE -> {
-                    pickedSingleCalendar = calendar
+                    pickedSingleDayCalendar = calendar
                     invalidate()
                 }
                 PickType.START_RANGE -> {
@@ -677,9 +677,9 @@ class PrimeMonthView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
         savedState.selectType = pickType.ordinal
-//        savedState.selectedDay = pickedSingleDay ?: -1
-//        savedState.startRangeDay = pickedStartRangeDay ?: -1
-//        savedState.endRangeDay = pickedEndRangeDay ?: -1
+//        savedState.selectedDay = pickedSingleDayCalendar ?: -1
+//        savedState.startRangeDay = pickedStartRangeCalendar ?: -1
+//        savedState.endRangeDay = pickedEndRangeCalendar ?: -1
         return savedState
     }
 
@@ -687,9 +687,9 @@ class PrimeMonthView @JvmOverloads constructor(
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
         pickType = PickType.values()[savedState.selectType]
-//        pickedSingleDay = if (savedState.selectedDay != -1) savedState.selectedDay else null
-//        pickedStartRangeDay = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
-//        pickedEndRangeDay = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
+//        pickedSingleDayCalendar = if (savedState.selectedDay != -1) savedState.selectedDay else null
+//        pickedStartRangeCalendar = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
+//        pickedEndRangeCalendar = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
         invalidate()
     }
 

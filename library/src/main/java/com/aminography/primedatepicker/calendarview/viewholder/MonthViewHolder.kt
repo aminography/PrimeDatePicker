@@ -25,9 +25,9 @@ class MonthViewHolder(
                 callback?.apply {
                     monthView.setMinMaxDateCalendar(minDateCalendar, maxDateCalendar, false)
 
-                    monthView.pickedSingleCalendar = pickedSingleDay
-                    monthView.pickedStartRangeCalendar = pickedStartRangeDay
-                    monthView.pickedEndRangeCalendar = pickedEndRangeDay
+                    monthView.pickedSingleDayCalendar = pickedSingleDayCalendar
+                    monthView.pickedStartRangeCalendar = pickedStartRangeCalendar
+                    monthView.pickedEndRangeCalendar = pickedEndRangeCalendar
 
                     monthView.pickType = pickType
                 }

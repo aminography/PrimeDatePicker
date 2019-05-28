@@ -15,7 +15,6 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
-import com.aminography.primedatepicker.monthview.PrimeMonthView
 import com.aminography.primedatepicker.tools.Utils
 
 
@@ -86,23 +85,23 @@ class PrimeCalendarView @JvmOverloads constructor(
             field = value
             when (value) {
                 PickType.SINGLE -> {
-                    pickedStartRangeDay = null
-                    pickedEndRangeDay = null
+                    pickedStartRangeCalendar = null
+                    pickedEndRangeCalendar = null
                 }
-                PickType.START_RANGE -> pickedSingleDay = null
-                PickType.END_RANGE -> pickedSingleDay = null
+                PickType.START_RANGE -> pickedSingleDayCalendar = null
+                PickType.END_RANGE -> pickedSingleDayCalendar = null
                 PickType.NOTHING -> {
-                    pickedSingleDay = null
-                    pickedStartRangeDay = null
-                    pickedEndRangeDay = null
+                    pickedSingleDayCalendar = null
+                    pickedStartRangeCalendar = null
+                    pickedEndRangeCalendar = null
                 }
             }
             adapter.notifyDataSetChanged()
         }
 
-    override var pickedSingleDay: BaseCalendar? = null
-    override var pickedStartRangeDay: BaseCalendar? = null
-    override var pickedEndRangeDay: BaseCalendar? = null
+    override var pickedSingleDayCalendar: BaseCalendar? = null
+    override var pickedStartRangeCalendar: BaseCalendar? = null
+    override var pickedEndRangeCalendar: BaseCalendar? = null
 
     init {
         addView(recyclerView)
@@ -198,17 +197,17 @@ class PrimeCalendarView @JvmOverloads constructor(
     override fun onDayClick(day: BaseCalendar) {
         when (pickType) {
             PickType.SINGLE -> {
-                pickedSingleDay = day
+                pickedSingleDayCalendar = day
             }
             PickType.START_RANGE -> {
-                if (DateUtils.isAfter(day.year, day.month, day.dayOfMonth, pickedEndRangeDay)) {
-                    pickedEndRangeDay = null
+                if (DateUtils.isAfter(day.year, day.month, day.dayOfMonth, pickedEndRangeCalendar)) {
+                    pickedEndRangeCalendar = null
                 }
-                pickedStartRangeDay = day
+                pickedStartRangeCalendar = day
             }
             PickType.END_RANGE -> {
-                if (!DateUtils.isBefore(day.year, day.month, day.dayOfMonth, pickedStartRangeDay)) {
-                    pickedEndRangeDay = day
+                if (!DateUtils.isBefore(day.year, day.month, day.dayOfMonth, pickedStartRangeCalendar)) {
+                    pickedEndRangeCalendar = day
                 }
             }
             PickType.NOTHING -> {
