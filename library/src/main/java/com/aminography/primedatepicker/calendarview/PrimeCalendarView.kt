@@ -125,16 +125,16 @@ class PrimeCalendarView @JvmOverloads constructor(
         if (animate) {
             val dataHolder = findFirstVisibleItem()
 
-            val transitionData = CalendarViewUtils.createTransitionList(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
+            val transitionList = CalendarViewUtils.createTransitionList(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
             val isForward = DateUtils.isBefore(dataHolder.year, dataHolder.month, year, month)
-            transitionData?.apply {
+            transitionList?.apply {
                 var isLastTransitionItemRemoved = false
                 if (isForward) {
                     maxDateCalendar?.let { max ->
                         val maxOffset = max.monthOffset()
                         val targetOffset = year * 12 + month
                         if (maxOffset == targetOffset) {
-                            transitionData.removeAt(transitionData.size - 1)
+                            transitionList.removeAt(transitionList.size - 1)
                             isLastTransitionItemRemoved = true
                         }
                     }
@@ -164,8 +164,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun findPositionInList(year: Int, month: Int, data: List<PrimeDataHolder>?): Int? {
-        data?.apply {
+    private fun findPositionInList(year: Int, month: Int, list: List<PrimeDataHolder>?): Int? {
+        list?.apply {
             val dataHolder = get(0) as MonthDataHolder
             val firstOffset = dataHolder.offset
             val targetOffset = year * 12 + month
