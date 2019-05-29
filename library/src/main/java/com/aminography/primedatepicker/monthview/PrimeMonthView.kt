@@ -315,8 +315,11 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun drawMonthLabel(canvas: Canvas) {
-        val x = viewWidth / 2
-        val y = paddingTop + (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2 + monthLabelTopPadding
+        val x = viewWidth / 2f
+        var y = paddingTop + (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f + monthLabelTopPadding
+        monthLabelPaint?.apply {
+            y -= ((descent() + ascent()) / 2)
+        }
 
         var monthAndYearString = "${firstDayOfMonthCalendar.monthName} ${firstDayOfMonthCalendar.year}"
         monthAndYearString = when (CurrentCalendarType.type) {
@@ -328,8 +331,8 @@ class PrimeMonthView @JvmOverloads constructor(
         monthLabelPaint?.apply {
             canvas.drawText(
                     monthAndYearString,
-                    x.toFloat(),
-                    y.toFloat() - ((descent() + ascent()) / 2),
+                    x,
+                    y,
                     this
             )
         }
@@ -353,7 +356,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 color = Color.RED
                 style = Style.FILL
                 canvas.drawCircle(
-                        x.toFloat(),
+                        x,
                         paddingTop + (monthHeaderHeight / 2).toFloat(),
                         dp(1f).toFloat(),
                         this
@@ -363,17 +366,25 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun drawWeekLabels(canvas: Canvas) {
-        val y = paddingTop + monthHeaderHeight + (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2 + weekLabelTopPadding
+        var y = paddingTop + monthHeaderHeight + (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f + weekLabelTopPadding
+        weekLabelPaint?.apply {
+            y -= ((descent() + ascent()) / 2)
+        }
+
+        val xPositionList = arrayListOf<Float>().apply {
+            for (i in 0 until 7) {
+                // RTLize for Persian and Hijri Calendars
+                add(when (CurrentCalendarType.type) {
+                    CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
+                    CalendarType.PERSIAN -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
+                    CalendarType.HIJRI -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
+                })
+            }
+        }
 
         for (i in 0 until 7) {
             val dayOfWeek = (i + weekStart) % 7
-
-            // RTLize for Persian and Hijri Calendars
-            val x = when (CurrentCalendarType.type) {
-                CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
-                CalendarType.PERSIAN -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
-                CalendarType.HIJRI -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
-            }
+            val x = xPositionList[i]
 
             dayOfWeekLabelCalendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
             val localWeekDisplayName = dayOfWeekLabelCalendar.weekDayName
@@ -388,7 +399,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 canvas.drawText(
                         weekString,
                         x,
-                        y.toFloat() - ((descent() + ascent()) / 2),
+                        y,
                         this
                 )
             }
@@ -442,15 +453,20 @@ class PrimeMonthView @JvmOverloads constructor(
         var offset = weekOffset(firstDayOfMonthDayOfWeek)
         val radius = Math.min(cellWidth, cellHeight) / 2 - dp(2f)
 
+        val xPositionList = arrayListOf<Float>().apply {
+            for (i in 0 until 7) {
+                // RTLize for Persian and Hijri Calendars
+                add(when (CurrentCalendarType.type) {
+                    CalendarType.CIVIL -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
+                    CalendarType.PERSIAN -> ((2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft)
+                    CalendarType.HIJRI -> ((2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft)
+                })
+            }
+        }
+
         for (dayOfMonth in 1..daysInMonth) {
             val y = topY + cellHeight / 2
-
-            // RTLize for Persian and Hijri Calendars
-            val x = when (CurrentCalendarType.type) {
-                CalendarType.CIVIL -> ((2 * offset + 1) * (cellWidth / 2) + paddingLeft)
-                CalendarType.PERSIAN -> ((2 * (6 - offset) + 1) * (cellWidth / 2) + paddingLeft)
-                CalendarType.HIJRI -> ((2 * (6 - offset) + 1) * (cellWidth / 2) + paddingLeft)
-            }
+            val x = xPositionList[offset]
 
             val pickedDayState = MonthViewUtils.findDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)
             drawDayBackground(canvas, pickedDayState, x, y, radius)
