@@ -440,7 +440,9 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun drawDayLabels(canvas: Canvas) {
         var topY: Float = (paddingTop + monthHeaderHeight + weekHeaderHeight).toFloat()
         var offset = weekOffset(firstDayOfMonthDayOfWeek)
-        for (dayNumber in 1..daysInMonth) {
+        val radius = Math.min(cellWidth, cellHeight) / 2 - dp(2f)
+
+        for (dayOfMonth in 1..daysInMonth) {
             val y = topY + cellHeight / 2
 
             // RTLize for Persian and Hijri Calendars
@@ -450,8 +452,9 @@ class PrimeMonthView @JvmOverloads constructor(
                 CalendarType.HIJRI -> ((2 * (6 - offset) + 1) * (cellWidth / 2) + paddingLeft)
             }
 
-            drawDayBackground(canvas, dayNumber, x, y, cellWidth, cellHeight)
-            drawDayLabel(canvas, dayNumber, x, y, cellWidth, cellHeight)
+            val pickedDayState = MonthViewUtils.findDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)
+            drawDayBackground(canvas, pickedDayState, x, y, radius)
+            drawDayLabel(canvas, dayOfMonth, pickedDayState, x, y)
 
             if (SHOW_GUIDE_LINES) {
                 Paint().apply {
@@ -487,10 +490,9 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawDayBackground(canvas: Canvas, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
-        val radius = Math.min(width, height) / 2 - dp(2f)
+    private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float) {
         selectedDayBackgroundPaint?.apply {
-            when (MonthViewUtils.findDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
+            when (pickedDayState) {
                 PickedDayState.PICKED_SINGLE -> {
                     canvas.drawCircle(x, y, radius, this)
                 }
@@ -530,13 +532,12 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    @Suppress("UNUSED_PARAMETER")
-    private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, x: Float, y: Float, width: Float, height: Float) {
+    private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, pickedDayState: PickedDayState, x: Float, y: Float) {
         dayLabelPaint?.apply {
             color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar)) {
                 disabledDayLabelTextColor
             } else if (pickType != PickType.NOTHING) {
-                when (MonthViewUtils.findDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)) {
+                when (pickedDayState) {
                     PickedDayState.PICKED_SINGLE -> {
                         selectedDayLabelTextColor
                     }
