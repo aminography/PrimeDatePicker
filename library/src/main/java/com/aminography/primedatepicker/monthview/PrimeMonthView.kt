@@ -324,8 +324,7 @@ class PrimeMonthView @JvmOverloads constructor(
         var monthAndYearString = "${firstDayOfMonthCalendar.monthName} ${firstDayOfMonthCalendar.year}"
         monthAndYearString = when (CurrentCalendarType.type) {
             CalendarType.CIVIL -> monthAndYearString
-            CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
-            CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
+            CalendarType.PERSIAN, CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
         }
 
         monthLabelPaint?.apply {
@@ -376,8 +375,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 // RTLize for Persian and Hijri Calendars
                 add(when (CurrentCalendarType.type) {
                     CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
-                    CalendarType.PERSIAN -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
-                    CalendarType.HIJRI -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
                 })
             }
         }
@@ -458,8 +456,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 // RTLize for Persian and Hijri Calendars
                 add(when (CurrentCalendarType.type) {
                     CalendarType.CIVIL -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
-                    CalendarType.PERSIAN -> ((2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft)
-                    CalendarType.HIJRI -> ((2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft)
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> ((2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft)
                 })
             }
         }
@@ -508,39 +505,41 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float) {
         selectedDayBackgroundPaint?.apply {
-            when (pickedDayState) {
-                PickedDayState.PICKED_SINGLE -> {
-                    canvas.drawCircle(x, y, radius, this)
+
+            fun drawCircle() = canvas.drawCircle(x, y, radius, this)
+
+            fun drawRect() = canvas.drawRect(x - cellWidth / 2, y - radius, x + cellWidth / 2, y + radius, this)
+
+            fun drawHalfRect(isStart: Boolean) {
+                // RTLize for Persian and Hijri Calendars
+                when (CurrentCalendarType.type) {
+                    CalendarType.CIVIL -> if (isStart) {
+                        canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
+                    } else {
+                        canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
+                    }
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> if (isStart) {
+                        canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
+                    } else {
+                        canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
+                    }
                 }
-                PickedDayState.START_OF_RANGE_SINGLE -> {
-                    canvas.drawCircle(x, y, radius, this)
+            }
+
+            when (pickedDayState) {
+                PickedDayState.PICKED_SINGLE, PickedDayState.START_OF_RANGE_SINGLE -> {
+                    drawCircle()
                 }
                 PickedDayState.START_OF_RANGE -> {
-                    canvas.drawCircle(x, y, radius, this)
-                    // RTLize for Persian and Hijri Calendars
-                    when (CurrentCalendarType.type) {
-                        CalendarType.CIVIL -> {
-                            canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
-                        }
-                        CalendarType.PERSIAN, CalendarType.HIJRI -> {
-                            canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
-                        }
-                    }
+                    drawCircle()
+                    drawHalfRect(true)
                 }
                 PickedDayState.IN_RANGE -> {
-                    canvas.drawRect(x - cellWidth / 2, y - radius, x + cellWidth / 2, y + radius, this)
+                    drawRect()
                 }
                 PickedDayState.END_OF_RANGE -> {
-                    canvas.drawCircle(x, y, radius, this)
-                    // RTLize for Persian and Hijri Calendars
-                    when (CurrentCalendarType.type) {
-                        CalendarType.CIVIL -> {
-                            canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
-                        }
-                        CalendarType.PERSIAN, CalendarType.HIJRI -> {
-                            canvas.drawRect(x, y - radius, x + cellWidth / 2, y + radius, this)
-                        }
-                    }
+                    drawCircle()
+                    drawHalfRect(false)
                 }
                 PickedDayState.NOTHING -> {
                 }
@@ -586,8 +585,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         val date = when (CurrentCalendarType.type) {
             CalendarType.CIVIL -> String.format(Locale.getDefault(), "%d", dayOfMonth)
-            CalendarType.PERSIAN -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
-            CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
+            CalendarType.PERSIAN, CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
         }
 
         dayLabelPaint?.apply {
@@ -606,7 +604,6 @@ class PrimeMonthView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
-
                         val calendar = DateUtils.newCalendar()
                         calendar.setDate(year, month, dayOfMonth)
                         onDayClicked(calendar)
@@ -657,8 +654,7 @@ class PrimeMonthView @JvmOverloads constructor(
         // RTLize for Persian and Hijri Calendars
         column = when (CurrentCalendarType.type) {
             CalendarType.CIVIL -> column
-            CalendarType.PERSIAN -> 6 - column
-            CalendarType.HIJRI -> 6 - column
+            CalendarType.PERSIAN, CalendarType.HIJRI -> 6 - column
         }
 
         var day = column - weekOffset(firstDayOfMonthDayOfWeek) + 1
