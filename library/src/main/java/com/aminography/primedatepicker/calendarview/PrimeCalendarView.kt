@@ -13,12 +13,12 @@ import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
+import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.monthOffset
 
 
@@ -107,6 +107,14 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickedSingleDayCalendar: BaseCalendar? = null
     override var pickedStartRangeCalendar: BaseCalendar? = null
     override var pickedEndRangeCalendar: BaseCalendar? = null
+
+    val currentItemCalendar: BaseCalendar
+        get() {
+            val dataHolder = findFirstVisibleItem()
+            val calendar = CalendarFactory.newInstance(calendarType)
+            calendar.setDate(dataHolder.year, dataHolder.month, 1)
+            return calendar
+        }
 
     init {
 

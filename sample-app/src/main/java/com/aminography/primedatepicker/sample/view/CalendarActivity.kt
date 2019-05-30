@@ -3,9 +3,9 @@ package com.aminography.primedatepicker.sample.view
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.common.CalendarFactory
+import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.sample.R
-import com.aminography.primedatepicker.old.CurrentCalendarType
 import kotlinx.android.synthetic.main.activity_calendar.*
 import java.util.*
 
@@ -16,7 +16,7 @@ class CalendarActivity : AppCompatActivity() {
         setContentView(R.layout.activity_calendar)
 
         // TODO
-        val calendarType = CurrentCalendarType.type
+        val calendarType = CalendarType.CIVIL
 
         nowButton.setOnClickListener {
             val calendar = CalendarFactory.newInstance(calendarType)

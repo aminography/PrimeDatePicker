@@ -9,7 +9,6 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
-import com.aminography.primedatepicker.old.CurrentCalendarType
 import kotlinx.android.synthetic.main.activity_month_view.*
 
 class MonthViewActivity : AppCompatActivity() {
@@ -19,12 +18,12 @@ class MonthViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_month_view)
 
         // TODO
-        val calendarType = CurrentCalendarType.type
+        val calendarType = CalendarType.CIVIL
 
         val calendar = CalendarFactory.newInstance(calendarType)
         monthView.setDate(calendar)
 
-        val typeface: Typeface? = when (CurrentCalendarType.type) {
+        val typeface: Typeface? = when (calendarType) {
             CalendarType.CIVIL -> null
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
             CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)

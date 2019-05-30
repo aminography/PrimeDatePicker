@@ -71,10 +71,10 @@
             android:textSize="@dimen/text_size_normal"
             tools:text="Day" />
 
-        <FrameLayout
-            android:id="@+id/container"
+        <com.aminography.primedatepicker.calendarview.PrimeCalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="280dp" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

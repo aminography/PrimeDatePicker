@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.fragment.DateCalendarPickerBottomSheetDialogFragment
+import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.fragment.DatePickerBottomSheetDialogFragment
 import com.aminography.primedatepicker.sample.R
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.longToast
@@ -19,30 +20,45 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         civilButton.setOnClickListener {
-            DateCalendarPickerBottomSheetDialogFragment.newInstance(object : DateCalendarPickerBottomSheetDialogFragment.OnDateSetListener {
+            DatePickerBottomSheetDialogFragment.newInstance(
+                    CalendarFactory.newInstance(CalendarType.CIVIL),
+                    null,
+                    null,
+                    PickType.SINGLE,
+                    object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
-                override fun onDateSet(calendar: BaseCalendar) {
-                    longToast(calendar.longDateString)
-                }
-            }, CalendarFactory.newInstance(CalendarType.CIVIL)).show(supportFragmentManager)
+                        override fun onDateSet(calendar: BaseCalendar) {
+                            longToast(calendar.longDateString)
+                        }
+                    }).show(supportFragmentManager)
         }
 
         persianButton.setOnClickListener {
-            DateCalendarPickerBottomSheetDialogFragment.newInstance(object : DateCalendarPickerBottomSheetDialogFragment.OnDateSetListener {
+            DatePickerBottomSheetDialogFragment.newInstance(
+                    CalendarFactory.newInstance(CalendarType.PERSIAN),
+                    null,
+                    null,
+                    PickType.SINGLE,
+                    object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
-                override fun onDateSet(calendar: BaseCalendar) {
-                    longToast(calendar.longDateString)
-                }
-            }, CalendarFactory.newInstance(CalendarType.PERSIAN)).show(supportFragmentManager)
+                        override fun onDateSet(calendar: BaseCalendar) {
+                            longToast(calendar.longDateString)
+                        }
+                    }).show(supportFragmentManager)
         }
 
         hijriButton.setOnClickListener {
-            DateCalendarPickerBottomSheetDialogFragment.newInstance(object : DateCalendarPickerBottomSheetDialogFragment.OnDateSetListener {
+            DatePickerBottomSheetDialogFragment.newInstance(
+                    CalendarFactory.newInstance(CalendarType.HIJRI),
+                    null,
+                    null,
+                    PickType.SINGLE,
+                    object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
-                override fun onDateSet(calendar: BaseCalendar) {
-                    longToast(calendar.longDateString)
-                }
-            }, CalendarFactory.newInstance(CalendarType.HIJRI)).show(supportFragmentManager)
+                        override fun onDateSet(calendar: BaseCalendar) {
+                            longToast(calendar.longDateString)
+                        }
+                    }).show(supportFragmentManager)
         }
 
         monthViewButton.setOnClickListener {
