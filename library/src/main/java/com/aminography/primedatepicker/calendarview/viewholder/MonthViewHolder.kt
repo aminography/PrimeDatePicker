@@ -33,7 +33,7 @@ class MonthViewHolder(
 
                     monthView.pickType = pickType
                 }
-                monthView.setDate(year, month)
+                monthView.setDate(calendarType, year, month)
             }
         }
     }

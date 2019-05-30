@@ -19,12 +19,10 @@ import android.view.View
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.DateUtils
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.tools.CurrentCalendarType
+import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.PersianUtils
-import com.aminography.primedatepicker.tools.TimeUtils
 import org.jetbrains.anko.dip
 import java.util.*
 
@@ -81,6 +79,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private var cellHeight: Float = defaultCellHeight
     private var cellWidth: Float = cellHeight
 
+    private var calendarType = CalendarType.CIVIL
     private var month = 0
     private var year = 0
 
@@ -110,14 +109,14 @@ class PrimeMonthView @JvmOverloads constructor(
     private var hasToday = false
     private var todayDayOfMonth = -1
 
-    private var weekStart = Calendar.SUNDAY
+    private var weekStartDay = Calendar.SUNDAY
     private var daysInMonth = 0
 
     private var firstDayOfMonthDayOfWeek = 0
     private var spreadingWeeks = 6
 
-    private val dayOfWeekLabelCalendar = CalendarFactory.newInstance(CurrentCalendarType.type)
-    private val firstDayOfMonthCalendar = CalendarFactory.newInstance(CurrentCalendarType.type)
+    private var dayOfWeekLabelCalendar: BaseCalendar? = null
+    private var firstDayOfMonthCalendar: BaseCalendar? = null
 
     var onHeightDetectListener: OnHeightDetectListener? = null
     var onDayClickListener: OnDayClickListener? = null
@@ -253,8 +252,8 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         if (isInEditMode) {
-            val calendar = DateUtils.newCalendar()
-            setDate(calendar.year, calendar.month)
+            val calendar = CalendarFactory.newInstance(calendarType)
+            setDate(calendar)
         }
     }
 
@@ -276,15 +275,23 @@ class PrimeMonthView @JvmOverloads constructor(
         drawDayLabels(canvas)
     }
 
-    fun setDate(year: Int, month: Int) {
+    fun setDate(calendar: BaseCalendar) {
+        setDate(calendar.calendarType, calendar.year, calendar.month)
+    }
+
+    fun setDate(calendarType: CalendarType, year: Int, month: Int) {
+        this.calendarType = calendarType
         this.year = year
         this.month = month
 
-        firstDayOfMonthCalendar.setDate(year, month, 1)
-        firstDayOfMonthDayOfWeek = firstDayOfMonthCalendar.get(Calendar.DAY_OF_WEEK)
+        dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType)
+        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType)
 
-        daysInMonth = DateUtils.getDaysInMonth(month, year)
-        weekStart = when (CurrentCalendarType.type) {
+        firstDayOfMonthCalendar?.setDate(year, month, 1)
+        firstDayOfMonthDayOfWeek = firstDayOfMonthCalendar!!.get(Calendar.DAY_OF_WEEK)
+
+        daysInMonth = DateUtils.getDaysInMonth(calendarType, month, year)
+        weekStartDay = when (calendarType) {
             CalendarType.CIVIL -> Calendar.SUNDAY
             CalendarType.PERSIAN -> Calendar.SATURDAY
             CalendarType.HIJRI -> Calendar.SATURDAY
@@ -298,7 +305,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun updateToday() {
-        val todayCalendar = CalendarFactory.newInstance(CurrentCalendarType.type)
+        val todayCalendar = CalendarFactory.newInstance(calendarType)
         hasToday = todayCalendar.year == year && todayCalendar.month == month
         todayDayOfMonth = if (hasToday) todayCalendar.dayOfMonth else -1
     }
@@ -311,8 +318,8 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun weekOffset(dayOfWeek: Int): Int {
-        val day = if (dayOfWeek < weekStart) dayOfWeek + 7 else dayOfWeek
-        return (day - weekStart) % 7
+        val day = if (dayOfWeek < weekStartDay) dayOfWeek + 7 else dayOfWeek
+        return (day - weekStartDay) % 7
     }
 
     private fun drawMonthLabel(canvas: Canvas) {
@@ -322,8 +329,8 @@ class PrimeMonthView @JvmOverloads constructor(
             y -= ((descent() + ascent()) / 2)
         }
 
-        var monthAndYearString = "${firstDayOfMonthCalendar.monthName} ${firstDayOfMonthCalendar.year}"
-        monthAndYearString = when (CurrentCalendarType.type) {
+        var monthAndYearString = "${firstDayOfMonthCalendar?.monthName} ${firstDayOfMonthCalendar?.year}"
+        monthAndYearString = when (calendarType) {
             CalendarType.CIVIL -> monthAndYearString
             CalendarType.PERSIAN, CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
         }
@@ -374,7 +381,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until 7) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (CurrentCalendarType.type) {
+                add(when (calendarType) {
                     CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
                     CalendarType.PERSIAN, CalendarType.HIJRI -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
                 })
@@ -382,17 +389,17 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         for (i in 0 until 7) {
-            val dayOfWeek = (i + weekStart) % 7
+            val dayOfWeek = (i + weekStartDay) % 7
             val x = xPositionList[i]
 
-            dayOfWeekLabelCalendar.set(Calendar.DAY_OF_WEEK, dayOfWeek)
-            val localWeekDisplayName = dayOfWeekLabelCalendar.weekDayName
+            dayOfWeekLabelCalendar?.set(Calendar.DAY_OF_WEEK, dayOfWeek)
+            val localWeekDisplayName = dayOfWeekLabelCalendar?.weekDayName
 
-            val weekString = when (CurrentCalendarType.type) {
-                CalendarType.CIVIL -> localWeekDisplayName.substring(0, 2)
-                CalendarType.PERSIAN -> localWeekDisplayName.substring(0, 1)
-                CalendarType.HIJRI -> localWeekDisplayName.substring(2, 4)
-            }
+            val weekString = when (calendarType) {
+                CalendarType.CIVIL -> localWeekDisplayName?.substring(0, 2)
+                CalendarType.PERSIAN -> localWeekDisplayName?.substring(0, 1)
+                CalendarType.HIJRI -> localWeekDisplayName?.substring(2, 4)
+            } ?: "?"
 
             weekLabelPaint?.apply {
                 canvas.drawText(
@@ -455,7 +462,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until 7) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (CurrentCalendarType.type) {
+                add(when (calendarType) {
                     CalendarType.CIVIL -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
                     CalendarType.PERSIAN, CalendarType.HIJRI -> ((2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft)
                 })
@@ -513,7 +520,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
             fun drawHalfRect(isStart: Boolean) {
                 // RTLize for Persian and Hijri Calendars
-                when (CurrentCalendarType.type) {
+                when (calendarType) {
                     CalendarType.CIVIL -> if (isStart) {
                         canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
                     } else {
@@ -584,7 +591,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        val date = when (CurrentCalendarType.type) {
+        val date = when (calendarType) {
             CalendarType.CIVIL -> String.format(Locale.getDefault(), "%d", dayOfMonth)
             CalendarType.PERSIAN, CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
         }
@@ -605,7 +612,7 @@ class PrimeMonthView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
-                        val calendar = DateUtils.newCalendar()
+                        val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.setDate(year, month, dayOfMonth)
                         onDayClicked(calendar)
                     }
@@ -653,7 +660,7 @@ class PrimeMonthView @JvmOverloads constructor(
         var column = ((inputX - paddingLeft) * 7 / (viewWidth - (paddingLeft + paddingRight))).toInt()
 
         // RTLize for Persian and Hijri Calendars
-        column = when (CurrentCalendarType.type) {
+        column = when (calendarType) {
             CalendarType.CIVIL -> column
             CalendarType.PERSIAN, CalendarType.HIJRI -> 6 - column
         }
@@ -694,16 +701,17 @@ class PrimeMonthView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
 
+        savedState.calendarType = calendarType.ordinal
         savedState.year = year
         savedState.month = month
 
-        savedState.minDateCalendar = TimeUtils.storeCalendar(minDateCalendar)
-        savedState.maxDateCalendar = TimeUtils.storeCalendar(maxDateCalendar)
+        savedState.minDateCalendar = DateUtils.storeCalendar(minDateCalendar)
+        savedState.maxDateCalendar = DateUtils.storeCalendar(maxDateCalendar)
 
         savedState.pickType = pickType.name
-        savedState.pickedSingleDayCalendar = TimeUtils.storeCalendar(pickedSingleDayCalendar)
-        savedState.pickedStartRangeCalendar = TimeUtils.storeCalendar(pickedStartRangeCalendar)
-        savedState.pickedEndRangeCalendar = TimeUtils.storeCalendar(pickedEndRangeCalendar)
+        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
+        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(pickedStartRangeCalendar)
+        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(pickedEndRangeCalendar)
         return savedState
     }
 
@@ -712,25 +720,27 @@ class PrimeMonthView @JvmOverloads constructor(
         super.onRestoreInstanceState(savedState.superState)
         isInternalChange = true
 
+        calendarType = CalendarType.values()[savedState.calendarType]
         year = savedState.year
         month = savedState.month
 
-        minDateCalendar = TimeUtils.restoreCalendar(savedState.minDateCalendar)
-        maxDateCalendar = TimeUtils.restoreCalendar(savedState.maxDateCalendar)
+        minDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
+        maxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
 
         pickType = savedState.pickType?.let {
             PickType.valueOf(it)
         } ?: PickType.NOTHING
-        pickedSingleDayCalendar = TimeUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
-        pickedStartRangeCalendar = TimeUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
-        pickedEndRangeCalendar = TimeUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+        pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
+        pickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
+        pickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
 
         isInternalChange = false
-        setDate(year, month)
+        setDate(calendarType, year, month)
     }
 
     private class SavedState : BaseSavedState {
 
+        internal var calendarType: Int = 0
         internal var year: Int = 0
         internal var month: Int = 0
 
@@ -745,6 +755,7 @@ class PrimeMonthView @JvmOverloads constructor(
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
+            calendarType = input.readInt()
             year = input.readInt()
             month = input.readInt()
 
@@ -759,6 +770,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
+            out.writeInt(calendarType)
             out.writeInt(year)
             out.writeInt(month)
 

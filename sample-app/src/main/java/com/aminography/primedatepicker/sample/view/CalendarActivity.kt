@@ -2,9 +2,10 @@ package com.aminography.primedatepicker.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.aminography.primedatepicker.DateUtils
+import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.sample.R
+import com.aminography.primedatepicker.old.CurrentCalendarType
 import kotlinx.android.synthetic.main.activity_calendar.*
 import java.util.*
 
@@ -14,31 +15,34 @@ class CalendarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
 
+        // TODO
+        val calendarType = CurrentCalendarType.type
+
         nowButton.setOnClickListener {
-            val calendar = DateUtils.newCalendar()
+            val calendar = CalendarFactory.newInstance(calendarType)
             calendarView.goto(calendar.year, calendar.month, true)
         }
 
         gotoPastButton.setOnClickListener {
-            val calendar = DateUtils.newCalendar()
+            val calendar = CalendarFactory.newInstance(calendarType)
             calendar.month = 1
             calendarView.goto(calendar.year, calendar.month, true)
         }
         gotoFutureButton.setOnClickListener {
-            val calendar = DateUtils.newCalendar()
+            val calendar = CalendarFactory.newInstance(calendarType)
             calendar.month = 11
             calendarView.goto(calendar.year, calendar.month, true)
         }
 
         setMinDateButton.setOnClickListener {
-            val minDateCalendar = DateUtils.newCalendar()
+            val minDateCalendar = CalendarFactory.newInstance(calendarType)
             minDateCalendar.dayOfMonth = 10
             minDateCalendar.add(Calendar.MONTH, -3)
             calendarView.minDateCalendar = minDateCalendar
         }
 
         setMaxDateButton.setOnClickListener {
-            val maxDateCalendar = DateUtils.newCalendar()
+            val maxDateCalendar = CalendarFactory.newInstance(calendarType)
             maxDateCalendar.dayOfMonth = 20
             maxDateCalendar.add(Calendar.MONTH, 3)
             calendarView.maxDateCalendar = maxDateCalendar

@@ -10,7 +10,6 @@ import android.widget.AbsListView
 import android.widget.AbsListView.OnScrollListener
 import android.widget.ListView
 import com.aminography.primecalendar.base.BaseCalendar
-import com.aminography.primedatepicker.DateUtils
 import com.aminography.primedatepicker.fragment.DateCalendarPickerBottomSheetDialogFragment
 
 /**
@@ -30,10 +29,10 @@ abstract class BaseMonthListView @JvmOverloads constructor(
     protected var mHandler: Handler? = null
 
     // highlighted time
-    private var selectedDay: BaseCalendar? = DateUtils.newCalendar()
+    private var selectedDay: BaseCalendar? = OldUtils.newCalendar()
     private var mAdapter: BaseMonthListAdapter? = null
 
-    private var tempDay: BaseCalendar? = DateUtils.newCalendar()
+    private var tempDay: BaseCalendar? = OldUtils.newCalendar()
 
     // which month should be displayed/highlighted [0-11]
     private var currentMonthDisplayed: Int = 0

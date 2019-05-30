@@ -3,26 +3,14 @@ package com.aminography.primedatepicker.tools
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.DateUtils
 
+/**
+ * @author aminography
+ */
 object TimeUtils {
 
     fun formatSimpleDate(calendar: BaseCalendar): String =
             "${calendar.dayOfMonth} ${calendar.monthName} ${calendar.year}"
-
-    fun storeCalendar(calendar: BaseCalendar?): String? =
-            calendar?.let {
-                "${calendar.year}-${calendar.month}-${calendar.dayOfMonth}"
-            }
-
-    fun restoreCalendar(input: String?): BaseCalendar? =
-            input?.let {
-                DateUtils.newCalendar().apply {
-                    it.split("-").let {
-                        setDate(it[0].toInt(), it[1].toInt(), it[2].toInt())
-                    }
-                }
-            }
 
     fun extractDate(date: String?, calendarType: CalendarType): BaseCalendar {
         if (date != null && !date.isEmpty()) {

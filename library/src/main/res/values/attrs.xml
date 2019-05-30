@@ -20,5 +20,11 @@
     </declare-styleable>
 
     <declare-styleable name="PrimeCalendarView">
+        <attr name="heightMultiplier" format="float" />
+        <attr name="calendarType" format="enum">
+            <enum name="civil" value="0"/>
+            <enum name="persian" value="1"/>
+            <enum name="hijri" value="2"/>
+        </attr>
     </declare-styleable>
 </resources>

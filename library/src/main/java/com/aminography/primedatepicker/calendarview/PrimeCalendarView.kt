@@ -11,13 +11,15 @@ import android.widget.FrameLayout
 import com.aminography.primeadapter.PrimeAdapter
 import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.base.BaseCalendar
-import com.aminography.primedatepicker.DateUtils
+import com.aminography.primecalendar.common.CalendarFactory
+import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
-import com.aminography.primedatepicker.monthOffset
+import com.aminography.primedatepicker.tools.monthOffset
 
 
 /**
@@ -42,6 +44,9 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var isInLoading = false
     private var definedHeight: Int = 0
     private var detectedItemHeight: Float = 0f
+
+    private var heightMultiplier: Float = 0f
+    private var calendarType = CalendarType.CIVIL
 
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
@@ -118,6 +123,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
+            heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, 1f)
+            calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
             recycle()
         }
 
@@ -135,7 +142,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         adapter.iMonthViewHolderCallback = this
 
-        val calendar = DateUtils.newCalendar()
+        val calendar = CalendarFactory.newInstance(calendarType)
         goto(calendar.year, calendar.month, false)
     }
 
@@ -164,11 +171,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
             return
         }
-        dataList = CalendarViewUtils.createPivotList(year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
+        dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
         if (animate) {
             val dataHolder = findFirstVisibleItem()
 
-            val transitionList = CalendarViewUtils.createTransitionList(dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
+            val transitionList = CalendarViewUtils.createTransitionList(calendarType, dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
             val isForward = DateUtils.isBefore(dataHolder.year, dataHolder.month, year, month)
             transitionList?.apply {
                 var isLastTransitionItemRemoved = false
@@ -306,7 +313,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, true)
+                            val moreData = CalendarViewUtils.extendMoreList(calendarType, dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, true)
                             dataList?.apply {
                                 addAll(size, moreData)
                                 adapter.replaceDataList(this)
@@ -324,7 +331,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, false)
+                            val moreData = CalendarViewUtils.extendMoreList(calendarType, dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, false)
                             dataList?.apply {
                                 addAll(0, moreData)
                                 adapter.replaceDataList(this)

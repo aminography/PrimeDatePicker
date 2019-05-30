@@ -1,14 +1,11 @@
-package com.aminography.primedatepicker
+package com.aminography.primedatepicker.tools
 
 import com.aminography.primecalendar.base.BaseCalendar
-import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.civil.CivilCalendarUtils
+import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.hijri.HijriCalendarUtils
-import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primecalendar.persian.PersianCalendarUtils
-import com.aminography.primedatepicker.tools.CurrentCalendarType
 
 
 /**
@@ -91,21 +88,27 @@ object DateUtils {
 
     //----------------------------------------------------------------------------------------------
 
-    fun newCalendar(): BaseCalendar {
-        return when (CurrentCalendarType.type) {
-            CalendarType.CIVIL -> CivilCalendar()
-            CalendarType.PERSIAN -> PersianCalendar()
-            CalendarType.HIJRI -> HijriCalendar()
-        }
-    }
-
-    fun getDaysInMonth(month: Int, year: Int): Int {
-        return when (CurrentCalendarType.type) {
+    fun getDaysInMonth(calendarType: CalendarType, month: Int, year: Int): Int {
+        return when (calendarType) {
             CalendarType.CIVIL -> CivilCalendarUtils.monthLength(year, month)
             CalendarType.PERSIAN -> PersianCalendarUtils.monthLength(year, month)
             CalendarType.HIJRI -> HijriCalendarUtils.monthLength(year, month)
         }
     }
+
+    fun storeCalendar(calendar: BaseCalendar?): String? =
+            calendar?.let {
+                "${calendar.calendarType.name}-${calendar.year}-${calendar.month}-${calendar.dayOfMonth}"
+            }
+
+    fun restoreCalendar(input: String?): BaseCalendar? =
+            input?.run {
+                split("-").let {
+                    CalendarFactory.newInstance(CalendarType.valueOf(it[0])).apply {
+                        setDate(it[1].toInt(), it[2].toInt(), it[3].toInt())
+                    }
+                }
+            }
 
 //    fun persianDateToCivilStandardString(context: Context, year: Int, monthOfYear: Int, dayOfMonth: Int): String {
 //        val civilDate = DateConverter.persianToCivil(context, PersianDate(context, year, monthOfYear, dayOfMonth))
