@@ -23,6 +23,7 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.PersianUtils
+import com.aminography.primedatepicker.tools.isDisplayLandscape
 import org.jetbrains.anko.dip
 import java.util.*
 
@@ -113,7 +114,9 @@ class PrimeMonthView @JvmOverloads constructor(
     private var daysInMonth = 0
 
     private var firstDayOfMonthDayOfWeek = 0
-    private var spreadingWeeks = 6
+
+    private var rowCount = 6
+    private var columnCount = 7
 
     private var dayOfWeekLabelCalendar: BaseCalendar? = null
     private var firstDayOfMonthCalendar: BaseCalendar? = null
@@ -199,9 +202,14 @@ class PrimeMonthView @JvmOverloads constructor(
         monthHeaderHeight = monthLabelTextSize + monthLabelTopPadding + monthLabelBottomPadding
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
 
+        if(context.isDisplayLandscape()){
+            rowCount = 3
+            columnCount = 14
+        }
+
         minCellHeight = dayLabelTextSize.toFloat()
         cellHeight = 2.75f * dayLabelTextSize
-        cellWidth = (viewWidth - (paddingLeft + paddingRight)) / 7.toFloat()
+        cellWidth = (viewWidth - (paddingLeft + paddingRight)) / columnCount.toFloat()
 
         initPaints()
     }
@@ -258,15 +266,15 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val height = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * spreadingWeeks + paddingBottom
+        val height = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * rowCount + paddingBottom
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height.toInt())
-        val maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * 6 + paddingBottom
+        val maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * rowCount + paddingBottom
         onHeightDetectListener?.onHeightDetect(maxHeight)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         viewWidth = w
-        cellWidth = (viewWidth - (paddingLeft + paddingRight)) / 7.toFloat()
+        cellWidth = (viewWidth - (paddingLeft + paddingRight)) / columnCount.toFloat()
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -298,7 +306,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         updateToday()
-        updateSpreadingWeeks()
+        updateRowCount()
 
         requestLayout()
         invalidate()
@@ -310,11 +318,11 @@ class PrimeMonthView @JvmOverloads constructor(
         todayDayOfMonth = if (hasToday) todayCalendar.dayOfMonth else -1
     }
 
-    private fun updateSpreadingWeeks() {
+    private fun updateRowCount() {
         val offset = weekOffset(firstDayOfMonthDayOfWeek)
-        val dividend = (offset + daysInMonth) / 7
-        val remainder = (offset + daysInMonth) % 7
-        spreadingWeeks = dividend + if (remainder > 0) 1 else 0
+        val dividend = (offset + daysInMonth) / columnCount
+        val remainder = (offset + daysInMonth) % columnCount
+        rowCount = dividend + if (remainder > 0) 1 else 0
     }
 
     private fun weekOffset(dayOfWeek: Int): Int {
@@ -379,20 +387,20 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         val xPositionList = arrayListOf<Float>().apply {
-            for (i in 0 until 7) {
+            for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
                 add(when (calendarType) {
                     CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> (2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> (2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft
                 })
             }
         }
 
-        for (i in 0 until 7) {
-            val dayOfWeek = (i + weekStartDay) % 7
+        for (i in 0 until columnCount) {
+            val dayOfWeek = (i + weekStartDay) % columnCount
             val x = xPositionList[i]
 
-            dayOfWeekLabelCalendar?.set(Calendar.DAY_OF_WEEK, dayOfWeek)
+            dayOfWeekLabelCalendar?.set(Calendar.DAY_OF_WEEK, dayOfWeek % 7)
             val localWeekDisplayName = dayOfWeekLabelCalendar?.weekDayName
 
             val weekString = when (calendarType) {
@@ -460,11 +468,11 @@ class PrimeMonthView @JvmOverloads constructor(
         val radius = Math.min(cellWidth, cellHeight) / 2 - dp(2f)
 
         val xPositionList = arrayListOf<Float>().apply {
-            for (i in 0 until 7) {
+            for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
                 add(when (calendarType) {
                     CalendarType.CIVIL -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> ((2 * (6 - i) + 1) * (cellWidth / 2) + paddingLeft)
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> ((2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft)
                 })
             }
         }
@@ -504,7 +512,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
 
             offset++
-            if (offset == 7) {
+            if (offset == columnCount) {
                 offset = 0
                 topY += cellHeight
             }
@@ -657,16 +665,16 @@ class PrimeMonthView @JvmOverloads constructor(
 
         val y = inputY - dp(12f)
         val row = ((y - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
-        var column = ((inputX - paddingLeft) * 7 / (viewWidth - (paddingLeft + paddingRight))).toInt()
+        var column = ((inputX - paddingLeft) * columnCount / (viewWidth - (paddingLeft + paddingRight))).toInt()
 
         // RTLize for Persian and Hijri Calendars
         column = when (calendarType) {
             CalendarType.CIVIL -> column
-            CalendarType.PERSIAN, CalendarType.HIJRI -> 6 - column
+            CalendarType.PERSIAN, CalendarType.HIJRI -> columnCount - 1 - column
         }
 
         var day = column - weekOffset(firstDayOfMonthDayOfWeek) + 1
-        day += row * 7
+        day += row * columnCount
 
         return if (day < 1 || day > daysInMonth) {
             null

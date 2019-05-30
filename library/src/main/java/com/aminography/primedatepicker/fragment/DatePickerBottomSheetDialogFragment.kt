@@ -6,6 +6,8 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
+import android.support.design.widget.CoordinatorLayout
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -14,6 +16,7 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.tools.screenSize
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 
 class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_picker_bottom_sheet) {
@@ -32,23 +35,13 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
     @SuppressLint("RestrictedApi")
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
-
-        dialog.setOnShowListener {
-            val d = it as BottomSheetDialog
-            val bottomSheet = d.findViewById<FrameLayout>(R.id.design_bottom_sheet)
-            val behavior: BottomSheetBehavior<*>
-            if (bottomSheet != null) {
-                behavior = BottomSheetBehavior.from(bottomSheet)
-                behavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                    override fun onStateChanged(bottomSheet: View, newState: Int) {
-                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                        }
-                    }
-
-                    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-                })
-            }
+        val parentView = rootView.parent as View
+        parentView.setBackgroundColor(ContextCompat.getColor(activityContext, R.color.transparent))
+        val params = parentView.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior
+        if (behavior != null && behavior is BottomSheetBehavior<*>) {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.peekHeight = activityContext.screenSize().y
         }
     }
 
@@ -59,6 +52,8 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
     override fun onInitViews(rootView: View) {
         with(rootView) {
+            calendarView.pickType = pickType
+
             positiveButton.setOnClickListener {
                 //                mCallBack?.onDateSet(mBaseCalendar)
                 dismiss()
