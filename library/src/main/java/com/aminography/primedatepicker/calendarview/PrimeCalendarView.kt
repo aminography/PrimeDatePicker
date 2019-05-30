@@ -1,6 +1,8 @@
 package com.aminography.primedatepicker.calendarview
 
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.support.annotation.AttrRes
 import android.support.annotation.StyleRes
 import android.support.v7.widget.LinearLayoutManager
@@ -64,34 +66,36 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var minDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            val minOffset = field?.monthOffset() ?: Int.MIN_VALUE
+            if (!isInternalChange) {
+                val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
 
-            val dataHolder = findFirstVisibleItem()
-            val offset = dataHolder.offset
-
-            if (offset < minOffset) {
-                minDateCalendar?.apply {
-                    goto(year, month, false)
+                findFirstVisibleItem()?.also { current ->
+                    if (current.offset < minOffset) {
+                        minDateCalendar?.apply {
+                            goto(year, month, false)
+                        }
+                    } else {
+                        goto(current.year, current.month, false)
+                    }
                 }
-            } else {
-                goto(dataHolder.year, dataHolder.month, false)
             }
         }
 
     override var maxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            val maxOffset = field?.monthOffset() ?: Int.MAX_VALUE
+            if (!isInternalChange) {
+                val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
 
-            val dataHolder = findLastVisibleItem()
-            val offset = dataHolder.offset
-
-            if (offset > maxOffset) {
-                maxDateCalendar?.apply {
-                    goto(year, month, false)
+                findLastVisibleItem()?.also { current ->
+                    if (current.offset > maxOffset) {
+                        maxDateCalendar?.apply {
+                            goto(year, month, false)
+                        }
+                    } else {
+                        goto(current.year, current.month, false)
+                    }
                 }
-            } else {
-                goto(dataHolder.year, dataHolder.month, false)
             }
         }
 
@@ -118,13 +122,14 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickedStartRangeCalendar: BaseCalendar? = null
     override var pickedEndRangeCalendar: BaseCalendar? = null
 
-//    val currentItemCalendar: BaseCalendar
-//        get() {
-//            val dataHolder = findFirstVisibleItem()
-//            val calendar = CalendarFactory.newInstance(calendarType)
-//            calendar.setDate(dataHolder.year, dataHolder.month, 1)
-//            return calendar
-//        }
+    val currentItemCalendar: BaseCalendar?
+        get() {
+            return findFirstVisibleItem()?.run {
+                val calendar = CalendarFactory.newInstance(calendarType)
+                calendar.setDate(year, month, 1)
+                return calendar
+            }
+        }
 
     init {
 
@@ -162,8 +167,10 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         adapter.iMonthViewHolderCallback = this
 
-        val calendar = CalendarFactory.newInstance(calendarType)
-        goto(calendar.year, calendar.month, false)
+        if (isInEditMode) {
+            val calendar = CalendarFactory.newInstance(calendarType)
+            goto(calendar.year, calendar.month, false)
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -193,35 +200,35 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
         dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
         if (animate) {
-            val dataHolder = findFirstVisibleItem()
-
-            val transitionList = CalendarViewUtils.createTransitionList(calendarType, dataHolder.year, dataHolder.month, year, month, DEFAULT_TRANSITION_FACTOR)
-            val isForward = DateUtils.isBefore(dataHolder.year, dataHolder.month, year, month)
-            transitionList?.apply {
-                var isLastTransitionItemRemoved = false
-                if (isForward) {
-                    maxDateCalendar?.let { max ->
-                        val maxOffset = max.monthOffset()
-                        val targetOffset = year * 12 + month
-                        if (maxOffset == targetOffset) {
-                            transitionList.removeAt(transitionList.size - 1)
-                            isLastTransitionItemRemoved = true
+            findFirstVisibleItem()?.let { current ->
+                val transitionList = CalendarViewUtils.createTransitionList(calendarType, current.year, current.month, year, month, DEFAULT_TRANSITION_FACTOR)
+                val isForward = DateUtils.isBefore(current.year, current.month, year, month)
+                transitionList?.apply {
+                    var isLastTransitionItemRemoved = false
+                    if (isForward) {
+                        maxDateCalendar?.let { max ->
+                            val maxOffset = max.monthOffset()
+                            val targetOffset = year * 12 + month
+                            if (maxOffset == targetOffset) {
+                                transitionList.removeAt(transitionList.size - 1)
+                                isLastTransitionItemRemoved = true
+                            }
                         }
                     }
-                }
-                adapter.replaceDataList(this)
-                isInTransition = true
-                recyclerView.touchEnabled = false
+                    adapter.replaceDataList(this)
+                    isInTransition = true
+                    recyclerView.touchEnabled = false
 
-                gotoYear = year
-                gotoMonth = month
+                    gotoYear = year
+                    gotoMonth = month
 
-                if (isForward) {
-                    recyclerView.fastScrollTo(1)
-                    recyclerView.smoothScrollTo(if (isLastTransitionItemRemoved) size - 1 else size - 2)
-                } else {
-                    recyclerView.fastScrollTo(size - 2)
-                    recyclerView.smoothScrollTo(1)
+                    if (isForward) {
+                        recyclerView.fastScrollTo(1)
+                        recyclerView.smoothScrollTo(if (isLastTransitionItemRemoved) size - 1 else size - 2)
+                    } else {
+                        recyclerView.fastScrollTo(size - 2)
+                        recyclerView.smoothScrollTo(1)
+                    }
                 }
             }
         } else {
@@ -244,20 +251,26 @@ class PrimeCalendarView @JvmOverloads constructor(
         return null
     }
 
-    private fun findFirstVisibleItem(): MonthDataHolder {
+    private fun findFirstVisibleItem(): MonthDataHolder? {
         var position = layoutManager.findFirstCompletelyVisibleItemPosition()
         if (position == RecyclerView.NO_POSITION) {
             position = layoutManager.findFirstVisibleItemPosition()
         }
-        return adapter.getItem(position) as MonthDataHolder
+        if (position != RecyclerView.NO_POSITION) {
+            return adapter.getItem(position) as MonthDataHolder
+        }
+        return null
     }
 
-    private fun findLastVisibleItem(): MonthDataHolder {
+    private fun findLastVisibleItem(): MonthDataHolder? {
         var position = layoutManager.findLastCompletelyVisibleItemPosition()
         if (position == RecyclerView.NO_POSITION) {
             position = layoutManager.findLastVisibleItemPosition()
         }
-        return adapter.getItem(position) as MonthDataHolder
+        if (position != RecyclerView.NO_POSITION) {
+            return adapter.getItem(position) as MonthDataHolder
+        }
+        return null
     }
 
     override fun onDayClick(day: BaseCalendar) {
@@ -280,8 +293,9 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
 
-        val dataHolder = findLastVisibleItem()
-        goto(dataHolder.year, dataHolder.month, false)
+        findLastVisibleItem()?.apply {
+            goto(year, month, false)
+        }
     }
 
     override fun onHeightDetect(height: Float) {
@@ -362,6 +376,112 @@ class PrimeCalendarView @JvmOverloads constructor(
                         }
                         isInLoading = false
                     }
+                }
+            }
+        }
+    }
+
+    // Save/Restore States -------------------------------------------------------------------------
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val superState = super.onSaveInstanceState()
+        val savedState = SavedState(superState)
+
+        savedState.calendarType = calendarType.ordinal
+        currentItemCalendar?.apply {
+            savedState.currentYear = year
+            savedState.currentMonth = month
+        }
+
+        savedState.minDateCalendar = DateUtils.storeCalendar(minDateCalendar)
+        savedState.maxDateCalendar = DateUtils.storeCalendar(maxDateCalendar)
+
+        savedState.pickType = pickType.name
+        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
+        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(pickedStartRangeCalendar)
+        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(pickedEndRangeCalendar)
+        return savedState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as SavedState
+        super.onRestoreInstanceState(savedState.superState)
+        isInternalChange = true
+
+        calendarType = CalendarType.values()[savedState.calendarType]
+        val currentYear = savedState.currentYear
+        val currentMonth = savedState.currentMonth
+
+        minDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
+        maxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
+
+        pickType = savedState.pickType?.let {
+            PickType.valueOf(it)
+        } ?: PickType.NOTHING
+        pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
+        pickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
+        pickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+
+        isInternalChange = false
+        goto(currentYear, currentMonth, false)
+    }
+
+    private class SavedState : BaseSavedState {
+
+        internal var calendarType: Int = 0
+        internal var currentYear: Int = 0
+        internal var currentMonth: Int = 0
+
+        internal var minDateCalendar: String? = null
+        internal var maxDateCalendar: String? = null
+
+        internal var pickType: String? = null
+        internal var pickedSingleDayCalendar: String? = null
+        internal var pickedStartRangeCalendar: String? = null
+        internal var pickedEndRangeCalendar: String? = null
+
+        internal constructor(superState: Parcelable?) : super(superState)
+
+        private constructor(input: Parcel) : super(input) {
+            calendarType = input.readInt()
+            currentYear = input.readInt()
+            currentMonth = input.readInt()
+
+            minDateCalendar = input.readString()
+            maxDateCalendar = input.readString()
+
+            pickType = input.readString()
+            pickedSingleDayCalendar = input.readString()
+            pickedStartRangeCalendar = input.readString()
+            pickedEndRangeCalendar = input.readString()
+        }
+
+        override fun writeToParcel(out: Parcel, flags: Int) {
+            super.writeToParcel(out, flags)
+            out.writeInt(calendarType)
+            out.writeInt(currentYear)
+            out.writeInt(currentMonth)
+
+            out.writeString(minDateCalendar)
+            out.writeString(maxDateCalendar)
+
+            out.writeString(pickType)
+            out.writeString(pickedSingleDayCalendar)
+            out.writeString(pickedStartRangeCalendar)
+            out.writeString(pickedEndRangeCalendar)
+        }
+
+        companion object {
+
+            @Suppress("unused")
+            @JvmField
+            val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
+                override fun createFromParcel(input: Parcel): SavedState {
+                    return SavedState(input)
+                }
+
+                override fun newArray(size: Int): Array<SavedState?> {
+                    return arrayOfNulls(size)
                 }
             }
         }

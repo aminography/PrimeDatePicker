@@ -212,6 +212,11 @@ class PrimeMonthView @JvmOverloads constructor(
         cellWidth = (viewWidth - (paddingLeft + paddingRight)) / columnCount.toFloat()
 
         initPaints()
+
+        if (isInEditMode) {
+            val calendar = CalendarFactory.newInstance(calendarType)
+            setDate(calendar)
+        }
     }
 
     private fun initPaints() {
@@ -257,11 +262,6 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = true
-        }
-
-        if (isInEditMode) {
-            val calendar = CalendarFactory.newInstance(calendarType)
-            setDate(calendar)
         }
     }
 
