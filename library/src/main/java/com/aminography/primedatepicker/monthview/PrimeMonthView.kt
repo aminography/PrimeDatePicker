@@ -24,6 +24,7 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.CurrentCalendarType
 import com.aminography.primedatepicker.tools.PersianUtils
+import com.aminography.primedatepicker.tools.TimeUtils
 import org.jetbrains.anko.dip
 import java.util.*
 
@@ -63,14 +64,13 @@ class PrimeMonthView @JvmOverloads constructor(
     private var weekLabelPaint: Paint? = null
     private var dayLabelPaint: Paint? = null
     private var selectedDayBackgroundPaint: Paint? = null
+
     var fontTypeface: Typeface? = null
         set(value) {
             field = value
             initPaints()
             invalidate()
         }
-
-    private var maxHeight: Float = 0f
 
     private var viewWidth = 0
     private var monthHeaderHeight = 0
@@ -119,7 +119,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private val dayOfWeekLabelCalendar = CalendarFactory.newInstance(CurrentCalendarType.type)
     private val firstDayOfMonthCalendar = CalendarFactory.newInstance(CurrentCalendarType.type)
 
-    @Suppress("MemberVisibilityCanBePrivate")
+    var onHeightDetectListener: OnHeightDetectListener? = null
     var onDayClickListener: OnDayClickListener? = null
 
     private var isInternalChange = false
@@ -259,9 +259,10 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * 6 + paddingBottom
         val height = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * spreadingWeeks + paddingBottom
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height.toInt())
+        val maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * 6 + paddingBottom
+        onHeightDetectListener?.onHeightDetect(maxHeight)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -679,6 +680,10 @@ class PrimeMonthView @JvmOverloads constructor(
         NOTHING
     }
 
+    interface OnHeightDetectListener {
+        fun onHeightDetect(height: Float)
+    }
+
     interface OnDayClickListener {
         fun onDayClick(view: PrimeMonthView, day: BaseCalendar)
     }
@@ -688,45 +693,82 @@ class PrimeMonthView @JvmOverloads constructor(
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
-        savedState.selectType = pickType.ordinal
-//        savedState.selectedDay = pickedSingleDayCalendar ?: -1
-//        savedState.startRangeDay = pickedStartRangeCalendar ?: -1
-//        savedState.endRangeDay = pickedEndRangeCalendar ?: -1
+
+        savedState.year = year
+        savedState.month = month
+
+        savedState.minDateCalendar = TimeUtils.storeCalendar(minDateCalendar)
+        savedState.maxDateCalendar = TimeUtils.storeCalendar(maxDateCalendar)
+
+        savedState.pickType = pickType.name
+        savedState.pickedSingleDayCalendar = TimeUtils.storeCalendar(pickedSingleDayCalendar)
+        savedState.pickedStartRangeCalendar = TimeUtils.storeCalendar(pickedStartRangeCalendar)
+        savedState.pickedEndRangeCalendar = TimeUtils.storeCalendar(pickedEndRangeCalendar)
         return savedState
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
-        pickType = PickType.values()[savedState.selectType]
-//        pickedSingleDayCalendar = if (savedState.selectedDay != -1) savedState.selectedDay else null
-//        pickedStartRangeCalendar = if (savedState.startRangeDay != -1) savedState.startRangeDay else null
-//        pickedEndRangeCalendar = if (savedState.endRangeDay != -1) savedState.endRangeDay else null
-        invalidate()
+        isInternalChange = true
+
+        year = savedState.year
+        month = savedState.month
+
+        minDateCalendar = TimeUtils.restoreCalendar(savedState.minDateCalendar)
+        maxDateCalendar = TimeUtils.restoreCalendar(savedState.maxDateCalendar)
+
+        pickType = savedState.pickType?.let {
+            PickType.valueOf(it)
+        } ?: PickType.NOTHING
+        pickedSingleDayCalendar = TimeUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
+        pickedStartRangeCalendar = TimeUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
+        pickedEndRangeCalendar = TimeUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+
+        isInternalChange = false
+        setDate(year, month)
     }
 
     private class SavedState : BaseSavedState {
 
-        internal var selectType: Int = -1
-        internal var selectedDay: Int = -1
-        internal var startRangeDay: Int = -1
-        internal var endRangeDay: Int = -1
+        internal var year: Int = 0
+        internal var month: Int = 0
+
+        internal var minDateCalendar: String? = null
+        internal var maxDateCalendar: String? = null
+
+        internal var pickType: String? = null
+        internal var pickedSingleDayCalendar: String? = null
+        internal var pickedStartRangeCalendar: String? = null
+        internal var pickedEndRangeCalendar: String? = null
 
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
-            selectType = input.readInt()
-            selectedDay = input.readInt()
-            startRangeDay = input.readInt()
-            endRangeDay = input.readInt()
+            year = input.readInt()
+            month = input.readInt()
+
+            minDateCalendar = input.readString()
+            maxDateCalendar = input.readString()
+
+            pickType = input.readString()
+            pickedSingleDayCalendar = input.readString()
+            pickedStartRangeCalendar = input.readString()
+            pickedEndRangeCalendar = input.readString()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
-            out.writeInt(selectType)
-            out.writeInt(selectedDay)
-            out.writeInt(startRangeDay)
-            out.writeInt(endRangeDay)
+            out.writeInt(year)
+            out.writeInt(month)
+
+            out.writeString(minDateCalendar)
+            out.writeString(maxDateCalendar)
+
+            out.writeString(pickType)
+            out.writeString(pickedSingleDayCalendar)
+            out.writeString(pickedStartRangeCalendar)
+            out.writeString(pickedEndRangeCalendar)
         }
 
         companion object {

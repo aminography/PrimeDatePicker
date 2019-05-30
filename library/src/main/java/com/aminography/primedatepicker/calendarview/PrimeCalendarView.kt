@@ -6,12 +6,14 @@ import android.support.annotation.StyleRes
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.aminography.primeadapter.PrimeAdapter
 import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primedatepicker.DateUtils
 import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
@@ -38,6 +40,8 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var dataList: MutableList<PrimeDataHolder>? = null
     private var isInTransition = false
     private var isInLoading = false
+    private var definedHeight: Int = 0
+    private var detectedItemHeight: Float = 0f
 
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
@@ -100,7 +104,25 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickedEndRangeCalendar: BaseCalendar? = null
 
     init {
+
+        val layoutHeight = attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height")
+        when {
+            layoutHeight.equals(ViewGroup.LayoutParams.MATCH_PARENT.toString()) ->
+                definedHeight = ViewGroup.LayoutParams.MATCH_PARENT
+            layoutHeight.equals(ViewGroup.LayoutParams.WRAP_CONTENT.toString()) ->
+                definedHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+            else -> context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.layout_height)).apply {
+                definedHeight = getDimensionPixelSize(0, ViewGroup.LayoutParams.WRAP_CONTENT)
+                recycle()
+            }
+        }
+
+        context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
+            recycle()
+        }
+
         addView(recyclerView)
+        recyclerView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         recyclerView.addOnScrollListener(OnScrollListener())
 
         adapter = PrimeAdapter.with(recyclerView)
@@ -115,6 +137,27 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         val calendar = DateUtils.newCalendar()
         goto(calendar.year, calendar.month, false)
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        when (definedHeight) {
+            ViewGroup.LayoutParams.MATCH_PARENT -> {
+            }
+            ViewGroup.LayoutParams.WRAP_CONTENT -> {
+                if (detectedItemHeight > 0f) {
+                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), detectedItemHeight.toInt())
+                }
+            }
+            in 0 until Int.MAX_VALUE -> {
+                if (definedHeight > detectedItemHeight) {
+                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), definedHeight)
+                } else {
+                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), detectedItemHeight.toInt())
+                }
+            }
+        }
+        recyclerView.layoutParams.height = measuredHeight
     }
 
     fun goto(year: Int, month: Int, animate: Boolean = false) {
@@ -212,6 +255,14 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         val dataHolder = findLastVisibleItem()
         goto(dataHolder.year, dataHolder.month, false)
+    }
+
+    override fun onHeightDetect(height: Float) {
+        if (detectedItemHeight == 0f && height > 0f) {
+            detectedItemHeight = height
+            requestLayout()
+            invalidate()
+        }
     }
 
     private inner class OnScrollListener : RecyclerView.OnScrollListener() {

@@ -21,4 +21,7 @@ interface IMonthViewHolderCallback {
     val pickedSingleDayCalendar: BaseCalendar?
 
     fun onDayClick(day: BaseCalendar)
+
+    fun onHeightDetect(height: Float)
+
 }

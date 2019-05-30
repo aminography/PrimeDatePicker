@@ -15,12 +15,15 @@ import kotlinx.android.synthetic.main.list_item_month_view.view.*
 class MonthViewHolder(
         delegate: PrimeDelegate,
         private val callback: IMonthViewHolderCallback?
-) : PrimeViewHolder<MonthDataHolder>(delegate, R.layout.list_item_month_view), PrimeMonthView.OnDayClickListener {
+) : PrimeViewHolder<MonthDataHolder>(delegate, R.layout.list_item_month_view),
+        PrimeMonthView.OnDayClickListener,
+        PrimeMonthView.OnHeightDetectListener {
 
     override fun bindDataToView(dataHolder: MonthDataHolder) {
         with(itemView) {
             dataHolder.apply {
                 monthView.onDayClickListener = this@MonthViewHolder
+                monthView.onHeightDetectListener = this@MonthViewHolder
                 callback?.apply {
                     monthView.setMinMaxDateCalendar(minDateCalendar, maxDateCalendar, false)
 
@@ -37,6 +40,10 @@ class MonthViewHolder(
 
     override fun onDayClick(view: PrimeMonthView, day: BaseCalendar) {
         callback?.onDayClick(day)
+    }
+
+    override fun onHeightDetect(height: Float) {
+        callback?.onHeightDetect(height)
     }
 
 }
