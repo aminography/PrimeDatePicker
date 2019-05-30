@@ -115,6 +115,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private var firstDayOfMonthDayOfWeek = 0
 
+    private var maxRowCount = 6
     private var rowCount = 6
     private var columnCount = 7
 
@@ -203,6 +204,7 @@ class PrimeMonthView @JvmOverloads constructor(
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
 
         if(context.isDisplayLandscape()){
+            maxRowCount = 3
             rowCount = 3
             columnCount = 14
         }
@@ -268,7 +270,7 @@ class PrimeMonthView @JvmOverloads constructor(
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * rowCount + paddingBottom
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height.toInt())
-        val maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * rowCount + paddingBottom
+        val maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * maxRowCount + paddingBottom
         onHeightDetectListener?.onHeightDetect(maxHeight)
     }
 
