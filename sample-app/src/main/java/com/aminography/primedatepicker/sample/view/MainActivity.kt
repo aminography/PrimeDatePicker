@@ -24,13 +24,14 @@ class MainActivity : AppCompatActivity() {
                     CalendarFactory.newInstance(CalendarType.CIVIL),
                     null,
                     null,
-                    PickType.SINGLE,
-                    object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+                    PickType.SINGLE)
+                    .registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
                         override fun onDateSet(calendar: BaseCalendar) {
                             longToast(calendar.longDateString)
                         }
-                    }).show(supportFragmentManager)
+                    })
+                    .show(supportFragmentManager)
         }
 
         persianButton.setOnClickListener {
@@ -38,13 +39,14 @@ class MainActivity : AppCompatActivity() {
                     CalendarFactory.newInstance(CalendarType.PERSIAN),
                     null,
                     null,
-                    PickType.SINGLE,
-                    object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+                    PickType.SINGLE)
+                    .registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
                         override fun onDateSet(calendar: BaseCalendar) {
                             longToast(calendar.longDateString)
                         }
-                    }).show(supportFragmentManager)
+                    })
+                    .show(supportFragmentManager)
         }
 
         hijriButton.setOnClickListener {
@@ -52,13 +54,14 @@ class MainActivity : AppCompatActivity() {
                     CalendarFactory.newInstance(CalendarType.HIJRI),
                     null,
                     null,
-                    PickType.SINGLE,
-                    object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+                    PickType.SINGLE)
+                    .registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
                         override fun onDateSet(calendar: BaseCalendar) {
                             longToast(calendar.longDateString)
                         }
-                    }).show(supportFragmentManager)
+                    })
+                    .show(supportFragmentManager)
         }
 
         monthViewButton.setOnClickListener {
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CalendarActivity::class.java))
         }
 
-        calendarViewButton.performClick()
+//        calendarViewButton.performClick()
 //        monthViewButton.performClick()
     }
 

@@ -36,6 +36,8 @@ class PrimeCalendarView @JvmOverloads constructor(
     private val DEFAULT_LOAD_FACTOR = 24
     private val DEFAULT_TRANSITION_FACTOR = 2
 
+    private var isInternalChange = false
+
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
     private var layoutManager = LinearLayoutManager(context)
@@ -46,7 +48,15 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var detectedItemHeight: Float = 0f
 
     private var heightMultiplier: Float = 0f
-    private var calendarType = CalendarType.CIVIL
+
+    var calendarType = CalendarType.CIVIL
+        set(value) {
+            field = value
+            if (!isInternalChange) {
+                val calendar = CalendarFactory.newInstance(value)
+                goto(calendar.year, calendar.month, false)
+            }
+        }
 
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
@@ -108,13 +118,13 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickedStartRangeCalendar: BaseCalendar? = null
     override var pickedEndRangeCalendar: BaseCalendar? = null
 
-    val currentItemCalendar: BaseCalendar
-        get() {
-            val dataHolder = findFirstVisibleItem()
-            val calendar = CalendarFactory.newInstance(calendarType)
-            calendar.setDate(dataHolder.year, dataHolder.month, 1)
-            return calendar
-        }
+//    val currentItemCalendar: BaseCalendar
+//        get() {
+//            val dataHolder = findFirstVisibleItem()
+//            val calendar = CalendarFactory.newInstance(calendarType)
+//            calendar.setDate(dataHolder.year, dataHolder.month, 1)
+//            return calendar
+//        }
 
     init {
 
@@ -132,7 +142,9 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
             heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, 1f)
+            isInternalChange = true
             calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
+            isInternalChange = false
             recycle()
         }
 

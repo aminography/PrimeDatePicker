@@ -5,17 +5,16 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
-import android.widget.FrameLayout
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.screenSize
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 
@@ -26,11 +25,10 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
     private var minDateCalendar: BaseCalendar? = null
     private var maxDateCalendar: BaseCalendar? = null
     private var pickType: PickType = PickType.NOTHING
-    private var callBack: OnDateSetListener? = null
 
-    //    private var mCallBack: OnDateSetListener? = null
     private var onCancelListener: DialogInterface.OnCancelListener? = null
     private var onDismissListener: DialogInterface.OnDismissListener? = null
+    private var onDateSetListener: OnDateSetListener? = null
 
     @SuppressLint("RestrictedApi")
     override fun setupDialog(dialog: Dialog, style: Int) {
@@ -52,10 +50,25 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
     override fun onInitViews(rootView: View) {
         with(rootView) {
+            currentDateCalendar = DateUtils.restoreCalendar(arguments?.getString("currentDateCalendar"))
+            minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
+            maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
+            pickType = PickType.valueOf(arguments?.getString("pickType") ?: PickType.NOTHING.name)
+            calendarType = currentDateCalendar?.calendarType ?: CalendarType.CIVIL
+
+            calendarView.calendarType = calendarType
             calendarView.pickType = pickType
 
             positiveButton.setOnClickListener {
-                //                mCallBack?.onDateSet(mBaseCalendar)
+                when (pickType) {
+                    PickType.SINGLE -> {
+                        calendarView.pickedSingleDayCalendar?.apply {
+                            onDateSetListener?.onDateSet(this)
+                        }
+                    }
+                    else -> {
+                    }
+                }
                 dismiss()
             }
 
@@ -93,6 +106,11 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
         this.onDismissListener = onDismissListener
     }
 
+    fun registerOnDateSetListener(onDateSetListener: OnDateSetListener): DatePickerBottomSheetDialogFragment {
+        this.onDateSetListener = onDateSetListener
+        return this
+    }
+
     interface OnDateSetListener {
 
         fun onDateSet(calendar: BaseCalendar)
@@ -104,16 +122,15 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                 currentDateCalendar: BaseCalendar,
                 minDateCalendar: BaseCalendar?,
                 maxDateCalendar: BaseCalendar?,
-                pickType: PickType,
-                callBack: OnDateSetListener
+                pickType: PickType
         ): DatePickerBottomSheetDialogFragment {
             val fragment = DatePickerBottomSheetDialogFragment()
-            fragment.currentDateCalendar = currentDateCalendar
-            fragment.calendarType = currentDateCalendar.calendarType
-            fragment.minDateCalendar = minDateCalendar
-            fragment.maxDateCalendar = maxDateCalendar
-            fragment.pickType = pickType
-            fragment.callBack = callBack
+            val bundle = Bundle()
+            bundle.putString("currentDateCalendar", DateUtils.storeCalendar(currentDateCalendar))
+            bundle.putString("minDateCalendar", DateUtils.storeCalendar(minDateCalendar))
+            bundle.putString("maxDateCalendar", DateUtils.storeCalendar(maxDateCalendar))
+            bundle.putString("pickType", pickType.name)
+            fragment.arguments = bundle
             return fragment
         }
     }
