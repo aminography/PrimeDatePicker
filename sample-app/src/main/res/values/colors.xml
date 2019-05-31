@@ -3,4 +3,12 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#7566F4</color>
+
+    <color name="colorDivider">#BDBDBD</color>
+    <color name="transparentBlack">#11000000</color>
+
+    <color name="colorControlHighlight">#DFDFDF</color>
+    <color name="rippleColorHighlight">#7F717171</color>
+    <color name="pressColorHighlight">#1F515151</color>
+    <color name="focusColorHighlight">#1F717171</color>
 </resources>

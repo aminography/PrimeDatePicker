@@ -21,9 +21,15 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.CalendarActivity" />
+        <activity
+            android:name=".view.CalendarActivity"
+            android:label="@string/title_calendar_activity"
+            android:theme="@style/AppTheme.NoActionBar.SmokyStatus" />
 
-        <activity android:name=".view.MonthViewActivity" />
+        <activity
+            android:name=".view.MonthViewActivity"
+            android:label="@string/title_month_activity"
+            android:theme="@style/AppTheme.NoActionBar.SmokyStatus" />
 
     </application>
 

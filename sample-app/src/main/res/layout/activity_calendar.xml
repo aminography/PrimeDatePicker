@@ -1,104 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDEDED"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".view.CalendarActivity">
 
-    <com.aminography.primedatepicker.calendarview.PrimeCalendarView
-        android:id="@+id/calendarView"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_margin="@dimen/material_size_16"
-        android:orientation="vertical">
-
-        <RadioGroup
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="@dimen/material_size_16"
-            android:orientation="horizontal">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/selectSingleDateRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Single Date" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="enterAlways"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/selectStartDateRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Start Date" />
+        </android.support.design.widget.AppBarLayout>
 
-            <android.support.v7.widget.AppCompatRadioButton
-                android:id="@+id/selectEndDateRadioButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="End Date" />
-
-        </RadioGroup>
-
-
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/setMinDateButton"
+            <com.aminography.primedatepicker.calendarview.PrimeCalendarView
+                android:id="@+id/calendarView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Set Min Date" />
+                android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/setMaxDateButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Set Max Date" />
+        </FrameLayout>
 
-        </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_drawer" />
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/gotoPastButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Past" />
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/nowButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Now" />
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/gotoFutureButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Future" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

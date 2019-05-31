@@ -194,13 +194,13 @@ class PrimeCalendarView @JvmOverloads constructor(
         recyclerView.layoutParams.height = measuredHeight
     }
 
-    fun goto(calendar: BaseCalendar, animate: Boolean = false) {
-        goto(calendar.year, calendar.month, animate)
+    fun goto(calendar: BaseCalendar, animate: Boolean = false): Boolean {
+        return goto(calendar.year, calendar.month, animate)
     }
 
-    fun goto(year: Int, month: Int, animate: Boolean = false) {
+    fun goto(year: Int, month: Int, animate: Boolean = false): Boolean {
         if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
-            return
+            return false
         }
         dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
         if (animate) {
@@ -243,6 +243,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         }
+        return true
     }
 
     private fun findPositionInList(year: Int, month: Int, list: List<PrimeDataHolder>?): Int? {
