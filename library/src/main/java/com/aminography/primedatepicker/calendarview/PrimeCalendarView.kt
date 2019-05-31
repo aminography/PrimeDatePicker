@@ -54,82 +54,114 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
 
-    override var minDateCalendar: BaseCalendar? = null
+    private var internalPickedSingleDayCalendar: BaseCalendar? = null
+    private var internalPickedStartRangeCalendar: BaseCalendar? = null
+    private var internalPickedEndRangeCalendar: BaseCalendar? = null
+
+    override var pickedSingleDayCalendar: BaseCalendar?
+        get() = internalPickedSingleDayCalendar
         set(value) {
-            field = value
-            if (!isInternalChange) {
-                val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
-
-                findFirstVisibleItem()?.also { current ->
-                    if (current.offset < minOffset) {
-                        minDateCalendar?.apply {
-                            goto(year, month, false)
-                        }
-                    } else {
-                        goto(current.year, current.month, false)
-                    }
-                }
-            }
-        }
-
-    override var maxDateCalendar: BaseCalendar? = null
-        set(value) {
-            field = value
-            if (!isInternalChange) {
-                val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
-
-                findLastVisibleItem()?.also { current ->
-                    if (current.offset > maxOffset) {
-                        maxDateCalendar?.apply {
-                            goto(year, month, false)
-                        }
-                    } else {
-                        goto(current.year, current.month, false)
-                    }
-                }
-            }
-        }
-
-    override var pickType = PickType.NOTHING
-        set(value) {
-            field = value
-            when (value) {
-                PickType.SINGLE -> {
-                    pickedStartRangeCalendar = null
-                    pickedEndRangeCalendar = null
-                }
-                PickType.START_RANGE -> pickedSingleDayCalendar = null
-                PickType.END_RANGE -> pickedSingleDayCalendar = null
-                PickType.NOTHING -> {
-                    pickedSingleDayCalendar = null
-                    pickedStartRangeCalendar = null
-                    pickedEndRangeCalendar = null
-                }
-            }
+            internalPickedSingleDayCalendar = value
             @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
         }
 
-    override var pickedSingleDayCalendar: BaseCalendar? = null
-    override var pickedStartRangeCalendar: BaseCalendar? = null
-    override var pickedEndRangeCalendar: BaseCalendar? = null
+    override var pickedStartRangeCalendar: BaseCalendar?
+        get() = internalPickedStartRangeCalendar
+        set(value) {
+            internalPickedStartRangeCalendar = value
+            @Suppress("UNNECESSARY_SAFE_CALL")
+            adapter?.notifyDataSetChanged()
+        }
 
-    var calendarType = CalendarType.CIVIL
+    override var pickedEndRangeCalendar: BaseCalendar?
+        get() = internalPickedEndRangeCalendar
+        set(value) {
+            internalPickedEndRangeCalendar = value
+            @Suppress("UNNECESSARY_SAFE_CALL")
+            adapter?.notifyDataSetChanged()
+        }
+
+    private var internalMinDateCalendar: BaseCalendar? = null
+    private var internalMaxDateCalendar: BaseCalendar? = null
+
+    override var minDateCalendar: BaseCalendar?
+        get() = internalMinDateCalendar
+        set(value) {
+            internalMinDateCalendar = value
+            val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
+
+            findFirstVisibleItem()?.also { current ->
+                if (current.offset < minOffset) {
+                    minDateCalendar?.apply {
+                        goto(year, month, false)
+                    }
+                } else {
+                    goto(current.year, current.month, false)
+                }
+            }
+        }
+
+    override var maxDateCalendar: BaseCalendar?
+        get() = internalMaxDateCalendar
+        set(value) {
+            internalMaxDateCalendar = value
+            val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
+
+            findLastVisibleItem()?.also { current ->
+                if (current.offset > maxOffset) {
+                    maxDateCalendar?.apply {
+                        goto(year, month, false)
+                    }
+                } else {
+                    goto(current.year, current.month, false)
+                }
+            }
+        }
+
+    private var internalPickType: PickType = PickType.NOTHING
         set(value) {
             field = value
-//            val previous = isInternalChange
-//            isInternalChange = true
-//            pickedSingleDayCalendar = null
-//            pickedStartRangeCalendar = null
-//            pickedEndRangeCalendar = null
-//            minDateCalendar = null
-//            maxDateCalendar = null
-//            pickType = PickType.NOTHING
-//            isInternalChange = previous
-            if (!isInternalChange) {
-                val calendar = CalendarFactory.newInstance(value)
-                goto(calendar.year, calendar.month, false)
+            when (value) {
+                PickType.SINGLE -> {
+                    internalPickedStartRangeCalendar = null
+                    internalPickedEndRangeCalendar = null
+                }
+                PickType.START_RANGE -> internalPickedSingleDayCalendar = null
+                PickType.END_RANGE -> internalPickedSingleDayCalendar = null
+                PickType.NOTHING -> {
+                    internalPickedSingleDayCalendar = null
+                    internalPickedStartRangeCalendar = null
+                    internalPickedEndRangeCalendar = null
+                }
             }
+        }
+
+    override var pickType: PickType
+        get() = internalPickType
+        set(value) {
+            internalPickType = value
+            @Suppress("UNNECESSARY_SAFE_CALL")
+            adapter?.notifyDataSetChanged()
+        }
+
+    private var internalCalendarType = CalendarType.CIVIL
+        set(value) {
+            field = value
+//            internalPickedSingleDayCalendar = null
+//            internalPickedStartRangeCalendar = null
+//            internalPickedEndRangeCalendar = null
+//            internalMinDateCalendar = null
+//            internalMaxDateCalendar = null
+//            internalPickType = PickType.NOTHING
+        }
+
+    var calendarType: CalendarType
+        get() = internalCalendarType
+        set(value) {
+            internalCalendarType = value
+            val calendar = CalendarFactory.newInstance(value)
+            goto(calendar.year, calendar.month, false)
         }
 
     private val currentItemCalendar: BaseCalendar?
@@ -142,7 +174,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
     init {
-
         val layoutHeight = attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height")
         when {
             layoutHeight.equals(ViewGroup.LayoutParams.MATCH_PARENT.toString()) ->
@@ -158,7 +189,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
             heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, 1f)
             isInternalChange = true
-            calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
+            internalCalendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
             isInternalChange = false
             recycle()
         }
@@ -178,7 +209,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         adapter.iMonthViewHolderCallback = this
 
         if (isInEditMode) {
-            val calendar = CalendarFactory.newInstance(calendarType)
+            val calendar = CalendarFactory.newInstance(internalCalendarType)
             goto(calendar.year, calendar.month, false)
         }
     }
@@ -209,18 +240,18 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     fun goto(year: Int, month: Int, animate: Boolean = false): Boolean {
-        if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
+        if (DateUtils.isOutOfRange(year, month, internalMinDateCalendar, internalMaxDateCalendar)) {
             return false
         }
-        dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR)
+        dataList = CalendarViewUtils.createPivotList(internalCalendarType, year, month, internalMinDateCalendar, internalMaxDateCalendar, DEFAULT_LOAD_FACTOR)
         if (animate) {
             findFirstVisibleItem()?.let { current ->
-                val transitionList = CalendarViewUtils.createTransitionList(calendarType, current.year, current.month, year, month, DEFAULT_TRANSITION_FACTOR)
+                val transitionList = CalendarViewUtils.createTransitionList(internalCalendarType, current.year, current.month, year, month, DEFAULT_TRANSITION_FACTOR)
                 val isForward = DateUtils.isBefore(current.year, current.month, year, month)
                 transitionList?.apply {
                     var isLastTransitionItemRemoved = false
                     if (isForward) {
-                        maxDateCalendar?.let { max ->
+                        internalMaxDateCalendar?.let { max ->
                             val maxOffset = max.monthOffset()
                             val targetOffset = year * 12 + month
                             if (maxOffset == targetOffset) {
@@ -289,25 +320,26 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     override fun onDayClick(day: BaseCalendar) {
-        when (pickType) {
+        when (internalPickType) {
             PickType.SINGLE -> {
-                pickedSingleDayCalendar = day
+                internalPickedSingleDayCalendar = day
             }
             PickType.START_RANGE -> {
-                if (DateUtils.isAfter(day.year, day.month, day.dayOfMonth, pickedEndRangeCalendar)) {
-                    pickedEndRangeCalendar = null
+                if (DateUtils.isAfter(day.year, day.month, day.dayOfMonth, internalPickedEndRangeCalendar)) {
+                    internalPickedEndRangeCalendar = null
                 }
-                pickedStartRangeCalendar = day
+                internalPickedStartRangeCalendar = day
             }
             PickType.END_RANGE -> {
-                if (!DateUtils.isBefore(day.year, day.month, day.dayOfMonth, pickedStartRangeCalendar)) {
-                    pickedEndRangeCalendar = day
+                if (!DateUtils.isBefore(day.year, day.month, day.dayOfMonth, internalPickedStartRangeCalendar)) {
+                    internalPickedEndRangeCalendar = day
                 }
             }
             PickType.NOTHING -> {
             }
         }
 
+        // TODO: Why was I writing this???
         findLastVisibleItem()?.apply {
             goto(year, month, false)
         }
@@ -359,10 +391,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                         isInLoading = true
                         val dataHolder = adapter.getItem(totalItemCount - 1) as MonthDataHolder
                         val offset = dataHolder.offset
-                        val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
+                        val maxOffset = internalMaxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(calendarType, dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, true)
+                            val moreData = CalendarViewUtils.extendMoreList(internalCalendarType, dataHolder.year, dataHolder.month, internalMinDateCalendar, internalMaxDateCalendar, DEFAULT_LOAD_FACTOR, true)
                             dataList?.apply {
                                 addAll(size, moreData)
                                 adapter.replaceDataList(this)
@@ -377,10 +409,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                         isInLoading = true
                         val dataHolder = adapter.getItem(0) as MonthDataHolder
                         val offset = dataHolder.offset
-                        val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
+                        val minOffset = internalMinDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(calendarType, dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, DEFAULT_LOAD_FACTOR, false)
+                            val moreData = CalendarViewUtils.extendMoreList(internalCalendarType, dataHolder.year, dataHolder.month, internalMinDateCalendar, internalMaxDateCalendar, DEFAULT_LOAD_FACTOR, false)
                             dataList?.apply {
                                 addAll(0, moreData)
                                 adapter.replaceDataList(this)
@@ -402,19 +434,19 @@ class PrimeCalendarView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
 
-        savedState.calendarType = calendarType.ordinal
+        savedState.calendarType = internalCalendarType.ordinal
         currentItemCalendar?.apply {
             savedState.currentYear = year
             savedState.currentMonth = month
         }
 
-        savedState.minDateCalendar = DateUtils.storeCalendar(minDateCalendar)
-        savedState.maxDateCalendar = DateUtils.storeCalendar(maxDateCalendar)
+        savedState.minDateCalendar = DateUtils.storeCalendar(internalMinDateCalendar)
+        savedState.maxDateCalendar = DateUtils.storeCalendar(internalMaxDateCalendar)
 
-        savedState.pickType = pickType.name
-        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
-        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(pickedStartRangeCalendar)
-        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(pickedEndRangeCalendar)
+        savedState.pickType = internalPickType.name
+        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(internalPickedSingleDayCalendar)
+        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(internalPickedStartRangeCalendar)
+        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(internalPickedEndRangeCalendar)
         return savedState
     }
 
@@ -423,19 +455,19 @@ class PrimeCalendarView @JvmOverloads constructor(
         super.onRestoreInstanceState(savedState.superState)
         isInternalChange = true
 
-        calendarType = CalendarType.values()[savedState.calendarType]
+        internalCalendarType = CalendarType.values()[savedState.calendarType]
         val currentYear = savedState.currentYear
         val currentMonth = savedState.currentMonth
 
-        minDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
-        maxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
+        internalMinDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
+        internalMaxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
 
-        pickType = savedState.pickType?.let {
+        internalPickType = savedState.pickType?.let {
             PickType.valueOf(it)
         } ?: PickType.NOTHING
-        pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
-        pickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
-        pickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+        internalPickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
+        internalPickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
+        internalPickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
 
         isInternalChange = false
         goto(currentYear, currentMonth, false)

@@ -64,13 +64,6 @@ class PrimeMonthView @JvmOverloads constructor(
     private var dayLabelPaint: Paint? = null
     private var selectedDayBackgroundPaint: Paint? = null
 
-    var fontTypeface: Typeface? = null
-        set(value) {
-            field = value
-            initPaints()
-            invalidate()
-        }
-
     private var viewWidth = 0
     private var monthHeaderHeight = 0
     private var weekHeaderHeight = 0
@@ -82,29 +75,6 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private var month = 0
     private var year = 0
-
-    var pickType = PickType.NOTHING
-        set(value) {
-            field = value
-            when (value) {
-                PickType.SINGLE -> {
-                    pickedStartRangeCalendar = null
-                    pickedEndRangeCalendar = null
-                }
-                PickType.START_RANGE -> pickedSingleDayCalendar = null
-                PickType.END_RANGE -> pickedSingleDayCalendar = null
-                PickType.NOTHING -> {
-                    pickedSingleDayCalendar = null
-                    pickedStartRangeCalendar = null
-                    pickedEndRangeCalendar = null
-                }
-            }
-            if (!isInternalChange) invalidate()
-        }
-
-    var pickedSingleDayCalendar: BaseCalendar? = null
-    var pickedStartRangeCalendar: BaseCalendar? = null
-    var pickedEndRangeCalendar: BaseCalendar? = null
 
     private var hasToday = false
     private var todayDayOfMonth = -1
@@ -124,75 +94,144 @@ class PrimeMonthView @JvmOverloads constructor(
     var onHeightDetectListener: OnHeightDetectListener? = null
     var onDayClickListener: OnDayClickListener? = null
 
-    private var isInternalChange = false
+    private var internalFontTypeface: Typeface? = null
 
-    var minDateCalendar: BaseCalendar? = null
+    var fontTypeface: Typeface?
+        get() = internalFontTypeface
+        set(value) {
+            internalFontTypeface = value
+            initPaints()
+            invalidate()
+        }
+
+    private var internalPickedSingleDayCalendar: BaseCalendar? = null
+    private var internalPickedStartRangeCalendar: BaseCalendar? = null
+    private var internalPickedEndRangeCalendar: BaseCalendar? = null
+
+    var pickedSingleDayCalendar: BaseCalendar?
+        get() = internalPickedSingleDayCalendar
+        set(value) {
+            internalPickedSingleDayCalendar = value
+            invalidate()
+        }
+
+    var pickedStartRangeCalendar: BaseCalendar?
+        get() = internalPickedStartRangeCalendar
+        set(value) {
+            internalPickedStartRangeCalendar = value
+            invalidate()
+        }
+
+    var pickedEndRangeCalendar: BaseCalendar?
+        get() = internalPickedEndRangeCalendar
+        set(value) {
+            internalPickedEndRangeCalendar = value
+            invalidate()
+        }
+
+    private var internalPickType: PickType = PickType.NOTHING
         set(value) {
             field = value
-            pickedSingleDayCalendar?.let { single ->
+            when (value) {
+                PickType.SINGLE -> {
+                    internalPickedStartRangeCalendar = null
+                    internalPickedEndRangeCalendar = null
+                }
+                PickType.START_RANGE -> internalPickedSingleDayCalendar = null
+                PickType.END_RANGE -> internalPickedSingleDayCalendar = null
+                PickType.NOTHING -> {
+                    internalPickedSingleDayCalendar = null
+                    internalPickedStartRangeCalendar = null
+                    internalPickedEndRangeCalendar = null
+                }
+            }
+        }
+
+    var pickType: PickType
+        get() = internalPickType
+        set(value) {
+            internalPickType = value
+            invalidate()
+        }
+
+    private var internalMinDateCalendar: BaseCalendar? = null
+        set(value) {
+            field = value
+            internalPickedSingleDayCalendar?.let { single ->
                 if (DateUtils.isBefore(single, value)) {
-                    pickedSingleDayCalendar = value
+                    internalPickedSingleDayCalendar = value
                 }
             }
-            pickedStartRangeCalendar?.let { start ->
+            internalPickedStartRangeCalendar?.let { start ->
                 if (DateUtils.isBefore(start, value)) {
-                    pickedStartRangeCalendar = value
+                    internalPickedStartRangeCalendar = value
                 }
             }
-            pickedEndRangeCalendar?.let { end ->
+            internalPickedEndRangeCalendar?.let { end ->
                 if (DateUtils.isBefore(end, value)) {
-                    pickedStartRangeCalendar = null
-                    pickedEndRangeCalendar = null
+                    internalPickedStartRangeCalendar = null
+                    internalPickedEndRangeCalendar = null
                 }
             }
-            if (!isInternalChange) invalidate()
         }
 
-    var maxDateCalendar: BaseCalendar? = null
+    var minDateCalendar: BaseCalendar?
+        get() = internalMinDateCalendar
+        set(value) {
+            internalMinDateCalendar = value
+            invalidate()
+        }
+
+    private var internalMaxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            pickedSingleDayCalendar?.let { single ->
+            internalPickedSingleDayCalendar?.let { single ->
                 if (DateUtils.isAfter(single, value)) {
-                    pickedSingleDayCalendar = value
+                    internalPickedSingleDayCalendar = value
                 }
             }
-            pickedStartRangeCalendar?.let { start ->
+            internalPickedStartRangeCalendar?.let { start ->
                 if (DateUtils.isAfter(start, value)) {
-                    pickedStartRangeCalendar = null
-                    pickedEndRangeCalendar = null
+                    internalPickedStartRangeCalendar = null
+                    internalPickedEndRangeCalendar = null
                 }
             }
-            pickedEndRangeCalendar?.let { end ->
+            internalPickedEndRangeCalendar?.let { end ->
                 if (DateUtils.isAfter(end, value)) {
-                    pickedEndRangeCalendar = value
+                    internalPickedEndRangeCalendar = value
                 }
             }
-            if (!isInternalChange) invalidate()
         }
 
-    var calendarType = CalendarType.CIVIL
+    var maxDateCalendar: BaseCalendar?
+        get() = internalMaxDateCalendar
+        set(value) {
+            internalMaxDateCalendar = value
+            invalidate()
+        }
+
+    private var internalCalendarType = CalendarType.CIVIL
         set(value) {
             field = value
-//            val previous = isInternalChange
-//            isInternalChange = true
-//            pickedSingleDayCalendar = null
-//            pickedStartRangeCalendar = null
-//            pickedEndRangeCalendar = null
-//            minDateCalendar = null
-//            maxDateCalendar = null
-//            pickType = PickType.NOTHING
-//            isInternalChange = previous
-            if (!isInternalChange) {
-                val calendar = CalendarFactory.newInstance(value)
-                setDate(calendar)
-            }
+//            internalPickedSingleDayCalendar = null
+//            internalPickedStartRangeCalendar = null
+//            internalPickedEndRangeCalendar = null
+//            internalMinDateCalendar = null
+//            internalMaxDateCalendar = null
+//            internalPickType = PickType.NOTHING
+        }
+
+    var calendarType: CalendarType
+        get() = internalCalendarType
+        set(value) {
+            internalCalendarType = value
+            val calendar = CalendarFactory.newInstance(value)
+            setDate(calendar)
         }
 
     fun setMinMaxDateCalendar(minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, invalidate: Boolean = true) {
-        isInternalChange = true
-        this.minDateCalendar = minDateCalendar
-        this.maxDateCalendar = maxDateCalendar
-        isInternalChange = false
+        internalMinDateCalendar = minDateCalendar
+        internalMaxDateCalendar = maxDateCalendar
         if (invalidate) invalidate()
     }
 
@@ -233,7 +272,7 @@ class PrimeMonthView @JvmOverloads constructor(
         initPaints()
 
         if (isInEditMode) {
-            val calendar = CalendarFactory.newInstance(calendarType)
+            val calendar = CalendarFactory.newInstance(internalCalendarType)
             setDate(calendar)
         }
     }
@@ -246,7 +285,7 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = true
-            fontTypeface?.apply {
+            internalFontTypeface?.apply {
                 typeface = this
             }
         }
@@ -258,7 +297,7 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = true
-            fontTypeface?.apply {
+            internalFontTypeface?.apply {
                 typeface = this
             }
         }
@@ -270,7 +309,7 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = false
-            fontTypeface?.apply {
+            internalFontTypeface?.apply {
                 typeface = this
             }
         }
@@ -307,11 +346,9 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     fun setDate(calendarType: CalendarType, year: Int, month: Int) {
-        isInternalChange = true
-        this.calendarType = calendarType
+        internalCalendarType = calendarType
         this.year = year
         this.month = month
-        isInternalChange = false
 
         dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType)
         firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType)
@@ -334,7 +371,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun updateToday() {
-        val todayCalendar = CalendarFactory.newInstance(calendarType)
+        val todayCalendar = CalendarFactory.newInstance(internalCalendarType)
         hasToday = todayCalendar.year == year && todayCalendar.month == month
         todayDayOfMonth = if (hasToday) todayCalendar.dayOfMonth else -1
     }
@@ -359,7 +396,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         var monthAndYearString = "${firstDayOfMonthCalendar?.monthName} ${firstDayOfMonthCalendar?.year}"
-        monthAndYearString = when (calendarType) {
+        monthAndYearString = when (internalCalendarType) {
             CalendarType.CIVIL -> monthAndYearString
             CalendarType.PERSIAN, CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
         }
@@ -410,7 +447,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (calendarType) {
+                add(when (internalCalendarType) {
                     CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
                     CalendarType.PERSIAN, CalendarType.HIJRI -> (2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft
                 })
@@ -424,7 +461,7 @@ class PrimeMonthView @JvmOverloads constructor(
             dayOfWeekLabelCalendar?.set(Calendar.DAY_OF_WEEK, dayOfWeek % 7)
             val localWeekDisplayName = dayOfWeekLabelCalendar?.weekDayName
 
-            val weekString = when (calendarType) {
+            val weekString = when (internalCalendarType) {
                 CalendarType.CIVIL -> localWeekDisplayName?.substring(0, 2)
                 CalendarType.PERSIAN -> localWeekDisplayName?.substring(0, 1)
                 CalendarType.HIJRI -> localWeekDisplayName?.substring(2, 4)
@@ -491,7 +528,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (calendarType) {
+                add(when (internalCalendarType) {
                     CalendarType.CIVIL -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
                     CalendarType.PERSIAN, CalendarType.HIJRI -> ((2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft)
                 })
@@ -502,7 +539,16 @@ class PrimeMonthView @JvmOverloads constructor(
             val y = topY + cellHeight / 2
             val x = xPositionList[offset]
 
-            val pickedDayState = MonthViewUtils.findDayState(year, month, dayOfMonth, pickType, pickedSingleDayCalendar, pickedStartRangeCalendar, pickedEndRangeCalendar)
+            val pickedDayState = MonthViewUtils.findDayState(
+                    year,
+                    month,
+                    dayOfMonth,
+                    internalPickType,
+                    internalPickedSingleDayCalendar,
+                    internalPickedStartRangeCalendar,
+                    internalPickedEndRangeCalendar
+            )
+
             drawDayBackground(canvas, pickedDayState, x, y, radius)
             drawDayLabel(canvas, dayOfMonth, pickedDayState, x, y)
 
@@ -549,7 +595,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
             fun drawHalfRect(isStart: Boolean) {
                 // RTLize for Persian and Hijri Calendars
-                when (calendarType) {
+                when (internalCalendarType) {
                     CalendarType.CIVIL -> if (isStart) {
                         canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
                     } else {
@@ -586,9 +632,9 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, pickedDayState: PickedDayState, x: Float, y: Float) {
         dayLabelPaint?.apply {
-            color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar)) {
+            color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, internalMinDateCalendar, internalMaxDateCalendar)) {
                 disabledDayLabelTextColor
-            } else if (pickType != PickType.NOTHING) {
+            } else if (internalPickType != PickType.NOTHING) {
                 when (pickedDayState) {
                     PickedDayState.PICKED_SINGLE -> {
                         selectedDayLabelTextColor
@@ -620,7 +666,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        val date = when (calendarType) {
+        val date = when (internalCalendarType) {
             CalendarType.CIVIL -> String.format(Locale.getDefault(), "%d", dayOfMonth)
             CalendarType.PERSIAN, CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
         }
@@ -641,7 +687,7 @@ class PrimeMonthView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
-                        val calendar = CalendarFactory.newInstance(calendarType)
+                        val calendar = CalendarFactory.newInstance(internalCalendarType)
                         calendar.setDate(year, month, dayOfMonth)
                         onDayClicked(calendar)
                     }
@@ -653,21 +699,21 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun onDayClicked(calendar: BaseCalendar) {
         calendar.apply {
-            when (pickType) {
+            when (internalPickType) {
                 PickType.SINGLE -> {
-                    pickedSingleDayCalendar = calendar
+                    internalPickedSingleDayCalendar = calendar
                     invalidate()
                 }
                 PickType.START_RANGE -> {
-                    if (DateUtils.isAfter(year, month, dayOfMonth, pickedEndRangeCalendar)) {
-                        pickedEndRangeCalendar = null
+                    if (DateUtils.isAfter(year, month, dayOfMonth, internalPickedEndRangeCalendar)) {
+                        internalPickedEndRangeCalendar = null
                     }
-                    pickedStartRangeCalendar = calendar
+                    internalPickedStartRangeCalendar = calendar
                     invalidate()
                 }
                 PickType.END_RANGE -> {
-                    if (!DateUtils.isBefore(year, month, dayOfMonth, pickedStartRangeCalendar)) {
-                        pickedEndRangeCalendar = calendar
+                    if (!DateUtils.isBefore(year, month, dayOfMonth, internalPickedStartRangeCalendar)) {
+                        internalPickedEndRangeCalendar = calendar
                         invalidate()
                     }
                 }
@@ -677,7 +723,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         onDayClickListener?.apply {
-            onDayClick(this@PrimeMonthView, calendar)
+//            onDayClick(this@PrimeMonthView, calendar)
         }
     }
 
@@ -689,7 +735,7 @@ class PrimeMonthView @JvmOverloads constructor(
         var column = ((inputX - paddingLeft) * columnCount / (viewWidth - (paddingLeft + paddingRight))).toInt()
 
         // RTLize for Persian and Hijri Calendars
-        column = when (calendarType) {
+        column = when (internalCalendarType) {
             CalendarType.CIVIL -> column
             CalendarType.PERSIAN, CalendarType.HIJRI -> columnCount - 1 - column
         }
@@ -703,7 +749,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun ifInValidRange(dayOfMonth: Int, function: () -> Unit) {
-        if (!DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar))
+        if (!DateUtils.isOutOfRange(year, month, dayOfMonth, internalMinDateCalendar, internalMaxDateCalendar))
             function.invoke()
     }
 
@@ -730,41 +776,39 @@ class PrimeMonthView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
 
-        savedState.calendarType = calendarType.ordinal
+        savedState.calendarType = internalCalendarType.ordinal
         savedState.year = year
         savedState.month = month
 
-        savedState.minDateCalendar = DateUtils.storeCalendar(minDateCalendar)
-        savedState.maxDateCalendar = DateUtils.storeCalendar(maxDateCalendar)
+        savedState.minDateCalendar = DateUtils.storeCalendar(internalMinDateCalendar)
+        savedState.maxDateCalendar = DateUtils.storeCalendar(internalMaxDateCalendar)
 
-        savedState.pickType = pickType.name
-        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
-        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(pickedStartRangeCalendar)
-        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(pickedEndRangeCalendar)
+        savedState.pickType = internalPickType.name
+        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(internalPickedSingleDayCalendar)
+        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(internalPickedStartRangeCalendar)
+        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(internalPickedEndRangeCalendar)
         return savedState
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
-        isInternalChange = true
 
-        calendarType = CalendarType.values()[savedState.calendarType]
+        internalCalendarType = CalendarType.values()[savedState.calendarType]
         year = savedState.year
         month = savedState.month
 
-        minDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
-        maxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
+        internalMinDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
+        internalMaxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
 
-        pickType = savedState.pickType?.let {
+        internalPickType = savedState.pickType?.let {
             PickType.valueOf(it)
         } ?: PickType.NOTHING
-        pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
-        pickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
-        pickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+        internalPickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
+        internalPickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
+        internalPickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
 
-        isInternalChange = false
-        setDate(calendarType, year, month)
+        setDate(internalCalendarType, year, month)
     }
 
     private class SavedState : BaseSavedState {
