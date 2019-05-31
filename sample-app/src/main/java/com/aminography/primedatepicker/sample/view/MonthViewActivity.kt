@@ -87,7 +87,7 @@ class MonthViewActivity : AppCompatActivity() {
                     }
                 }
             }
-            maxDateCheckBox.text = "Min Date: ${today.monthName} 25"
+            maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
             maxDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed) {
                     closeDrawer()
