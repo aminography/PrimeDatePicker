@@ -35,6 +35,12 @@ class CalendarViewActivity : AppCompatActivity() {
                     closeDrawer()
                     calendarType = CalendarType.CIVIL
                     calendarView.calendarType = calendarType
+
+//                    minDateCheckBox.isChecked = false
+//                    maxDateCheckBox.isChecked = false
+//                    singleRadioButton.isChecked = false
+//                    startRangeRadioButton.isChecked = false
+//                    endRangeRadioButton.isChecked = false
                 }
             }
             persianRadioButton.setOnCheckedChangeListener { button, isChecked ->
@@ -42,6 +48,12 @@ class CalendarViewActivity : AppCompatActivity() {
                     closeDrawer()
                     calendarType = CalendarType.PERSIAN
                     calendarView.calendarType = calendarType
+
+//                    minDateCheckBox.isChecked = false
+//                    maxDateCheckBox.isChecked = false
+//                    singleRadioButton.isChecked = false
+//                    startRangeRadioButton.isChecked = false
+//                    endRangeRadioButton.isChecked = false
                 }
             }
             hijriRadioButton.setOnCheckedChangeListener { button, isChecked ->
@@ -49,6 +61,12 @@ class CalendarViewActivity : AppCompatActivity() {
                     closeDrawer()
                     calendarType = CalendarType.HIJRI
                     calendarView.calendarType = calendarType
+
+//                    minDateCheckBox.isChecked = false
+//                    maxDateCheckBox.isChecked = false
+//                    singleRadioButton.isChecked = false
+//                    startRangeRadioButton.isChecked = false
+//                    endRangeRadioButton.isChecked = false
                 }
             }
             //--------------------------------------------------------------------------------------

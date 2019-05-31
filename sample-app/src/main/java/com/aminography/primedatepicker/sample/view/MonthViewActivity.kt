@@ -37,6 +37,15 @@ class MonthViewActivity : AppCompatActivity() {
                     closeDrawer()
                     calendarType = CalendarType.CIVIL
                     monthView.calendarType = calendarType
+
+//                    minDateCheckBox.isChecked = false
+//                    maxDateCheckBox.isChecked = false
+//                    singleRadioButton.isChecked = false
+//                    startRangeRadioButton.isChecked = false
+//                    endRangeRadioButton.isChecked = false
+//                    val today = CalendarFactory.newInstance(calendarType)
+//                    minDateCheckBox.text = "Min Date: ${today.monthName} 5"
+//                    maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
                 }
             }
             persianRadioButton.setOnCheckedChangeListener { button, isChecked ->
@@ -44,6 +53,15 @@ class MonthViewActivity : AppCompatActivity() {
                     closeDrawer()
                     calendarType = CalendarType.PERSIAN
                     monthView.calendarType = calendarType
+
+//                    minDateCheckBox.isChecked = false
+//                    maxDateCheckBox.isChecked = false
+//                    singleRadioButton.isChecked = false
+//                    startRangeRadioButton.isChecked = false
+//                    endRangeRadioButton.isChecked = false
+//                    val today = CalendarFactory.newInstance(calendarType)
+//                    minDateCheckBox.text = "Min Date: ${today.monthName} 5"
+//                    maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
                 }
             }
             hijriRadioButton.setOnCheckedChangeListener { button, isChecked ->
@@ -51,6 +69,15 @@ class MonthViewActivity : AppCompatActivity() {
                     closeDrawer()
                     calendarType = CalendarType.HIJRI
                     monthView.calendarType = calendarType
+
+//                    minDateCheckBox.isChecked = false
+//                    maxDateCheckBox.isChecked = false
+//                    singleRadioButton.isChecked = false
+//                    startRangeRadioButton.isChecked = false
+//                    endRangeRadioButton.isChecked = false
+//                    val today = CalendarFactory.newInstance(calendarType)
+//                    minDateCheckBox.text = "Min Date: ${today.monthName} 5"
+//                    maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
                 }
             }
             //--------------------------------------------------------------------------------------

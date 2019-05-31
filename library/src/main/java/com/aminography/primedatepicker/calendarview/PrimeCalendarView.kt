@@ -51,15 +51,6 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     private var heightMultiplier: Float = 0f
 
-    var calendarType = CalendarType.CIVIL
-        set(value) {
-            field = value
-            if (!isInternalChange) {
-                val calendar = CalendarFactory.newInstance(value)
-                goto(calendar.year, calendar.month, false)
-            }
-        }
-
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
 
@@ -115,12 +106,31 @@ class PrimeCalendarView @JvmOverloads constructor(
                     pickedEndRangeCalendar = null
                 }
             }
-            adapter.notifyDataSetChanged()
+            @Suppress("UNNECESSARY_SAFE_CALL")
+            adapter?.notifyDataSetChanged()
         }
 
     override var pickedSingleDayCalendar: BaseCalendar? = null
     override var pickedStartRangeCalendar: BaseCalendar? = null
     override var pickedEndRangeCalendar: BaseCalendar? = null
+
+    var calendarType = CalendarType.CIVIL
+        set(value) {
+            field = value
+//            val previous = isInternalChange
+//            isInternalChange = true
+//            pickedSingleDayCalendar = null
+//            pickedStartRangeCalendar = null
+//            pickedEndRangeCalendar = null
+//            minDateCalendar = null
+//            maxDateCalendar = null
+//            pickType = PickType.NOTHING
+//            isInternalChange = previous
+            if (!isInternalChange) {
+                val calendar = CalendarFactory.newInstance(value)
+                goto(calendar.year, calendar.month, false)
+            }
+        }
 
     private val currentItemCalendar: BaseCalendar?
         get() {

@@ -80,14 +80,6 @@ class PrimeMonthView @JvmOverloads constructor(
     private var cellHeight: Float = defaultCellHeight
     private var cellWidth: Float = cellHeight
 
-    var calendarType = CalendarType.CIVIL
-        set(value) {
-            field = value
-            if (!isInternalChange) {
-                val calendar = CalendarFactory.newInstance(value)
-                setDate(calendar)
-            }
-        }
     private var month = 0
     private var year = 0
 
@@ -176,6 +168,24 @@ class PrimeMonthView @JvmOverloads constructor(
                 }
             }
             if (!isInternalChange) invalidate()
+        }
+
+    var calendarType = CalendarType.CIVIL
+        set(value) {
+            field = value
+//            val previous = isInternalChange
+//            isInternalChange = true
+//            pickedSingleDayCalendar = null
+//            pickedStartRangeCalendar = null
+//            pickedEndRangeCalendar = null
+//            minDateCalendar = null
+//            maxDateCalendar = null
+//            pickType = PickType.NOTHING
+//            isInternalChange = previous
+            if (!isInternalChange) {
+                val calendar = CalendarFactory.newInstance(value)
+                setDate(calendar)
+            }
         }
 
     fun setMinMaxDateCalendar(minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, invalidate: Boolean = true) {
