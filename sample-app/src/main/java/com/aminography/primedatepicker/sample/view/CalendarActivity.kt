@@ -17,6 +17,11 @@ class CalendarActivity : AppCompatActivity() {
 
         // TODO
         val calendarType = CalendarType.CIVIL
+        calendarView.calendarType = calendarType
+//        val calendar = CalendarFactory.newInstance(calendarType)
+//        calendarView.goto(calendar.year, calendar.month, true)
+
+
 
         nowButton.setOnClickListener {
             val calendar = CalendarFactory.newInstance(calendarType)

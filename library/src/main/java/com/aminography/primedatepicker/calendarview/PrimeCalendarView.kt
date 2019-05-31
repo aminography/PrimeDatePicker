@@ -122,7 +122,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickedStartRangeCalendar: BaseCalendar? = null
     override var pickedEndRangeCalendar: BaseCalendar? = null
 
-    val currentItemCalendar: BaseCalendar?
+    private val currentItemCalendar: BaseCalendar?
         get() {
             return findFirstVisibleItem()?.run {
                 val calendar = CalendarFactory.newInstance(calendarType)
@@ -192,6 +192,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
         recyclerView.layoutParams.height = measuredHeight
+    }
+
+    fun goto(calendar: BaseCalendar, animate: Boolean = false) {
+        goto(calendar.year, calendar.month, animate)
     }
 
     fun goto(year: Int, month: Int, animate: Boolean = false) {

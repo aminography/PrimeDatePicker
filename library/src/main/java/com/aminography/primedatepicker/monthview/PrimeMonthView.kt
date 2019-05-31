@@ -100,7 +100,7 @@ class PrimeMonthView @JvmOverloads constructor(
                     pickedEndRangeCalendar = null
                 }
             }
-//            invalidate()
+            if (!isInternalChange) invalidate()
         }
 
     var pickedSingleDayCalendar: BaseCalendar? = null

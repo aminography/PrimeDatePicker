@@ -57,6 +57,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
             calendarType = currentDateCalendar?.calendarType ?: CalendarType.CIVIL
 
             calendarView.calendarType = calendarType
+            calendarView.goto(currentDateCalendar!!)
             calendarView.pickType = pickType
 
             positiveButton.setOnClickListener {

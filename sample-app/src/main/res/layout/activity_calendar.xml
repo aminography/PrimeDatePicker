@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EDEDED"
-    tools:context="com.aminography.primedatepicker.sample.view.CalendarActivity">
+    android:orientation="vertical"
+    tools:context=".view.CalendarActivity">
 
     <com.aminography.primedatepicker.calendarview.PrimeCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top" />
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -101,4 +101,4 @@
 
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>

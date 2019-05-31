@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CalendarActivity::class.java))
         }
 
-//        calendarViewButton.performClick()
+        calendarViewButton.performClick()
 //        monthViewButton.performClick()
     }
 
