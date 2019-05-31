@@ -11,6 +11,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <Space
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/civilButton"
             android:layout_width="wrap_content"
