@@ -71,8 +71,6 @@ class CalendarViewActivity : AppCompatActivity() {
                 }
             }
             //--------------------------------------------------------------------------------------
-            val today = CalendarFactory.newInstance(calendarType)
-            minDateCheckBox.text = "Min Date: ${today.monthName} 5"
             minDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed) {
                     closeDrawer()
@@ -85,7 +83,6 @@ class CalendarViewActivity : AppCompatActivity() {
                     }
                 }
             }
-            maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
             maxDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed) {
                     closeDrawer()
