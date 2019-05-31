@@ -16,35 +16,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Civil" />
+            android:text="Civil Date Picker" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/persianButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Persian" />
+            android:text="Persian Date Picker" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/hijriButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Hijri" />
+            android:text="Hijri Date Picker" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/monthViewButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="MonthView" />
+            android:text="Month View" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/calendarViewButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="CalendarView" />
+            android:text="Calendar View" />
 
 
     </LinearLayout>

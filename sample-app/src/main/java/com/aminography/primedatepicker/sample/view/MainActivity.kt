@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 //        calendarViewButton.performClick()
-        monthViewButton.performClick()
+//        monthViewButton.performClick()
     }
 
 }
