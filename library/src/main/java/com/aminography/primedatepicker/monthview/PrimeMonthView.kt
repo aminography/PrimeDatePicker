@@ -80,7 +80,14 @@ class PrimeMonthView @JvmOverloads constructor(
     private var cellHeight: Float = defaultCellHeight
     private var cellWidth: Float = cellHeight
 
-    private var calendarType = CalendarType.CIVIL
+    var calendarType = CalendarType.CIVIL
+        set(value) {
+            field = value
+            if (!isInternalChange) {
+                val calendar = CalendarFactory.newInstance(value)
+                setDate(calendar)
+            }
+        }
     private var month = 0
     private var year = 0
 
@@ -203,7 +210,7 @@ class PrimeMonthView @JvmOverloads constructor(
         monthHeaderHeight = monthLabelTextSize + monthLabelTopPadding + monthLabelBottomPadding
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
 
-        if(context.isDisplayLandscape()){
+        if (context.isDisplayLandscape()) {
             maxRowCount = 3
             rowCount = 3
             columnCount = 14
@@ -290,9 +297,11 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     fun setDate(calendarType: CalendarType, year: Int, month: Int) {
+        isInternalChange = true
         this.calendarType = calendarType
         this.year = year
         this.month = month
+        isInternalChange = false
 
         dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType)
         firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType)

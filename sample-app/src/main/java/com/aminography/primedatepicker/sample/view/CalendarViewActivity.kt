@@ -8,16 +8,16 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.sample.R
-import kotlinx.android.synthetic.main.activity_calendar.*
-import kotlinx.android.synthetic.main.nav_drawer.view.*
+import kotlinx.android.synthetic.main.activity_calendar_view.*
+import kotlinx.android.synthetic.main.nav_drawer_calendar.view.*
 import org.jetbrains.anko.toast
 import java.util.*
 
-class CalendarActivity : AppCompatActivity() {
+class CalendarViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_calendar)
+        setContentView(R.layout.activity_calendar_view)
         setSupportActionBar(toolbar)
 
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -71,17 +71,32 @@ class CalendarActivity : AppCompatActivity() {
                 }
             }
             //--------------------------------------------------------------------------------------
-            minDateTextView.setOnClickListener {
-                closeDrawer()
-                val calendar = CalendarFactory.newInstance(calendarType)
-                calendar.add(Calendar.MONTH, -5)
-                calendarView.minDateCalendar = calendar
+            val today = CalendarFactory.newInstance(calendarType)
+            minDateCheckBox.text = "Min Date: ${today.monthName} 5"
+            minDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed) {
+                    closeDrawer()
+                    if (isChecked) {
+                        val calendar = CalendarFactory.newInstance(calendarType)
+                        calendar.add(Calendar.MONTH, -5)
+                        calendarView.minDateCalendar = calendar
+                    } else {
+                        calendarView.minDateCalendar = null
+                    }
+                }
             }
-            maxDateTextView.setOnClickListener {
-                closeDrawer()
-                val calendar = CalendarFactory.newInstance(calendarType)
-                calendar.add(Calendar.MONTH, 5)
-                calendarView.maxDateCalendar = calendar
+            maxDateCheckBox.text = "Min Date: ${today.monthName} 25"
+            maxDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed) {
+                    closeDrawer()
+                    if (isChecked) {
+                        val calendar = CalendarFactory.newInstance(calendarType)
+                        calendar.add(Calendar.MONTH, 5)
+                        calendarView.maxDateCalendar = calendar
+                    } else {
+                        calendarView.maxDateCalendar = null
+                    }
+                }
             }
             //--------------------------------------------------------------------------------------
             gotoPastTextView.setOnClickListener {

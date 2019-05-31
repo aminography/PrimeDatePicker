@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,8 +73,8 @@
                 android:id="@+id/civilRadioButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
                 android:checked="true"
+                android:paddingLeft="16dp"
                 android:text="Civil"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="14sp"
@@ -175,30 +177,36 @@
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/minDateTextView"
-            style="@style/MyItemBackgroundStyle"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="12dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="36dp"
-            android:text="Min Date: 5 month earlier"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/maxDateTextView"
-            style="@style/MyItemBackgroundStyle"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="36dp"
-            android:text="Max Date: 5 month later"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/minDateCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:text="Min Date: 5th of current month"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/maxDateCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:text="Max Date: 25th of current month"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -212,13 +220,13 @@
             android:layout_height="wrap_content"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:text="Go to"
+            android:text="Set to"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/gotoPastTextView"
+            android:id="@+id/setToPastTextView"
             style="@style/MyItemBackgroundStyle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -231,7 +239,7 @@
             android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/gotoNowTextView"
+            android:id="@+id/setToNowTextView"
             style="@style/MyItemBackgroundStyle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -243,7 +251,7 @@
             android:textStyle="bold" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/gotoFutureTextView"
+            android:id="@+id/setToFutureTextView"
             style="@style/MyItemBackgroundStyle"
             android:layout_width="match_parent"
             android:layout_height="40dp"

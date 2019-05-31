@@ -69,11 +69,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         calendarViewButton.setOnClickListener {
-            startActivity(Intent(this, CalendarActivity::class.java))
+            startActivity(Intent(this, CalendarViewActivity::class.java))
         }
 
-        calendarViewButton.performClick()
-//        monthViewButton.performClick()
+//        calendarViewButton.performClick()
+        monthViewButton.performClick()
     }
 
 }

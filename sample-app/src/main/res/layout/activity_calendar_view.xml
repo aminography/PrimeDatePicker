@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:background="#EDEDED"
     android:fitsSystemWindows="true"
-    tools:context=".view.CalendarActivity">
+    tools:context=".view.CalendarViewActivity"
+    tools:ignore="RtlHardcoded">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/rootLayout"
@@ -30,17 +31,27 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/material_size_16"
+                android:text="This is a showcase of stand alone PrimeCalendarView."
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold" />
 
             <com.aminography.primedatepicker.calendarview.PrimeCalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-        </FrameLayout>
+        </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>
 
@@ -50,6 +61,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_drawer" />
+        app:headerLayout="@layout/nav_drawer_calendar" />
 
 </android.support.v4.widget.DrawerLayout>
