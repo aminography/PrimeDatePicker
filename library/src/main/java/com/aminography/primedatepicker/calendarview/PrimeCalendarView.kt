@@ -96,8 +96,25 @@ class PrimeCalendarView @JvmOverloads constructor(
         get() = internalMinDateCalendar
         set(value) {
             internalMinDateCalendar = value
-            val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
 
+            internalPickedSingleDayCalendar?.let { single ->
+                if (DateUtils.isBefore(single, value)) {
+                    internalPickedSingleDayCalendar = value
+                }
+            }
+            internalPickedStartRangeCalendar?.let { start ->
+                if (DateUtils.isBefore(start, value)) {
+                    internalPickedStartRangeCalendar = value
+                }
+            }
+            internalPickedEndRangeCalendar?.let { end ->
+                if (DateUtils.isBefore(end, value)) {
+                    internalPickedStartRangeCalendar = null
+                    internalPickedEndRangeCalendar = null
+                }
+            }
+
+            val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
             findFirstVisibleItem()?.also { current ->
                 if (current.offset < minOffset) {
                     minDateCalendar?.apply {
@@ -113,8 +130,25 @@ class PrimeCalendarView @JvmOverloads constructor(
         get() = internalMaxDateCalendar
         set(value) {
             internalMaxDateCalendar = value
-            val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
 
+            internalPickedSingleDayCalendar?.let { single ->
+                if (DateUtils.isAfter(single, value)) {
+                    internalPickedSingleDayCalendar = value
+                }
+            }
+            internalPickedStartRangeCalendar?.let { start ->
+                if (DateUtils.isAfter(start, value)) {
+                    internalPickedStartRangeCalendar = null
+                    internalPickedEndRangeCalendar = null
+                }
+            }
+            internalPickedEndRangeCalendar?.let { end ->
+                if (DateUtils.isAfter(end, value)) {
+                    internalPickedEndRangeCalendar = value
+                }
+            }
+
+            val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
             findLastVisibleItem()?.also { current ->
                 if (current.offset > maxOffset) {
                     maxDateCalendar?.apply {
