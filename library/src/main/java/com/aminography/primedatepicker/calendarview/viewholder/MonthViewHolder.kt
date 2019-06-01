@@ -25,13 +25,12 @@ class MonthViewHolder(
                 monthView.onDayClickListener = this@MonthViewHolder
                 monthView.onHeightDetectListener = this@MonthViewHolder
                 callback?.apply {
-                    monthView.setMinMaxDateCalendar(minDateCalendar, maxDateCalendar, false)
-
-                    monthView.pickedSingleDayCalendar = pickedSingleDayCalendar
-                    monthView.pickedStartRangeCalendar = pickedStartRangeCalendar
-                    monthView.pickedEndRangeCalendar = pickedEndRangeCalendar
-
-                    monthView.pickType = pickType
+                    monthView.internalMinDateCalendar = minDateCalendar
+                    monthView.internalMaxDateCalendar = maxDateCalendar
+                    monthView.internalPickedSingleDayCalendar = pickedSingleDayCalendar
+                    monthView.internalPickedStartRangeCalendar = pickedStartRangeCalendar
+                    monthView.internalPickedEndRangeCalendar = pickedEndRangeCalendar
+                    monthView.internalPickType = pickType
                 }
                 monthView.setDate(calendarType, year, month)
             }

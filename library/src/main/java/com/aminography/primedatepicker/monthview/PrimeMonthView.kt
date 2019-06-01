@@ -104,9 +104,9 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
         }
 
-    private var internalPickedSingleDayCalendar: BaseCalendar? = null
-    private var internalPickedStartRangeCalendar: BaseCalendar? = null
-    private var internalPickedEndRangeCalendar: BaseCalendar? = null
+    internal var internalPickedSingleDayCalendar: BaseCalendar? = null
+    internal var internalPickedStartRangeCalendar: BaseCalendar? = null
+    internal var internalPickedEndRangeCalendar: BaseCalendar? = null
 
     var pickedSingleDayCalendar: BaseCalendar?
         get() = internalPickedSingleDayCalendar
@@ -129,7 +129,7 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
         }
 
-    private var internalPickType: PickType = PickType.NOTHING
+    internal var internalPickType: PickType = PickType.NOTHING
         set(value) {
             field = value
             when (value) {
@@ -154,7 +154,7 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
         }
 
-    private var internalMinDateCalendar: BaseCalendar? = null
+    internal var internalMinDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
             internalPickedSingleDayCalendar?.let { single ->
@@ -182,7 +182,7 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
         }
 
-    private var internalMaxDateCalendar: BaseCalendar? = null
+    internal var internalMaxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
             internalPickedSingleDayCalendar?.let { single ->
@@ -228,12 +228,6 @@ class PrimeMonthView @JvmOverloads constructor(
             val calendar = CalendarFactory.newInstance(value)
             setDate(calendar)
         }
-
-    fun setMinMaxDateCalendar(minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, invalidate: Boolean = true) {
-        internalMinDateCalendar = minDateCalendar
-        internalMaxDateCalendar = maxDateCalendar
-        if (invalidate) invalidate()
-    }
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
@@ -723,7 +717,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         onDayClickListener?.apply {
-//            onDayClick(this@PrimeMonthView, calendar)
+            onDayClick(this@PrimeMonthView, calendar)
         }
     }
 
