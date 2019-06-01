@@ -40,28 +40,28 @@ internal object CalendarViewUtils {
         return createList(calendarType, min, max)
     }
 
-    fun createTransitionList(calendarType: CalendarType, currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int, transitionFactor: Int): MutableList<PrimeDataHolder>? {
+    fun createTransitionList(calendarType: CalendarType, currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int, maxTransitionLength: Int): MutableList<PrimeDataHolder>? {
         val current = currentYear * 12 + currentMonth
         val target = targetYear * 12 + targetMonth
         return if (current == target) {
             null
         } else {
             if (current < target) {
-                if (target - current - 1 <= transitionFactor) {
+                if (target - current - 1 <= maxTransitionLength) {
                     createList(calendarType, current - 1, target + 1)
                 } else {
                     arrayListOf<PrimeDataHolder>().apply {
-                        addAll(createList(calendarType, current - 1, Math.ceil(current + transitionFactor / 2.0).toInt()))
-                        addAll(createList(calendarType, Math.floor(target - transitionFactor / 2.0).toInt(), target + 1))
+                        addAll(createList(calendarType, current - 1, Math.ceil(current + maxTransitionLength / 2.0).toInt()))
+                        addAll(createList(calendarType, Math.floor(target - maxTransitionLength / 2.0).toInt(), target + 1))
                     }
                 }
             } else {
-                if (current - target - 1 <= transitionFactor) {
+                if (current - target - 1 <= maxTransitionLength) {
                     createList(calendarType, target - 1, current + 1)
                 } else {
                     arrayListOf<PrimeDataHolder>().apply {
-                        addAll(createList(calendarType, target - 1, Math.ceil(target + transitionFactor / 2.0).toInt()))
-                        addAll(createList(calendarType, Math.floor(current - transitionFactor / 2.0).toInt(), current + 1))
+                        addAll(createList(calendarType, target - 1, Math.ceil(target + maxTransitionLength / 2.0).toInt()))
+                        addAll(createList(calendarType, Math.floor(current - maxTransitionLength / 2.0).toInt(), current + 1))
                     }
                 }
             }

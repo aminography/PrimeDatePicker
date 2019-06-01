@@ -36,9 +36,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
     private val DEFAULT_LOAD_FACTOR = 24
-    private val DEFAULT_TRANSITION_FACTOR = 2
-
-    private var isInternalChange = false
+    private val DEFAULT_MAX_TRANSITION_LENGTH = 2
+    private val DEFAULT_SPEED_FACTOR = 2f
 
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
@@ -199,12 +198,11 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
             heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, 1f)
-            isInternalChange = true
             internalCalendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
-            isInternalChange = false
             recycle()
         }
 
+        recyclerView.speedFactor = DEFAULT_SPEED_FACTOR
         addView(recyclerView)
         recyclerView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         recyclerView.addOnScrollListener(OnScrollListener())
@@ -257,7 +255,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         dataList = CalendarViewUtils.createPivotList(internalCalendarType, year, month, internalMinDateCalendar, internalMaxDateCalendar, DEFAULT_LOAD_FACTOR)
         if (animate) {
             findFirstVisibleItem()?.let { current ->
-                val transitionList = CalendarViewUtils.createTransitionList(internalCalendarType, current.year, current.month, year, month, DEFAULT_TRANSITION_FACTOR)
+                val transitionList = CalendarViewUtils.createTransitionList(internalCalendarType, current.year, current.month, year, month, DEFAULT_MAX_TRANSITION_LENGTH)
                 val isForward = DateUtils.isBefore(current.year, current.month, year, month)
                 transitionList?.apply {
                     var isLastTransitionItemRemoved = false
@@ -464,7 +462,6 @@ class PrimeCalendarView @JvmOverloads constructor(
     override fun onRestoreInstanceState(state: Parcelable?) {
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
-        isInternalChange = true
 
         internalCalendarType = CalendarType.values()[savedState.calendarType]
         val currentYear = savedState.currentYear
@@ -480,7 +477,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         internalPickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
         internalPickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
 
-        isInternalChange = false
         goto(currentYear, currentMonth, false)
     }
 

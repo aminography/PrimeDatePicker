@@ -21,15 +21,24 @@ class TouchControllableRecyclerView @JvmOverloads constructor(
         @Suppress("UNUSED_PARAMETER") @StyleRes defStyleRes: Int = 0
 ) : RecyclerView(context, attrs, defStyleAttr) {
 
-    private val speedFactor: Float = 2f
     var touchEnabled = true
 
-    private val smoothScroller: SmoothScroller = object : LinearSmoothScroller(context) {
-        override fun getVerticalSnapPreference(): Int = SNAP_TO_START
+    private val defaultSpeedFactor: Float = 2f
+    private var smoothScroller = createSmoothScroller(defaultSpeedFactor)
 
-        override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float =
-                super.calculateSpeedPerPixel(displayMetrics) * speedFactor
-    }
+    internal var speedFactor: Float = defaultSpeedFactor
+        set(value) {
+            field = value
+            smoothScroller = createSmoothScroller(value)
+        }
+
+    private fun createSmoothScroller(speedFactor: Float) =
+            object : LinearSmoothScroller(context) {
+                override fun getVerticalSnapPreference(): Int = SNAP_TO_START
+
+                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float =
+                        super.calculateSpeedPerPixel(displayMetrics) * speedFactor
+            }
 
     fun fastScrollTo(position: Int) {
         if (layoutManager is LinearLayoutManager) {
