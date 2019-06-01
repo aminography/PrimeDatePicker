@@ -351,7 +351,7 @@ class PrimeMonthView @JvmOverloads constructor(
         firstDayOfMonthCalendar?.setDate(year, month, 1)
         firstDayOfMonthDayOfWeek = firstDayOfMonthCalendar!!.get(Calendar.DAY_OF_WEEK)
 
-        daysInMonth = DateUtils.getDaysInMonth(calendarType, month, year)
+        daysInMonth = DateUtils.getDaysInMonth(calendarType, year, month)
         weekStartDay = when (calendarType) {
             CalendarType.CIVIL -> Calendar.SUNDAY
             CalendarType.PERSIAN -> Calendar.SATURDAY
@@ -762,7 +762,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     interface OnDayClickListener {
-        fun onDayClick(view: PrimeMonthView, day: BaseCalendar)
+        fun onDayClick(monthView: PrimeMonthView, day: BaseCalendar)
     }
 
     // Save/Restore States -------------------------------------------------------------------------

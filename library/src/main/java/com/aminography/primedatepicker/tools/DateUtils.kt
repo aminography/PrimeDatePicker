@@ -88,7 +88,7 @@ object DateUtils {
 
     //----------------------------------------------------------------------------------------------
 
-    fun getDaysInMonth(calendarType: CalendarType, month: Int, year: Int): Int {
+    fun getDaysInMonth(calendarType: CalendarType, year: Int, month: Int): Int {
         return when (calendarType) {
             CalendarType.CIVIL -> CivilCalendarUtils.monthLength(year, month)
             CalendarType.PERSIAN -> PersianCalendarUtils.monthLength(year, month)

@@ -42,6 +42,9 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var dataList: MutableList<PrimeDataHolder>? = null
     private var isInTransition = false
     private var isInLoading = false
+
+    var onDayClickListener: OnDayClickListener? = null
+
     private var definedHeight: Int = 0
     private var detectedItemHeight: Float = 0f
 
@@ -363,10 +366,12 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
 
-        // TODO: Why was I writing this???
+        // to update MonthViews:
         findLastVisibleItem()?.apply {
             goto(year, month, false)
         }
+
+        onDayClickListener?.onDayClick(this, day)
     }
 
     override fun onHeightDetect(height: Float) {
@@ -450,6 +455,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         }
+    }
+
+    interface OnDayClickListener {
+        fun onDayClick(calendarView: PrimeCalendarView, day: BaseCalendar)
     }
 
     // Save/Restore States -------------------------------------------------------------------------
