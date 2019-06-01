@@ -24,10 +24,16 @@
         <attr name="loadFactor" format="integer" />
         <attr name="maxTransitionLength" format="integer" />
         <attr name="transitionSpeedFactor" format="float" />
+
+        <attr name="dividerColor" format="color" />
+        <attr name="dividerThickness" format="dimension" />
+        <attr name="dividerInsetLeft" format="dimension" />
+        <attr name="dividerInsetRight" format="dimension" />
+
         <attr name="calendarType" format="enum">
-            <enum name="civil" value="0"/>
-            <enum name="persian" value="1"/>
-            <enum name="hijri" value="2"/>
+            <enum name="civil" value="0" />
+            <enum name="persian" value="1" />
+            <enum name="hijri" value="2" />
         </attr>
     </declare-styleable>
 </resources>

@@ -20,4 +20,6 @@
     <color name="defaultSelectedDayCircleColor">@color/colorAccent</color>
     <color name="defaultDisabledDayLabelTextColor">@color/textColorSecondary</color>
 
+    <color name="defaultDividerColor">#BDBDBD</color>
+
 </resources>

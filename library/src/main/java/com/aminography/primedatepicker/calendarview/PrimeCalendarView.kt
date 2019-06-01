@@ -5,6 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.AttrRes
 import android.support.annotation.StyleRes
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
@@ -48,6 +49,11 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var loadFactor: Int = DEFAULT_LOAD_FACTOR
     private var maxTransitionLength: Int = DEFAULT_MAX_TRANSITION_LENGTH
     private var transitionSpeedFactor: Float = TouchControllableRecyclerView.DEFAULT_TRANSITION_SPEED_FACTOR
+
+    private var dividerColor: Int = 0
+    private var dividerThickness: Int = 0
+    private var dividerInsetLeft: Int = 0
+    private var dividerInsetRight: Int = 0
 
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
@@ -196,11 +202,18 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
-            heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, DEFAULT_HEIGHT_MULTIPLIER)
             internalCalendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
+
+            heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, DEFAULT_HEIGHT_MULTIPLIER)
             loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, DEFAULT_LOAD_FACTOR)
             maxTransitionLength = getInteger(R.styleable.PrimeCalendarView_maxTransitionLength, DEFAULT_MAX_TRANSITION_LENGTH)
             transitionSpeedFactor = getFloat(R.styleable.PrimeCalendarView_transitionSpeedFactor, TouchControllableRecyclerView.DEFAULT_TRANSITION_SPEED_FACTOR)
+
+            dividerColor = getColor(R.styleable.PrimeCalendarView_dividerColor, ContextCompat.getColor(context, R.color.defaultDividerColor))
+            dividerThickness = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerThickness, resources.getDimensionPixelSize(R.dimen.defaultdividerThickness))
+            dividerInsetLeft = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetLeft, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetLeft))
+            dividerInsetRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetRight, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetRight))
+
             recycle()
         }
 
@@ -213,7 +226,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 .setLayoutManager(layoutManager)
                 .setSnapHelper(StartSnapHelper())
                 .setHasFixedSize(true)
-                .setDivider()
+                .setDivider(color = dividerColor, thickness = dividerThickness, insetLeft = dividerInsetLeft, insetRight = dividerInsetRight)
                 .set()
                 .build(MonthListAdapter::class.java)
 
