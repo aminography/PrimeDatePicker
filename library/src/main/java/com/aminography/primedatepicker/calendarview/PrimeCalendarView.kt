@@ -35,10 +35,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         @Suppress("UNUSED_PARAMETER") @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
-    private val DEFAULT_LOAD_FACTOR = 24
-    private val DEFAULT_MAX_TRANSITION_LENGTH = 2
-    private val DEFAULT_SPEED_FACTOR = 2f
-
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
     private var layoutManager = LinearLayoutManager(context)
@@ -49,6 +45,10 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var detectedItemHeight: Float = 0f
 
     private var heightMultiplier: Float = 0f
+
+    private var loadFactor: Int = DEFAULT_LOAD_FACTOR
+    private var maxTransitionLength: Int = DEFAULT_MAX_TRANSITION_LENGTH
+    private var transitionSpeedFactor: Float = TouchControllableRecyclerView.DEFAULT_TRANSITION_SPEED_FACTOR
 
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
@@ -199,11 +199,13 @@ class PrimeCalendarView @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
             heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, 1f)
             internalCalendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
+            loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, DEFAULT_LOAD_FACTOR)
+            maxTransitionLength = getInteger(R.styleable.PrimeCalendarView_maxTransitionLength, DEFAULT_MAX_TRANSITION_LENGTH)
             recycle()
         }
 
-        recyclerView.speedFactor = DEFAULT_SPEED_FACTOR
         addView(recyclerView)
+        recyclerView.speedFactor = transitionSpeedFactor
         recyclerView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         recyclerView.addOnScrollListener(OnScrollListener())
 
@@ -252,10 +254,10 @@ class PrimeCalendarView @JvmOverloads constructor(
         if (DateUtils.isOutOfRange(year, month, internalMinDateCalendar, internalMaxDateCalendar)) {
             return false
         }
-        dataList = CalendarViewUtils.createPivotList(internalCalendarType, year, month, internalMinDateCalendar, internalMaxDateCalendar, DEFAULT_LOAD_FACTOR)
+        dataList = CalendarViewUtils.createPivotList(internalCalendarType, year, month, internalMinDateCalendar, internalMaxDateCalendar, loadFactor)
         if (animate) {
             findFirstVisibleItem()?.let { current ->
-                val transitionList = CalendarViewUtils.createTransitionList(internalCalendarType, current.year, current.month, year, month, DEFAULT_MAX_TRANSITION_LENGTH)
+                val transitionList = CalendarViewUtils.createTransitionList(internalCalendarType, current.year, current.month, year, month, maxTransitionLength)
                 val isForward = DateUtils.isBefore(current.year, current.month, year, month)
                 transitionList?.apply {
                     var isLastTransitionItemRemoved = false
@@ -403,7 +405,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         val maxOffset = internalMaxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(internalCalendarType, dataHolder.year, dataHolder.month, internalMinDateCalendar, internalMaxDateCalendar, DEFAULT_LOAD_FACTOR, true)
+                            val moreData = CalendarViewUtils.extendMoreList(internalCalendarType, dataHolder.year, dataHolder.month, internalMinDateCalendar, internalMaxDateCalendar, loadFactor, true)
                             dataList?.apply {
                                 addAll(size, moreData)
                                 adapter.replaceDataList(this)
@@ -421,7 +423,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         val minOffset = internalMinDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(internalCalendarType, dataHolder.year, dataHolder.month, internalMinDateCalendar, internalMaxDateCalendar, DEFAULT_LOAD_FACTOR, false)
+                            val moreData = CalendarViewUtils.extendMoreList(internalCalendarType, dataHolder.year, dataHolder.month, internalMinDateCalendar, internalMaxDateCalendar, loadFactor, false)
                             dataList?.apply {
                                 addAll(0, moreData)
                                 adapter.replaceDataList(this)
@@ -539,6 +541,11 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val DEFAULT_LOAD_FACTOR = 24
+        private const val DEFAULT_MAX_TRANSITION_LENGTH = 2
     }
 
 }

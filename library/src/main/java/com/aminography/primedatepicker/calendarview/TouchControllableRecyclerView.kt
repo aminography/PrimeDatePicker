@@ -23,10 +23,9 @@ class TouchControllableRecyclerView @JvmOverloads constructor(
 
     var touchEnabled = true
 
-    private val defaultSpeedFactor: Float = 2f
-    private var smoothScroller = createSmoothScroller(defaultSpeedFactor)
+    private var smoothScroller = createSmoothScroller(DEFAULT_TRANSITION_SPEED_FACTOR)
 
-    internal var speedFactor: Float = defaultSpeedFactor
+    internal var speedFactor: Float = DEFAULT_TRANSITION_SPEED_FACTOR
         set(value) {
             field = value
             smoothScroller = createSmoothScroller(value)
@@ -58,6 +57,10 @@ class TouchControllableRecyclerView @JvmOverloads constructor(
 
     override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
         return touchEnabled && super.onInterceptTouchEvent(e)
+    }
+
+    companion object {
+        internal const val DEFAULT_TRANSITION_SPEED_FACTOR = 2f
     }
 
 }
