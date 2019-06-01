@@ -67,21 +67,21 @@ class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickLi
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarView.pickType = PickType.SINGLE
-                    pickedTextView.text = ""
+                    updatePickedText()
                 }
             }
             startRangeRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarView.pickType = PickType.START_RANGE
-                    pickedTextView.text = ""
+                    updatePickedText()
                 }
             }
             endRangeRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarView.pickType = PickType.END_RANGE
-                    pickedTextView.text = ""
+                    updatePickedText()
                 }
             }
             //--------------------------------------------------------------------------------------
@@ -147,6 +147,7 @@ class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickLi
     }
 
     private fun updatePickedText() {
+        pickedTextView.text = ""
         when (calendarView.pickType) {
             PickType.SINGLE -> {
                 calendarView.pickedSingleDayCalendar?.apply {
