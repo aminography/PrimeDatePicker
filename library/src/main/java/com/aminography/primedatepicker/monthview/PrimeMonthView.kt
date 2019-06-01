@@ -38,8 +38,6 @@ class PrimeMonthView @JvmOverloads constructor(
         @StyleRes defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    @Suppress("PrivatePropertyName")
-    private val SHOW_GUIDE_LINES = false
     private val dp = dip(1)
     private fun dp(value: Float) = dp.times(value).toInt()
 
@@ -869,6 +867,10 @@ class PrimeMonthView @JvmOverloads constructor(
                 }
             }
         }
+    }
+
+    companion object{
+        private const val SHOW_GUIDE_LINES = true
     }
 
 }
