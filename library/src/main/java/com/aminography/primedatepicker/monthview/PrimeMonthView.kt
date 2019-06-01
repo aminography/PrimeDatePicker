@@ -419,6 +419,18 @@ class PrimeMonthView @JvmOverloads constructor(
             }
             Paint().apply {
                 isAntiAlias = true
+                color = Color.GRAY
+                style = Style.STROKE
+                canvas.drawRect(
+                        paddingLeft.toFloat(),
+                        paddingTop.toFloat(),
+                        viewWidth - paddingRight.toFloat(),
+                        paddingTop + monthHeaderHeight.toFloat(),
+                        this
+                )
+            }
+            Paint().apply {
+                isAntiAlias = true
                 color = Color.RED
                 style = Style.FILL
                 canvas.drawCircle(
@@ -870,7 +882,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     companion object{
-        private const val SHOW_GUIDE_LINES = true
+        private const val SHOW_GUIDE_LINES = false
     }
 
 }
