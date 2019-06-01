@@ -160,8 +160,18 @@ class PrimeCalendarView @JvmOverloads constructor(
         get() = internalCalendarType
         set(value) {
             internalCalendarType = value
+
             val calendar = CalendarFactory.newInstance(value)
-            goto(calendar.year, calendar.month, false)
+            currentItemCalendar?.apply {
+                dayOfMonth = 1
+                val target = when (value) {
+                    CalendarType.CIVIL -> toCivil()
+                    CalendarType.PERSIAN -> toPersian()
+                    CalendarType.HIJRI -> toHijri()
+                }
+                calendar.setDate(target.year, target.month, target.dayOfMonth)
+            }
+            goto(calendar, false)
         }
 
     private val currentItemCalendar: BaseCalendar?
