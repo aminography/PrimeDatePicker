@@ -36,7 +36,7 @@ class TouchControllableRecyclerView @JvmOverloads constructor(
                 override fun getVerticalSnapPreference(): Int = SNAP_TO_START
 
                 override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float =
-                        super.calculateSpeedPerPixel(displayMetrics) * speedFactor
+                        super.calculateSpeedPerPixel(displayMetrics) * speedFactor * 2
             }
 
     fun fastScrollTo(position: Int) {
@@ -60,7 +60,7 @@ class TouchControllableRecyclerView @JvmOverloads constructor(
     }
 
     companion object {
-        internal const val DEFAULT_TRANSITION_SPEED_FACTOR = 2f
+        internal const val DEFAULT_TRANSITION_SPEED_FACTOR = 1f
     }
 
 }
