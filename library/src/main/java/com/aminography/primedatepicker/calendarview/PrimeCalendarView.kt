@@ -145,6 +145,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             adapter?.notifyDataSetChanged()
         }
 
+    @Suppress("RedundantSetter")
     private var internalCalendarType = CalendarType.CIVIL
         set(value) {
             field = value

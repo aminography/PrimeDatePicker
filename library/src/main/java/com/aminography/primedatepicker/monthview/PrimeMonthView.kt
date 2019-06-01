@@ -210,6 +210,7 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
         }
 
+    @Suppress("RedundantSetter")
     private var internalCalendarType = CalendarType.CIVIL
         set(value) {
             field = value
