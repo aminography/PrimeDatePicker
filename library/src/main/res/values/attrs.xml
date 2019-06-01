@@ -23,6 +23,7 @@
         <attr name="heightMultiplier" format="float" />
         <attr name="loadFactor" format="integer" />
         <attr name="maxTransitionLength" format="integer" />
+        <attr name="transitionSpeedFactor" format="float" />
         <attr name="calendarType" format="enum">
             <enum name="civil" value="0"/>
             <enum name="persian" value="1"/>

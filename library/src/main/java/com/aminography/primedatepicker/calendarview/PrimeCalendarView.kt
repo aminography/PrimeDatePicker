@@ -44,8 +44,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var definedHeight: Int = 0
     private var detectedItemHeight: Float = 0f
 
-    private var heightMultiplier: Float = 0f
-
+    private var heightMultiplier: Float = DEFAULT_HEIGHT_MULTIPLIER
     private var loadFactor: Int = DEFAULT_LOAD_FACTOR
     private var maxTransitionLength: Int = DEFAULT_MAX_TRANSITION_LENGTH
     private var transitionSpeedFactor: Float = TouchControllableRecyclerView.DEFAULT_TRANSITION_SPEED_FACTOR
@@ -197,10 +196,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
-            heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, 1f)
+            heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, DEFAULT_HEIGHT_MULTIPLIER)
             internalCalendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
             loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, DEFAULT_LOAD_FACTOR)
             maxTransitionLength = getInteger(R.styleable.PrimeCalendarView_maxTransitionLength, DEFAULT_MAX_TRANSITION_LENGTH)
+            transitionSpeedFactor = getFloat(R.styleable.PrimeCalendarView_transitionSpeedFactor, TouchControllableRecyclerView.DEFAULT_TRANSITION_SPEED_FACTOR)
             recycle()
         }
 
@@ -544,6 +544,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     companion object {
+        private const val DEFAULT_HEIGHT_MULTIPLIER = 1f
         private const val DEFAULT_LOAD_FACTOR = 24
         private const val DEFAULT_MAX_TRANSITION_LENGTH = 2
     }
