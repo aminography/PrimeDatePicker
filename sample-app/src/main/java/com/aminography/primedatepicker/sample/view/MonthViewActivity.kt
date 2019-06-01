@@ -96,6 +96,8 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
                         val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.dayOfMonth = 5
                         monthView.minDateCalendar = calendar
+                        updatePickedText()
+
                     } else {
                         monthView.minDateCalendar = null
                     }
@@ -109,6 +111,7 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
                         val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.dayOfMonth = 25
                         monthView.maxDateCalendar = calendar
+                        updatePickedText()
                     } else {
                         monthView.maxDateCalendar = null
                     }
@@ -144,7 +147,11 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onDayClick(monthView: PrimeMonthView, day: BaseCalendar) {
+    override fun onDayClick(monthView: PrimeMonthView, pickType: PickType, day: BaseCalendar) {
+        updatePickedText()
+    }
+
+    private fun updatePickedText() {
         when (monthView.pickType) {
             PickType.SINGLE -> {
                 monthView.pickedSingleDayCalendar?.apply {

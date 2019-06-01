@@ -117,9 +117,9 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
         }
     }
 
-    override fun onDayClick(calendarView: PrimeCalendarView, day: BaseCalendar) {
+    override fun onDayClick(calendarView: PrimeCalendarView, pickType: PickType, day: BaseCalendar) {
         with(rootView) {
-            when (calendarView.pickType) {
+            when (pickType) {
                 PickType.SINGLE -> {
                     calendarView.pickedSingleDayCalendar?.apply {
                         pickedTextView.text = when (calendarType) {

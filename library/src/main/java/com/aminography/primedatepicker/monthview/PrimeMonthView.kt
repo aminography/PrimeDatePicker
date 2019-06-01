@@ -718,7 +718,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         onDayClickListener?.apply {
-            onDayClick(this@PrimeMonthView, calendar)
+            onDayClick(this@PrimeMonthView, internalPickType, calendar)
         }
     }
 
@@ -761,8 +761,12 @@ class PrimeMonthView @JvmOverloads constructor(
         fun onHeightDetect(height: Float)
     }
 
+//    interface OnDayPickedListener {
+//        fun onDayPicked(monthView: PrimeMonthView, pickType: PickType, day: BaseCalendar)
+//    }
+
     interface OnDayClickListener {
-        fun onDayClick(monthView: PrimeMonthView, day: BaseCalendar)
+        fun onDayClick(monthView: PrimeMonthView, pickType: PickType, day: BaseCalendar)
     }
 
     // Save/Restore States -------------------------------------------------------------------------
