@@ -6,7 +6,7 @@
     <string name="mdtp_year_picker_description">Year list</string>
     <string name="mdtp_select_year">Select year</string>
     <string name="mdtp_item_is_selected" msgid="2674929164900463786">%1$s is selected</string>
-    <string name="today">Today</string>
+    <string name="action_today">Today</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_close">Close</string>
     <string name="action_select">Select</string>

@@ -61,9 +61,9 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
 
-    private var internalPickedSingleDayCalendar: BaseCalendar? = null
-    private var internalPickedStartRangeCalendar: BaseCalendar? = null
-    private var internalPickedEndRangeCalendar: BaseCalendar? = null
+    internal var internalPickedSingleDayCalendar: BaseCalendar? = null
+    internal var internalPickedStartRangeCalendar: BaseCalendar? = null
+    internal var internalPickedEndRangeCalendar: BaseCalendar? = null
 
     override var pickedSingleDayCalendar: BaseCalendar?
         get() = internalPickedSingleDayCalendar
@@ -89,8 +89,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             adapter?.notifyDataSetChanged()
         }
 
-    private var internalMinDateCalendar: BaseCalendar? = null
-    private var internalMaxDateCalendar: BaseCalendar? = null
+    internal var internalMinDateCalendar: BaseCalendar? = null
+    internal var internalMaxDateCalendar: BaseCalendar? = null
 
     override var minDateCalendar: BaseCalendar?
         get() = internalMinDateCalendar
@@ -126,7 +126,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
 
-    private var internalPickType: PickType = PickType.NOTHING
+    internal var internalPickType: PickType = PickType.NOTHING
         set(value) {
             field = value
             when (value) {
@@ -153,7 +153,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
     @Suppress("RedundantSetter")
-    private var internalCalendarType = CalendarType.CIVIL
+    internal var internalCalendarType = CalendarType.CIVIL
         set(value) {
             field = value
 //            internalPickedSingleDayCalendar = null

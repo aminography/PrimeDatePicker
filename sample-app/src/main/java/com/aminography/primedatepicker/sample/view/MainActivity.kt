@@ -20,48 +20,54 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         civilButton.setOnClickListener {
+            val today = CalendarFactory.newInstance(CalendarType.CIVIL)
             DatePickerBottomSheetDialogFragment.newInstance(
-                    CalendarFactory.newInstance(CalendarType.CIVIL),
-                    null,
-                    null,
-                    PickType.SINGLE)
-                    .registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+                    today,
+                    pickType = PickType.SINGLE,
+                    pickedSingleDayCalendar = today
+            ).apply {
+                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
-                        override fun onDateSet(calendar: BaseCalendar) {
-                            longToast(calendar.longDateString)
-                        }
-                    })
-                    .show(supportFragmentManager)
+                    override fun onDateSet(calendar: BaseCalendar) {
+                        longToast(calendar.longDateString)
+                    }
+                })
+                show(supportFragmentManager)
+            }
         }
 
         persianButton.setOnClickListener {
+            val today = CalendarFactory.newInstance(CalendarType.PERSIAN)
             DatePickerBottomSheetDialogFragment.newInstance(
-                    CalendarFactory.newInstance(CalendarType.PERSIAN),
-                    null,
-                    null,
-                    PickType.SINGLE)
-                    .registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+                    today,
+                    pickType = PickType.SINGLE,
+                    pickedSingleDayCalendar = today
+            ).apply {
+                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
-                        override fun onDateSet(calendar: BaseCalendar) {
-                            longToast(calendar.longDateString)
-                        }
-                    })
-                    .show(supportFragmentManager)
+                    override fun onDateSet(calendar: BaseCalendar) {
+                        longToast(calendar.longDateString)
+                    }
+                })
+                show(supportFragmentManager)
+            }
         }
 
         hijriButton.setOnClickListener {
+            val today = CalendarFactory.newInstance(CalendarType.HIJRI)
             DatePickerBottomSheetDialogFragment.newInstance(
-                    CalendarFactory.newInstance(CalendarType.HIJRI),
-                    null,
-                    null,
-                    PickType.SINGLE)
-                    .registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+                    today,
+                    pickType = PickType.SINGLE,
+                    pickedSingleDayCalendar = today
+            ).apply {
+                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
 
-                        override fun onDateSet(calendar: BaseCalendar) {
-                            longToast(calendar.longDateString)
-                        }
-                    })
-                    .show(supportFragmentManager)
+                    override fun onDateSet(calendar: BaseCalendar) {
+                        longToast(calendar.longDateString)
+                    }
+                })
+                show(supportFragmentManager)
+            }
         }
 
         monthViewButton.setOnClickListener {

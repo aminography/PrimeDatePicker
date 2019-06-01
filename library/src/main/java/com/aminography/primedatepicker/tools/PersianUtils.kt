@@ -59,6 +59,12 @@ object PersianUtils {
         return str
     }
 
+    fun convertLatinCommaToPersian(input: String): String {
+        var str = input
+        str = str.replace(',', '،')
+        return str
+    }
+
     fun convertToPersianDigits(num: Int): String {
         val number = Integer.toString(num)
         val sb = StringBuilder()

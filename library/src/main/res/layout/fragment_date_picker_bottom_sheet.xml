@@ -20,7 +20,9 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/material_size_8"
+                android:paddingRight="@dimen/material_size_8">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -62,14 +64,14 @@
                     android:layout_gravity="right|end"
                     android:paddingLeft="@dimen/material_size_8"
                     android:paddingRight="@dimen/material_size_8"
-                    android:text="@string/today"
+                    android:text="@string/action_today"
                     android:textAllCaps="true"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/text_size_normal" />
             </FrameLayout>
 
             <TextView
-                android:id="@+id/dateText"
+                android:id="@+id/pickedTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccent"
