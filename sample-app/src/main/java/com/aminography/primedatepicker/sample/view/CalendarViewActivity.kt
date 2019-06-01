@@ -29,11 +29,16 @@ class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickLi
         toggle.syncState()
         openDrawer()
 
-        var calendarType = CalendarType.CIVIL
         calendarView.onDayClickListener = this
-        calendarView.calendarType = calendarType
 
         navigationView.getHeaderView(0)?.apply {
+            var calendarType = when {
+                civilRadioButton.isChecked -> CalendarType.CIVIL
+                persianRadioButton.isChecked -> CalendarType.PERSIAN
+                hijriRadioButton.isChecked -> CalendarType.HIJRI
+                else -> CalendarType.CIVIL
+            }
+            calendarView.calendarType = calendarType
 
             civilRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {

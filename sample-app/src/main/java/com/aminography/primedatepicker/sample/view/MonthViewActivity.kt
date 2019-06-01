@@ -31,11 +31,16 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
         toggle.syncState()
         openDrawer()
 
-        var calendarType = CalendarType.CIVIL
         monthView.onDayClickListener = this
-        monthView.setDate(CalendarFactory.newInstance(calendarType))
 
         navigationView.getHeaderView(0)?.apply {
+            var calendarType = when {
+                civilRadioButton.isChecked -> CalendarType.CIVIL
+                persianRadioButton.isChecked -> CalendarType.PERSIAN
+                hijriRadioButton.isChecked -> CalendarType.HIJRI
+                else -> CalendarType.CIVIL
+            }
+            monthView.setDate(CalendarFactory.newInstance(calendarType))
 
             civilRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
@@ -135,15 +140,17 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
                 calendar.add(Calendar.MONTH, 7)
                 monthView.setDate(calendar)
             }
+
+            //-----------------------
+            val typeface: Typeface? = when (calendarType) {
+                CalendarType.CIVIL -> null
+                CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
+                CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+            }
+
+            monthView.fontTypeface = typeface
         }
 
-        val typeface: Typeface? = when (calendarType) {
-            CalendarType.CIVIL -> null
-            CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
-            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
-        }
-
-        monthView.fontTypeface = typeface
     }
 
     @SuppressLint("SetTextI18n")
