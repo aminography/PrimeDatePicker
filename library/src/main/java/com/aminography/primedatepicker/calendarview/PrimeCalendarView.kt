@@ -25,6 +25,7 @@ import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCal
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.monthOffset
+import java.util.*
 
 
 /**
@@ -265,7 +266,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     private val currentItemCalendar: BaseCalendar?
         get() {
             return findFirstVisibleItem()?.run {
-                val calendar = CalendarFactory.newInstance(calendarType)
+                val calendar = CalendarFactory.newInstance(internalCalendarType)
                 calendar.setDate(year, month, 1)
                 return calendar
             }
@@ -346,6 +347,34 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
         recyclerView.layoutParams.height = measuredHeight
+    }
+
+    fun gotoNextMonth(animate: Boolean = true): Boolean {
+        CalendarFactory.newInstance(internalCalendarType).apply {
+            add(Calendar.MONTH, 1)
+            return goto(year, month, animate)
+        }
+    }
+
+    fun gotoPreviousMonth(animate: Boolean = true): Boolean {
+        CalendarFactory.newInstance(internalCalendarType).apply {
+            add(Calendar.MONTH, -1)
+            return goto(year, month, animate)
+        }
+    }
+
+    fun gotoNextYear(animate: Boolean = true): Boolean {
+        CalendarFactory.newInstance(internalCalendarType).apply {
+            add(Calendar.YEAR, 1)
+            return goto(year, month, animate)
+        }
+    }
+
+    fun gotoPreviousYear(animate: Boolean = true): Boolean {
+        CalendarFactory.newInstance(internalCalendarType).apply {
+            add(Calendar.YEAR, -1)
+            return goto(year, month, animate)
+        }
     }
 
     fun goto(calendar: BaseCalendar, animate: Boolean = false): Boolean {
@@ -679,7 +708,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         private const val DEFAULT_MAX_TRANSITION_LENGTH = 2
 
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
-        private val DEFAULT_FLING_ORIENTATION = FlingOrientation.HORIZONTAL
+        private val DEFAULT_FLING_ORIENTATION = FlingOrientation.VERTICAL
     }
 
 }
