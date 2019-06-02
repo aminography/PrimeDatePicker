@@ -270,7 +270,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                     CalendarType.CIVIL -> {
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     }
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> {
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> { //TODO reverse not works
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
                     }
                 }
@@ -278,7 +278,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             recyclerView.layoutManager = layoutManager
 
             val calendar = CalendarFactory.newInstance(internalCalendarType)
-            currentItemCalendar?.let { current ->
+            currentItemCalendar?.let { current -> //TODO currentItemCalendar always null in horizontal
                 calendar.year = current.year
                 calendar.month = current.month
             }
