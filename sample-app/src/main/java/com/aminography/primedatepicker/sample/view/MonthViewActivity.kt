@@ -22,6 +22,9 @@ import java.util.*
 @SuppressLint("SetTextI18n")
 class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
+    private lateinit var navigationLayout: View
+    private var calendarType = CalendarType.CIVIL
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_month_view)
@@ -32,17 +35,35 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         toggle.syncState()
         openDrawer()
 
-        monthView.onDayPickedListener = this
-
-        navigationView.getHeaderView(0)?.apply {
-            var calendarType = when {
+        navigationLayout = navigationView.getHeaderView(0)
+        with(navigationLayout) {
+            calendarType = when {
                 civilRadioButton.isChecked -> CalendarType.CIVIL
                 persianRadioButton.isChecked -> CalendarType.PERSIAN
                 hijriRadioButton.isChecked -> CalendarType.HIJRI
                 else -> CalendarType.CIVIL
             }
-            monthView.setDate(CalendarFactory.newInstance(calendarType))
+        }
 
+        monthView.onDayPickedListener = this
+        monthView.setDate(CalendarFactory.newInstance(calendarType))
+
+        val typeface: Typeface? = when (calendarType) {
+            CalendarType.CIVIL -> null
+            CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
+            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+        }
+
+        monthView.fontTypeface = typeface
+
+        initCalendarTypeSection()
+        initPickerTypeSection()
+        initDateBoundarySection()
+        initSetToSection()
+    }
+
+    private fun initCalendarTypeSection() {
+        with(navigationLayout) {
             civilRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
@@ -70,7 +91,11 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                     restoreDefaults(this, calendarType)
                 }
             }
-            //--------------------------------------------------------------------------------------
+        }
+    }
+
+    private fun initPickerTypeSection() {
+        with(navigationLayout) {
             singleRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
@@ -89,7 +114,11 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                     monthView.pickType = PickType.END_RANGE
                 }
             }
-            //--------------------------------------------------------------------------------------
+        }
+    }
+
+    private fun initDateBoundarySection() {
+        with(navigationLayout) {
             val today = CalendarFactory.newInstance(calendarType)
             minDateCheckBox.text = "Min Date: ${today.monthName} 5"
             minDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
@@ -117,7 +146,11 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                     }
                 }
             }
-            //--------------------------------------------------------------------------------------
+        }
+    }
+
+    private fun initSetToSection() {
+        with(navigationLayout) {
             setToPastTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
@@ -135,21 +168,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 calendar.add(Calendar.MONTH, 7)
                 monthView.setDate(calendar)
             }
-
-            //-----------------------
-            val typeface: Typeface? = when (calendarType) {
-                CalendarType.CIVIL -> null
-                CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
-                CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
-            }
-
-            monthView.fontTypeface = typeface
         }
-
-    }
-
-    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
-        updatePickedText()
     }
 
     private fun updatePickedText() {
@@ -203,6 +222,10 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
     private fun openDrawer() = drawerLayout.openDrawer(GravityCompat.START)
 
     private fun closeDrawer() = drawerLayout.closeDrawer(GravityCompat.START)
+
+    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
+        updatePickedText()
+    }
 
 }
 

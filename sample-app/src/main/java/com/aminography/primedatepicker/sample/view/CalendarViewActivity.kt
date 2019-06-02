@@ -20,6 +20,9 @@ import java.util.*
 @SuppressLint("SetTextI18n")
 class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
+    private lateinit var navigationLayout: View
+    private var calendarType = CalendarType.CIVIL
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_view)
@@ -30,17 +33,27 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         toggle.syncState()
         openDrawer()
 
-        calendarView.onDayPickedListener = this
-
-        navigationView.getHeaderView(0)?.apply {
-            var calendarType = when {
+        navigationLayout = navigationView.getHeaderView(0)
+        with(navigationLayout) {
+            calendarType = when {
                 civilRadioButton.isChecked -> CalendarType.CIVIL
                 persianRadioButton.isChecked -> CalendarType.PERSIAN
                 hijriRadioButton.isChecked -> CalendarType.HIJRI
                 else -> CalendarType.CIVIL
             }
-            calendarView.calendarType = calendarType
+        }
 
+        calendarView.onDayPickedListener = this
+        calendarView.calendarType = calendarType
+
+        initCalendarTypeSection()
+        initPickerTypeSection()
+        initDateBoundarySection()
+        initSetToSection()
+    }
+
+    private fun initCalendarTypeSection() {
+        with(navigationLayout){
             civilRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
@@ -68,7 +81,11 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     restoreDefaults(this, calendarType)
                 }
             }
-            //--------------------------------------------------------------------------------------
+        }
+    }
+
+    private fun initPickerTypeSection() {
+        with(navigationLayout){
             singleRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
@@ -87,7 +104,11 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     calendarView.pickType = PickType.END_RANGE
                 }
             }
-            //--------------------------------------------------------------------------------------
+        }
+    }
+
+    private fun initDateBoundarySection() {
+        with(navigationLayout){
             minDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed) {
                     closeDrawer()
@@ -112,7 +133,11 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     }
                 }
             }
-            //--------------------------------------------------------------------------------------
+        }
+    }
+
+    private fun initSetToSection() {
+        with(navigationLayout){
             gotoPastTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
@@ -140,10 +165,6 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 }
             }
         }
-    }
-
-    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
-        updatePickedText()
     }
 
     private fun updatePickedText() {
@@ -197,5 +218,9 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     private fun openDrawer() = drawerLayout.openDrawer(GravityCompat.START)
 
     private fun closeDrawer() = drawerLayout.closeDrawer(GravityCompat.START)
+
+    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
+        updatePickedText()
+    }
 
 }
