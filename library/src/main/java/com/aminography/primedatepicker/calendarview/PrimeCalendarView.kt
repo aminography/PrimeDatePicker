@@ -392,7 +392,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 internalPickedStartRangeCalendar = day
             }
             PickType.END_RANGE -> {
-                if (!DateUtils.isBefore(day.year, day.month, day.dayOfMonth, internalPickedStartRangeCalendar)) {
+                if (internalPickedStartRangeCalendar != null && !DateUtils.isBefore(day.year, day.month, day.dayOfMonth, internalPickedStartRangeCalendar)) {
                     internalPickedEndRangeCalendar = day
                 }
             }

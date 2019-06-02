@@ -717,7 +717,7 @@ class PrimeMonthView @JvmOverloads constructor(
                     invalidate()
                 }
                 PickType.END_RANGE -> {
-                    if (!DateUtils.isBefore(year, month, dayOfMonth, internalPickedStartRangeCalendar)) {
+                    if (internalPickedStartRangeCalendar != null && !DateUtils.isBefore(year, month, dayOfMonth, internalPickedStartRangeCalendar)) {
                         internalPickedEndRangeCalendar = calendar
                         invalidate()
                     }
@@ -881,7 +881,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    companion object{
+    companion object {
         private const val SHOW_GUIDE_LINES = false
     }
 
