@@ -30,6 +30,8 @@
         <attr name="dividerThickness" format="dimension" />
         <attr name="dividerInsetLeft" format="dimension" />
         <attr name="dividerInsetRight" format="dimension" />
+        <attr name="dividerInsetTop" format="dimension" />
+        <attr name="dividerInsetBottom" format="dimension" />
 
         <attr name="calendarType" format="enum">
             <enum name="civil" value="0" />

@@ -26,5 +26,7 @@
     <dimen name="defaultDividerThickness">1px</dimen>
     <dimen name="defaultDividerInsetLeft">0dp</dimen>
     <dimen name="defaultDividerInsetRight">0dp</dimen>
+    <dimen name="defaultDividerInsetTop">0dp</dimen>
+    <dimen name="defaultDividerInsetBottom">0dp</dimen>
 
 </resources>

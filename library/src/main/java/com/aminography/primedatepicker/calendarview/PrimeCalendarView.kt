@@ -61,6 +61,8 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var dividerThickness: Int = 0
     private var dividerInsetLeft: Int = 0
     private var dividerInsetRight: Int = 0
+    private var dividerInsetTop: Int = 0
+    private var dividerInsetBottom: Int = 0
 
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
@@ -273,6 +275,22 @@ class PrimeCalendarView @JvmOverloads constructor(
                 calendar.year = current.year
                 calendar.month = current.month
             }
+
+            when (value) {
+                FlingOrientation.VERTICAL -> adapter.setDivider(
+                        color = dividerColor,
+                        thickness = dividerThickness,
+                        insetLeft = dividerInsetLeft,
+                        insetRight = dividerInsetRight
+                )
+                FlingOrientation.HORIZONTAL -> adapter.setDivider(
+                        color = dividerColor,
+                        thickness = dividerThickness,
+                        insetTop = dividerInsetTop,
+                        insetBottom = dividerInsetBottom
+                )
+            }
+
             goto(calendar, false)
         }
 
@@ -311,6 +329,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             dividerThickness = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerThickness, resources.getDimensionPixelSize(R.dimen.defaultDividerThickness))
             dividerInsetLeft = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetLeft, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetLeft))
             dividerInsetRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetRight, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetRight))
+            dividerInsetTop = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetTop, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetTop))
+            dividerInsetBottom = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetBottom, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetBottom))
 
             recycle()
         }
@@ -329,7 +349,12 @@ class PrimeCalendarView @JvmOverloads constructor(
                 .setLayoutManager(layoutManager)
                 .setSnapHelper(StartSnapHelper())
                 .setHasFixedSize(true)
-                .setDivider(color = dividerColor, thickness = dividerThickness, insetLeft = dividerInsetLeft, insetRight = dividerInsetRight)
+                .setDivider(
+                        color = dividerColor,
+                        thickness = dividerThickness,
+                        insetLeft = dividerInsetLeft,
+                        insetRight = dividerInsetRight
+                )
                 .set()
                 .build(MonthListAdapter::class.java)
 
