@@ -70,7 +70,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                     calendarType = CalendarType.CIVIL
                     monthView.calendarType = calendarType
 
-                    restoreDefaults(this, calendarType)
+                    restoreDefaults(calendarType)
                 }
             }
             persianRadioButton.setOnCheckedChangeListener { button, isChecked ->
@@ -79,7 +79,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                     calendarType = CalendarType.PERSIAN
                     monthView.calendarType = calendarType
 
-                    restoreDefaults(this, calendarType)
+                    restoreDefaults(calendarType)
                 }
             }
             hijriRadioButton.setOnCheckedChangeListener { button, isChecked ->
@@ -88,7 +88,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                     calendarType = CalendarType.HIJRI
                     monthView.calendarType = calendarType
 
-                    restoreDefaults(this, calendarType)
+                    restoreDefaults(calendarType)
                 }
             }
         }
@@ -197,10 +197,10 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
-    private fun restoreDefaults(view: View, calendarType: CalendarType) {
+    private fun restoreDefaults(calendarType: CalendarType) {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
-        with(view) {
+        with(navigationLayout) {
             minDateCheckBox.isChecked = false
             maxDateCheckBox.isChecked = false
             singleRadioButton.isChecked = false
