@@ -41,6 +41,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 hijriRadioButton.isChecked -> CalendarType.HIJRI
                 else -> CalendarType.CIVIL
             }
+            endRangeRadioButton.isEnabled = false
         }
 
         calendarView.onDayPickedListener = this
@@ -53,7 +54,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun initCalendarTypeSection() {
-        with(navigationLayout){
+        with(navigationLayout) {
             civilRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
@@ -85,7 +86,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun initPickerTypeSection() {
-        with(navigationLayout){
+        with(navigationLayout) {
             singleRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
@@ -108,7 +109,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun initDateBoundarySection() {
-        with(navigationLayout){
+        with(navigationLayout) {
             minDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed) {
                     closeDrawer()
@@ -137,7 +138,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun initSetToSection() {
-        with(navigationLayout){
+        with(navigationLayout) {
             gotoPastTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
@@ -167,32 +168,6 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
-    private fun updatePickedText() {
-        pickedTextView.text = ""
-        when (calendarView.pickType) {
-            PickType.SINGLE -> {
-                calendarView.pickedSingleDayCalendar?.apply {
-                    pickedTextView.visibility = View.VISIBLE
-                    pickedTextView.text = "Single Day: $longDateString"
-                }
-            }
-            PickType.START_RANGE, PickType.END_RANGE -> {
-                calendarView.pickedStartRangeCalendar?.let { start ->
-                    pickedTextView.visibility = View.VISIBLE
-                    var text = "Start Range Day: ${start.longDateString}"
-                    calendarView.pickedEndRangeCalendar?.let { end ->
-                        text += "\n"
-                        text += "End Range Day: ${end.longDateString}"
-                    }
-                    pickedTextView.text = text
-                }
-            }
-            PickType.NOTHING -> {
-                pickedTextView.visibility = View.INVISIBLE
-            }
-        }
-    }
-
     private fun restoreDefaults(calendarType: CalendarType) {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
@@ -205,6 +180,8 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             val today = CalendarFactory.newInstance(calendarType)
             minDateCheckBox.text = "Min Date: ${today.monthName} 5"
             maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
+
+            endRangeRadioButton.isEnabled = false
 
             calendarView.pickedSingleDayCalendar = null
             calendarView.pickedStartRangeCalendar = null
@@ -220,7 +197,33 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     private fun closeDrawer() = drawerLayout.closeDrawer(GravityCompat.START)
 
     override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
-        updatePickedText()
+        with(navigationLayout) {
+            endRangeRadioButton.isEnabled = false
+            pickedTextView.text = ""
+            when (pickType) {
+                PickType.SINGLE -> {
+                    calendarView.pickedSingleDayCalendar?.apply {
+                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.text = "Single Day: $longDateString"
+                    }
+                }
+                PickType.START_RANGE, PickType.END_RANGE -> {
+                    calendarView.pickedStartRangeCalendar?.let { start ->
+                        endRangeRadioButton.isEnabled = true
+                        pickedTextView.visibility = View.VISIBLE
+                        var text = "Start Range Day: ${start.longDateString}"
+                        calendarView.pickedEndRangeCalendar?.let { end ->
+                            text += "\n"
+                            text += "End Range Day: ${end.longDateString}"
+                        }
+                        pickedTextView.text = text
+                    }
+                }
+                PickType.NOTHING -> {
+                    pickedTextView.visibility = View.INVISIBLE
+                }
+            }
+        }
     }
 
 }

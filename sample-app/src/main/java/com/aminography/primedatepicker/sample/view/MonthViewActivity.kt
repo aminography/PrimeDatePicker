@@ -43,6 +43,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 hijriRadioButton.isChecked -> CalendarType.HIJRI
                 else -> CalendarType.CIVIL
             }
+            endRangeRadioButton.isEnabled = false
         }
 
         monthView.onDayPickedListener = this
@@ -169,32 +170,6 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
-    private fun updatePickedText() {
-        pickedTextView.text = ""
-        when (monthView.pickType) {
-            PickType.SINGLE -> {
-                monthView.pickedSingleDayCalendar?.apply {
-                    pickedTextView.visibility = View.VISIBLE
-                    pickedTextView.text = "Single Day: $longDateString"
-                }
-            }
-            PickType.START_RANGE, PickType.END_RANGE -> {
-                monthView.pickedStartRangeCalendar?.let { start ->
-                    pickedTextView.visibility = View.VISIBLE
-                    var text = "Start Range Day: ${start.longDateString}"
-                    monthView.pickedEndRangeCalendar?.let { end ->
-                        text += "\n"
-                        text += "End Range Day: ${end.longDateString}"
-                    }
-                    pickedTextView.text = text
-                }
-            }
-            PickType.NOTHING -> {
-                pickedTextView.visibility = View.INVISIBLE
-            }
-        }
-    }
-
     private fun restoreDefaults(calendarType: CalendarType) {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
@@ -207,6 +182,8 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             val today = CalendarFactory.newInstance(calendarType)
             minDateCheckBox.text = "Min Date: ${today.monthName} 5"
             maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
+
+            endRangeRadioButton.isEnabled = false
 
             monthView.pickedSingleDayCalendar = null
             monthView.pickedStartRangeCalendar = null
@@ -222,7 +199,33 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
     private fun closeDrawer() = drawerLayout.closeDrawer(GravityCompat.START)
 
     override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
-        updatePickedText()
+        with(navigationLayout) {
+            endRangeRadioButton.isEnabled = false
+            pickedTextView.text = ""
+            when (pickType) {
+                PickType.SINGLE -> {
+                    monthView.pickedSingleDayCalendar?.apply {
+                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.text = "Single Day: $longDateString"
+                    }
+                }
+                PickType.START_RANGE, PickType.END_RANGE -> {
+                    monthView.pickedStartRangeCalendar?.let { start ->
+                        endRangeRadioButton.isEnabled = true
+                        pickedTextView.visibility = View.VISIBLE
+                        var text = "Start Range Day: ${start.longDateString}"
+                        monthView.pickedEndRangeCalendar?.let { end ->
+                            text += "\n"
+                            text += "End Range Day: ${end.longDateString}"
+                        }
+                        pickedTextView.text = text
+                    }
+                }
+                PickType.NOTHING -> {
+                    pickedTextView.visibility = View.INVISIBLE
+                }
+            }
+        }
     }
 
 }
