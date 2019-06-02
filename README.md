@@ -1,7 +1,14 @@
 # `PrimeDatePicker` :zap:
   
-**`PrimeDatePicker`** is a tool to select a date.
+# Under Development: Documentations will be added soon!  
+.  
+.  
+.  
+.  
+.  
   
+**`PrimeDatePicker`** is a date picker tool.
+
 ![](static/prime_logo.png)
   
 
