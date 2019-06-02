@@ -30,7 +30,7 @@ import com.aminography.primedatepicker.tools.monthOffset
 /**
  * @author aminography
  */
-@Suppress("PrivatePropertyName")
+@Suppress("PrivatePropertyName", "MemberVisibilityCanBePrivate", "UNNECESSARY_SAFE_CALL")
 class PrimeCalendarView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
@@ -70,7 +70,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         get() = internalFontTypeface
         set(value) {
             internalFontTypeface = value
-            @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
         }
 
@@ -82,7 +81,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         get() = internalPickedSingleDayCalendar
         set(value) {
             internalPickedSingleDayCalendar = value
-            @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
@@ -91,7 +89,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         get() = internalPickedStartRangeCalendar
         set(value) {
             internalPickedStartRangeCalendar = value
-            @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
@@ -100,7 +97,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         get() = internalPickedEndRangeCalendar
         set(value) {
             internalPickedEndRangeCalendar = value
-            @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
@@ -220,7 +216,6 @@ class PrimeCalendarView @JvmOverloads constructor(
             shouldNotifyDayPicked = true
             internalPickType = value
             shouldNotifyDayPicked = false
-            @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
         }
 
