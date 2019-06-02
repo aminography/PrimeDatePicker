@@ -542,12 +542,12 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(view, dx, dy)
-            val factor = when (internalFlingOrientation) {
-                FlingOrientation.VERTICAL -> dy
-                FlingOrientation.HORIZONTAL -> dx
-            }
             if (!isInTransition) {
-                if (factor > 0) { // scroll down
+                val factor = when (internalFlingOrientation) {
+                    FlingOrientation.VERTICAL -> dy
+                    FlingOrientation.HORIZONTAL -> dx
+                }
+                if (factor > 0) { // scroll down / left
                     val visibleItemCount = layoutManager.childCount
                     val totalItemCount = layoutManager.itemCount
                     val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
