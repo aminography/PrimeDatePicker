@@ -40,7 +40,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
-    private var layoutManager = LinearLayoutManager(context)
+    private var layoutManager: LinearLayoutManager
     private var dataList: MutableList<PrimeDataHolder>? = null
     private var isInTransition = false
     private var isInLoading = false
@@ -124,7 +124,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                     change = true
                 }
             }
-            if(change) notifyDayPicked()
+            if (change) notifyDayPicked()
 
             val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
             findFirstVisibleItem()?.also { current ->
@@ -169,7 +169,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                     change = true
                 }
             }
-            if(change) notifyDayPicked()
+            if (change) notifyDayPicked()
 
             val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
             findLastVisibleItem()?.also { current ->
@@ -250,6 +250,18 @@ class PrimeCalendarView @JvmOverloads constructor(
 //            notifyDayPicked(true)
         }
 
+    @Suppress("RedundantSetter")
+    internal var internalFlingOrientation = FlingOrientation.VERTICAL
+        set(value) {
+            field = value
+        }
+
+    var flingOrientation: FlingOrientation
+        get() = internalFlingOrientation
+        set(value) {
+            internalFlingOrientation = value
+        }
+
     private val currentItemCalendar: BaseCalendar?
         get() {
             return findFirstVisibleItem()?.run {
@@ -273,7 +285,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
-            internalCalendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, CalendarType.CIVIL.ordinal)]
+            internalCalendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
+            internalFlingOrientation = FlingOrientation.values()[getInt(R.styleable.PrimeCalendarView_flingOrientation, DEFAULT_FLING_ORIENTATION.ordinal)]
 
             heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, DEFAULT_HEIGHT_MULTIPLIER)
             loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, DEFAULT_LOAD_FACTOR)
@@ -292,6 +305,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         recyclerView.speedFactor = transitionSpeedFactor
         recyclerView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         recyclerView.addOnScrollListener(OnScrollListener())
+
+        layoutManager = when (internalFlingOrientation) {
+            FlingOrientation.VERTICAL -> LinearLayoutManager(context)
+            FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        }
 
         adapter = PrimeAdapter.with(recyclerView)
                 .setLayoutManager(layoutManager)
@@ -495,8 +513,12 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(view, dx, dy)
+            val factor = when (internalFlingOrientation) {
+                FlingOrientation.VERTICAL -> dy
+                FlingOrientation.HORIZONTAL -> dx
+            }
             if (!isInTransition) {
-                if (dy > 0) { // scroll down
+                if (factor > 0) { // scroll down
                     val visibleItemCount = layoutManager.childCount
                     val totalItemCount = layoutManager.itemCount
                     val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
@@ -516,7 +538,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         }
                         isInLoading = false
                     }
-                } else if (dy < 0) {
+                } else if (factor < 0) {
                     val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
                     if (!isInLoading && firstVisibleItemPosition == 0) {
@@ -540,6 +562,11 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         }
+    }
+
+    enum class FlingOrientation {
+        VERTICAL,
+        HORIZONTAL
     }
 
     // Save/Restore States -------------------------------------------------------------------------
@@ -650,6 +677,9 @@ class PrimeCalendarView @JvmOverloads constructor(
         private const val DEFAULT_HEIGHT_MULTIPLIER = 1f
         private const val DEFAULT_LOAD_FACTOR = 24
         private const val DEFAULT_MAX_TRANSITION_LENGTH = 2
+
+        private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
+        private val DEFAULT_FLING_ORIENTATION = FlingOrientation.HORIZONTAL
     }
 
 }

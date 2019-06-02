@@ -35,5 +35,10 @@
             <enum name="persian" value="1" />
             <enum name="hijri" value="2" />
         </attr>
+
+        <attr name="flingOrientation" format="enum">
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="0" />
+        </attr>
     </declare-styleable>
 </resources>
