@@ -16,6 +16,7 @@ import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
@@ -43,7 +44,8 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var isInTransition = false
     private var isInLoading = false
 
-    var onDayClickListener: OnDayClickListener? = null
+    var onDayPickedListener: OnDayPickedListener? = null
+    private var shouldNotifyDayPicked = false
 
     private var definedHeight: Int = 0
     private var detectedItemHeight: Float = 0f
@@ -71,6 +73,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             internalPickedSingleDayCalendar = value
             @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
+            notifyDayPicked(true)
         }
 
     override var pickedStartRangeCalendar: BaseCalendar?
@@ -79,6 +82,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             internalPickedStartRangeCalendar = value
             @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
+            notifyDayPicked(true)
         }
 
     override var pickedEndRangeCalendar: BaseCalendar?
@@ -87,32 +91,33 @@ class PrimeCalendarView @JvmOverloads constructor(
             internalPickedEndRangeCalendar = value
             @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
+            notifyDayPicked(true)
         }
 
     internal var internalMinDateCalendar: BaseCalendar? = null
-    internal var internalMaxDateCalendar: BaseCalendar? = null
-
-    override var minDateCalendar: BaseCalendar?
-        get() = internalMinDateCalendar
         set(value) {
-            internalMinDateCalendar = value
-
+            field = value
+            var change = false
             internalPickedSingleDayCalendar?.let { single ->
                 if (DateUtils.isBefore(single, value)) {
                     internalPickedSingleDayCalendar = value
+                    change = true
                 }
             }
             internalPickedStartRangeCalendar?.let { start ->
                 if (DateUtils.isBefore(start, value)) {
                     internalPickedStartRangeCalendar = value
+                    change = true
                 }
             }
             internalPickedEndRangeCalendar?.let { end ->
                 if (DateUtils.isBefore(end, value)) {
                     internalPickedStartRangeCalendar = null
                     internalPickedEndRangeCalendar = null
+                    change = true
                 }
             }
+            if(change) notifyDayPicked()
 
             val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
             findFirstVisibleItem()?.also { current ->
@@ -126,27 +131,38 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
 
-    override var maxDateCalendar: BaseCalendar?
-        get() = internalMaxDateCalendar
+    override var minDateCalendar: BaseCalendar?
+        get() = internalMinDateCalendar
         set(value) {
-            internalMaxDateCalendar = value
+            shouldNotifyDayPicked = true
+            internalMinDateCalendar = value
+            shouldNotifyDayPicked = false
+        }
 
+    internal var internalMaxDateCalendar: BaseCalendar? = null
+        set(value) {
+            field = value
+            var change = false
             internalPickedSingleDayCalendar?.let { single ->
                 if (DateUtils.isAfter(single, value)) {
                     internalPickedSingleDayCalendar = value
+                    change = true
                 }
             }
             internalPickedStartRangeCalendar?.let { start ->
                 if (DateUtils.isAfter(start, value)) {
                     internalPickedStartRangeCalendar = null
                     internalPickedEndRangeCalendar = null
+                    change = true
                 }
             }
             internalPickedEndRangeCalendar?.let { end ->
                 if (DateUtils.isAfter(end, value)) {
                     internalPickedEndRangeCalendar = value
+                    change = true
                 }
             }
+            if(change) notifyDayPicked()
 
             val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
             findLastVisibleItem()?.also { current ->
@@ -158,6 +174,14 @@ class PrimeCalendarView @JvmOverloads constructor(
                     goto(current.year, current.month, false)
                 }
             }
+        }
+
+    override var maxDateCalendar: BaseCalendar?
+        get() = internalMaxDateCalendar
+        set(value) {
+            shouldNotifyDayPicked = true
+            internalMaxDateCalendar = value
+            shouldNotifyDayPicked = false
         }
 
     internal var internalPickType: PickType = PickType.NOTHING
@@ -176,12 +200,15 @@ class PrimeCalendarView @JvmOverloads constructor(
                     internalPickedEndRangeCalendar = null
                 }
             }
+            notifyDayPicked()
         }
 
     override var pickType: PickType
         get() = internalPickType
         set(value) {
+            shouldNotifyDayPicked = true
             internalPickType = value
+            shouldNotifyDayPicked = false
             @Suppress("UNNECESSARY_SAFE_CALL")
             adapter?.notifyDataSetChanged()
         }
@@ -214,6 +241,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 //                calendar.setDate(target.year, target.month, target.dayOfMonth)
 //            }
             goto(calendar, false)
+//            notifyDayPicked(true)
         }
 
     private val currentItemCalendar: BaseCalendar?
@@ -380,20 +408,26 @@ class PrimeCalendarView @JvmOverloads constructor(
         return null
     }
 
-    override fun onDayClick(day: BaseCalendar) {
+    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
         when (internalPickType) {
             PickType.SINGLE -> {
-                internalPickedSingleDayCalendar = day
+                internalPickedSingleDayCalendar = singleDay
             }
             PickType.START_RANGE -> {
-                if (DateUtils.isAfter(day.year, day.month, day.dayOfMonth, internalPickedEndRangeCalendar)) {
-                    internalPickedEndRangeCalendar = null
+                startDay?.apply {
+                    if (DateUtils.isAfter(startDay, internalPickedEndRangeCalendar)) {
+                        internalPickedEndRangeCalendar = null
+                    }
                 }
-                internalPickedStartRangeCalendar = day
+                internalPickedStartRangeCalendar = startDay
             }
             PickType.END_RANGE -> {
-                if (internalPickedStartRangeCalendar != null && !DateUtils.isBefore(day.year, day.month, day.dayOfMonth, internalPickedStartRangeCalendar)) {
-                    internalPickedEndRangeCalendar = day
+                if (endDay != null) {
+                    if (internalPickedStartRangeCalendar != null && !DateUtils.isBefore(endDay, internalPickedStartRangeCalendar)) {
+                        internalPickedEndRangeCalendar = endDay
+                    }
+                } else {
+                    internalPickedEndRangeCalendar = endDay
                 }
             }
             PickType.NOTHING -> {
@@ -405,7 +439,18 @@ class PrimeCalendarView @JvmOverloads constructor(
             goto(year, month, false)
         }
 
-        onDayClickListener?.onDayClick(this, internalPickType, day)
+        notifyDayPicked(true)
+    }
+
+    private fun notifyDayPicked(forceNotify: Boolean = false) {
+        if (forceNotify || shouldNotifyDayPicked) {
+            onDayPickedListener?.onDayPicked(
+                    internalPickType,
+                    internalPickedSingleDayCalendar,
+                    internalPickedStartRangeCalendar,
+                    internalPickedEndRangeCalendar
+            )
+        }
     }
 
     override fun onHeightDetect(height: Float) {
@@ -489,10 +534,6 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         }
-    }
-
-    interface OnDayClickListener {
-        fun onDayClick(calendarView: PrimeCalendarView, pickType: PickType, day: BaseCalendar)
     }
 
     // Save/Restore States -------------------------------------------------------------------------

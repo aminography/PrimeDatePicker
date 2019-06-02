@@ -9,15 +9,16 @@ import android.view.View
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.sample.R
 import kotlinx.android.synthetic.main.activity_calendar_view.*
 import kotlinx.android.synthetic.main.nav_drawer_calendar.view.*
 import org.jetbrains.anko.toast
 import java.util.*
 
-class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickListener {
+@SuppressLint("SetTextI18n")
+class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +30,7 @@ class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickLi
         toggle.syncState()
         openDrawer()
 
-        calendarView.onDayClickListener = this
+        calendarView.onDayPickedListener = this
 
         navigationView.getHeaderView(0)?.apply {
             var calendarType = when {
@@ -72,21 +73,18 @@ class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickLi
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarView.pickType = PickType.SINGLE
-                    updatePickedText()
                 }
             }
             startRangeRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarView.pickType = PickType.START_RANGE
-                    updatePickedText()
                 }
             }
             endRangeRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarView.pickType = PickType.END_RANGE
-                    updatePickedText()
                 }
             }
             //--------------------------------------------------------------------------------------
@@ -97,7 +95,6 @@ class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickLi
                         val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.add(Calendar.MONTH, -5)
                         calendarView.minDateCalendar = calendar
-                        updatePickedText()
                     } else {
                         calendarView.minDateCalendar = null
                     }
@@ -110,7 +107,6 @@ class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickLi
                         val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.add(Calendar.MONTH, 5)
                         calendarView.maxDateCalendar = calendar
-                        updatePickedText()
                     } else {
                         calendarView.maxDateCalendar = null
                     }
@@ -146,8 +142,7 @@ class CalendarViewActivity : AppCompatActivity(), PrimeCalendarView.OnDayClickLi
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun onDayClick(calendarView: PrimeCalendarView, pickType: PickType, day: BaseCalendar) {
+    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
         updatePickedText()
     }
 

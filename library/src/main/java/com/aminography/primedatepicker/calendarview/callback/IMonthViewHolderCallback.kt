@@ -1,12 +1,13 @@
 package com.aminography.primedatepicker.calendarview.callback
 
 import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 
 /**
  * @author aminography
  */
-interface IMonthViewHolderCallback {
+interface IMonthViewHolderCallback: OnDayPickedListener {
 
     val minDateCalendar: BaseCalendar?
 
@@ -19,8 +20,6 @@ interface IMonthViewHolderCallback {
     val pickedEndRangeCalendar: BaseCalendar?
 
     val pickedSingleDayCalendar: BaseCalendar?
-
-    fun onDayClick(day: BaseCalendar)
 
     fun onHeightDetect(height: Float)
 

@@ -12,6 +12,7 @@ import android.view.WindowManager
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
@@ -20,7 +21,7 @@ import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.screenSize
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 
-class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_picker_bottom_sheet), PrimeCalendarView.OnDayClickListener {
+class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_picker_bottom_sheet), OnDayPickedListener {
 
     private var currentDateCalendar: BaseCalendar? = null
     private var calendarType = CalendarType.CIVIL
@@ -77,7 +78,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
             calendarView.internalPickedSingleDayCalendar = pickedSingleDayCalendar
             calendarView.internalPickedSingleDayCalendar = pickedSingleDayCalendar
 
-            calendarView.onDayClickListener = this@DatePickerBottomSheetDialogFragment
+            calendarView.onDayPickedListener = this@DatePickerBottomSheetDialogFragment
             calendarView.goto(currentDateCalendar!!)
 
             pickedSingleDayCalendar?.apply {
@@ -117,11 +118,11 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
         }
     }
 
-    override fun onDayClick(calendarView: PrimeCalendarView, pickType: PickType, day: BaseCalendar) {
+    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
         with(rootView) {
             when (pickType) {
                 PickType.SINGLE -> {
-                    calendarView.pickedSingleDayCalendar?.apply {
+                    singleDay?.apply {
                         pickedTextView.text = when (calendarType) {
                             CalendarType.CIVIL -> longDateString
                             CalendarType.PERSIAN, CalendarType.HIJRI ->

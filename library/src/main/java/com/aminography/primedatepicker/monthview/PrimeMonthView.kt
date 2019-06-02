@@ -19,6 +19,7 @@ import android.view.View
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.DateUtils
@@ -90,7 +91,8 @@ class PrimeMonthView @JvmOverloads constructor(
     private var firstDayOfMonthCalendar: BaseCalendar? = null
 
     var onHeightDetectListener: OnHeightDetectListener? = null
-    var onDayClickListener: OnDayClickListener? = null
+    var onDayPickedListener: OnDayPickedListener? = null
+    private var shouldNotifyDayPicked = false
 
     private var internalFontTypeface: Typeface? = null
 
@@ -111,6 +113,7 @@ class PrimeMonthView @JvmOverloads constructor(
         set(value) {
             internalPickedSingleDayCalendar = value
             invalidate()
+            notifyDayPicked(true)
         }
 
     var pickedStartRangeCalendar: BaseCalendar?
@@ -118,6 +121,7 @@ class PrimeMonthView @JvmOverloads constructor(
         set(value) {
             internalPickedStartRangeCalendar = value
             invalidate()
+            notifyDayPicked(true)
         }
 
     var pickedEndRangeCalendar: BaseCalendar?
@@ -125,6 +129,7 @@ class PrimeMonthView @JvmOverloads constructor(
         set(value) {
             internalPickedEndRangeCalendar = value
             invalidate()
+            notifyDayPicked(true)
         }
 
     internal var internalPickType: PickType = PickType.NOTHING
@@ -143,68 +148,89 @@ class PrimeMonthView @JvmOverloads constructor(
                     internalPickedEndRangeCalendar = null
                 }
             }
+            notifyDayPicked()
         }
 
     var pickType: PickType
         get() = internalPickType
         set(value) {
+            shouldNotifyDayPicked = true
             internalPickType = value
+            shouldNotifyDayPicked = false
             invalidate()
         }
 
     internal var internalMinDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            internalPickedSingleDayCalendar?.let { single ->
-                if (DateUtils.isBefore(single, value)) {
-                    internalPickedSingleDayCalendar = value
+            value?.let { min ->
+                var change = false
+                internalPickedSingleDayCalendar?.let { single ->
+                    if (DateUtils.isBefore(single, min)) {
+                        internalPickedSingleDayCalendar = min
+                        change = true
+                    }
                 }
-            }
-            internalPickedStartRangeCalendar?.let { start ->
-                if (DateUtils.isBefore(start, value)) {
-                    internalPickedStartRangeCalendar = value
+                internalPickedStartRangeCalendar?.let { start ->
+                    if (DateUtils.isBefore(start, min)) {
+                        internalPickedStartRangeCalendar = min
+                        change = true
+                    }
                 }
-            }
-            internalPickedEndRangeCalendar?.let { end ->
-                if (DateUtils.isBefore(end, value)) {
-                    internalPickedStartRangeCalendar = null
-                    internalPickedEndRangeCalendar = null
+                internalPickedEndRangeCalendar?.let { end ->
+                    if (DateUtils.isBefore(end, min)) {
+                        internalPickedStartRangeCalendar = null
+                        internalPickedEndRangeCalendar = null
+                        change = true
+                    }
                 }
+                if (change) notifyDayPicked()
             }
         }
 
     var minDateCalendar: BaseCalendar?
         get() = internalMinDateCalendar
         set(value) {
+            shouldNotifyDayPicked = true
             internalMinDateCalendar = value
+            shouldNotifyDayPicked = false
             invalidate()
         }
 
     internal var internalMaxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            internalPickedSingleDayCalendar?.let { single ->
-                if (DateUtils.isAfter(single, value)) {
-                    internalPickedSingleDayCalendar = value
+            value?.let { max ->
+                var change = false
+                internalPickedSingleDayCalendar?.let { single ->
+                    if (DateUtils.isAfter(single, max)) {
+                        internalPickedSingleDayCalendar = max
+                        change = true
+                    }
                 }
-            }
-            internalPickedStartRangeCalendar?.let { start ->
-                if (DateUtils.isAfter(start, value)) {
-                    internalPickedStartRangeCalendar = null
-                    internalPickedEndRangeCalendar = null
+                internalPickedStartRangeCalendar?.let { start ->
+                    if (DateUtils.isAfter(start, max)) {
+                        internalPickedStartRangeCalendar = null
+                        internalPickedEndRangeCalendar = null
+                        change = true
+                    }
                 }
-            }
-            internalPickedEndRangeCalendar?.let { end ->
-                if (DateUtils.isAfter(end, value)) {
-                    internalPickedEndRangeCalendar = value
+                internalPickedEndRangeCalendar?.let { end ->
+                    if (DateUtils.isAfter(end, max)) {
+                        internalPickedEndRangeCalendar = max
+                        change = true
+                    }
                 }
+                if (change) notifyDayPicked()
             }
         }
 
     var maxDateCalendar: BaseCalendar?
         get() = internalMaxDateCalendar
         set(value) {
+            shouldNotifyDayPicked = true
             internalMaxDateCalendar = value
+            shouldNotifyDayPicked = false
             invalidate()
         }
 
@@ -226,6 +252,7 @@ class PrimeMonthView @JvmOverloads constructor(
             internalCalendarType = value
             val calendar = CalendarFactory.newInstance(value)
             setDate(calendar)
+//            notifyDayPicked(true)
         }
 
     init {
@@ -708,27 +735,37 @@ class PrimeMonthView @JvmOverloads constructor(
                 PickType.SINGLE -> {
                     internalPickedSingleDayCalendar = calendar
                     invalidate()
+                    notifyDayPicked(true)
                 }
                 PickType.START_RANGE -> {
-                    if (DateUtils.isAfter(year, month, dayOfMonth, internalPickedEndRangeCalendar)) {
+                    if (DateUtils.isAfter(calendar, internalPickedEndRangeCalendar)) {
                         internalPickedEndRangeCalendar = null
                     }
                     internalPickedStartRangeCalendar = calendar
                     invalidate()
+                    notifyDayPicked(true)
                 }
                 PickType.END_RANGE -> {
-                    if (internalPickedStartRangeCalendar != null && !DateUtils.isBefore(year, month, dayOfMonth, internalPickedStartRangeCalendar)) {
+                    if (internalPickedStartRangeCalendar != null && !DateUtils.isBefore(calendar, internalPickedStartRangeCalendar)) {
                         internalPickedEndRangeCalendar = calendar
                         invalidate()
+                        notifyDayPicked(true)
                     }
                 }
                 PickType.NOTHING -> {
                 }
             }
         }
+    }
 
-        onDayClickListener?.apply {
-            onDayClick(this@PrimeMonthView, internalPickType, calendar)
+    private fun notifyDayPicked(forceNotify: Boolean = false) {
+        if (forceNotify || shouldNotifyDayPicked) {
+            onDayPickedListener?.onDayPicked(
+                    internalPickType,
+                    internalPickedSingleDayCalendar,
+                    internalPickedStartRangeCalendar,
+                    internalPickedEndRangeCalendar
+            )
         }
     }
 
@@ -771,14 +808,6 @@ class PrimeMonthView @JvmOverloads constructor(
         fun onHeightDetect(height: Float)
     }
 
-//    interface OnDayPickedListener {
-//        fun onDayPicked(monthView: PrimeMonthView, pickType: PickType, day: BaseCalendar)
-//    }
-
-    interface OnDayClickListener {
-        fun onDayClick(monthView: PrimeMonthView, pickType: PickType, day: BaseCalendar)
-    }
-
     // Save/Restore States -------------------------------------------------------------------------
 
     override fun onSaveInstanceState(): Parcelable? {
@@ -796,6 +825,7 @@ class PrimeMonthView @JvmOverloads constructor(
         savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(internalPickedSingleDayCalendar)
         savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(internalPickedStartRangeCalendar)
         savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(internalPickedEndRangeCalendar)
+
         return savedState
     }
 

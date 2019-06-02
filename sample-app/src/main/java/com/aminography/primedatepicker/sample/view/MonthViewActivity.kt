@@ -10,8 +10,8 @@ import android.view.View
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.monthview.PrimeMonthView
 import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
@@ -19,7 +19,8 @@ import kotlinx.android.synthetic.main.activity_month_view.*
 import kotlinx.android.synthetic.main.nav_drawer_month.view.*
 import java.util.*
 
-class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener {
+@SuppressLint("SetTextI18n")
+class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +32,7 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
         toggle.syncState()
         openDrawer()
 
-        monthView.onDayClickListener = this
+        monthView.onDayPickedListener = this
 
         navigationView.getHeaderView(0)?.apply {
             var calendarType = when {
@@ -74,21 +75,18 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     monthView.pickType = PickType.SINGLE
-                    updatePickedText()
                 }
             }
             startRangeRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     monthView.pickType = PickType.START_RANGE
-                    updatePickedText()
                 }
             }
             endRangeRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     monthView.pickType = PickType.END_RANGE
-                    updatePickedText()
                 }
             }
             //--------------------------------------------------------------------------------------
@@ -101,8 +99,6 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
                         val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.dayOfMonth = 5
                         monthView.minDateCalendar = calendar
-                        updatePickedText()
-
                     } else {
                         monthView.minDateCalendar = null
                     }
@@ -116,7 +112,6 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
                         val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.dayOfMonth = 25
                         monthView.maxDateCalendar = calendar
-                        updatePickedText()
                     } else {
                         monthView.maxDateCalendar = null
                     }
@@ -153,8 +148,7 @@ class MonthViewActivity : AppCompatActivity(), PrimeMonthView.OnDayClickListener
 
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun onDayClick(monthView: PrimeMonthView, pickType: PickType, day: BaseCalendar) {
+    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
         updatePickedText()
     }
 
