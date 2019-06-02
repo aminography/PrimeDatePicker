@@ -257,6 +257,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 //            notifyDayPicked(true)
         }
 
+    //TODO in rotations font and fling orientations failing
+
     internal var internalFlingOrientation = FlingOrientation.VERTICAL
 
     var flingOrientation: FlingOrientation
