@@ -304,7 +304,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             transitionSpeedFactor = getFloat(R.styleable.PrimeCalendarView_transitionSpeedFactor, TouchControllableRecyclerView.DEFAULT_TRANSITION_SPEED_FACTOR)
 
             dividerColor = getColor(R.styleable.PrimeCalendarView_dividerColor, ContextCompat.getColor(context, R.color.defaultDividerColor))
-            dividerThickness = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerThickness, resources.getDimensionPixelSize(R.dimen.defaultdividerThickness))
+            dividerThickness = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerThickness, resources.getDimensionPixelSize(R.dimen.defaultDividerThickness))
             dividerInsetLeft = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetLeft, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetLeft))
             dividerInsetRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetRight, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetRight))
 

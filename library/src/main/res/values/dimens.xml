@@ -21,8 +21,9 @@
     <dimen name="defaultMonthLabelBottomPadding">16dp</dimen>
     <dimen name="defaultWeekLabelTopPadding">8dp</dimen>
     <dimen name="defaultWeekLabelBottomPadding">8dp</dimen>
+    <dimen name="defaultDayLabelVerticalPadding">10dp</dimen>
 
-    <dimen name="defaultdividerThickness">1px</dimen>
+    <dimen name="defaultDividerThickness">1px</dimen>
     <dimen name="defaultDividerInsetLeft">0dp</dimen>
     <dimen name="defaultDividerInsetRight">0dp</dimen>
 

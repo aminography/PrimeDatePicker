@@ -17,6 +17,7 @@
         <attr name="monthLabelBottomPadding" format="dimension" />
         <attr name="weekLabelTopPadding" format="dimension" />
         <attr name="weekLabelBottomPadding" format="dimension" />
+        <attr name="dayLabelVerticalPadding" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="PrimeCalendarView">

@@ -57,6 +57,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private var monthLabelBottomPadding: Int = 0
     private var weekLabelTopPadding: Int = 0
     private var weekLabelBottomPadding: Int = 0
+    private var dayLabelVerticalPadding: Int = 0
 
     private var monthLabelPaint: Paint? = null
     private var weekLabelPaint: Paint? = null
@@ -97,7 +98,7 @@ class PrimeMonthView @JvmOverloads constructor(
     internal var internalFontTypeface: Typeface? = null
         set(value) {
             field = value
-            initPaints()
+            applyTypeface()
         }
 
     var fontTypeface: Typeface?
@@ -276,6 +277,7 @@ class PrimeMonthView @JvmOverloads constructor(
             monthLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding))
             weekLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
             weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
+            dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
             recycle()
         }
 
@@ -289,7 +291,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         minCellHeight = dayLabelTextSize.toFloat()
-        cellHeight = 2.75f * dayLabelTextSize
+        cellHeight = dayLabelTextSize + 2f * dayLabelVerticalPadding
         cellWidth = (viewWidth - (paddingLeft + paddingRight)) / columnCount.toFloat()
 
         initPaints()
@@ -308,9 +310,7 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = true
-            internalFontTypeface?.apply {
-                typeface = this
-            }
+            typeface = internalFontTypeface
         }
 
         weekLabelPaint = Paint().apply {
@@ -320,9 +320,7 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = true
-            internalFontTypeface?.apply {
-                typeface = this
-            }
+            typeface = internalFontTypeface
         }
 
         dayLabelPaint = Paint().apply {
@@ -332,9 +330,7 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = false
-            internalFontTypeface?.apply {
-                typeface = this
-            }
+            typeface = internalFontTypeface
         }
 
         selectedDayBackgroundPaint = Paint().apply {
@@ -344,6 +340,12 @@ class PrimeMonthView @JvmOverloads constructor(
             isAntiAlias = true
             isFakeBoldText = true
         }
+    }
+
+    private fun applyTypeface() {
+        monthLabelPaint?.typeface = internalFontTypeface
+        weekLabelPaint?.typeface = internalFontTypeface
+        dayLabelPaint?.typeface = internalFontTypeface
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
