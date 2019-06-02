@@ -48,13 +48,11 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         monthView.onDayPickedListener = this
         monthView.setDate(CalendarFactory.newInstance(calendarType))
 
-        val typeface: Typeface? = when (calendarType) {
+        monthView.fontTypeface = when (calendarType) {
             CalendarType.CIVIL -> null
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
             CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
         }
-
-        monthView.fontTypeface = typeface
 
         initCalendarTypeSection()
         initPickerTypeSection()
