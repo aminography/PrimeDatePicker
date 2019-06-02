@@ -12,6 +12,7 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
@@ -116,6 +117,11 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             minDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed) {
                     closeDrawer()
+//                    if (isChecked) {
+//                        calendarView.flingOrientation = PrimeCalendarView.FlingOrientation.HORIZONTAL
+//                    }else{
+//                        calendarView.flingOrientation = PrimeCalendarView.FlingOrientation.VERTICAL
+//                    }
                     if (isChecked) {
                         val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.add(Calendar.MONTH, -5)

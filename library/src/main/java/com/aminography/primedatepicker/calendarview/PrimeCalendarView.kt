@@ -251,16 +251,25 @@ class PrimeCalendarView @JvmOverloads constructor(
 //            notifyDayPicked(true)
         }
 
-    @Suppress("RedundantSetter")
     internal var internalFlingOrientation = FlingOrientation.VERTICAL
-        set(value) {
-            field = value
-        }
 
     var flingOrientation: FlingOrientation
         get() = internalFlingOrientation
         set(value) {
             internalFlingOrientation = value
+
+            layoutManager = when (value) {
+                FlingOrientation.VERTICAL -> LinearLayoutManager(context)
+                FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            }
+            recyclerView.layoutManager = layoutManager
+
+            val calendar = CalendarFactory.newInstance(internalCalendarType)
+            currentItemCalendar?.let { current ->
+                calendar.year = current.year
+                calendar.month = current.month
+            }
+            goto(calendar, false)
         }
 
     private val currentItemCalendar: BaseCalendar?
