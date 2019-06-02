@@ -1,6 +1,7 @@
 package com.aminography.primedatepicker.sample.view
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -11,6 +12,8 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
+import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
 import kotlinx.android.synthetic.main.activity_calendar_view.*
 import kotlinx.android.synthetic.main.nav_drawer_calendar.view.*
@@ -189,6 +192,12 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             calendarView.pickType = PickType.NOTHING
             calendarView.minDateCalendar = null
             calendarView.maxDateCalendar = null
+
+            calendarView.fontTypeface = when (calendarType) {
+                CalendarType.CIVIL -> null
+                CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
+                CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+            }
         }
     }
 

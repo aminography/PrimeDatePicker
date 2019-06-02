@@ -1,6 +1,7 @@
 package com.aminography.primedatepicker.calendarview
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
 import android.support.annotation.AttrRes
@@ -62,6 +63,16 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
+
+    private var internalFontTypeface: Typeface? = null
+
+    override var fontTypeface: Typeface?
+        get() = internalFontTypeface
+        set(value) {
+            internalFontTypeface = value
+            @Suppress("UNNECESSARY_SAFE_CALL")
+            adapter?.notifyDataSetChanged()
+        }
 
     internal var internalPickedSingleDayCalendar: BaseCalendar? = null
     internal var internalPickedStartRangeCalendar: BaseCalendar? = null

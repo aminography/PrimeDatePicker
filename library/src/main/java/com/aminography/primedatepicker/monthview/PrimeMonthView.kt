@@ -94,13 +94,16 @@ class PrimeMonthView @JvmOverloads constructor(
     var onDayPickedListener: OnDayPickedListener? = null
     private var shouldNotifyDayPicked = false
 
-    private var internalFontTypeface: Typeface? = null
+    internal var internalFontTypeface: Typeface? = null
+        set(value) {
+            field = value
+            initPaints()
+        }
 
     var fontTypeface: Typeface?
         get() = internalFontTypeface
         set(value) {
             internalFontTypeface = value
-            initPaints()
             invalidate()
         }
 

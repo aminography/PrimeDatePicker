@@ -49,12 +49,6 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         monthView.onDayPickedListener = this
         monthView.setDate(CalendarFactory.newInstance(calendarType))
 
-        monthView.fontTypeface = when (calendarType) {
-            CalendarType.CIVIL -> null
-            CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
-            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
-        }
-
         initCalendarTypeSection()
         initPickerTypeSection()
         initDateBoundarySection()
@@ -191,6 +185,12 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             monthView.pickType = PickType.NOTHING
             monthView.minDateCalendar = null
             monthView.maxDateCalendar = null
+
+            monthView.fontTypeface = when (calendarType) {
+                CalendarType.CIVIL -> null
+                CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
+                CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+            }
         }
     }
 

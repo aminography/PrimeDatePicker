@@ -27,6 +27,7 @@ class MonthViewHolder(
                 monthView.onDayPickedListener = this@MonthViewHolder
                 monthView.onHeightDetectListener = this@MonthViewHolder
                 callback?.apply {
+                    monthView.internalFontTypeface = fontTypeface
                     monthView.internalMinDateCalendar = minDateCalendar
                     monthView.internalMaxDateCalendar = maxDateCalendar
                     monthView.internalPickedSingleDayCalendar = pickedSingleDayCalendar

@@ -1,5 +1,6 @@
 package com.aminography.primedatepicker.calendarview.callback
 
+import android.graphics.Typeface
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
@@ -20,6 +21,8 @@ interface IMonthViewHolderCallback: OnDayPickedListener {
     val pickedEndRangeCalendar: BaseCalendar?
 
     val pickedSingleDayCalendar: BaseCalendar?
+
+    val fontTypeface: Typeface?
 
     fun onHeightDetect(height: Float)
 
