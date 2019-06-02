@@ -31,7 +31,7 @@ import java.util.*
 /**
  * @author aminography
  */
-@Suppress("PrivatePropertyName", "MemberVisibilityCanBePrivate", "UNNECESSARY_SAFE_CALL")
+@Suppress("PrivatePropertyName", "MemberVisibilityCanBePrivate", "UNNECESSARY_SAFE_CALL", "unused")
 class PrimeCalendarView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
@@ -688,7 +688,6 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         companion object {
 
-            @Suppress("unused")
             @JvmField
             val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
                 override fun createFromParcel(input: Parcel): SavedState {
