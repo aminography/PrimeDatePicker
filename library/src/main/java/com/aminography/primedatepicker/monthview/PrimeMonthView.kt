@@ -167,7 +167,7 @@ class PrimeMonthView @JvmOverloads constructor(
     internal var internalMinDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            value?.let { min ->
+            value?.also { min ->
                 var change = false
                 internalPickedSingleDayCalendar?.let { single ->
                     if (DateUtils.isBefore(single, min)) {
@@ -204,7 +204,7 @@ class PrimeMonthView @JvmOverloads constructor(
     internal var internalMaxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            value?.let { max ->
+            value?.also { max ->
                 var change = false
                 internalPickedSingleDayCalendar?.let { single ->
                     if (DateUtils.isAfter(single, max)) {

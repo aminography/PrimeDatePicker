@@ -105,36 +105,38 @@ class PrimeCalendarView @JvmOverloads constructor(
     internal var internalMinDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            var change = false
-            internalPickedSingleDayCalendar?.let { single ->
-                if (DateUtils.isBefore(single, value)) {
-                    internalPickedSingleDayCalendar = value
-                    change = true
-                }
-            }
-            internalPickedStartRangeCalendar?.let { start ->
-                if (DateUtils.isBefore(start, value)) {
-                    internalPickedStartRangeCalendar = value
-                    change = true
-                }
-            }
-            internalPickedEndRangeCalendar?.let { end ->
-                if (DateUtils.isBefore(end, value)) {
-                    internalPickedStartRangeCalendar = null
-                    internalPickedEndRangeCalendar = null
-                    change = true
-                }
-            }
-            if (change) notifyDayPicked()
-
-            val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
-            findFirstVisibleItem()?.also { current ->
-                if (current.offset < minOffset) {
-                    minDateCalendar?.apply {
-                        goto(year, month, false)
+            value?.also { min ->
+                var change = false
+                internalPickedSingleDayCalendar?.let { single ->
+                    if (DateUtils.isBefore(single, min)) {
+                        internalPickedSingleDayCalendar = min
+                        change = true
                     }
-                } else {
-                    goto(current.year, current.month, false)
+                }
+                internalPickedStartRangeCalendar?.let { start ->
+                    if (DateUtils.isBefore(start, min)) {
+                        internalPickedStartRangeCalendar = min
+                        change = true
+                    }
+                }
+                internalPickedEndRangeCalendar?.let { end ->
+                    if (DateUtils.isBefore(end, min)) {
+                        internalPickedStartRangeCalendar = null
+                        internalPickedEndRangeCalendar = null
+                        change = true
+                    }
+                }
+                if (change) notifyDayPicked()
+
+                val minOffset = min.monthOffset()
+                findFirstVisibleItem()?.also { current ->
+                    if (current.offset < minOffset) {
+                        minDateCalendar?.apply {
+                            goto(year, month, false)
+                        }
+                    } else {
+                        goto(current.year, current.month, false)
+                    }
                 }
             }
         }
@@ -150,36 +152,38 @@ class PrimeCalendarView @JvmOverloads constructor(
     internal var internalMaxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            var change = false
-            internalPickedSingleDayCalendar?.let { single ->
-                if (DateUtils.isAfter(single, value)) {
-                    internalPickedSingleDayCalendar = value
-                    change = true
-                }
-            }
-            internalPickedStartRangeCalendar?.let { start ->
-                if (DateUtils.isAfter(start, value)) {
-                    internalPickedStartRangeCalendar = null
-                    internalPickedEndRangeCalendar = null
-                    change = true
-                }
-            }
-            internalPickedEndRangeCalendar?.let { end ->
-                if (DateUtils.isAfter(end, value)) {
-                    internalPickedEndRangeCalendar = value
-                    change = true
-                }
-            }
-            if (change) notifyDayPicked()
-
-            val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
-            findLastVisibleItem()?.also { current ->
-                if (current.offset > maxOffset) {
-                    maxDateCalendar?.apply {
-                        goto(year, month, false)
+            value?.also { max ->
+                var change = false
+                internalPickedSingleDayCalendar?.let { single ->
+                    if (DateUtils.isAfter(single, max)) {
+                        internalPickedSingleDayCalendar = max
+                        change = true
                     }
-                } else {
-                    goto(current.year, current.month, false)
+                }
+                internalPickedStartRangeCalendar?.let { start ->
+                    if (DateUtils.isAfter(start, max)) {
+                        internalPickedStartRangeCalendar = null
+                        internalPickedEndRangeCalendar = null
+                        change = true
+                    }
+                }
+                internalPickedEndRangeCalendar?.let { end ->
+                    if (DateUtils.isAfter(end, max)) {
+                        internalPickedEndRangeCalendar = max
+                        change = true
+                    }
+                }
+                if (change) notifyDayPicked()
+
+                val maxOffset = max.monthOffset()
+                findLastVisibleItem()?.also { current ->
+                    if (current.offset > maxOffset) {
+                        maxDateCalendar?.apply {
+                            goto(year, month, false)
+                        }
+                    } else {
+                        goto(current.year, current.month, false)
+                    }
                 }
             }
         }
