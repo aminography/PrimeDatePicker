@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PrimeDatePicker in Kotlin</string>
+    <string name="app_name">PrimeDatePicker [Kotlin Sample]</string>
     <string name="title_calendar_activity">Stand Alone CalendarView</string>
     <string name="title_month_activity">Stand Alone MonthView</string>
 
