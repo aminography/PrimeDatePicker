@@ -262,6 +262,55 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/colorDivider" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:text="Fling Direction"
+            android:textColor="@color/textColorSecondary"
+            android:textSize="@dimen/text_size_normal"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp">
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/verticalFlingRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:paddingLeft="16dp"
+                android:text="Vertical"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatRadioButton
+                android:id="@+id/horizontalFlingRadioButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:text="Horizontal"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </RadioGroup>
+
     </LinearLayout>
 
 </LinearLayout>

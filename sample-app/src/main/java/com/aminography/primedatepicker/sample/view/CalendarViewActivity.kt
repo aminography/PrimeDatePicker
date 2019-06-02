@@ -55,6 +55,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         initPickerTypeSection()
         initDateBoundarySection()
         initSetToSection()
+        initFlingOrientationSection()
     }
 
     private fun initCalendarTypeSection() {
@@ -117,18 +118,11 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             minDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed) {
                     closeDrawer()
-                    if (isChecked) {
-                        calendarView.flingOrientation = PrimeCalendarView.FlingOrientation.HORIZONTAL
-                    }else{
-                        calendarView.flingOrientation = PrimeCalendarView.FlingOrientation.VERTICAL
-                    }
-//                    if (isChecked) {
-//                        val calendar = CalendarFactory.newInstance(calendarType)
-//                        calendar.add(Calendar.MONTH, -5)
-//                        calendarView.minDateCalendar = calendar
-//                    } else {
-//                        calendarView.minDateCalendar = null
-//                    }
+                    val calendar = CalendarFactory.newInstance(calendarType)
+                    calendar.add(Calendar.MONTH, -5)
+                    calendarView.minDateCalendar = calendar
+                } else {
+                    calendarView.minDateCalendar = null
                 }
             }
             maxDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
@@ -172,6 +166,23 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 val result = calendarView.goto(calendar, true)
                 if (!result) {
                     toast("Target date is out of specified feasible range!")
+                }
+            }
+        }
+    }
+
+    private fun initFlingOrientationSection() {
+        with(navigationLayout) {
+            verticalFlingRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    calendarView.flingOrientation = PrimeCalendarView.FlingOrientation.VERTICAL
+                }
+            }
+            horizontalFlingRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    calendarView.flingOrientation = PrimeCalendarView.FlingOrientation.HORIZONTAL
                 }
             }
         }

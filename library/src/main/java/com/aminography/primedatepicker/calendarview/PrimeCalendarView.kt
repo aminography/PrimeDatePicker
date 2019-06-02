@@ -266,7 +266,14 @@ class PrimeCalendarView @JvmOverloads constructor(
 
             layoutManager = when (value) {
                 FlingOrientation.VERTICAL -> LinearLayoutManager(context)
-                FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                FlingOrientation.HORIZONTAL -> when (internalCalendarType) {
+                    CalendarType.CIVIL -> {
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    }
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> {
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
+                    }
+                }
             }
             recyclerView.layoutManager = layoutManager
 
