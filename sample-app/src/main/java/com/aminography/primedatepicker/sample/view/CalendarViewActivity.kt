@@ -143,11 +143,13 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             minDateCheckBox.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed) {
                     closeDrawer()
-                    val calendar = CalendarFactory.newInstance(calendarType)
-                    calendar.add(Calendar.MONTH, -5)
-                    calendarView.minDateCalendar = calendar
-                } else {
-                    calendarView.minDateCalendar = null
+                    if (isChecked) {
+                        val calendar = CalendarFactory.newInstance(calendarType)
+                        calendar.add(Calendar.MONTH, -5)
+                        calendarView.minDateCalendar = calendar
+                    } else {
+                        calendarView.minDateCalendar = null
+                    }
                 }
             }
             maxDateCheckBox.setOnCheckedChangeListener { button, isChecked ->

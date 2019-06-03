@@ -136,7 +136,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 val minOffset = min?.monthOffset() ?: Int.MIN_VALUE
                 findFirstVisibleItem()?.also { current ->
                     if (current.offset < minOffset) {
-                        minDateCalendar?.apply {
+                        min?.apply {
                             goto(year, month, false)
                         }
                     } else {
@@ -183,7 +183,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 val maxOffset = max?.monthOffset() ?: Int.MAX_VALUE
                 findLastVisibleItem()?.also { current ->
                     if (current.offset > maxOffset) {
-                        maxDateCalendar?.apply {
+                        max?.apply {
                             goto(year, month, false)
                         }
                     } else {
