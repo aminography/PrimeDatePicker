@@ -261,15 +261,6 @@ class PrimeCalendarView @JvmOverloads constructor(
 //            notifyDayPicked(true)
         }
 
-    private val currentItemCalendar: BaseCalendar?
-        get() {
-            return findFirstVisibleItem()?.run {
-                val calendar = CalendarFactory.newInstance(internalCalendarType)
-                calendar.setDate(year, month, 1)
-                return calendar
-            }
-        }
-
     internal var internalFlingOrientation = FlingOrientation.VERTICAL
         set(value) {
             field = value
@@ -281,16 +272,21 @@ class PrimeCalendarView @JvmOverloads constructor(
     var flingOrientation: FlingOrientation
         get() = internalFlingOrientation
         set(value) {
-            internalFlingOrientation = value
-
             val calendar = CalendarFactory.newInstance(internalCalendarType)
-            currentItemCalendar?.let { current ->
+            currentItemCalendar()?.let { current ->
                 calendar.year = current.year
                 calendar.month = current.month
             }
 
+            internalFlingOrientation = value
             goto(calendar, false)
         }
+
+    private fun currentItemCalendar(): BaseCalendar? = findFirstVisibleItem()?.run {
+        val calendar = CalendarFactory.newInstance(internalCalendarType)
+        calendar.setDate(year, month, 1)
+        return calendar
+    }
 
     private fun createLayoutManager(): LinearLayoutManager = when (internalFlingOrientation) {
         FlingOrientation.VERTICAL -> LinearLayoutManager(context)
@@ -644,7 +640,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         val savedState = SavedState(superState)
 
         savedState.calendarType = internalCalendarType.ordinal
-        currentItemCalendar?.apply {
+        currentItemCalendar()?.apply {
             savedState.currentYear = year
             savedState.currentMonth = month
         }

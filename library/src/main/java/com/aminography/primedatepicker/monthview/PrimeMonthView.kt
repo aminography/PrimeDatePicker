@@ -259,7 +259,7 @@ class PrimeMonthView @JvmOverloads constructor(
 //            notifyDayPicked(true)
         }
 
-    private val direction: Direction = when (internalCalendarType) {
+    private fun direction(): Direction = when (internalCalendarType) {
         CalendarType.CIVIL -> Direction.LTR
         CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
     }
@@ -426,7 +426,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         var monthAndYearString = "${firstDayOfMonthCalendar?.monthName} ${firstDayOfMonthCalendar?.year}"
-        monthAndYearString = when (direction) {
+        monthAndYearString = when (direction()) {
             Direction.LTR -> monthAndYearString
             Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
         }
@@ -489,7 +489,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (direction) {
+                add(when (direction()) {
                     Direction.LTR -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
                     Direction.RTL -> (2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft
                 })
@@ -570,7 +570,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (direction) {
+                add(when (direction()) {
                     Direction.LTR -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
                     Direction.RTL -> ((2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft)
                 })
@@ -636,7 +636,7 @@ class PrimeMonthView @JvmOverloads constructor(
             fun drawRect() = canvas.drawRect(x - cellWidth / 2, y - radius, x + cellWidth / 2, y + radius, this)
 
             fun drawHalfRect(isStart: Boolean) {
-                when (direction) {
+                when (direction()) {
                     Direction.LTR -> if (isStart)
                         canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
                     else canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
@@ -704,7 +704,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        val date = when (direction) {
+        val date = when (direction()) {
             Direction.LTR -> String.format(Locale.getDefault(), "%d", dayOfMonth)
             Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
         }
@@ -782,7 +782,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val row = ((y - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
         var column = ((inputX - paddingLeft) * columnCount / (viewWidth - (paddingLeft + paddingRight))).toInt()
 
-        column = when (direction) {
+        column = when (direction()) {
             Direction.LTR -> column
             Direction.RTL -> columnCount - 1 - column
         }

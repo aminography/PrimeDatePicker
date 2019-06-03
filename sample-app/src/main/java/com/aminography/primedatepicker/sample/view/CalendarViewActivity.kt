@@ -63,6 +63,26 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         initFlingOrientationSection()
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.apply {
+            putInt("CALENDAR_TYPE", calendarType.ordinal)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.apply {
+            calendarType = CalendarType.values()[getInt("CALENDAR_TYPE")]
+        }
+
+        calendarView.fontTypeface = when (calendarView.calendarType) {
+            CalendarType.CIVIL -> null
+            CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
+            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+        }
+    }
+
     private fun initCalendarTypeSection() {
         with(navigationLayout) {
             civilRadioButton.setOnCheckedChangeListener { button, isChecked ->
