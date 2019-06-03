@@ -50,12 +50,8 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
         calendarView.onDayPickedListener = this
         calendarView.calendarType = calendarType
-        calendarView.fontTypeface = when (calendarView.calendarType) {
-            CalendarType.CIVIL -> null
-            CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
-            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
-        }
 
+        initTypeface()
         initCalendarTypeSection()
         initPickerTypeSection()
         initDateBoundarySection()
@@ -75,8 +71,11 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         savedInstanceState?.apply {
             calendarType = CalendarType.values()[getInt("CALENDAR_TYPE")]
         }
+        initTypeface()
+    }
 
-        calendarView.fontTypeface = when (calendarView.calendarType) {
+    private fun initTypeface() {
+        calendarView.fontTypeface = when (calendarType) {
             CalendarType.CIVIL -> null
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
             CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
@@ -235,11 +234,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             calendarView.minDateCalendar = null
             calendarView.maxDateCalendar = null
 
-            calendarView.fontTypeface = when (calendarType) {
-                CalendarType.CIVIL -> null
-                CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
-                CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
-            }
+            initTypeface()
         }
     }
 

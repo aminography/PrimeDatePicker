@@ -49,10 +49,34 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         monthView.onDayPickedListener = this
         monthView.setDate(CalendarFactory.newInstance(calendarType))
 
+        initTypeface()
         initCalendarTypeSection()
         initPickerTypeSection()
         initDateBoundarySection()
         initSetToSection()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.apply {
+            putInt("CALENDAR_TYPE", calendarType.ordinal)
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState?.apply {
+            calendarType = CalendarType.values()[getInt("CALENDAR_TYPE")]
+        }
+        initTypeface()
+    }
+
+    private fun initTypeface() {
+        monthView.fontTypeface = when (calendarType) {
+            CalendarType.CIVIL -> null
+            CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
+            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+        }
     }
 
     private fun initCalendarTypeSection() {
@@ -186,11 +210,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             monthView.minDateCalendar = null
             monthView.maxDateCalendar = null
 
-            monthView.fontTypeface = when (calendarType) {
-                CalendarType.CIVIL -> null
-                CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
-                CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
-            }
+            initTypeface()
         }
     }
 
