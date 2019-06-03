@@ -53,8 +53,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingLeft="16dp"
             android:text="Calendar Type"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/text_size_normal"
@@ -112,8 +111,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingLeft="16dp"
             android:text="Picker Type"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/text_size_normal"
@@ -170,8 +168,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingLeft="16dp"
             android:text="Date Boundary"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/text_size_normal"
@@ -218,8 +215,7 @@
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
+            android:paddingLeft="16dp"
             android:text="Set to"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/text_size_normal"
