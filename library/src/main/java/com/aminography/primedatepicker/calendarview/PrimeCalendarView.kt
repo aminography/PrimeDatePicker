@@ -107,7 +107,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     internal var internalMinDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            value?.also { min ->
+            value.also { min ->
                 var change = false
                 internalPickedSingleDayCalendar?.let { single ->
                     if (DateUtils.isBefore(single, min)) {
@@ -130,7 +130,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
                 if (change) notifyDayPicked()
 
-                val minOffset = min.monthOffset()
+                val minOffset = min?.monthOffset() ?: Int.MIN_VALUE
                 findFirstVisibleItem()?.also { current ->
                     if (current.offset < minOffset) {
                         minDateCalendar?.apply {
@@ -154,7 +154,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     internal var internalMaxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            value?.also { max ->
+            value.also { max ->
                 var change = false
                 internalPickedSingleDayCalendar?.let { single ->
                     if (DateUtils.isAfter(single, max)) {
@@ -177,7 +177,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
                 if (change) notifyDayPicked()
 
-                val maxOffset = max.monthOffset()
+                val maxOffset = max?.monthOffset() ?: Int.MAX_VALUE
                 findLastVisibleItem()?.also { current ->
                     if (current.offset > maxOffset) {
                         maxDateCalendar?.apply {
