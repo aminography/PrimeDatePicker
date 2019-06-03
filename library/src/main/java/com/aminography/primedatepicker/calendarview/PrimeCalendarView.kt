@@ -17,6 +17,7 @@ import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
@@ -63,6 +64,8 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var dividerInsetRight: Int = 0
     private var dividerInsetTop: Int = 0
     private var dividerInsetBottom: Int = 0
+
+    private var direction = Direction.LTR
 
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
@@ -226,10 +229,14 @@ class PrimeCalendarView @JvmOverloads constructor(
             adapter?.notifyDataSetChanged()
         }
 
-    @Suppress("RedundantSetter")
     internal var internalCalendarType = CalendarType.CIVIL
         set(value) {
             field = value
+
+            direction = when (value) {
+                CalendarType.CIVIL -> Direction.LTR
+                CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+            }
 //            internalPickedSingleDayCalendar = null
 //            internalPickedStartRangeCalendar = null
 //            internalPickedEndRangeCalendar = null
@@ -580,7 +587,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (!isInTransition) {
                 val factor = when (internalFlingOrientation) {
                     FlingOrientation.VERTICAL -> dy
-                    FlingOrientation.HORIZONTAL -> dx
+                    FlingOrientation.HORIZONTAL -> when (direction) {
+                        Direction.LTR -> dx
+                        Direction.RTL -> -dx
+                    }
                 }
                 if (factor > 0) { // scroll down / left
                     val visibleItemCount = layoutManager.childCount
@@ -633,7 +643,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         HORIZONTAL
     }
 
-// Save/Restore States -------------------------------------------------------------------------
+    // Save/Restore States -------------------------------------------------------------------------
 
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
@@ -749,7 +759,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     companion object {
         private const val DEFAULT_HEIGHT_MULTIPLIER = 1f
-        private const val DEFAULT_LOAD_FACTOR = 24
+        private const val DEFAULT_LOAD_FACTOR = 6
+        //        private const val DEFAULT_LOAD_FACTOR = 24
         private const val DEFAULT_MAX_TRANSITION_LENGTH = 2
 
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL

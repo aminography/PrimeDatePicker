@@ -19,9 +19,11 @@ import android.view.View
 import com.aminography.primecalendar.base.BaseCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.isDisplayLandscape
@@ -72,6 +74,8 @@ class PrimeMonthView @JvmOverloads constructor(
     private var minCellHeight: Float = 0f
     private var cellHeight: Float = defaultCellHeight
     private var cellWidth: Float = cellHeight
+
+    private var direction = Direction.LTR
 
     private var month = 0
     private var year = 0
@@ -238,10 +242,15 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
         }
 
-    @Suppress("RedundantSetter")
     private var internalCalendarType = CalendarType.CIVIL
         set(value) {
             field = value
+
+            direction = when (value) {
+                CalendarType.CIVIL -> Direction.LTR
+                CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+            }
+
 //            internalPickedSingleDayCalendar = null
 //            internalPickedStartRangeCalendar = null
 //            internalPickedEndRangeCalendar = null
@@ -258,11 +267,6 @@ class PrimeMonthView @JvmOverloads constructor(
             setDate(calendar)
 //            notifyDayPicked(true)
         }
-
-    private fun direction(): Direction = when (internalCalendarType) {
-        CalendarType.CIVIL -> Direction.LTR
-        CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
-    }
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
@@ -426,7 +430,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         var monthAndYearString = "${firstDayOfMonthCalendar?.monthName} ${firstDayOfMonthCalendar?.year}"
-        monthAndYearString = when (direction()) {
+        monthAndYearString = when (direction) {
             Direction.LTR -> monthAndYearString
             Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
         }
@@ -489,7 +493,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (direction()) {
+                add(when (direction) {
                     Direction.LTR -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
                     Direction.RTL -> (2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft
                 })
@@ -570,7 +574,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (direction()) {
+                add(when (direction) {
                     Direction.LTR -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
                     Direction.RTL -> ((2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft)
                 })
@@ -636,7 +640,7 @@ class PrimeMonthView @JvmOverloads constructor(
             fun drawRect() = canvas.drawRect(x - cellWidth / 2, y - radius, x + cellWidth / 2, y + radius, this)
 
             fun drawHalfRect(isStart: Boolean) {
-                when (direction()) {
+                when (direction) {
                     Direction.LTR -> if (isStart)
                         canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
                     else canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
@@ -704,7 +708,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        val date = when (direction()) {
+        val date = when (direction) {
             Direction.LTR -> String.format(Locale.getDefault(), "%d", dayOfMonth)
             Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
         }
@@ -782,7 +786,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val row = ((y - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
         var column = ((inputX - paddingLeft) * columnCount / (viewWidth - (paddingLeft + paddingRight))).toInt()
 
-        column = when (direction()) {
+        column = when (direction) {
             Direction.LTR -> column
             Direction.RTL -> columnCount - 1 - column
         }
@@ -807,11 +811,6 @@ class PrimeMonthView @JvmOverloads constructor(
         IN_RANGE,
         END_OF_RANGE,
         NOTHING
-    }
-
-    private enum class Direction {
-        LTR,
-        RTL
     }
 
     interface OnHeightDetectListener {

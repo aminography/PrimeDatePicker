@@ -43,7 +43,7 @@ ext {
     libraryVersion = "1.0.1"
 
     libraryName = 'PrimeDatePicker'
-    libraryDescription = 'PrimeDatePicker is a tool to select a date.'
+    libraryDescription = 'PrimeDatePicker is a date picker tool.'
 
     siteUrl = 'https://github.com/aminography/PrimeDatePicker'
     gitUrl = 'https://github.com/aminography/PrimeDatePicker.git'
