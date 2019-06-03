@@ -50,6 +50,11 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
         calendarView.onDayPickedListener = this
         calendarView.calendarType = calendarType
+        calendarView.fontTypeface = when (calendarView.calendarType) {
+            CalendarType.CIVIL -> null
+            CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
+            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+        }
 
         initCalendarTypeSection()
         initPickerTypeSection()

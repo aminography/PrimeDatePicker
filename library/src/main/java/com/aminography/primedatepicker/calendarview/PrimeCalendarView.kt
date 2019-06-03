@@ -41,7 +41,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
-    private var layoutManager: LinearLayoutManager
+    private lateinit var layoutManager: LinearLayoutManager
     private var dataList: MutableList<PrimeDataHolder>? = null
     private var isInTransition = false
     private var isInLoading = false
@@ -243,6 +243,10 @@ class PrimeCalendarView @JvmOverloads constructor(
         set(value) {
             internalCalendarType = value
 
+            layoutManager = createLayoutManager()
+            recyclerView.layoutManager = layoutManager
+            applyDividers()
+
             val calendar = CalendarFactory.newInstance(value)
 //            currentItemCalendar?.apply {
 //                dayOfMonth = 1
@@ -257,52 +261,6 @@ class PrimeCalendarView @JvmOverloads constructor(
 //            notifyDayPicked(true)
         }
 
-    //TODO in rotations font and fling orientations failing
-
-    internal var internalFlingOrientation = FlingOrientation.VERTICAL
-
-    var flingOrientation: FlingOrientation
-        get() = internalFlingOrientation
-        set(value) {
-            internalFlingOrientation = value
-
-            layoutManager = when (value) {
-                FlingOrientation.VERTICAL -> LinearLayoutManager(context)
-                FlingOrientation.HORIZONTAL -> when (internalCalendarType) {
-                    CalendarType.CIVIL -> {
-                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    }
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> { //TODO reverse not works
-                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, true)
-                    }
-                }
-            }
-            recyclerView.layoutManager = layoutManager
-
-            val calendar = CalendarFactory.newInstance(internalCalendarType)
-            currentItemCalendar?.let { current -> //TODO currentItemCalendar always null in horizontal
-                calendar.year = current.year
-                calendar.month = current.month
-            }
-
-            when (value) {
-                FlingOrientation.VERTICAL -> adapter.setDivider(
-                        color = dividerColor,
-                        thickness = dividerThickness,
-                        insetLeft = dividerInsetLeft,
-                        insetRight = dividerInsetRight
-                )
-                FlingOrientation.HORIZONTAL -> adapter.setDivider(
-                        color = dividerColor,
-                        thickness = dividerThickness,
-                        insetTop = dividerInsetTop,
-                        insetBottom = dividerInsetBottom
-                )
-            }
-
-            goto(calendar, false)
-        }
-
     private val currentItemCalendar: BaseCalendar?
         get() {
             return findFirstVisibleItem()?.run {
@@ -311,6 +269,50 @@ class PrimeCalendarView @JvmOverloads constructor(
                 return calendar
             }
         }
+
+    internal var internalFlingOrientation = FlingOrientation.VERTICAL
+        set(value) {
+            field = value
+            layoutManager = createLayoutManager()
+            recyclerView.layoutManager = layoutManager
+            applyDividers()
+        }
+
+    var flingOrientation: FlingOrientation
+        get() = internalFlingOrientation
+        set(value) {
+            internalFlingOrientation = value
+
+            val calendar = CalendarFactory.newInstance(internalCalendarType)
+            currentItemCalendar?.let { current ->
+                calendar.year = current.year
+                calendar.month = current.month
+            }
+
+            goto(calendar, false)
+        }
+
+    private fun createLayoutManager(): LinearLayoutManager = when (internalFlingOrientation) {
+        FlingOrientation.VERTICAL -> LinearLayoutManager(context)
+        FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, internalCalendarType != CalendarType.CIVIL)
+    }
+
+    private fun applyDividers() {
+        when (internalFlingOrientation) {
+            FlingOrientation.VERTICAL -> adapter?.setDivider(
+                    color = dividerColor,
+                    thickness = dividerThickness,
+                    insetLeft = dividerInsetLeft,
+                    insetRight = dividerInsetRight
+            )
+            FlingOrientation.HORIZONTAL -> adapter?.setDivider(
+                    color = dividerColor,
+                    thickness = dividerThickness,
+                    insetTop = dividerInsetTop,
+                    insetBottom = dividerInsetBottom
+            )
+        }
+    }
 
     init {
         val layoutHeight = attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height")
@@ -349,23 +351,13 @@ class PrimeCalendarView @JvmOverloads constructor(
         recyclerView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         recyclerView.addOnScrollListener(OnScrollListener())
 
-        layoutManager = when (internalFlingOrientation) {
-            FlingOrientation.VERTICAL -> LinearLayoutManager(context)
-            FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        }
-
         adapter = PrimeAdapter.with(recyclerView)
-                .setLayoutManager(layoutManager)
                 .setSnapHelper(StartSnapHelper())
                 .setHasFixedSize(true)
-                .setDivider(
-                        color = dividerColor,
-                        thickness = dividerThickness,
-                        insetLeft = dividerInsetLeft,
-                        insetRight = dividerInsetRight
-                )
                 .set()
                 .build(MonthListAdapter::class.java)
+
+        applyDividers()
 
         adapter.iMonthViewHolderCallback = this
 
@@ -645,7 +637,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         HORIZONTAL
     }
 
-    // Save/Restore States -------------------------------------------------------------------------
+// Save/Restore States -------------------------------------------------------------------------
 
     override fun onSaveInstanceState(): Parcelable? {
         val superState = super.onSaveInstanceState()
@@ -656,6 +648,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             savedState.currentYear = year
             savedState.currentMonth = month
         }
+
+        savedState.flingOrientation = internalFlingOrientation.ordinal
 
         savedState.minDateCalendar = DateUtils.storeCalendar(internalMinDateCalendar)
         savedState.maxDateCalendar = DateUtils.storeCalendar(internalMaxDateCalendar)
@@ -674,6 +668,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         internalCalendarType = CalendarType.values()[savedState.calendarType]
         val currentYear = savedState.currentYear
         val currentMonth = savedState.currentMonth
+
+        internalFlingOrientation = FlingOrientation.values()[savedState.flingOrientation]
 
         internalMinDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
         internalMaxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
@@ -694,6 +690,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var currentYear: Int = 0
         internal var currentMonth: Int = 0
 
+        internal var flingOrientation: Int = 0
+
         internal var minDateCalendar: String? = null
         internal var maxDateCalendar: String? = null
 
@@ -702,12 +700,15 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var pickedStartRangeCalendar: String? = null
         internal var pickedEndRangeCalendar: String? = null
 
+
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
             calendarType = input.readInt()
             currentYear = input.readInt()
             currentMonth = input.readInt()
+
+            flingOrientation = input.readInt()
 
             minDateCalendar = input.readString()
             maxDateCalendar = input.readString()
@@ -723,6 +724,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(calendarType)
             out.writeInt(currentYear)
             out.writeInt(currentMonth)
+
+            out.writeInt(flingOrientation)
 
             out.writeString(minDateCalendar)
             out.writeString(maxDateCalendar)

@@ -259,6 +259,11 @@ class PrimeMonthView @JvmOverloads constructor(
 //            notifyDayPicked(true)
         }
 
+    private val direction: Direction = when (internalCalendarType) {
+        CalendarType.CIVIL -> Direction.LTR
+        CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+    }
+
     init {
         context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
             monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
@@ -421,9 +426,9 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         var monthAndYearString = "${firstDayOfMonthCalendar?.monthName} ${firstDayOfMonthCalendar?.year}"
-        monthAndYearString = when (internalCalendarType) {
-            CalendarType.CIVIL -> monthAndYearString
-            CalendarType.PERSIAN, CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
+        monthAndYearString = when (direction) {
+            Direction.LTR -> monthAndYearString
+            Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
         }
 
         monthLabelPaint?.apply {
@@ -484,9 +489,9 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (internalCalendarType) {
-                    CalendarType.CIVIL -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> (2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft
+                add(when (direction) {
+                    Direction.LTR -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
+                    Direction.RTL -> (2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft
                 })
             }
         }
@@ -565,9 +570,9 @@ class PrimeMonthView @JvmOverloads constructor(
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
                 // RTLize for Persian and Hijri Calendars
-                add(when (internalCalendarType) {
-                    CalendarType.CIVIL -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> ((2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft)
+                add(when (direction) {
+                    Direction.LTR -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
+                    Direction.RTL -> ((2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft)
                 })
             }
         }
@@ -631,18 +636,14 @@ class PrimeMonthView @JvmOverloads constructor(
             fun drawRect() = canvas.drawRect(x - cellWidth / 2, y - radius, x + cellWidth / 2, y + radius, this)
 
             fun drawHalfRect(isStart: Boolean) {
-                // RTLize for Persian and Hijri Calendars
-                when (internalCalendarType) {
-                    CalendarType.CIVIL -> if (isStart) {
+                when (direction) {
+                    Direction.LTR -> if (isStart)
                         canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
-                    } else {
+                    else canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
+                    // ---------------------
+                    Direction.RTL -> if (isStart)
                         canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
-                    }
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> if (isStart) {
-                        canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
-                    } else {
-                        canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
-                    }
+                    else canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
                 }
             }
 
@@ -703,9 +704,9 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        val date = when (internalCalendarType) {
-            CalendarType.CIVIL -> String.format(Locale.getDefault(), "%d", dayOfMonth)
-            CalendarType.PERSIAN, CalendarType.HIJRI -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
+        val date = when (direction) {
+            Direction.LTR -> String.format(Locale.getDefault(), "%d", dayOfMonth)
+            Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
         }
 
         dayLabelPaint?.apply {
@@ -781,10 +782,9 @@ class PrimeMonthView @JvmOverloads constructor(
         val row = ((y - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
         var column = ((inputX - paddingLeft) * columnCount / (viewWidth - (paddingLeft + paddingRight))).toInt()
 
-        // RTLize for Persian and Hijri Calendars
-        column = when (internalCalendarType) {
-            CalendarType.CIVIL -> column
-            CalendarType.PERSIAN, CalendarType.HIJRI -> columnCount - 1 - column
+        column = when (direction) {
+            Direction.LTR -> column
+            Direction.RTL -> columnCount - 1 - column
         }
 
         var day = column - weekOffset(firstDayOfMonthDayOfWeek) + 1
@@ -807,6 +807,11 @@ class PrimeMonthView @JvmOverloads constructor(
         IN_RANGE,
         END_OF_RANGE,
         NOTHING
+    }
+
+    private enum class Direction {
+        LTR,
+        RTL
     }
 
     interface OnHeightDetectListener {
