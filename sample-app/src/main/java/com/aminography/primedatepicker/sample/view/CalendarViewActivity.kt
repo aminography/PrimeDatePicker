@@ -90,7 +90,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     calendarType = CalendarType.CIVIL
                     calendarView.calendarType = calendarType
 
-                    restoreDefaults(calendarType)
+                    restoreDefaults()
                 }
             }
             persianRadioButton.setOnCheckedChangeListener { button, isChecked ->
@@ -99,7 +99,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     calendarType = CalendarType.PERSIAN
                     calendarView.calendarType = calendarType
 
-                    restoreDefaults(calendarType)
+                    restoreDefaults()
                 }
             }
             hijriRadioButton.setOnCheckedChangeListener { button, isChecked ->
@@ -108,7 +108,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     calendarType = CalendarType.HIJRI
                     calendarView.calendarType = calendarType
 
-                    restoreDefaults(calendarType)
+                    restoreDefaults()
                 }
             }
         }
@@ -212,7 +212,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
-    private fun restoreDefaults(calendarType: CalendarType) {
+    private fun restoreDefaults() {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
         with(navigationLayout) {
@@ -221,9 +221,6 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             singleRadioButton.isChecked = false
             startRangeRadioButton.isChecked = false
             endRangeRadioButton.isChecked = false
-            val today = CalendarFactory.newInstance(calendarType)
-            minDateCheckBox.text = "Min Date: ${today.monthName} 5"
-            maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
 
             endRangeRadioButton.isEnabled = false
 
