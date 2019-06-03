@@ -759,8 +759,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     companion object {
         private const val DEFAULT_HEIGHT_MULTIPLIER = 1f
-        private const val DEFAULT_LOAD_FACTOR = 6
-        //        private const val DEFAULT_LOAD_FACTOR = 24
+        private const val DEFAULT_LOAD_FACTOR = 24
         private const val DEFAULT_MAX_TRANSITION_LENGTH = 2
 
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
