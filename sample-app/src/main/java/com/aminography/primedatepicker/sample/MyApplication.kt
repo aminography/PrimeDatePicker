@@ -16,5 +16,6 @@ class MyApplication : Application() {
 
 }
 
+const val FONT_PATH_CIVIL = "fonts/Raleway-Regular.ttf"
 const val FONT_PATH_PERSIAN = "fonts/IRANSans(FaNum).ttf"
-const val FONT_PATH_ARABIC = "fonts/Amiri-Regular.ttf"
+const val FONT_PATH_HIJRI = "fonts/Amiri-Regular.ttf"

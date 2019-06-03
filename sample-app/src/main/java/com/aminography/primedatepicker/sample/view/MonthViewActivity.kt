@@ -12,7 +12,8 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
+import com.aminography.primedatepicker.sample.FONT_PATH_CIVIL
+import com.aminography.primedatepicker.sample.FONT_PATH_HIJRI
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
 import kotlinx.android.synthetic.main.activity_month_view.*
@@ -73,9 +74,9 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private fun initTypeface() {
         monthView.fontTypeface = when (calendarType) {
-            CalendarType.CIVIL -> null
+            CalendarType.CIVIL -> Typeface.createFromAsset(assets, FONT_PATH_CIVIL)
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
-            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_HIJRI)
         }
     }
 

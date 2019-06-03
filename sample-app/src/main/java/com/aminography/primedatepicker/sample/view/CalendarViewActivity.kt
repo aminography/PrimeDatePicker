@@ -13,7 +13,8 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
-import com.aminography.primedatepicker.sample.FONT_PATH_ARABIC
+import com.aminography.primedatepicker.sample.FONT_PATH_CIVIL
+import com.aminography.primedatepicker.sample.FONT_PATH_HIJRI
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
 import kotlinx.android.synthetic.main.activity_calendar_view.*
@@ -76,9 +77,9 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private fun initTypeface() {
         calendarView.fontTypeface = when (calendarType) {
-            CalendarType.CIVIL -> null
+            CalendarType.CIVIL -> Typeface.createFromAsset(assets, FONT_PATH_CIVIL)
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
-            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_ARABIC)
+            CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_HIJRI)
         }
     }
 
