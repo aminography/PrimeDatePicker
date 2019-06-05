@@ -274,7 +274,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             layoutManager = createLayoutManager()
             recyclerView.layoutManager = layoutManager
             applyDividers()
-            applyFadingEdges()
+//            applyFadingEdges()
         }
 
     var flingOrientation: FlingOrientation
@@ -362,7 +362,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 .build(MonthListAdapter::class.java)
 
         applyDividers()
-        applyFadingEdges()
+//        applyFadingEdges()
 
         adapter.iMonthViewHolderCallback = this
 
@@ -372,20 +372,20 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
     }
 
-    private fun applyFadingEdges() {
-        when (internalFlingOrientation) {
-            FlingOrientation.VERTICAL -> {
-                isVerticalFadingEdgeEnabled = true
-                isHorizontalFadingEdgeEnabled = false
-                setFadingEdgeLength(resources.getDimensionPixelSize(R.dimen.defaultFadingEdgeLength))
-            }
-            FlingOrientation.HORIZONTAL -> {
-                isVerticalFadingEdgeEnabled = false
-                isHorizontalFadingEdgeEnabled = true
-                setFadingEdgeLength(resources.getDimensionPixelSize(R.dimen.defaultFadingEdgeLength))
-            }
-        }
-    }
+//    private fun applyFadingEdges() {
+//        when (internalFlingOrientation) {
+//            FlingOrientation.VERTICAL -> {
+//                isVerticalFadingEdgeEnabled = true
+//                isHorizontalFadingEdgeEnabled = false
+//                setFadingEdgeLength(resources.getDimensionPixelSize(R.dimen.defaultFadingEdgeLength))
+//            }
+//            FlingOrientation.HORIZONTAL -> {
+//                isVerticalFadingEdgeEnabled = false
+//                isHorizontalFadingEdgeEnabled = true
+//                setFadingEdgeLength(resources.getDimensionPixelSize(R.dimen.defaultFadingEdgeLength))
+//            }
+//        }
+//    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
