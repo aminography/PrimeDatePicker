@@ -23,7 +23,6 @@ import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.isDisplayLandscape
@@ -60,6 +59,8 @@ class PrimeMonthView @JvmOverloads constructor(
     private var weekLabelTopPadding: Int = 0
     private var weekLabelBottomPadding: Int = 0
     private var dayLabelVerticalPadding: Int = 0
+
+    private var twoWeeksInLandscape: Boolean = false
 
     private var monthLabelPaint: Paint? = null
     private var weekLabelPaint: Paint? = null
@@ -287,13 +288,15 @@ class PrimeMonthView @JvmOverloads constructor(
             weekLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
             weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
             dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
+
+            twoWeeksInLandscape = getBoolean(R.styleable.PrimeMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
             recycle()
         }
 
         monthHeaderHeight = monthLabelTextSize + monthLabelTopPadding + monthLabelBottomPadding
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
 
-        if (context.isDisplayLandscape()) {
+        if (twoWeeksInLandscape && context.isDisplayLandscape()) {
             maxRowCount = 3
             rowCount = 3
             columnCount = 14

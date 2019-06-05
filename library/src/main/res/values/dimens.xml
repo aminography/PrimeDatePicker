@@ -29,4 +29,6 @@
     <dimen name="defaultDividerInsetTop">0dp</dimen>
     <dimen name="defaultDividerInsetBottom">0dp</dimen>
 
+    <dimen name="defaultFadingEdgeLength">6dp</dimen>
+
 </resources>

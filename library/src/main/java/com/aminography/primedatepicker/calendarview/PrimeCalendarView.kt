@@ -274,6 +274,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             layoutManager = createLayoutManager()
             recyclerView.layoutManager = layoutManager
             applyDividers()
+            applyFadingEdges()
         }
 
     var flingOrientation: FlingOrientation
@@ -361,12 +362,28 @@ class PrimeCalendarView @JvmOverloads constructor(
                 .build(MonthListAdapter::class.java)
 
         applyDividers()
+        applyFadingEdges()
 
         adapter.iMonthViewHolderCallback = this
 
         if (isInEditMode) {
             val calendar = CalendarFactory.newInstance(internalCalendarType)
             goto(calendar.year, calendar.month, false)
+        }
+    }
+
+    private fun applyFadingEdges() {
+        when (internalFlingOrientation) {
+            FlingOrientation.VERTICAL -> {
+                isVerticalFadingEdgeEnabled = true
+                isHorizontalFadingEdgeEnabled = false
+                setFadingEdgeLength(resources.getDimensionPixelSize(R.dimen.defaultFadingEdgeLength))
+            }
+            FlingOrientation.HORIZONTAL -> {
+                isVerticalFadingEdgeEnabled = false
+                isHorizontalFadingEdgeEnabled = true
+                setFadingEdgeLength(resources.getDimensionPixelSize(R.dimen.defaultFadingEdgeLength))
+            }
         }
     }
 
@@ -501,6 +518,18 @@ class PrimeCalendarView @JvmOverloads constructor(
             return adapter.getItem(position) as MonthDataHolder
         }
         return null
+    }
+
+    override fun setFadingEdgeLength(length: Int) {
+        recyclerView.setFadingEdgeLength(length)
+    }
+
+    override fun setHorizontalFadingEdgeEnabled(horizontalFadingEdgeEnabled: Boolean) {
+        recyclerView.isHorizontalFadingEdgeEnabled = horizontalFadingEdgeEnabled
+    }
+
+    override fun setVerticalFadingEdgeEnabled(verticalFadingEdgeEnabled: Boolean) {
+        recyclerView.isVerticalFadingEdgeEnabled = verticalFadingEdgeEnabled
     }
 
     override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
