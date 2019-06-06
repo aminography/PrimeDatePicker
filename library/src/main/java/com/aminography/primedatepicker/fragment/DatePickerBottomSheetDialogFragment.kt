@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.fragment
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.CoordinatorLayout
@@ -30,6 +31,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
     private var pickedSingleDayCalendar: BaseCalendar? = null
     private var pickedStartRangeCalendar: BaseCalendar? = null
     private var pickedEndRangeCalendar: BaseCalendar? = null
+    private var typefacePath: String? = null
 
     private var onCancelListener: DialogInterface.OnCancelListener? = null
     private var onDismissListener: DialogInterface.OnDismissListener? = null
@@ -65,6 +67,8 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
         pickedStartRangeCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedStartRangeCalendar"))
         pickedEndRangeCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedEndRangeCalendar"))
 
+        typefacePath = arguments?.getString("typefacePath")
+
         with(rootView) {
 
             calendarView.notInvalidate {
@@ -78,6 +82,8 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                 calendarView.pickedSingleDayCalendar = pickedSingleDayCalendar
                 calendarView.pickedSingleDayCalendar = pickedSingleDayCalendar
             }
+
+            calendarView.typeface = Typeface.createFromAsset(activityContext.assets, typefacePath)
 
             calendarView.onDayPickedListener = this@DatePickerBottomSheetDialogFragment
             calendarView.goto(currentDateCalendar!!)
@@ -185,7 +191,8 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                 pickType: PickType,
                 pickedSingleDayCalendar: BaseCalendar? = null,
                 pickedStartRangeCalendar: BaseCalendar? = null,
-                pickedEndRangeCalendar: BaseCalendar? = null
+                pickedEndRangeCalendar: BaseCalendar? = null,
+                typefacePath: String? = null
         ): DatePickerBottomSheetDialogFragment {
             val fragment = DatePickerBottomSheetDialogFragment()
             val bundle = Bundle()
@@ -196,6 +203,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
             bundle.putString("pickedSingleDayCalendar", DateUtils.storeCalendar(pickedSingleDayCalendar))
             bundle.putString("pickedStartRangeCalendar", DateUtils.storeCalendar(pickedStartRangeCalendar))
             bundle.putString("pickedEndRangeCalendar", DateUtils.storeCalendar(pickedEndRangeCalendar))
+            bundle.putString("typefacePath", typefacePath)
             fragment.arguments = bundle
             return fragment
         }

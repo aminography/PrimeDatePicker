@@ -188,7 +188,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
-                android:text="Min Date: 5 month earlier"
+                android:text="Min Date: 5 months earlier"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -198,7 +198,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
-                android:text="Max Date: 5 month later"
+                android:text="Max Date: 5 months later"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
