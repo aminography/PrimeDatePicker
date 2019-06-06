@@ -378,31 +378,14 @@ class PrimeCalendarView @JvmOverloads constructor(
                 .setHasFixedSize(true)
                 .set()
                 .build(MonthListAdapter::class.java)
+        adapter.iMonthViewHolderCallback = this
 
         applyDividers()
-//        applyFadingEdges()
-
-        adapter.iMonthViewHolderCallback = this
 
         if (isInEditMode) {
             goto(CalendarFactory.newInstance(calendarType), false)
         }
     }
-
-//    private fun applyFadingEdges() {
-//        when (internalFlingOrientation) {
-//            FlingOrientation.VERTICAL -> {
-//                isVerticalFadingEdgeEnabled = true
-//                isHorizontalFadingEdgeEnabled = false
-//                setFadingEdgeLength(resources.getDimensionPixelSize(R.dimen.defaultFadingEdgeLength))
-//            }
-//            FlingOrientation.HORIZONTAL -> {
-//                isVerticalFadingEdgeEnabled = false
-//                isHorizontalFadingEdgeEnabled = true
-//                setFadingEdgeLength(resources.getDimensionPixelSize(R.dimen.defaultFadingEdgeLength))
-//            }
-//        }
-//    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)

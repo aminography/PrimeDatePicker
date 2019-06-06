@@ -38,6 +38,4 @@
     <integer name="defaultLoadFactor">24</integer>
     <integer name="defaultMaxTransitionLength">2</integer>
 
-    <dimen name="defaultFadingEdgeLength">6dp</dimen>
-
 </resources>
