@@ -40,27 +40,10 @@ class PrimeMonthView @JvmOverloads constructor(
         @StyleRes defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    // Interior Variables --------------------------------------------------------------------------
+
     private val dp = dip(1)
     private fun dp(value: Float) = dp.times(value).toInt()
-
-    private var monthLabelTextColor: Int = 0
-    private var weekLabelTextColor: Int = 0
-    private var dayLabelTextColor: Int = 0
-    private var todayLabelTextColor: Int = 0
-    private var selectedDayLabelTextColor: Int = 0
-    private var selectedDayCircleColor: Int = 0
-    private var disabledDayLabelTextColor: Int = 0
-
-    private var monthLabelTextSize: Int = 0
-    private var weekLabelTextSize: Int = 0
-    private var dayLabelTextSize: Int = 0
-    private var monthLabelTopPadding: Int = 0
-    private var monthLabelBottomPadding: Int = 0
-    private var weekLabelTopPadding: Int = 0
-    private var weekLabelBottomPadding: Int = 0
-    private var dayLabelVerticalPadding: Int = 0
-
-    private var twoWeeksInLandscape: Boolean = false
 
     private var monthLabelPaint: Paint? = null
     private var weekLabelPaint: Paint? = null
@@ -96,9 +79,35 @@ class PrimeMonthView @JvmOverloads constructor(
     private var dayOfWeekLabelCalendar: BaseCalendar? = null
     private var firstDayOfMonthCalendar: BaseCalendar? = null
 
+    private var shouldNotifyDayPicked = false
+
+    // Listeners -----------------------------------------------------------------------------------
+
     var onHeightDetectListener: OnHeightDetectListener? = null
     var onDayPickedListener: OnDayPickedListener? = null
-    private var shouldNotifyDayPicked = false
+
+    // Control Variables ---------------------------------------------------------------------------
+
+    private var monthLabelTextColor: Int = 0
+    private var weekLabelTextColor: Int = 0
+    private var dayLabelTextColor: Int = 0
+    private var todayLabelTextColor: Int = 0
+    private var selectedDayLabelTextColor: Int = 0
+    private var selectedDayCircleColor: Int = 0
+    private var disabledDayLabelTextColor: Int = 0
+
+    private var monthLabelTextSize: Int = 0
+    private var weekLabelTextSize: Int = 0
+    private var dayLabelTextSize: Int = 0
+    private var monthLabelTopPadding: Int = 0
+    private var monthLabelBottomPadding: Int = 0
+    private var weekLabelTopPadding: Int = 0
+    private var weekLabelBottomPadding: Int = 0
+    private var dayLabelVerticalPadding: Int = 0
+
+    private var twoWeeksInLandscape: Boolean = false
+
+    // Programmatically Control Variables ----------------------------------------------------------
 
     internal var internalFontTypeface: Typeface? = null
         set(value) {
@@ -114,8 +123,6 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
     internal var internalPickedSingleDayCalendar: BaseCalendar? = null
-    internal var internalPickedStartRangeCalendar: BaseCalendar? = null
-    internal var internalPickedEndRangeCalendar: BaseCalendar? = null
 
     var pickedSingleDayCalendar: BaseCalendar?
         get() = internalPickedSingleDayCalendar
@@ -125,6 +132,8 @@ class PrimeMonthView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
+    internal var internalPickedStartRangeCalendar: BaseCalendar? = null
+
     var pickedStartRangeCalendar: BaseCalendar?
         get() = internalPickedStartRangeCalendar
         set(value) {
@@ -132,6 +141,8 @@ class PrimeMonthView @JvmOverloads constructor(
             invalidate()
             notifyDayPicked(true)
         }
+
+    internal var internalPickedEndRangeCalendar: BaseCalendar? = null
 
     var pickedEndRangeCalendar: BaseCalendar?
         get() = internalPickedEndRangeCalendar
@@ -268,6 +279,8 @@ class PrimeMonthView @JvmOverloads constructor(
             setDate(calendar)
 //            notifyDayPicked(true)
         }
+
+    // ---------------------------------------------------------------------------------------------
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {

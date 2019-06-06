@@ -40,6 +40,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         @Suppress("UNUSED_PARAMETER") @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
+    // Interior Variables --------------------------------------------------------------------------
+
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
     private lateinit var layoutManager: LinearLayoutManager
@@ -47,11 +49,21 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var isInTransition = false
     private var isInLoading = false
 
-    var onDayPickedListener: OnDayPickedListener? = null
-    private var shouldNotifyDayPicked = false
-
     private var definedHeight: Int = 0
     private var detectedItemHeight: Float = 0f
+
+    private var direction = Direction.LTR
+
+    private var gotoYear: Int = 0
+    private var gotoMonth: Int = 0
+
+    private var shouldNotifyDayPicked = false
+
+    // Listeners -----------------------------------------------------------------------------------
+
+    var onDayPickedListener: OnDayPickedListener? = null
+
+    // Control Variables ---------------------------------------------------------------------------
 
     private var heightMultiplier: Float = DEFAULT_HEIGHT_MULTIPLIER
     private var loadFactor: Int = DEFAULT_LOAD_FACTOR
@@ -65,12 +77,9 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var dividerInsetTop: Int = 0
     private var dividerInsetBottom: Int = 0
 
-    private var direction = Direction.LTR
+    // Programmatically Control Variables ----------------------------------------------------------
 
-    private var gotoYear: Int = 0
-    private var gotoMonth: Int = 0
-
-    private var internalFontTypeface: Typeface? = null
+    internal var internalFontTypeface: Typeface? = null
 
     override var fontTypeface: Typeface?
         get() = internalFontTypeface
@@ -290,6 +299,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             goto(calendar, false)
         }
 
+    // ---------------------------------------------------------------------------------------------
+
     private fun currentItemCalendar(): BaseCalendar? = findFirstVisibleItem()?.run {
         val calendar = CalendarFactory.newInstance(internalCalendarType)
         calendar.setDate(year, month, 1)
@@ -317,6 +328,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             )
         }
     }
+
+    // ---------------------------------------------------------------------------------------------
 
     init {
         val layoutHeight = attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height")
