@@ -466,7 +466,15 @@ class PrimeCalendarView @JvmOverloads constructor(
         dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)
         if (animate) {
             findFirstVisibleItem()?.let { current ->
-                val transitionList = CalendarViewUtils.createTransitionList(calendarType, current.year, current.month, year, month, maxTransitionLength)
+                val transitionList = CalendarViewUtils.createTransitionList(
+                        calendarType,
+                        current.year,
+                        current.month,
+                        year,
+                        month,
+                        maxTransitionLength
+                )
+
                 val isForward = DateUtils.isBefore(current.year, current.month, year, month)
                 transitionList?.apply {
                     var isLastTransitionItemRemoved = false
@@ -660,7 +668,16 @@ class PrimeCalendarView @JvmOverloads constructor(
                         val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(calendarType, dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, loadFactor, true)
+                            val moreData = CalendarViewUtils.extendMoreList(
+                                    calendarType,
+                                    dataHolder.year,
+                                    dataHolder.month,
+                                    minDateCalendar,
+                                    maxDateCalendar,
+                                    loadFactor,
+                                    true
+                            )
+
                             dataList?.apply {
                                 addAll(size, moreData)
                                 adapter.replaceDataList(this)
@@ -678,7 +695,16 @@ class PrimeCalendarView @JvmOverloads constructor(
                         val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(calendarType, dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, loadFactor, false)
+                            val moreData = CalendarViewUtils.extendMoreList(
+                                    calendarType,
+                                    dataHolder.year,
+                                    dataHolder.month,
+                                    minDateCalendar,
+                                    maxDateCalendar,
+                                    loadFactor,
+                                    false
+                            )
+
                             dataList?.apply {
                                 addAll(0, moreData)
                                 adapter.replaceDataList(this)

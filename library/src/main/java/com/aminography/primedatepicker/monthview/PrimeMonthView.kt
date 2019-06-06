@@ -467,9 +467,18 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val height = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * rowCount + paddingBottom
+        val height = paddingTop +
+                monthHeaderHeight +
+                weekHeaderHeight +
+                cellHeight * rowCount +
+                paddingBottom
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height.toInt())
-        val maxHeight = paddingTop + monthHeaderHeight + weekHeaderHeight + cellHeight * maxRowCount + paddingBottom
+
+        val maxHeight = paddingTop +
+                monthHeaderHeight +
+                weekHeaderHeight +
+                cellHeight * maxRowCount +
+                paddingBottom
         onHeightDetectListener?.onHeightDetect(maxHeight)
     }
 
@@ -536,7 +545,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun drawMonthLabel(canvas: Canvas) {
         val x = viewWidth / 2f
-        var y = paddingTop + (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f + monthLabelTopPadding
+        var y = paddingTop +
+                (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f +
+                monthLabelTopPadding
+
         monthLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
         }
@@ -597,7 +609,11 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun drawWeekLabels(canvas: Canvas) {
-        var y = paddingTop + monthHeaderHeight + (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f + weekLabelTopPadding
+        var y = paddingTop +
+                monthHeaderHeight +
+                (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f +
+                weekLabelTopPadding
+
         weekLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
         }
@@ -747,19 +763,53 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float) {
         selectedDayBackgroundPaint?.apply {
 
-            fun drawCircle() = canvas.drawCircle(x, y, radius, this)
+            fun drawCircle() = canvas.drawCircle(
+                    x,
+                    y,
+                    radius,
+                    this
+            )
 
-            fun drawRect() = canvas.drawRect(x - cellWidth / 2, y - radius, x + cellWidth / 2, y + radius, this)
+            fun drawRect() = canvas.drawRect(
+                    x - cellWidth / 2,
+                    y - radius,
+                    x + cellWidth / 2,
+                    y + radius,
+                    this
+            )
 
             fun drawHalfRect(isStart: Boolean) {
                 when (direction) {
                     Direction.LTR -> if (isStart)
-                        canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
-                    else canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
+                        canvas.drawRect(
+                                x,
+                                y - radius,
+                                (x + cellWidth / 2),
+                                y + radius,
+                                this
+                        )
+                    else canvas.drawRect(
+                            x - cellWidth / 2,
+                            y - radius,
+                            x,
+                            y + radius,
+                            this
+                    )
                     // ---------------------
                     Direction.RTL -> if (isStart)
-                        canvas.drawRect(x - cellWidth / 2, y - radius, x, y + radius, this)
-                    else canvas.drawRect(x, y - radius, (x + cellWidth / 2), y + radius, this)
+                        canvas.drawRect(
+                                x - cellWidth / 2,
+                                y - radius, x,
+                                y + radius,
+                                this
+                        )
+                    else canvas.drawRect(
+                            x,
+                            y - radius,
+                            (x + cellWidth / 2),
+                            y + radius,
+                            this
+                    )
                 }
             }
 
