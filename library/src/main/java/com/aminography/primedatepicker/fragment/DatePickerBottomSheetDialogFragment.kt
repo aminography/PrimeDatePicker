@@ -96,6 +96,19 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                 }
             }
 
+            when (pickType) {
+                PickType.SINGLE -> {
+                    rangeLinearLayout.visibility = View.GONE
+                    singleLinearLayout.visibility = View.VISIBLE
+                }
+                PickType.START_RANGE, PickType.END_RANGE -> {
+                    rangeLinearLayout.visibility = View.VISIBLE
+                    singleLinearLayout.visibility = View.GONE
+                }
+                PickType.NOTHING -> {
+                }
+            }
+
             positiveButton.setOnClickListener {
                 when (pickType) {
                     PickType.SINGLE -> {
@@ -103,8 +116,11 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                             onDateSetListener?.onDateSet(this)
                         }
                     }
-                    else -> {
+                    PickType.START_RANGE ->{
+
                     }
+                    PickType.END_RANGE -> {}
+                    PickType.NOTHING -> {}
                 }
                 dismiss()
             }
@@ -113,14 +129,14 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
             todayButton.setOnClickListener {
                 val calendar = CalendarFactory.newInstance(calendarType)
-//                when (pickType) {
-//                    PickType.SINGLE -> {
-//                        calendarView.internalPickedSingleDayCalendar = calendar
-//                    }
-//                    else -> {
-//                    }
-//                }
                 calendarView.goto(calendar.year, calendar.month, true)
+            }
+
+            fromLinearLayout.setOnClickListener {
+                calendarView.pickType = PickType.START_RANGE
+            }
+            toLinearLayout.setOnClickListener {
+                calendarView.pickType = PickType.END_RANGE
             }
         }
     }
@@ -138,8 +154,22 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                     }
                 }
                 PickType.START_RANGE -> {
+                    startDay?.apply {
+                        fromTextView.text = when (calendarType) {
+                            CalendarType.CIVIL -> longDateString
+                            CalendarType.PERSIAN, CalendarType.HIJRI ->
+                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(longDateString))
+                        }
+                    }
                 }
                 PickType.END_RANGE -> {
+                    endDay?.apply {
+                        toTextView.text = when (calendarType) {
+                            CalendarType.CIVIL -> longDateString
+                            CalendarType.PERSIAN, CalendarType.HIJRI ->
+                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(longDateString))
+                        }
+                    }
                 }
                 PickType.NOTHING -> {
                 }
