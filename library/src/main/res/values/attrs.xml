@@ -23,7 +23,6 @@
     </declare-styleable>
 
     <declare-styleable name="PrimeCalendarView">
-        <attr name="heightMultiplier" format="float" />
         <attr name="loadFactor" format="integer" />
         <attr name="maxTransitionLength" format="integer" />
         <attr name="transitionSpeedFactor" format="float" />

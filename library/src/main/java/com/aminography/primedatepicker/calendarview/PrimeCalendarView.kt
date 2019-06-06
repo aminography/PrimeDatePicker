@@ -63,13 +63,6 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     // Control Variables ---------------------------------------------------------------------------
 
-    var heightMultiplier: Float = 0f
-        set(value) {
-            field = value
-            requestLayout()
-            invalidate()
-        }
-
     var loadFactor: Int = 0
 
     var maxTransitionLength: Int = 0
@@ -353,7 +346,6 @@ class PrimeCalendarView @JvmOverloads constructor(
                 calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
                 flingOrientation = FlingOrientation.values()[getInt(R.styleable.PrimeCalendarView_flingOrientation, DEFAULT_FLING_ORIENTATION.ordinal)]
 
-                heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, resources.getString(R.string.defaultHeightMultiplier).toFloat())
                 loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, resources.getInteger(R.integer.defaultLoadFactor))
                 maxTransitionLength = getInteger(R.styleable.PrimeCalendarView_maxTransitionLength, resources.getInteger(R.integer.defaultMaxTransitionLength))
                 transitionSpeedFactor = getFloat(R.styleable.PrimeCalendarView_transitionSpeedFactor, resources.getString(R.string.defaultTransitionSpeedFactor).toFloat())
@@ -395,8 +387,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
             ViewGroup.LayoutParams.WRAP_CONTENT -> {
                 if (detectedItemHeight > 0f) {
-                    val height = (detectedItemHeight * heightMultiplier).toInt()
-                    setMeasuredDimension(width, height)
+                    setMeasuredDimension(width, detectedItemHeight.toInt())
                 }
             }
             in 0 until Int.MAX_VALUE -> {
@@ -407,7 +398,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         }
-        recyclerView.setSize(width, measuredHeight)
+        recyclerView.height = measuredHeight
     }
 
     fun gotoNextMonth(animate: Boolean = true): Boolean {
@@ -730,7 +721,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(pickedStartRangeCalendar)
         savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(pickedEndRangeCalendar)
 
-        savedState.heightMultiplier = heightMultiplier
         savedState.loadFactor = loadFactor
         savedState.maxTransitionLength = maxTransitionLength
         savedState.transitionSpeedFactor = transitionSpeedFactor
@@ -765,7 +755,6 @@ class PrimeCalendarView @JvmOverloads constructor(
             pickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
             pickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
 
-            heightMultiplier = savedState.heightMultiplier
             loadFactor = savedState.loadFactor
             maxTransitionLength = savedState.maxTransitionLength
             transitionSpeedFactor = savedState.transitionSpeedFactor
@@ -798,7 +787,6 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var pickedStartRangeCalendar: String? = null
         internal var pickedEndRangeCalendar: String? = null
 
-        internal var heightMultiplier: Float = 0f
         internal var loadFactor: Int = 0
         internal var maxTransitionLength: Int = 0
         internal var transitionSpeedFactor: Float = 0f
@@ -826,7 +814,6 @@ class PrimeCalendarView @JvmOverloads constructor(
             pickedStartRangeCalendar = input.readString()
             pickedEndRangeCalendar = input.readString()
 
-            heightMultiplier = input.readFloat()
             loadFactor = input.readInt()
             maxTransitionLength = input.readInt()
             transitionSpeedFactor = input.readFloat()
@@ -854,7 +841,6 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeString(pickedStartRangeCalendar)
             out.writeString(pickedEndRangeCalendar)
 
-            out.writeFloat(heightMultiplier)
             out.writeInt(loadFactor)
             out.writeInt(maxTransitionLength)
             out.writeFloat(transitionSpeedFactor)

@@ -60,7 +60,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         initFlingOrientationSection()
 
         titleTextView.setOnClickListener {
-            calendarView.transitionSpeedFactor = 3f
+            calendarView.transitionSpeedFactor = 1.3f
         }
     }
 

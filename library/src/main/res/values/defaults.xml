@@ -33,7 +33,6 @@
     <dimen name="defaultDividerInsetTop">0dp</dimen>
     <dimen name="defaultDividerInsetBottom">0dp</dimen>
 
-    <string name="defaultHeightMultiplier">1.0</string>
     <string name="defaultTransitionSpeedFactor">1.0</string>
     <integer name="defaultLoadFactor">24</integer>
     <integer name="defaultMaxTransitionLength">2</integer>

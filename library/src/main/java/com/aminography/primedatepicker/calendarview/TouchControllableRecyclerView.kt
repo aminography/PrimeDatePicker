@@ -50,8 +50,8 @@ class TouchControllableRecyclerView @JvmOverloads constructor(
         layoutManager?.startSmoothScroll(smoothScroller)
     }
 
-    fun setSize(width: Int, height: Int) {
-        setMeasuredDimension(width, height)
+    fun setHeight(height: Int) {
+        layoutParams.height = height
     }
 
     @SuppressLint("ClickableViewAccessibility")
