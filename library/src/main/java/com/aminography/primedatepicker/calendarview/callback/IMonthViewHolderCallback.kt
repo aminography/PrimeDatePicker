@@ -22,7 +22,7 @@ interface IMonthViewHolderCallback: OnDayPickedListener {
 
     val pickedSingleDayCalendar: BaseCalendar?
 
-    val fontTypeface: Typeface?
+    val typeface: Typeface?
 
     fun onHeightDetect(height: Float)
 

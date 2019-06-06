@@ -13,22 +13,4 @@
     <dimen name="text_size_normal">15sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
 
-    <dimen name="defaultMonthLabelTextSize">20sp</dimen>
-    <dimen name="defaultWeekLabelTextSize">13sp</dimen>
-    <dimen name="defaultDayLabelTextSize">13sp</dimen>
-
-    <dimen name="defaultMonthLabelTopPadding">16dp</dimen>
-    <dimen name="defaultMonthLabelBottomPadding">16dp</dimen>
-    <dimen name="defaultWeekLabelTopPadding">8dp</dimen>
-    <dimen name="defaultWeekLabelBottomPadding">8dp</dimen>
-    <dimen name="defaultDayLabelVerticalPadding">10dp</dimen>
-
-    <dimen name="defaultDividerThickness">1px</dimen>
-    <dimen name="defaultDividerInsetLeft">0dp</dimen>
-    <dimen name="defaultDividerInsetRight">0dp</dimen>
-    <dimen name="defaultDividerInsetTop">0dp</dimen>
-    <dimen name="defaultDividerInsetBottom">0dp</dimen>
-
-    <dimen name="defaultFadingEdgeLength">6dp</dimen>
-
 </resources>

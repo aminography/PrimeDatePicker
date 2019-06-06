@@ -1,6 +1,7 @@
 package com.aminography.primedatepicker.sample.view
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
@@ -58,6 +59,10 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         initDateBoundarySection()
         initSetToSection()
         initFlingOrientationSection()
+
+        titleTextView.setOnClickListener {
+            calendarView.transitionSpeedFactor = 3f
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -76,7 +81,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun initTypeface() {
-        calendarView.fontTypeface = when (calendarType) {
+        calendarView.typeface = when (calendarType) {
             CalendarType.CIVIL -> Typeface.createFromAsset(assets, FONT_PATH_CIVIL)
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
             CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_HIJRI)
@@ -227,12 +232,14 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
             endRangeRadioButton.isEnabled = false
 
-            calendarView.pickedSingleDayCalendar = null
-            calendarView.pickedStartRangeCalendar = null
-            calendarView.pickedEndRangeCalendar = null
-            calendarView.pickType = PickType.NOTHING
-            calendarView.minDateCalendar = null
-            calendarView.maxDateCalendar = null
+            calendarView.together {
+                calendarView.pickedSingleDayCalendar = null
+                calendarView.pickedStartRangeCalendar = null
+                calendarView.pickedEndRangeCalendar = null
+                calendarView.pickType = PickType.NOTHING
+                calendarView.minDateCalendar = null
+                calendarView.maxDateCalendar = null
+            }
 
             initTypeface()
         }

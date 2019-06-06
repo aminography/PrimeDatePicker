@@ -12,14 +12,4 @@
     <color name="textColorGreen">#08b108</color>
     <color name="textColorRed">#e23232</color>
 
-    <color name="defaultMonthLabelTextColor">@color/textColorSecondary</color>
-    <color name="defaultWeekLabelTextColor">@color/colorAccent</color>
-    <color name="defaultDayLabelTextColor">@color/textColorPrimary</color>
-    <color name="defaultTodayLabelTextColor">@color/textColorGreen</color>
-    <color name="defaultSelectedDayLabelTextColor">@color/white</color>
-    <color name="defaultSelectedDayCircleColor">@color/colorAccent</color>
-    <color name="defaultDisabledDayLabelTextColor">@color/textColorSecondary</color>
-
-    <color name="defaultDividerColor">#BDBDBD</color>
-
 </resources>

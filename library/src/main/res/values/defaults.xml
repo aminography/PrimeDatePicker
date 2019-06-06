@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- PrimeMonthView -->
+
+    <color name="defaultMonthLabelTextColor">@color/textColorSecondary</color>
+    <color name="defaultWeekLabelTextColor">@color/colorAccent</color>
+    <color name="defaultDayLabelTextColor">@color/textColorPrimary</color>
+    <color name="defaultTodayLabelTextColor">@color/textColorGreen</color>
+    <color name="defaultSelectedDayLabelTextColor">@color/white</color>
+    <color name="defaultSelectedDayCircleColor">@color/colorAccent</color>
+    <color name="defaultDisabledDayLabelTextColor">@color/textColorSecondary</color>
+
+    <dimen name="defaultMonthLabelTextSize">20sp</dimen>
+    <dimen name="defaultWeekLabelTextSize">13sp</dimen>
+    <dimen name="defaultDayLabelTextSize">13sp</dimen>
+
+    <dimen name="defaultMonthLabelTopPadding">16dp</dimen>
+    <dimen name="defaultMonthLabelBottomPadding">16dp</dimen>
+    <dimen name="defaultWeekLabelTopPadding">8dp</dimen>
+    <dimen name="defaultWeekLabelBottomPadding">8dp</dimen>
+    <dimen name="defaultDayLabelVerticalPadding">10dp</dimen>
+
+    <bool name="defaultShowTwoWeeksInLandscape">true</bool>
+
+    <!-- PrimeCalendarView -->
+
+    <color name="defaultDividerColor">#BDBDBD</color>
+
+    <dimen name="defaultDividerThickness">1px</dimen>
+    <dimen name="defaultDividerInsetLeft">0dp</dimen>
+    <dimen name="defaultDividerInsetRight">0dp</dimen>
+    <dimen name="defaultDividerInsetTop">0dp</dimen>
+    <dimen name="defaultDividerInsetBottom">0dp</dimen>
+
+    <string name="defaultHeightMultiplier">1.0</string>
+    <string name="defaultTransitionSpeedFactor">1.0</string>
+    <integer name="defaultLoadFactor">24</integer>
+    <integer name="defaultMaxTransitionLength">2</integer>
+
+    <dimen name="defaultFadingEdgeLength">6dp</dimen>
+
+</resources>

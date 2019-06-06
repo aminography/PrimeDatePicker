@@ -32,7 +32,7 @@ import java.util.*
 /**
  * @author aminography
  */
-@Suppress("ConstantConditionIf")
+@Suppress("ConstantConditionIf", "MemberVisibilityCanBePrivate", "unused")
 class PrimeMonthView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
@@ -79,8 +79,6 @@ class PrimeMonthView @JvmOverloads constructor(
     private var dayOfWeekLabelCalendar: BaseCalendar? = null
     private var firstDayOfMonthCalendar: BaseCalendar? = null
 
-    private var shouldNotifyDayPicked = false
-
     // Listeners -----------------------------------------------------------------------------------
 
     var onHeightDetectListener: OnHeightDetectListener? = null
@@ -88,243 +86,340 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // Control Variables ---------------------------------------------------------------------------
 
-    private var monthLabelTextColor: Int = 0
-    private var weekLabelTextColor: Int = 0
-    private var dayLabelTextColor: Int = 0
-    private var todayLabelTextColor: Int = 0
-    private var selectedDayLabelTextColor: Int = 0
-    private var selectedDayCircleColor: Int = 0
-    private var disabledDayLabelTextColor: Int = 0
+    var monthLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            monthLabelPaint?.color = value
+            if (invalidate) invalidate()
+        }
 
-    private var monthLabelTextSize: Int = 0
-    private var weekLabelTextSize: Int = 0
-    private var dayLabelTextSize: Int = 0
-    private var monthLabelTopPadding: Int = 0
-    private var monthLabelBottomPadding: Int = 0
-    private var weekLabelTopPadding: Int = 0
-    private var weekLabelBottomPadding: Int = 0
-    private var dayLabelVerticalPadding: Int = 0
+    var weekLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            weekLabelPaint?.color = value
+            if (invalidate) invalidate()
+        }
 
-    private var twoWeeksInLandscape: Boolean = false
+    var dayLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
+    var todayLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
+    var selectedDayLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
+    var selectedDayCircleColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
+    var disabledDayLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
+    var monthLabelTextSize: Int = 0
+        set(value) {
+            field = value
+            monthLabelPaint?.textSize = value.toFloat()
+            calculateSizes()
+            if (invalidate) {
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var weekLabelTextSize: Int = 0
+        set(value) {
+            field = value
+            weekLabelPaint?.textSize = value.toFloat()
+            calculateSizes()
+            if (invalidate) {
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var dayLabelTextSize: Int = 0
+        set(value) {
+            field = value
+            dayLabelPaint?.textSize = value.toFloat()
+            calculateSizes()
+            if (invalidate) {
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var monthLabelTopPadding: Int = 0
+        set(value) {
+            field = value
+            calculateSizes()
+            if (invalidate) {
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var monthLabelBottomPadding: Int = 0
+        set(value) {
+            field = value
+            calculateSizes()
+            if (invalidate) {
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var weekLabelTopPadding: Int = 0
+        set(value) {
+            field = value
+            calculateSizes()
+            if (invalidate) {
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var weekLabelBottomPadding: Int = 0
+        set(value) {
+            field = value
+            calculateSizes()
+            if (invalidate) {
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var dayLabelVerticalPadding: Int = 0
+        set(value) {
+            field = value
+            calculateSizes()
+            if (invalidate) {
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var twoWeeksInLandscape: Boolean = false
+        set(value) {
+            field = value
+            calculateSizes()
+            if (invalidate) invalidate()
+        }
 
     // Programmatically Control Variables ----------------------------------------------------------
 
-    internal var internalFontTypeface: Typeface? = null
+    var typeface: Typeface? = null
         set(value) {
             field = value
             applyTypeface()
+            if (invalidate) invalidate()
         }
 
-    var fontTypeface: Typeface?
-        get() = internalFontTypeface
+    var pickedSingleDayCalendar: BaseCalendar? = null
         set(value) {
-            internalFontTypeface = value
-            invalidate()
-        }
-
-    internal var internalPickedSingleDayCalendar: BaseCalendar? = null
-
-    var pickedSingleDayCalendar: BaseCalendar?
-        get() = internalPickedSingleDayCalendar
-        set(value) {
-            internalPickedSingleDayCalendar = value
-            invalidate()
+            field = value
+            if (invalidate) invalidate()
             notifyDayPicked(true)
         }
 
-    internal var internalPickedStartRangeCalendar: BaseCalendar? = null
-
-    var pickedStartRangeCalendar: BaseCalendar?
-        get() = internalPickedStartRangeCalendar
+    var pickedStartRangeCalendar: BaseCalendar? = null
         set(value) {
-            internalPickedStartRangeCalendar = value
-            invalidate()
+            field = value
+            if (invalidate) invalidate()
             notifyDayPicked(true)
         }
 
-    internal var internalPickedEndRangeCalendar: BaseCalendar? = null
-
-    var pickedEndRangeCalendar: BaseCalendar?
-        get() = internalPickedEndRangeCalendar
+    var pickedEndRangeCalendar: BaseCalendar? = null
         set(value) {
-            internalPickedEndRangeCalendar = value
-            invalidate()
+            field = value
+            if (invalidate) invalidate()
             notifyDayPicked(true)
         }
 
-    internal var internalPickType: PickType = PickType.NOTHING
+    var pickType: PickType = PickType.NOTHING
         set(value) {
             field = value
-            when (value) {
-                PickType.SINGLE -> {
-                    internalPickedStartRangeCalendar = null
-                    internalPickedEndRangeCalendar = null
-                }
-                PickType.START_RANGE -> internalPickedSingleDayCalendar = null
-                PickType.END_RANGE -> internalPickedSingleDayCalendar = null
-                PickType.NOTHING -> {
-                    internalPickedSingleDayCalendar = null
-                    internalPickedStartRangeCalendar = null
-                    internalPickedEndRangeCalendar = null
+            notInvalidate {
+                when (value) {
+                    PickType.SINGLE -> {
+                        pickedStartRangeCalendar = null
+                        pickedEndRangeCalendar = null
+                    }
+                    PickType.START_RANGE -> pickedSingleDayCalendar = null
+                    PickType.END_RANGE -> pickedSingleDayCalendar = null
+                    PickType.NOTHING -> {
+                        pickedSingleDayCalendar = null
+                        pickedStartRangeCalendar = null
+                        pickedEndRangeCalendar = null
+                    }
                 }
             }
-            notifyDayPicked()
+            if (invalidate) invalidate()
+            notifyDayPicked(true)
         }
 
-    var pickType: PickType
-        get() = internalPickType
-        set(value) {
-            shouldNotifyDayPicked = true
-            internalPickType = value
-            shouldNotifyDayPicked = false
-            invalidate()
-        }
-
-    internal var internalMinDateCalendar: BaseCalendar? = null
+    var minDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            value?.also { min ->
-                var change = false
-                internalPickedSingleDayCalendar?.let { single ->
-                    if (DateUtils.isBefore(single, min)) {
-                        internalPickedSingleDayCalendar = min
-                        change = true
+            var change = false
+            notInvalidate {
+                value?.also { min ->
+                    pickedSingleDayCalendar?.let { single ->
+                        if (DateUtils.isBefore(single, min)) {
+                            pickedSingleDayCalendar = min
+                            change = true
+                        }
+                    }
+                    pickedStartRangeCalendar?.let { start ->
+                        if (DateUtils.isBefore(start, min)) {
+                            pickedStartRangeCalendar = min
+                            change = true
+                        }
+                    }
+                    pickedEndRangeCalendar?.let { end ->
+                        if (DateUtils.isBefore(end, min)) {
+                            pickedStartRangeCalendar = null
+                            pickedEndRangeCalendar = null
+                            change = true
+                        }
                     }
                 }
-                internalPickedStartRangeCalendar?.let { start ->
-                    if (DateUtils.isBefore(start, min)) {
-                        internalPickedStartRangeCalendar = min
-                        change = true
-                    }
-                }
-                internalPickedEndRangeCalendar?.let { end ->
-                    if (DateUtils.isBefore(end, min)) {
-                        internalPickedStartRangeCalendar = null
-                        internalPickedEndRangeCalendar = null
-                        change = true
-                    }
-                }
-                if (change) notifyDayPicked()
             }
+            if (invalidate) invalidate()
+            notifyDayPicked(change)
         }
 
-    var minDateCalendar: BaseCalendar?
-        get() = internalMinDateCalendar
-        set(value) {
-            shouldNotifyDayPicked = true
-            internalMinDateCalendar = value
-            shouldNotifyDayPicked = false
-            invalidate()
-        }
-
-    internal var internalMaxDateCalendar: BaseCalendar? = null
+    var maxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            value?.also { max ->
-                var change = false
-                internalPickedSingleDayCalendar?.let { single ->
-                    if (DateUtils.isAfter(single, max)) {
-                        internalPickedSingleDayCalendar = max
-                        change = true
+            var change = false
+            notInvalidate {
+                value?.also { max ->
+                    pickedSingleDayCalendar?.let { single ->
+                        if (DateUtils.isAfter(single, max)) {
+                            pickedSingleDayCalendar = max
+                            change = true
+                        }
+                    }
+                    pickedStartRangeCalendar?.let { start ->
+                        if (DateUtils.isAfter(start, max)) {
+                            pickedStartRangeCalendar = null
+                            pickedEndRangeCalendar = null
+                            change = true
+                        }
+                    }
+                    pickedEndRangeCalendar?.let { end ->
+                        if (DateUtils.isAfter(end, max)) {
+                            pickedEndRangeCalendar = max
+                            change = true
+                        }
                     }
                 }
-                internalPickedStartRangeCalendar?.let { start ->
-                    if (DateUtils.isAfter(start, max)) {
-                        internalPickedStartRangeCalendar = null
-                        internalPickedEndRangeCalendar = null
-                        change = true
-                    }
-                }
-                internalPickedEndRangeCalendar?.let { end ->
-                    if (DateUtils.isAfter(end, max)) {
-                        internalPickedEndRangeCalendar = max
-                        change = true
-                    }
-                }
-                if (change) notifyDayPicked()
             }
+            if (invalidate) invalidate()
+            notifyDayPicked(change)
         }
 
-    var maxDateCalendar: BaseCalendar?
-        get() = internalMaxDateCalendar
-        set(value) {
-            shouldNotifyDayPicked = true
-            internalMaxDateCalendar = value
-            shouldNotifyDayPicked = false
-            invalidate()
-        }
-
-    private var internalCalendarType = CalendarType.CIVIL
+    var calendarType = CalendarType.CIVIL
         set(value) {
             field = value
-
             direction = when (value) {
                 CalendarType.CIVIL -> Direction.LTR
                 CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
             }
-
-//            internalPickedSingleDayCalendar = null
-//            internalPickedStartRangeCalendar = null
-//            internalPickedEndRangeCalendar = null
-//            internalMinDateCalendar = null
-//            internalMaxDateCalendar = null
-//            internalPickType = PickType.NOTHING
+            if (invalidate) setDate(CalendarFactory.newInstance(value))
         }
 
-    var calendarType: CalendarType
-        get() = internalCalendarType
-        set(value) {
-            internalCalendarType = value
-            val calendar = CalendarFactory.newInstance(value)
-            setDate(calendar)
-//            notifyDayPicked(true)
-        }
+    // ---------------------------------------------------------------------------------------------
+
+    private var pickedDaysChanged: Boolean = false
+    private var invalidate: Boolean = true
+
+    fun together(function: () -> Unit) {
+        invalidate = false
+        function.invoke()
+        invalidate = true
+        invalidate()
+    }
+
+    fun notInvalidate(function: () -> Unit) {
+        val previous = invalidate
+        invalidate = false
+        function.invoke()
+        invalidate = previous
+    }
 
     // ---------------------------------------------------------------------------------------------
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
-            monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
-            weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
-            dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
-            todayLabelTextColor = getColor(R.styleable.PrimeMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.defaultTodayLabelTextColor))
-            selectedDayLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
-            selectedDayCircleColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
-            disabledDayLabelTextColor = getColor(R.styleable.PrimeMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDisabledDayLabelTextColor))
+            notInvalidate {
+                monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
+                weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
+                dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
+                todayLabelTextColor = getColor(R.styleable.PrimeMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.defaultTodayLabelTextColor))
+                selectedDayLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
+                selectedDayCircleColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
+                disabledDayLabelTextColor = getColor(R.styleable.PrimeMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDisabledDayLabelTextColor))
 
-            monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
-            weekLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
-            dayLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
+                monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
+                weekLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
+                dayLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
 
-            monthLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTopPadding))
-            monthLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding))
-            weekLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
-            weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
-            dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
+                monthLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTopPadding))
+                monthLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding))
+                weekLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
+                weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
+                dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
 
-            twoWeeksInLandscape = getBoolean(R.styleable.PrimeMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
+                twoWeeksInLandscape = getBoolean(R.styleable.PrimeMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
+            }
             recycle()
         }
 
-        monthHeaderHeight = monthLabelTextSize + monthLabelTopPadding + monthLabelBottomPadding
-        weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
+        calculateSizes()
+        initPaints()
+        applyTypeface()
 
-        if (twoWeeksInLandscape && context.isDisplayLandscape()) {
-            maxRowCount = 3
-            rowCount = 3
-            columnCount = 14
+        if (isInEditMode) {
+            val calendar = CalendarFactory.newInstance(calendarType)
+            setDate(calendar)
+        }
+    }
+
+    private fun calculateSizes() {
+        if (context.isDisplayLandscape()) {
+            if (twoWeeksInLandscape) {
+                maxRowCount = 3
+                rowCount = 3
+                columnCount = 14
+            } else {
+                maxRowCount = 6
+                rowCount = 6
+                columnCount = 7
+            }
         }
 
         minCellHeight = dayLabelTextSize.toFloat()
         cellHeight = dayLabelTextSize + 2f * dayLabelVerticalPadding
         cellWidth = (viewWidth - (paddingLeft + paddingRight)) / columnCount.toFloat()
 
-        initPaints()
-
-        if (isInEditMode) {
-            val calendar = CalendarFactory.newInstance(internalCalendarType)
-            setDate(calendar)
-        }
+        monthHeaderHeight = monthLabelTextSize + monthLabelTopPadding + monthLabelBottomPadding
+        weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
     }
 
     private fun initPaints() {
@@ -335,7 +430,6 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = true
-            typeface = internalFontTypeface
         }
 
         weekLabelPaint = Paint().apply {
@@ -345,7 +439,6 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = true
-            typeface = internalFontTypeface
         }
 
         dayLabelPaint = Paint().apply {
@@ -355,7 +448,6 @@ class PrimeMonthView @JvmOverloads constructor(
             textAlign = Align.CENTER
             isAntiAlias = true
             isFakeBoldText = false
-            typeface = internalFontTypeface
         }
 
         selectedDayBackgroundPaint = Paint().apply {
@@ -368,9 +460,9 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun applyTypeface() {
-        monthLabelPaint?.typeface = internalFontTypeface
-        weekLabelPaint?.typeface = internalFontTypeface
-        dayLabelPaint?.typeface = internalFontTypeface
+        monthLabelPaint?.typeface = typeface
+        weekLabelPaint?.typeface = typeface
+        dayLabelPaint?.typeface = typeface
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -396,7 +488,10 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     fun setDate(calendarType: CalendarType, year: Int, month: Int) {
-        internalCalendarType = calendarType
+        notInvalidate {
+            this.calendarType = calendarType
+        }
+
         this.year = year
         this.month = month
 
@@ -421,7 +516,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun updateToday() {
-        val todayCalendar = CalendarFactory.newInstance(internalCalendarType)
+        val todayCalendar = CalendarFactory.newInstance(calendarType)
         hasToday = todayCalendar.year == year && todayCalendar.month == month
         todayDayOfMonth = if (hasToday) todayCalendar.dayOfMonth else -1
     }
@@ -523,7 +618,7 @@ class PrimeMonthView @JvmOverloads constructor(
             dayOfWeekLabelCalendar?.set(Calendar.DAY_OF_WEEK, dayOfWeek % 7)
             val localWeekDisplayName = dayOfWeekLabelCalendar?.weekDayName
 
-            val weekString = when (internalCalendarType) {
+            val weekString = when (calendarType) {
                 CalendarType.CIVIL -> localWeekDisplayName?.substring(0, 2)
                 CalendarType.PERSIAN -> localWeekDisplayName?.substring(0, 1)
                 CalendarType.HIJRI -> localWeekDisplayName?.substring(2, 4)
@@ -605,10 +700,10 @@ class PrimeMonthView @JvmOverloads constructor(
                     year,
                     month,
                     dayOfMonth,
-                    internalPickType,
-                    internalPickedSingleDayCalendar,
-                    internalPickedStartRangeCalendar,
-                    internalPickedEndRangeCalendar
+                    pickType,
+                    pickedSingleDayCalendar,
+                    pickedStartRangeCalendar,
+                    pickedEndRangeCalendar
             )
 
             drawDayBackground(canvas, pickedDayState, x, y, radius)
@@ -690,9 +785,9 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, pickedDayState: PickedDayState, x: Float, y: Float) {
         dayLabelPaint?.apply {
-            color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, internalMinDateCalendar, internalMaxDateCalendar)) {
+            color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar)) {
                 disabledDayLabelTextColor
-            } else if (internalPickType != PickType.NOTHING) {
+            } else if (pickType != PickType.NOTHING) {
                 when (pickedDayState) {
                     PickedDayState.PICKED_SINGLE -> {
                         selectedDayLabelTextColor
@@ -745,7 +840,7 @@ class PrimeMonthView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
-                        val calendar = CalendarFactory.newInstance(internalCalendarType)
+                        val calendar = CalendarFactory.newInstance(calendarType)
                         calendar.setDate(year, month, dayOfMonth)
                         onDayClicked(calendar)
                     }
@@ -757,41 +852,44 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun onDayClicked(calendar: BaseCalendar) {
         calendar.apply {
-            when (internalPickType) {
-                PickType.SINGLE -> {
-                    internalPickedSingleDayCalendar = calendar
-                    invalidate()
-                    notifyDayPicked(true)
-                }
-                PickType.START_RANGE -> {
-                    if (DateUtils.isAfter(calendar, internalPickedEndRangeCalendar)) {
-                        internalPickedEndRangeCalendar = null
+            var change = false
+            together {
+                when (pickType) {
+                    PickType.SINGLE -> {
+                        pickedSingleDayCalendar = calendar
+                        change = true
                     }
-                    internalPickedStartRangeCalendar = calendar
-                    invalidate()
-                    notifyDayPicked(true)
-                }
-                PickType.END_RANGE -> {
-                    if (internalPickedStartRangeCalendar != null && !DateUtils.isBefore(calendar, internalPickedStartRangeCalendar)) {
-                        internalPickedEndRangeCalendar = calendar
-                        invalidate()
-                        notifyDayPicked(true)
+                    PickType.START_RANGE -> {
+                        if (DateUtils.isAfter(calendar, pickedEndRangeCalendar)) {
+                            pickedEndRangeCalendar = null
+                        }
+                        pickedStartRangeCalendar = calendar
+                        change = true
                     }
-                }
-                PickType.NOTHING -> {
+                    PickType.END_RANGE -> {
+                        if (pickedStartRangeCalendar != null && !DateUtils.isBefore(calendar, pickedStartRangeCalendar)) {
+                            pickedEndRangeCalendar = calendar
+                            change = true
+                        }
+                    }
+                    PickType.NOTHING -> {
+                    }
                 }
             }
+            notifyDayPicked(change)
         }
     }
 
-    private fun notifyDayPicked(forceNotify: Boolean = false) {
-        if (forceNotify || shouldNotifyDayPicked) {
+    private fun notifyDayPicked(change: Boolean) {
+        pickedDaysChanged = pickedDaysChanged or change
+        if (invalidate && pickedDaysChanged) {
             onDayPickedListener?.onDayPicked(
-                    internalPickType,
-                    internalPickedSingleDayCalendar,
-                    internalPickedStartRangeCalendar,
-                    internalPickedEndRangeCalendar
+                    pickType,
+                    pickedSingleDayCalendar,
+                    pickedStartRangeCalendar,
+                    pickedEndRangeCalendar
             )
+            pickedDaysChanged = false
         }
     }
 
@@ -816,7 +914,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun ifInValidRange(dayOfMonth: Int, function: () -> Unit) {
-        if (!DateUtils.isOutOfRange(year, month, dayOfMonth, internalMinDateCalendar, internalMaxDateCalendar))
+        if (!DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar))
             function.invoke()
     }
 
@@ -839,17 +937,34 @@ class PrimeMonthView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
 
-        savedState.calendarType = internalCalendarType.ordinal
+        savedState.calendarType = calendarType.ordinal
         savedState.year = year
         savedState.month = month
 
-        savedState.minDateCalendar = DateUtils.storeCalendar(internalMinDateCalendar)
-        savedState.maxDateCalendar = DateUtils.storeCalendar(internalMaxDateCalendar)
+        savedState.minDateCalendar = DateUtils.storeCalendar(minDateCalendar)
+        savedState.maxDateCalendar = DateUtils.storeCalendar(maxDateCalendar)
 
-        savedState.pickType = internalPickType.name
-        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(internalPickedSingleDayCalendar)
-        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(internalPickedStartRangeCalendar)
-        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(internalPickedEndRangeCalendar)
+        savedState.pickType = pickType.name
+        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
+        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(pickedStartRangeCalendar)
+        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(pickedEndRangeCalendar)
+
+        savedState.monthLabelTextColor = monthLabelTextColor
+        savedState.weekLabelTextColor = weekLabelTextColor
+        savedState.dayLabelTextColor = dayLabelTextColor
+        savedState.todayLabelTextColor = todayLabelTextColor
+        savedState.selectedDayLabelTextColor = selectedDayLabelTextColor
+        savedState.selectedDayCircleColor = selectedDayCircleColor
+        savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
+        savedState.monthLabelTextSize = monthLabelTextSize
+        savedState.weekLabelTextSize = weekLabelTextSize
+        savedState.dayLabelTextSize = dayLabelTextSize
+        savedState.monthLabelTopPadding = monthLabelTopPadding
+        savedState.monthLabelBottomPadding = monthLabelBottomPadding
+        savedState.weekLabelTopPadding = weekLabelTopPadding
+        savedState.weekLabelBottomPadding = weekLabelBottomPadding
+        savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
+        savedState.twoWeeksInLandscape = twoWeeksInLandscape
 
         return savedState
     }
@@ -858,21 +973,43 @@ class PrimeMonthView @JvmOverloads constructor(
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
 
-        internalCalendarType = CalendarType.values()[savedState.calendarType]
-        year = savedState.year
-        month = savedState.month
+        notInvalidate {
+            calendarType = CalendarType.values()[savedState.calendarType]
+            year = savedState.year
+            month = savedState.month
 
-        internalMinDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
-        internalMaxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
+            minDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
+            maxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
 
-        internalPickType = savedState.pickType?.let {
-            PickType.valueOf(it)
-        } ?: PickType.NOTHING
-        internalPickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
-        internalPickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
-        internalPickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+            pickType = savedState.pickType?.let {
+                PickType.valueOf(it)
+            } ?: PickType.NOTHING
+            pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
+            pickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
+            pickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
 
-        setDate(internalCalendarType, year, month)
+            monthLabelTextColor = savedState.monthLabelTextColor
+            weekLabelTextColor = savedState.weekLabelTextColor
+            dayLabelTextColor = savedState.dayLabelTextColor
+            todayLabelTextColor = savedState.todayLabelTextColor
+            selectedDayLabelTextColor = savedState.selectedDayLabelTextColor
+            selectedDayCircleColor = savedState.selectedDayCircleColor
+            disabledDayLabelTextColor = savedState.disabledDayLabelTextColor
+            monthLabelTextSize = savedState.monthLabelTextSize
+            weekLabelTextSize = savedState.weekLabelTextSize
+            dayLabelTextSize = savedState.dayLabelTextSize
+            monthLabelTopPadding = savedState.monthLabelTopPadding
+            monthLabelBottomPadding = savedState.monthLabelBottomPadding
+            weekLabelTopPadding = savedState.weekLabelTopPadding
+            weekLabelBottomPadding = savedState.weekLabelBottomPadding
+            dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
+            twoWeeksInLandscape = savedState.twoWeeksInLandscape
+        }
+
+        applyTypeface()
+        calculateSizes()
+        setDate(calendarType, year, month)
+        notifyDayPicked(true)
     }
 
     private class SavedState : BaseSavedState {
@@ -889,6 +1026,23 @@ class PrimeMonthView @JvmOverloads constructor(
         internal var pickedStartRangeCalendar: String? = null
         internal var pickedEndRangeCalendar: String? = null
 
+        internal var monthLabelTextColor: Int = 0
+        internal var weekLabelTextColor: Int = 0
+        internal var dayLabelTextColor: Int = 0
+        internal var todayLabelTextColor: Int = 0
+        internal var selectedDayLabelTextColor: Int = 0
+        internal var selectedDayCircleColor: Int = 0
+        internal var disabledDayLabelTextColor: Int = 0
+        internal var monthLabelTextSize: Int = 0
+        internal var weekLabelTextSize: Int = 0
+        internal var dayLabelTextSize: Int = 0
+        internal var monthLabelTopPadding: Int = 0
+        internal var monthLabelBottomPadding: Int = 0
+        internal var weekLabelTopPadding: Int = 0
+        internal var weekLabelBottomPadding: Int = 0
+        internal var dayLabelVerticalPadding: Int = 0
+        internal var twoWeeksInLandscape: Boolean = false
+
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
@@ -903,6 +1057,23 @@ class PrimeMonthView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedStartRangeCalendar = input.readString()
             pickedEndRangeCalendar = input.readString()
+
+            monthLabelTextColor = input.readInt()
+            weekLabelTextColor = input.readInt()
+            dayLabelTextColor = input.readInt()
+            todayLabelTextColor = input.readInt()
+            selectedDayLabelTextColor = input.readInt()
+            selectedDayCircleColor = input.readInt()
+            disabledDayLabelTextColor = input.readInt()
+            monthLabelTextSize = input.readInt()
+            weekLabelTextSize = input.readInt()
+            dayLabelTextSize = input.readInt()
+            monthLabelTopPadding = input.readInt()
+            monthLabelBottomPadding = input.readInt()
+            weekLabelTopPadding = input.readInt()
+            weekLabelBottomPadding = input.readInt()
+            dayLabelVerticalPadding = input.readInt()
+            twoWeeksInLandscape = input.readInt() == 1
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
@@ -918,20 +1089,30 @@ class PrimeMonthView @JvmOverloads constructor(
             out.writeString(pickedSingleDayCalendar)
             out.writeString(pickedStartRangeCalendar)
             out.writeString(pickedEndRangeCalendar)
+
+            out.writeInt(monthLabelTextColor)
+            out.writeInt(weekLabelTextColor)
+            out.writeInt(dayLabelTextColor)
+            out.writeInt(todayLabelTextColor)
+            out.writeInt(selectedDayLabelTextColor)
+            out.writeInt(selectedDayCircleColor)
+            out.writeInt(disabledDayLabelTextColor)
+            out.writeInt(monthLabelTextSize)
+            out.writeInt(weekLabelTextSize)
+            out.writeInt(dayLabelTextSize)
+            out.writeInt(monthLabelTopPadding)
+            out.writeInt(monthLabelBottomPadding)
+            out.writeInt(weekLabelTopPadding)
+            out.writeInt(weekLabelBottomPadding)
+            out.writeInt(dayLabelVerticalPadding)
+            out.writeInt(if (twoWeeksInLandscape) 1 else 0)
         }
 
         companion object {
-
-            @Suppress("unused")
             @JvmField
             val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
-                override fun createFromParcel(input: Parcel): SavedState {
-                    return SavedState(input)
-                }
-
-                override fun newArray(size: Int): Array<SavedState?> {
-                    return arrayOfNulls(size)
-                }
+                override fun createFromParcel(input: Parcel): SavedState = SavedState(input)
+                override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
             }
         }
     }

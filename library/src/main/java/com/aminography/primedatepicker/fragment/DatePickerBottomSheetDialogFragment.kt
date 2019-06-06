@@ -15,7 +15,6 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.screenSize
@@ -68,15 +67,17 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
         with(rootView) {
 
-            calendarView.internalCalendarType = calendarType
+            calendarView.notInvalidate {
+                calendarView.calendarType = calendarType
 
-            calendarView.internalMinDateCalendar = minDateCalendar
-            calendarView.internalMaxDateCalendar = maxDateCalendar
+                calendarView.minDateCalendar = minDateCalendar
+                calendarView.maxDateCalendar = maxDateCalendar
 
-            calendarView.internalPickType = pickType
-            calendarView.internalPickedSingleDayCalendar = pickedSingleDayCalendar
-            calendarView.internalPickedSingleDayCalendar = pickedSingleDayCalendar
-            calendarView.internalPickedSingleDayCalendar = pickedSingleDayCalendar
+                calendarView.pickType = pickType
+                calendarView.pickedSingleDayCalendar = pickedSingleDayCalendar
+                calendarView.pickedSingleDayCalendar = pickedSingleDayCalendar
+                calendarView.pickedSingleDayCalendar = pickedSingleDayCalendar
+            }
 
             calendarView.onDayPickedListener = this@DatePickerBottomSheetDialogFragment
             calendarView.goto(currentDateCalendar!!)

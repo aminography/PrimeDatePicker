@@ -50,6 +50,10 @@ class TouchControllableRecyclerView @JvmOverloads constructor(
         layoutManager?.startSmoothScroll(smoothScroller)
     }
 
+    fun setSize(width: Int, height: Int) {
+        setMeasuredDimension(width, height)
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(e: MotionEvent?): Boolean {
         return touchEnabled && super.onTouchEvent(e)

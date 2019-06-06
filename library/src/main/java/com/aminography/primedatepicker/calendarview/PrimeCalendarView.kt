@@ -57,95 +57,126 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
 
-    private var shouldNotifyDayPicked = false
-
     // Listeners -----------------------------------------------------------------------------------
 
     var onDayPickedListener: OnDayPickedListener? = null
 
     // Control Variables ---------------------------------------------------------------------------
 
-    private var heightMultiplier: Float = DEFAULT_HEIGHT_MULTIPLIER
-    private var loadFactor: Int = DEFAULT_LOAD_FACTOR
-    private var maxTransitionLength: Int = DEFAULT_MAX_TRANSITION_LENGTH
-    private var transitionSpeedFactor: Float = TouchControllableRecyclerView.DEFAULT_TRANSITION_SPEED_FACTOR
+    var heightMultiplier: Float = 0f
+        set(value) {
+            field = value
+            requestLayout()
+            invalidate()
+        }
 
-    private var dividerColor: Int = 0
-    private var dividerThickness: Int = 0
-    private var dividerInsetLeft: Int = 0
-    private var dividerInsetRight: Int = 0
-    private var dividerInsetTop: Int = 0
-    private var dividerInsetBottom: Int = 0
+    var loadFactor: Int = 0
+
+    var maxTransitionLength: Int = 0
+
+    var transitionSpeedFactor: Float = 0f
+        set(value) {
+            field = value
+            recyclerView.speedFactor = value
+        }
+
+    var dividerColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) applyDividers()
+        }
+
+    var dividerThickness: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) applyDividers()
+        }
+
+    var dividerInsetLeft: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) applyDividers()
+        }
+
+    var dividerInsetRight: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) applyDividers()
+        }
+
+    var dividerInsetTop: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) applyDividers()
+        }
+
+    var dividerInsetBottom: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) applyDividers()
+        }
 
     // Programmatically Control Variables ----------------------------------------------------------
 
-    internal var internalFontTypeface: Typeface? = null
-
-    override var fontTypeface: Typeface?
-        get() = internalFontTypeface
-        set(value) {
-            internalFontTypeface = value
-            adapter?.notifyDataSetChanged()
-        }
-
-    internal var internalPickedSingleDayCalendar: BaseCalendar? = null
-    internal var internalPickedStartRangeCalendar: BaseCalendar? = null
-    internal var internalPickedEndRangeCalendar: BaseCalendar? = null
-
-    override var pickedSingleDayCalendar: BaseCalendar?
-        get() = internalPickedSingleDayCalendar
-        set(value) {
-            internalPickedSingleDayCalendar = value
-            adapter?.notifyDataSetChanged()
-            notifyDayPicked(true)
-        }
-
-    override var pickedStartRangeCalendar: BaseCalendar?
-        get() = internalPickedStartRangeCalendar
-        set(value) {
-            internalPickedStartRangeCalendar = value
-            adapter?.notifyDataSetChanged()
-            notifyDayPicked(true)
-        }
-
-    override var pickedEndRangeCalendar: BaseCalendar?
-        get() = internalPickedEndRangeCalendar
-        set(value) {
-            internalPickedEndRangeCalendar = value
-            adapter?.notifyDataSetChanged()
-            notifyDayPicked(true)
-        }
-
-    internal var internalMinDateCalendar: BaseCalendar? = null
+    override var typeface: Typeface? = null
         set(value) {
             field = value
-            value.also { min ->
-                var change = false
-                internalPickedSingleDayCalendar?.let { single ->
-                    if (DateUtils.isBefore(single, min)) {
-                        internalPickedSingleDayCalendar = min
-                        change = true
-                    }
-                }
-                internalPickedStartRangeCalendar?.let { start ->
-                    if (DateUtils.isBefore(start, min)) {
-                        internalPickedStartRangeCalendar = min
-                        change = true
-                    }
-                }
-                internalPickedEndRangeCalendar?.let { end ->
-                    if (DateUtils.isBefore(end, min)) {
-                        internalPickedStartRangeCalendar = null
-                        internalPickedEndRangeCalendar = null
-                        change = true
-                    }
-                }
-                if (change) notifyDayPicked()
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
 
-                val minOffset = min?.monthOffset() ?: Int.MIN_VALUE
+    override var pickedSingleDayCalendar: BaseCalendar? = null
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+            notifyDayPicked(true)
+        }
+
+    override var pickedStartRangeCalendar: BaseCalendar? = null
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+            notifyDayPicked(true)
+        }
+
+    override var pickedEndRangeCalendar: BaseCalendar? = null
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+            notifyDayPicked(true)
+        }
+
+    override var minDateCalendar: BaseCalendar? = null
+        set(value) {
+            field = value
+            var change = false
+            notInvalidate {
+                value.also { min ->
+                    pickedSingleDayCalendar?.let { single ->
+                        if (DateUtils.isBefore(single, min)) {
+                            pickedSingleDayCalendar = min
+                            change = true
+                        }
+                    }
+                    pickedStartRangeCalendar?.let { start ->
+                        if (DateUtils.isBefore(start, min)) {
+                            pickedStartRangeCalendar = min
+                            change = true
+                        }
+                    }
+                    pickedEndRangeCalendar?.let { end ->
+                        if (DateUtils.isBefore(end, min)) {
+                            pickedStartRangeCalendar = null
+                            pickedEndRangeCalendar = null
+                            change = true
+                        }
+                    }
+                }
+            }
+            if (invalidate) {
+                val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
                 findFirstVisibleItem()?.also { current ->
                     if (current.offset < minOffset) {
-                        min?.apply {
+                        value?.apply {
                             goto(year, month, false)
                         }
                     } else {
@@ -153,46 +184,41 @@ class PrimeCalendarView @JvmOverloads constructor(
                     }
                 }
             }
+            notifyDayPicked(change)
         }
 
-    override var minDateCalendar: BaseCalendar?
-        get() = internalMinDateCalendar
-        set(value) {
-            shouldNotifyDayPicked = true
-            internalMinDateCalendar = value
-            shouldNotifyDayPicked = false
-        }
-
-    internal var internalMaxDateCalendar: BaseCalendar? = null
+    override var maxDateCalendar: BaseCalendar? = null
         set(value) {
             field = value
-            value.also { max ->
-                var change = false
-                internalPickedSingleDayCalendar?.let { single ->
-                    if (DateUtils.isAfter(single, max)) {
-                        internalPickedSingleDayCalendar = max
-                        change = true
+            var change = false
+            notInvalidate {
+                value.also { max ->
+                    pickedSingleDayCalendar?.let { single ->
+                        if (DateUtils.isAfter(single, max)) {
+                            pickedSingleDayCalendar = max
+                            change = true
+                        }
+                    }
+                    pickedStartRangeCalendar?.let { start ->
+                        if (DateUtils.isAfter(start, max)) {
+                            pickedStartRangeCalendar = null
+                            pickedEndRangeCalendar = null
+                            change = true
+                        }
+                    }
+                    pickedEndRangeCalendar?.let { end ->
+                        if (DateUtils.isAfter(end, max)) {
+                            pickedEndRangeCalendar = max
+                            change = true
+                        }
                     }
                 }
-                internalPickedStartRangeCalendar?.let { start ->
-                    if (DateUtils.isAfter(start, max)) {
-                        internalPickedStartRangeCalendar = null
-                        internalPickedEndRangeCalendar = null
-                        change = true
-                    }
-                }
-                internalPickedEndRangeCalendar?.let { end ->
-                    if (DateUtils.isAfter(end, max)) {
-                        internalPickedEndRangeCalendar = max
-                        change = true
-                    }
-                }
-                if (change) notifyDayPicked()
-
-                val maxOffset = max?.monthOffset() ?: Int.MAX_VALUE
+            }
+            if (invalidate) {
+                val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
                 findLastVisibleItem()?.also { current ->
                     if (current.offset > maxOffset) {
-                        max?.apply {
+                        value?.apply {
                             goto(year, month, false)
                         }
                     } else {
@@ -200,120 +226,78 @@ class PrimeCalendarView @JvmOverloads constructor(
                     }
                 }
             }
+            notifyDayPicked(change)
         }
 
-    override var maxDateCalendar: BaseCalendar?
-        get() = internalMaxDateCalendar
-        set(value) {
-            shouldNotifyDayPicked = true
-            internalMaxDateCalendar = value
-            shouldNotifyDayPicked = false
-        }
-
-    internal var internalPickType: PickType = PickType.NOTHING
+    override var pickType: PickType = PickType.NOTHING
         set(value) {
             field = value
-            when (value) {
-                PickType.SINGLE -> {
-                    internalPickedStartRangeCalendar = null
-                    internalPickedEndRangeCalendar = null
-                }
-                PickType.START_RANGE -> internalPickedSingleDayCalendar = null
-                PickType.END_RANGE -> internalPickedSingleDayCalendar = null
-                PickType.NOTHING -> {
-                    internalPickedSingleDayCalendar = null
-                    internalPickedStartRangeCalendar = null
-                    internalPickedEndRangeCalendar = null
+            notInvalidate {
+                when (value) {
+                    PickType.SINGLE -> {
+                        pickedStartRangeCalendar = null
+                        pickedEndRangeCalendar = null
+                    }
+                    PickType.START_RANGE -> pickedSingleDayCalendar = null
+                    PickType.END_RANGE -> pickedSingleDayCalendar = null
+                    PickType.NOTHING -> {
+                        pickedSingleDayCalendar = null
+                        pickedStartRangeCalendar = null
+                        pickedEndRangeCalendar = null
+                    }
                 }
             }
-            notifyDayPicked()
+            if (invalidate) adapter?.notifyDataSetChanged()
+            notifyDayPicked(true)
         }
 
-    override var pickType: PickType
-        get() = internalPickType
-        set(value) {
-            shouldNotifyDayPicked = true
-            internalPickType = value
-            shouldNotifyDayPicked = false
-            adapter?.notifyDataSetChanged()
-        }
-
-    internal var internalCalendarType = CalendarType.CIVIL
+    var calendarType = CalendarType.CIVIL
         set(value) {
             field = value
-
             direction = when (value) {
                 CalendarType.CIVIL -> Direction.LTR
                 CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
             }
-//            internalPickedSingleDayCalendar = null
-//            internalPickedStartRangeCalendar = null
-//            internalPickedEndRangeCalendar = null
-//            internalMinDateCalendar = null
-//            internalMaxDateCalendar = null
-//            internalPickType = PickType.NOTHING
-        }
-
-    var calendarType: CalendarType
-        get() = internalCalendarType
-        set(value) {
-            internalCalendarType = value
 
             layoutManager = createLayoutManager()
             recyclerView.layoutManager = layoutManager
             applyDividers()
 
-            val calendar = CalendarFactory.newInstance(value)
-//            currentItemCalendar?.apply {
-//                dayOfMonth = 1
-//                val target = when (value) {
-//                    CalendarType.CIVIL -> toCivil()
-//                    CalendarType.PERSIAN -> toPersian()
-//                    CalendarType.HIJRI -> toHijri()
-//                }
-//                calendar.setDate(target.year, target.month, target.dayOfMonth)
-//            }
-            goto(calendar, false)
-//            notifyDayPicked(true)
+            if (invalidate) goto(CalendarFactory.newInstance(value), false)
         }
 
-    internal var internalFlingOrientation = FlingOrientation.VERTICAL
+
+    var flingOrientation = FlingOrientation.VERTICAL
         set(value) {
             field = value
-            layoutManager = createLayoutManager()
-            recyclerView.layoutManager = layoutManager
-            applyDividers()
-//            applyFadingEdges()
-        }
-
-    var flingOrientation: FlingOrientation
-        get() = internalFlingOrientation
-        set(value) {
-            val calendar = CalendarFactory.newInstance(internalCalendarType)
+            val calendar = CalendarFactory.newInstance(calendarType)
             currentItemCalendar()?.let { current ->
                 calendar.year = current.year
                 calendar.month = current.month
             }
+            layoutManager = createLayoutManager()
+            recyclerView.layoutManager = layoutManager
+            applyDividers()
+//            applyFadingEdges()
 
-            internalFlingOrientation = value
-            goto(calendar, false)
+            if (invalidate) goto(calendar, false)
         }
 
     // ---------------------------------------------------------------------------------------------
 
     private fun currentItemCalendar(): BaseCalendar? = findFirstVisibleItem()?.run {
-        val calendar = CalendarFactory.newInstance(internalCalendarType)
+        val calendar = CalendarFactory.newInstance(calendarType)
         calendar.setDate(year, month, 1)
         return calendar
     }
 
-    private fun createLayoutManager(): LinearLayoutManager = when (internalFlingOrientation) {
+    private fun createLayoutManager(): LinearLayoutManager = when (flingOrientation) {
         FlingOrientation.VERTICAL -> LinearLayoutManager(context)
-        FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, internalCalendarType != CalendarType.CIVIL)
+        FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, calendarType != CalendarType.CIVIL)
     }
 
     private fun applyDividers() {
-        when (internalFlingOrientation) {
+        when (flingOrientation) {
             FlingOrientation.VERTICAL -> adapter?.setDivider(
                     color = dividerColor,
                     thickness = dividerThickness,
@@ -327,6 +311,25 @@ class PrimeCalendarView @JvmOverloads constructor(
                     insetBottom = dividerInsetBottom
             )
         }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+
+    private var pickedDaysChanged: Boolean = false
+    private var invalidate: Boolean = true
+
+    fun together(function: () -> Unit) {
+        invalidate = false
+        function.invoke()
+        invalidate = true
+        adapter?.notifyDataSetChanged()
+    }
+
+    fun notInvalidate(function: () -> Unit) {
+        val previous = invalidate
+        invalidate = false
+        function.invoke()
+        invalidate = previous
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -345,21 +348,22 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
-            internalCalendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
-            internalFlingOrientation = FlingOrientation.values()[getInt(R.styleable.PrimeCalendarView_flingOrientation, DEFAULT_FLING_ORIENTATION.ordinal)]
+            notInvalidate {
+                calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
+                flingOrientation = FlingOrientation.values()[getInt(R.styleable.PrimeCalendarView_flingOrientation, DEFAULT_FLING_ORIENTATION.ordinal)]
 
-            heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, DEFAULT_HEIGHT_MULTIPLIER)
-            loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, DEFAULT_LOAD_FACTOR)
-            maxTransitionLength = getInteger(R.styleable.PrimeCalendarView_maxTransitionLength, DEFAULT_MAX_TRANSITION_LENGTH)
-            transitionSpeedFactor = getFloat(R.styleable.PrimeCalendarView_transitionSpeedFactor, TouchControllableRecyclerView.DEFAULT_TRANSITION_SPEED_FACTOR)
+                heightMultiplier = getFloat(R.styleable.PrimeCalendarView_heightMultiplier, resources.getString(R.string.defaultHeightMultiplier).toFloat())
+                loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, resources.getInteger(R.integer.defaultLoadFactor))
+                maxTransitionLength = getInteger(R.styleable.PrimeCalendarView_maxTransitionLength, resources.getInteger(R.integer.defaultMaxTransitionLength))
+                transitionSpeedFactor = getFloat(R.styleable.PrimeCalendarView_transitionSpeedFactor, resources.getString(R.string.defaultTransitionSpeedFactor).toFloat())
 
-            dividerColor = getColor(R.styleable.PrimeCalendarView_dividerColor, ContextCompat.getColor(context, R.color.defaultDividerColor))
-            dividerThickness = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerThickness, resources.getDimensionPixelSize(R.dimen.defaultDividerThickness))
-            dividerInsetLeft = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetLeft, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetLeft))
-            dividerInsetRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetRight, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetRight))
-            dividerInsetTop = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetTop, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetTop))
-            dividerInsetBottom = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetBottom, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetBottom))
-
+                dividerColor = getColor(R.styleable.PrimeCalendarView_dividerColor, ContextCompat.getColor(context, R.color.defaultDividerColor))
+                dividerThickness = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerThickness, resources.getDimensionPixelSize(R.dimen.defaultDividerThickness))
+                dividerInsetLeft = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetLeft, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetLeft))
+                dividerInsetRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetRight, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetRight))
+                dividerInsetTop = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetTop, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetTop))
+                dividerInsetBottom = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetBottom, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetBottom))
+            }
             recycle()
         }
 
@@ -380,8 +384,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         adapter.iMonthViewHolderCallback = this
 
         if (isInEditMode) {
-            val calendar = CalendarFactory.newInstance(internalCalendarType)
-            goto(calendar.year, calendar.month, false)
+            goto(CalendarFactory.newInstance(calendarType), false)
         }
     }
 
@@ -402,48 +405,50 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val width = MeasureSpec.getSize(widthMeasureSpec)
         when (definedHeight) {
             ViewGroup.LayoutParams.MATCH_PARENT -> {
             }
             ViewGroup.LayoutParams.WRAP_CONTENT -> {
                 if (detectedItemHeight > 0f) {
-                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), detectedItemHeight.toInt())
+                    val height = (detectedItemHeight * heightMultiplier).toInt()
+                    setMeasuredDimension(width, height)
                 }
             }
             in 0 until Int.MAX_VALUE -> {
                 if (definedHeight > detectedItemHeight) {
-                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), definedHeight)
+                    setMeasuredDimension(width, definedHeight)
                 } else {
-                    setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), detectedItemHeight.toInt())
+                    setMeasuredDimension(width, detectedItemHeight.toInt())
                 }
             }
         }
-        recyclerView.layoutParams.height = measuredHeight
+        recyclerView.setSize(width, measuredHeight)
     }
 
     fun gotoNextMonth(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(internalCalendarType).apply {
+        CalendarFactory.newInstance(calendarType).apply {
             add(Calendar.MONTH, 1)
             return goto(year, month, animate)
         }
     }
 
     fun gotoPreviousMonth(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(internalCalendarType).apply {
+        CalendarFactory.newInstance(calendarType).apply {
             add(Calendar.MONTH, -1)
             return goto(year, month, animate)
         }
     }
 
     fun gotoNextYear(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(internalCalendarType).apply {
+        CalendarFactory.newInstance(calendarType).apply {
             add(Calendar.YEAR, 1)
             return goto(year, month, animate)
         }
     }
 
     fun gotoPreviousYear(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(internalCalendarType).apply {
+        CalendarFactory.newInstance(calendarType).apply {
             add(Calendar.YEAR, -1)
             return goto(year, month, animate)
         }
@@ -454,18 +459,18 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     fun goto(year: Int, month: Int, animate: Boolean = false): Boolean {
-        if (DateUtils.isOutOfRange(year, month, internalMinDateCalendar, internalMaxDateCalendar)) {
+        if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
             return false
         }
-        dataList = CalendarViewUtils.createPivotList(internalCalendarType, year, month, internalMinDateCalendar, internalMaxDateCalendar, loadFactor)
+        dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)
         if (animate) {
             findFirstVisibleItem()?.let { current ->
-                val transitionList = CalendarViewUtils.createTransitionList(internalCalendarType, current.year, current.month, year, month, maxTransitionLength)
+                val transitionList = CalendarViewUtils.createTransitionList(calendarType, current.year, current.month, year, month, maxTransitionLength)
                 val isForward = DateUtils.isBefore(current.year, current.month, year, month)
                 transitionList?.apply {
                     var isLastTransitionItemRemoved = false
                     if (isForward) {
-                        internalMaxDateCalendar?.let { max ->
+                        maxDateCalendar?.let { max ->
                             val maxOffset = max.monthOffset()
                             val targetOffset = year * 12 + month
                             if (maxOffset == targetOffset) {
@@ -546,28 +551,35 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
-        when (internalPickType) {
-            PickType.SINGLE -> {
-                internalPickedSingleDayCalendar = singleDay
-            }
-            PickType.START_RANGE -> {
-                startDay?.apply {
-                    if (DateUtils.isAfter(startDay, internalPickedEndRangeCalendar)) {
-                        internalPickedEndRangeCalendar = null
+        var change = false
+        together {
+            when (pickType) {
+                PickType.SINGLE -> {
+                    pickedSingleDayCalendar = singleDay
+                    change = true
+                }
+                PickType.START_RANGE -> {
+                    startDay?.apply {
+                        if (DateUtils.isAfter(startDay, pickedEndRangeCalendar)) {
+                            pickedEndRangeCalendar = null
+                        }
+                    }
+                    pickedStartRangeCalendar = startDay
+                    change = true
+                }
+                PickType.END_RANGE -> {
+                    if (endDay != null) {
+                        if (pickedStartRangeCalendar != null && !DateUtils.isBefore(endDay, pickedStartRangeCalendar)) {
+                            pickedEndRangeCalendar = endDay
+                            change = true
+                        }
+                    } else {
+                        pickedEndRangeCalendar = endDay
+                        change = true
                     }
                 }
-                internalPickedStartRangeCalendar = startDay
-            }
-            PickType.END_RANGE -> {
-                if (endDay != null) {
-                    if (internalPickedStartRangeCalendar != null && !DateUtils.isBefore(endDay, internalPickedStartRangeCalendar)) {
-                        internalPickedEndRangeCalendar = endDay
-                    }
-                } else {
-                    internalPickedEndRangeCalendar = endDay
+                PickType.NOTHING -> {
                 }
-            }
-            PickType.NOTHING -> {
             }
         }
 
@@ -575,18 +587,19 @@ class PrimeCalendarView @JvmOverloads constructor(
         findLastVisibleItem()?.apply {
             goto(year, month, false)
         }
-
-        notifyDayPicked(true)
+        notifyDayPicked(change)
     }
 
-    private fun notifyDayPicked(forceNotify: Boolean = false) {
-        if (forceNotify || shouldNotifyDayPicked) {
+    private fun notifyDayPicked(change: Boolean) {
+        pickedDaysChanged = pickedDaysChanged or change
+        if (invalidate && pickedDaysChanged) {
             onDayPickedListener?.onDayPicked(
-                    internalPickType,
-                    internalPickedSingleDayCalendar,
-                    internalPickedStartRangeCalendar,
-                    internalPickedEndRangeCalendar
+                    pickType,
+                    pickedSingleDayCalendar,
+                    pickedStartRangeCalendar,
+                    pickedEndRangeCalendar
             )
+            pickedDaysChanged = false
         }
     }
 
@@ -627,7 +640,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(view, dx, dy)
             if (!isInTransition) {
-                val factor = when (internalFlingOrientation) {
+                val factor = when (flingOrientation) {
                     FlingOrientation.VERTICAL -> dy
                     FlingOrientation.HORIZONTAL -> when (direction) {
                         Direction.LTR -> dx
@@ -643,10 +656,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                         isInLoading = true
                         val dataHolder = adapter.getItem(totalItemCount - 1) as MonthDataHolder
                         val offset = dataHolder.offset
-                        val maxOffset = internalMaxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
+                        val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(internalCalendarType, dataHolder.year, dataHolder.month, internalMinDateCalendar, internalMaxDateCalendar, loadFactor, true)
+                            val moreData = CalendarViewUtils.extendMoreList(calendarType, dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, loadFactor, true)
                             dataList?.apply {
                                 addAll(size, moreData)
                                 adapter.replaceDataList(this)
@@ -661,10 +674,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                         isInLoading = true
                         val dataHolder = adapter.getItem(0) as MonthDataHolder
                         val offset = dataHolder.offset
-                        val minOffset = internalMinDateCalendar?.monthOffset() ?: Int.MIN_VALUE
+                        val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(internalCalendarType, dataHolder.year, dataHolder.month, internalMinDateCalendar, internalMaxDateCalendar, loadFactor, false)
+                            val moreData = CalendarViewUtils.extendMoreList(calendarType, dataHolder.year, dataHolder.month, minDateCalendar, maxDateCalendar, loadFactor, false)
                             dataList?.apply {
                                 addAll(0, moreData)
                                 adapter.replaceDataList(this)
@@ -691,21 +704,32 @@ class PrimeCalendarView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
 
-        savedState.calendarType = internalCalendarType.ordinal
+        savedState.calendarType = calendarType.ordinal
         currentItemCalendar()?.apply {
             savedState.currentYear = year
             savedState.currentMonth = month
         }
 
-        savedState.flingOrientation = internalFlingOrientation.ordinal
+        savedState.flingOrientation = flingOrientation.ordinal
 
-        savedState.minDateCalendar = DateUtils.storeCalendar(internalMinDateCalendar)
-        savedState.maxDateCalendar = DateUtils.storeCalendar(internalMaxDateCalendar)
+        savedState.minDateCalendar = DateUtils.storeCalendar(minDateCalendar)
+        savedState.maxDateCalendar = DateUtils.storeCalendar(maxDateCalendar)
 
-        savedState.pickType = internalPickType.name
-        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(internalPickedSingleDayCalendar)
-        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(internalPickedStartRangeCalendar)
-        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(internalPickedEndRangeCalendar)
+        savedState.pickType = pickType.name
+        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
+        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(pickedStartRangeCalendar)
+        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(pickedEndRangeCalendar)
+
+        savedState.heightMultiplier = heightMultiplier
+        savedState.loadFactor = loadFactor
+        savedState.maxTransitionLength = maxTransitionLength
+        savedState.transitionSpeedFactor = transitionSpeedFactor
+        savedState.dividerColor = dividerColor
+        savedState.dividerThickness = dividerThickness
+        savedState.dividerInsetLeft = dividerInsetLeft
+        savedState.dividerInsetRight = dividerInsetRight
+        savedState.dividerInsetTop = dividerInsetTop
+        savedState.dividerInsetBottom = dividerInsetBottom
         return savedState
     }
 
@@ -713,23 +737,39 @@ class PrimeCalendarView @JvmOverloads constructor(
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
 
-        internalCalendarType = CalendarType.values()[savedState.calendarType]
         val currentYear = savedState.currentYear
         val currentMonth = savedState.currentMonth
 
-        internalFlingOrientation = FlingOrientation.values()[savedState.flingOrientation]
+        notInvalidate {
+            calendarType = CalendarType.values()[savedState.calendarType]
 
-        internalMinDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
-        internalMaxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
+            flingOrientation = FlingOrientation.values()[savedState.flingOrientation]
 
-        internalPickType = savedState.pickType?.let {
-            PickType.valueOf(it)
-        } ?: PickType.NOTHING
-        internalPickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
-        internalPickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
-        internalPickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+            minDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
+            maxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
 
+            pickType = savedState.pickType?.let {
+                PickType.valueOf(it)
+            } ?: PickType.NOTHING
+            pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
+            pickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
+            pickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+
+            heightMultiplier = savedState.heightMultiplier
+            loadFactor = savedState.loadFactor
+            maxTransitionLength = savedState.maxTransitionLength
+            transitionSpeedFactor = savedState.transitionSpeedFactor
+            dividerColor = savedState.dividerColor
+            dividerThickness = savedState.dividerThickness
+            dividerInsetLeft = savedState.dividerInsetLeft
+            dividerInsetRight = savedState.dividerInsetRight
+            dividerInsetTop = savedState.dividerInsetTop
+            dividerInsetBottom = savedState.dividerInsetBottom
+        }
+
+        applyDividers()
         goto(currentYear, currentMonth, false)
+        notifyDayPicked(true)
     }
 
     private class SavedState : BaseSavedState {
@@ -748,6 +788,16 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var pickedStartRangeCalendar: String? = null
         internal var pickedEndRangeCalendar: String? = null
 
+        internal var heightMultiplier: Float = 0f
+        internal var loadFactor: Int = 0
+        internal var maxTransitionLength: Int = 0
+        internal var transitionSpeedFactor: Float = 0f
+        internal var dividerColor: Int = 0
+        internal var dividerThickness: Int = 0
+        internal var dividerInsetLeft: Int = 0
+        internal var dividerInsetRight: Int = 0
+        internal var dividerInsetTop: Int = 0
+        internal var dividerInsetBottom: Int = 0
 
         internal constructor(superState: Parcelable?) : super(superState)
 
@@ -765,6 +815,17 @@ class PrimeCalendarView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedStartRangeCalendar = input.readString()
             pickedEndRangeCalendar = input.readString()
+
+            heightMultiplier = input.readFloat()
+            loadFactor = input.readInt()
+            maxTransitionLength = input.readInt()
+            transitionSpeedFactor = input.readFloat()
+            dividerColor = input.readInt()
+            dividerThickness = input.readInt()
+            dividerInsetLeft = input.readInt()
+            dividerInsetRight = input.readInt()
+            dividerInsetTop = input.readInt()
+            dividerInsetBottom = input.readInt()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
@@ -782,28 +843,29 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeString(pickedSingleDayCalendar)
             out.writeString(pickedStartRangeCalendar)
             out.writeString(pickedEndRangeCalendar)
+
+            out.writeFloat(heightMultiplier)
+            out.writeInt(loadFactor)
+            out.writeInt(maxTransitionLength)
+            out.writeFloat(transitionSpeedFactor)
+            out.writeInt(dividerColor)
+            out.writeInt(dividerThickness)
+            out.writeInt(dividerInsetLeft)
+            out.writeInt(dividerInsetRight)
+            out.writeInt(dividerInsetTop)
+            out.writeInt(dividerInsetBottom)
         }
 
         companion object {
-
             @JvmField
             val CREATOR: Parcelable.Creator<SavedState> = object : Parcelable.Creator<SavedState> {
-                override fun createFromParcel(input: Parcel): SavedState {
-                    return SavedState(input)
-                }
-
-                override fun newArray(size: Int): Array<SavedState?> {
-                    return arrayOfNulls(size)
-                }
+                override fun createFromParcel(input: Parcel): SavedState = SavedState(input)
+                override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
             }
         }
     }
 
     companion object {
-        private const val DEFAULT_HEIGHT_MULTIPLIER = 1f
-        private const val DEFAULT_LOAD_FACTOR = 24
-        private const val DEFAULT_MAX_TRANSITION_LENGTH = 2
-
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
         private val DEFAULT_FLING_ORIENTATION = FlingOrientation.VERTICAL
     }

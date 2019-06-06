@@ -18,6 +18,7 @@ import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
 import com.aminography.primedatepicker.sample.R
 import kotlinx.android.synthetic.main.activity_month_view.*
 import kotlinx.android.synthetic.main.nav_drawer_month.view.*
+import org.jetbrains.anko.dip
 import java.util.*
 
 @SuppressLint("SetTextI18n")
@@ -55,6 +56,10 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         initPickerTypeSection()
         initDateBoundarySection()
         initSetToSection()
+
+        titleTextView.setOnClickListener {
+            monthView.weekLabelTextSize = dip(24)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -73,7 +78,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun initTypeface() {
-        monthView.fontTypeface = when (calendarType) {
+        monthView.typeface = when (calendarType) {
             CalendarType.CIVIL -> Typeface.createFromAsset(assets, FONT_PATH_CIVIL)
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
             CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_HIJRI)
@@ -204,12 +209,14 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
             endRangeRadioButton.isEnabled = false
 
-            monthView.pickedSingleDayCalendar = null
-            monthView.pickedStartRangeCalendar = null
-            monthView.pickedEndRangeCalendar = null
-            monthView.pickType = PickType.NOTHING
-            monthView.minDateCalendar = null
-            monthView.maxDateCalendar = null
+            monthView.together {
+                monthView.pickedSingleDayCalendar = null
+                monthView.pickedStartRangeCalendar = null
+                monthView.pickedEndRangeCalendar = null
+                monthView.pickType = PickType.NOTHING
+                monthView.minDateCalendar = null
+                monthView.maxDateCalendar = null
+            }
 
             initTypeface()
         }
