@@ -209,7 +209,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
             endRangeRadioButton.isEnabled = false
 
-            monthView.together {
+            monthView.invalidateAfter {
                 monthView.pickedSingleDayCalendar = null
                 monthView.pickedStartRangeCalendar = null
                 monthView.pickedEndRangeCalendar = null

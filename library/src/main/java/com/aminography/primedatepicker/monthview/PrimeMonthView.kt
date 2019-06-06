@@ -253,7 +253,7 @@ class PrimeMonthView @JvmOverloads constructor(
     var pickType: PickType = PickType.NOTHING
         set(value) {
             field = value
-            notInvalidate {
+            doNotInvalidate {
                 when (value) {
                     PickType.SINGLE -> {
                         pickedStartRangeCalendar = null
@@ -276,7 +276,7 @@ class PrimeMonthView @JvmOverloads constructor(
         set(value) {
             field = value
             var change = false
-            notInvalidate {
+            doNotInvalidate {
                 value?.also { min ->
                     pickedSingleDayCalendar?.let { single ->
                         if (DateUtils.isBefore(single, min)) {
@@ -307,7 +307,7 @@ class PrimeMonthView @JvmOverloads constructor(
         set(value) {
             field = value
             var change = false
-            notInvalidate {
+            doNotInvalidate {
                 value?.also { max ->
                     pickedSingleDayCalendar?.let { single ->
                         if (DateUtils.isAfter(single, max)) {
@@ -349,14 +349,15 @@ class PrimeMonthView @JvmOverloads constructor(
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
 
-    fun together(function: () -> Unit) {
+    fun invalidateAfter(function: () -> Unit) {
+        val previous = invalidate
         invalidate = false
         function.invoke()
-        invalidate = true
+        invalidate = previous
         invalidate()
     }
 
-    fun notInvalidate(function: () -> Unit) {
+    fun doNotInvalidate(function: () -> Unit) {
         val previous = invalidate
         invalidate = false
         function.invoke()
@@ -367,7 +368,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     init {
         context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
-            notInvalidate {
+            doNotInvalidate {
                 monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
                 weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
                 dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
@@ -488,7 +489,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     fun setDate(calendarType: CalendarType, year: Int, month: Int) {
-        notInvalidate {
+        doNotInvalidate {
             this.calendarType = calendarType
         }
 
@@ -496,10 +497,10 @@ class PrimeMonthView @JvmOverloads constructor(
         this.month = month
 
         dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType)
-        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType)
-
-        firstDayOfMonthCalendar?.setDate(year, month, 1)
-        firstDayOfMonthDayOfWeek = firstDayOfMonthCalendar!!.get(Calendar.DAY_OF_WEEK)
+        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType).apply {
+            setDate(year, month, 1)
+            firstDayOfMonthDayOfWeek = get(Calendar.DAY_OF_WEEK)
+        }
 
         daysInMonth = DateUtils.getDaysInMonth(calendarType, year, month)
         weekStartDay = when (calendarType) {
@@ -853,7 +854,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun onDayClicked(calendar: BaseCalendar) {
         calendar.apply {
             var change = false
-            together {
+            invalidateAfter {
                 when (pickType) {
                     PickType.SINGLE -> {
                         pickedSingleDayCalendar = calendar
@@ -973,7 +974,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
 
-        notInvalidate {
+        doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
             year = savedState.year
             month = savedState.month

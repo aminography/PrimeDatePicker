@@ -164,6 +164,7 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/showDatePickerButton"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/material_size_16"
@@ -200,6 +201,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/material_size_16"
                     android:layout_weight="1"
                     android:text="Calendar View" />
 
@@ -208,6 +210,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/material_size_16"
                     android:layout_weight="1"
                     android:text="Month View" />
 

@@ -71,7 +71,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
         with(rootView) {
 
-            calendarView.notInvalidate {
+            calendarView.doNotInvalidate {
                 calendarView.calendarType = calendarType
 
                 calendarView.minDateCalendar = minDateCalendar

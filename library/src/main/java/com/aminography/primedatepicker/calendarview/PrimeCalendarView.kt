@@ -149,7 +149,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         set(value) {
             field = value
             var change = false
-            notInvalidate {
+            doNotInvalidate {
                 value.also { min ->
                     pickedSingleDayCalendar?.let { single ->
                         if (DateUtils.isBefore(single, min)) {
@@ -191,7 +191,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         set(value) {
             field = value
             var change = false
-            notInvalidate {
+            doNotInvalidate {
                 value.also { max ->
                     pickedSingleDayCalendar?.let { single ->
                         if (DateUtils.isAfter(single, max)) {
@@ -232,7 +232,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickType: PickType = PickType.NOTHING
         set(value) {
             field = value
-            notInvalidate {
+            doNotInvalidate {
                 when (value) {
                     PickType.SINGLE -> {
                         pickedStartRangeCalendar = null
@@ -318,14 +318,15 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
 
-    fun together(function: () -> Unit) {
+    fun invalidateAfter(function: () -> Unit) {
+        val previous = invalidate
         invalidate = false
         function.invoke()
-        invalidate = true
+        invalidate = previous
         adapter?.notifyDataSetChanged()
     }
 
-    fun notInvalidate(function: () -> Unit) {
+    fun doNotInvalidate(function: () -> Unit) {
         val previous = invalidate
         invalidate = false
         function.invoke()
@@ -348,7 +349,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
-            notInvalidate {
+            doNotInvalidate {
                 calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
                 flingOrientation = FlingOrientation.values()[getInt(R.styleable.PrimeCalendarView_flingOrientation, DEFAULT_FLING_ORIENTATION.ordinal)]
 
@@ -552,7 +553,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
         var change = false
-        together {
+        invalidateAfter {
             when (pickType) {
                 PickType.SINGLE -> {
                     pickedSingleDayCalendar = singleDay
@@ -740,7 +741,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         val currentYear = savedState.currentYear
         val currentMonth = savedState.currentMonth
 
-        notInvalidate {
+        doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
 
             flingOrientation = FlingOrientation.values()[savedState.flingOrientation]

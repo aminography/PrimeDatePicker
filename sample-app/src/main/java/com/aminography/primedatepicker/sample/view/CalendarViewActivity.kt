@@ -1,7 +1,6 @@
 package com.aminography.primedatepicker.sample.view
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
@@ -232,7 +231,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
             endRangeRadioButton.isEnabled = false
 
-            calendarView.together {
+            calendarView.invalidateAfter {
                 calendarView.pickedSingleDayCalendar = null
                 calendarView.pickedStartRangeCalendar = null
                 calendarView.pickedEndRangeCalendar = null
