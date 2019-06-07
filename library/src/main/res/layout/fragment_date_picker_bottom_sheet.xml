@@ -72,14 +72,15 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:padding="8dp">
+                android:background="@color/colorPrimary"
+                android:padding="6dp">
 
                 <LinearLayout
                     android:id="@+id/singleLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="@dimen/material_size_4">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -112,7 +113,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:background="@drawable/range_background_selector"
+                        android:orientation="vertical"
+                        android:padding="@dimen/material_size_4">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="match_parent"
@@ -138,7 +141,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:background="@drawable/range_background_selector"
+                        android:orientation="vertical"
+                        android:padding="@dimen/material_size_4">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="match_parent"

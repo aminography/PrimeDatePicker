@@ -3,7 +3,7 @@
 
     <!-- PrimeMonthView -->
 
-    <color name="defaultMonthLabelTextColor">@color/textColorSecondary</color>
+    <color name="defaultMonthLabelTextColor">@color/blueGray200</color>
     <color name="defaultWeekLabelTextColor">@color/colorAccent</color>
     <color name="defaultDayLabelTextColor">@color/textColorPrimary</color>
     <color name="defaultTodayLabelTextColor">@color/textColorGreen</color>

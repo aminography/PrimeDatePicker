@@ -20,6 +20,7 @@ import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.screenSize
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
+import org.jetbrains.anko.support.v4.toast
 
 class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_picker_bottom_sheet), OnDayPickedListener {
 
@@ -35,7 +36,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
     private var onCancelListener: DialogInterface.OnCancelListener? = null
     private var onDismissListener: DialogInterface.OnDismissListener? = null
-    private var onDateSetListener: OnDateSetListener? = null
+    private var onDateSetListener: OnDayPickedListener? = null
 
     @SuppressLint("RestrictedApi")
     override fun setupDialog(dialog: Dialog, style: Int) {
@@ -92,7 +93,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                 pickedTextView.text = when (calendarType) {
                     CalendarType.CIVIL -> longDateString
                     CalendarType.PERSIAN, CalendarType.HIJRI ->
-                        PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(longDateString))
+                        PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
                 }
             }
 
@@ -102,6 +103,13 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                     singleLinearLayout.visibility = View.VISIBLE
                 }
                 PickType.START_RANGE, PickType.END_RANGE -> {
+                    if (calendarView.pickedStartRangeCalendar == null) {
+                        fromLinearLayout.isSelected = true
+                        toLinearLayout.isSelected = false
+                    } else {
+                        fromLinearLayout.isSelected = false
+                        toLinearLayout.isSelected = true
+                    }
                     rangeLinearLayout.visibility = View.VISIBLE
                     singleLinearLayout.visibility = View.GONE
                 }
@@ -112,17 +120,24 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
             positiveButton.setOnClickListener {
                 when (pickType) {
                     PickType.SINGLE -> {
-                        calendarView.pickedSingleDayCalendar?.apply {
-                            onDateSetListener?.onDateSet(this)
+                        if (pickedSingleDayCalendar == null) {
+                            toast("No day is selected!")
+                        } else {
+                            onDateSetListener?.onSingleDayPicked(pickedSingleDayCalendar!!)
+                            dismiss()
                         }
                     }
-                    PickType.START_RANGE ->{
-
+                    PickType.START_RANGE, PickType.END_RANGE -> {
+                        if (pickedStartRangeCalendar == null || pickedEndRangeCalendar == null) {
+                            toast("No range is selected!")
+                        } else {
+                            onDateSetListener?.onRangeDaysPicked(pickedStartRangeCalendar!!, pickedEndRangeCalendar!!)
+                            dismiss()
+                        }
                     }
-                    PickType.END_RANGE -> {}
-                    PickType.NOTHING -> {}
+                    PickType.NOTHING -> {
+                    }
                 }
-                dismiss()
             }
 
             negativeButton.setOnClickListener { dismiss() }
@@ -134,9 +149,13 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
             fromLinearLayout.setOnClickListener {
                 calendarView.pickType = PickType.START_RANGE
+                fromLinearLayout.isSelected = true
+                toLinearLayout.isSelected = false
             }
             toLinearLayout.setOnClickListener {
                 calendarView.pickType = PickType.END_RANGE
+                fromLinearLayout.isSelected = false
+                toLinearLayout.isSelected = true
             }
         }
     }
@@ -146,28 +165,31 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
             when (pickType) {
                 PickType.SINGLE -> {
                     singleDay?.apply {
+                        pickedSingleDayCalendar = singleDay
                         pickedTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> longDateString
+                            CalendarType.CIVIL -> shortDateString
                             CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(longDateString))
+                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
                         }
                     }
                 }
                 PickType.START_RANGE -> {
                     startDay?.apply {
+                        pickedStartRangeCalendar = startDay
                         fromTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> longDateString
+                            CalendarType.CIVIL -> shortDateString
                             CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(longDateString))
+                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
                         }
                     }
                 }
                 PickType.END_RANGE -> {
                     endDay?.apply {
+                        pickedEndRangeCalendar = endDay
                         toTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> longDateString
+                            CalendarType.CIVIL -> shortDateString
                             CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(longDateString))
+                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
                         }
                     }
                 }
@@ -202,14 +224,16 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
         this.onDismissListener = onDismissListener
     }
 
-    fun registerOnDateSetListener(onDateSetListener: OnDateSetListener): DatePickerBottomSheetDialogFragment {
-        this.onDateSetListener = onDateSetListener
+    fun registerOnDateSetListener(onDayPickedListener: OnDayPickedListener): DatePickerBottomSheetDialogFragment {
+        this.onDateSetListener = onDayPickedListener
         return this
     }
 
-    interface OnDateSetListener {
+    interface OnDayPickedListener {
 
-        fun onDateSet(calendar: BaseCalendar)
+        fun onSingleDayPicked(singleDay: BaseCalendar)
+
+        fun onRangeDaysPicked(startDay: BaseCalendar, endDay: BaseCalendar)
     }
 
     companion object {

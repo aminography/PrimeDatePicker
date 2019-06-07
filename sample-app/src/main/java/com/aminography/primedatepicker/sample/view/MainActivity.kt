@@ -30,9 +30,9 @@ class MainActivity : AppCompatActivity() {
 //                    pickType = PickType.SINGLE,
 //                    pickedSingleDayCalendar = today
 //            ).apply {
-//                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+//                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDayPickedListener {
 //
-//                    override fun onDateSet(calendar: BaseCalendar) {
+//                    override fun onSingleDayPicked(calendar: BaseCalendar) {
 //                        longToast(calendar.longDateString)
 //                    }
 //                })
@@ -47,9 +47,9 @@ class MainActivity : AppCompatActivity() {
 //                    pickType = PickType.SINGLE,
 //                    pickedSingleDayCalendar = today
 //            ).apply {
-//                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+//                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDayPickedListener {
 //
-//                    override fun onDateSet(calendar: BaseCalendar) {
+//                    override fun onSingleDayPicked(calendar: BaseCalendar) {
 //                        longToast(calendar.longDateString)
 //                    }
 //                })
@@ -64,9 +64,9 @@ class MainActivity : AppCompatActivity() {
 //                    pickType = PickType.SINGLE,
 //                    pickedSingleDayCalendar = today
 //            ).apply {
-//                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+//                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDayPickedListener {
 //
-//                    override fun onDateSet(calendar: BaseCalendar) {
+//                    override fun onSingleDayPicked(calendar: BaseCalendar) {
 //                        longToast(calendar.longDateString)
 //                    }
 //                })
@@ -119,10 +119,13 @@ class MainActivity : AppCompatActivity() {
                     pickType = pickType,
                     typefacePath = typeface
             ).apply {
-                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDateSetListener {
+                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDayPickedListener {
+                    override fun onSingleDayPicked(singleDay: BaseCalendar) {
+                        longToast(singleDay.longDateString)
+                    }
 
-                    override fun onDateSet(calendar: BaseCalendar) {
-                        longToast(calendar.longDateString)
+                    override fun onRangeDaysPicked(startDay: BaseCalendar, endDay: BaseCalendar) {
+                        longToast("From: ${startDay.longDateString}\nTo: ${endDay.longDateString}")
                     }
                 })
                 show(supportFragmentManager)

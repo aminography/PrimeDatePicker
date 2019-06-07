@@ -38,7 +38,7 @@ dependencies {
     //noinspection DifferentStdlibGradleVersion
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation 'com.aminography:primecalendar:1.0.8'
+    implementation 'com.aminography:primecalendar:1.0.9'
     implementation project(':library')
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
