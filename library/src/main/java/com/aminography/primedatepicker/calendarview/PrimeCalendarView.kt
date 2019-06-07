@@ -124,14 +124,14 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
-    override var pickedStartRangeCalendar: BaseCalendar? = null
+    override var pickedRangeStartCalendar: BaseCalendar? = null
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
 
-    override var pickedEndRangeCalendar: BaseCalendar? = null
+    override var pickedRangeEndCalendar: BaseCalendar? = null
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -150,16 +150,16 @@ class PrimeCalendarView @JvmOverloads constructor(
                             change = true
                         }
                     }
-                    pickedStartRangeCalendar?.let { start ->
+                    pickedRangeStartCalendar?.let { start ->
                         if (DateUtils.isBefore(start, min)) {
-                            pickedStartRangeCalendar = min
+                            pickedRangeStartCalendar = min
                             change = true
                         }
                     }
-                    pickedEndRangeCalendar?.let { end ->
+                    pickedRangeEndCalendar?.let { end ->
                         if (DateUtils.isBefore(end, min)) {
-                            pickedStartRangeCalendar = null
-                            pickedEndRangeCalendar = null
+                            pickedRangeStartCalendar = null
+                            pickedRangeEndCalendar = null
                             change = true
                         }
                     }
@@ -192,16 +192,16 @@ class PrimeCalendarView @JvmOverloads constructor(
                             change = true
                         }
                     }
-                    pickedStartRangeCalendar?.let { start ->
+                    pickedRangeStartCalendar?.let { start ->
                         if (DateUtils.isAfter(start, max)) {
-                            pickedStartRangeCalendar = null
-                            pickedEndRangeCalendar = null
+                            pickedRangeStartCalendar = null
+                            pickedRangeEndCalendar = null
                             change = true
                         }
                     }
-                    pickedEndRangeCalendar?.let { end ->
+                    pickedRangeEndCalendar?.let { end ->
                         if (DateUtils.isAfter(end, max)) {
-                            pickedEndRangeCalendar = max
+                            pickedRangeEndCalendar = max
                             change = true
                         }
                     }
@@ -228,15 +228,15 @@ class PrimeCalendarView @JvmOverloads constructor(
             doNotInvalidate {
                 when (value) {
                     PickType.SINGLE -> {
-                        pickedStartRangeCalendar = null
-                        pickedEndRangeCalendar = null
+                        pickedRangeStartCalendar = null
+                        pickedRangeEndCalendar = null
                     }
-                    PickType.START_RANGE -> pickedSingleDayCalendar = null
-                    PickType.END_RANGE -> pickedSingleDayCalendar = null
+                    PickType.RANGE_START -> pickedSingleDayCalendar = null
+                    PickType.RANGE_END -> pickedSingleDayCalendar = null
                     PickType.NOTHING -> {
                         pickedSingleDayCalendar = null
-                        pickedStartRangeCalendar = null
-                        pickedEndRangeCalendar = null
+                        pickedRangeStartCalendar = null
+                        pickedRangeEndCalendar = null
                     }
                 }
             }
@@ -541,23 +541,23 @@ class PrimeCalendarView @JvmOverloads constructor(
                     pickedSingleDayCalendar = singleDay
                     change = true
                 }
-                PickType.START_RANGE -> {
+                PickType.RANGE_START -> {
                     startDay?.apply {
-                        if (DateUtils.isAfter(startDay, pickedEndRangeCalendar)) {
-                            pickedEndRangeCalendar = null
+                        if (DateUtils.isAfter(startDay, pickedRangeEndCalendar)) {
+                            pickedRangeEndCalendar = null
                         }
                     }
-                    pickedStartRangeCalendar = startDay
+                    pickedRangeStartCalendar = startDay
                     change = true
                 }
-                PickType.END_RANGE -> {
+                PickType.RANGE_END -> {
                     if (endDay != null) {
-                        if (pickedStartRangeCalendar != null && !DateUtils.isBefore(endDay, pickedStartRangeCalendar)) {
-                            pickedEndRangeCalendar = endDay
+                        if (pickedRangeStartCalendar != null && !DateUtils.isBefore(endDay, pickedRangeStartCalendar)) {
+                            pickedRangeEndCalendar = endDay
                             change = true
                         }
                     } else {
-                        pickedEndRangeCalendar = endDay
+                        pickedRangeEndCalendar = endDay
                         change = true
                     }
                 }
@@ -579,8 +579,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             onDayPickedListener?.onDayPicked(
                     pickType,
                     pickedSingleDayCalendar,
-                    pickedStartRangeCalendar,
-                    pickedEndRangeCalendar
+                    pickedRangeStartCalendar,
+                    pickedRangeEndCalendar
             )
             pickedDaysChanged = false
         }
@@ -718,8 +718,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         savedState.pickType = pickType.name
         savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
-        savedState.pickedStartRangeCalendar = DateUtils.storeCalendar(pickedStartRangeCalendar)
-        savedState.pickedEndRangeCalendar = DateUtils.storeCalendar(pickedEndRangeCalendar)
+        savedState.pickedRangeStartCalendar = DateUtils.storeCalendar(pickedRangeStartCalendar)
+        savedState.pickedRangeEndCalendar = DateUtils.storeCalendar(pickedRangeEndCalendar)
 
         savedState.loadFactor = loadFactor
         savedState.maxTransitionLength = maxTransitionLength
@@ -752,8 +752,8 @@ class PrimeCalendarView @JvmOverloads constructor(
                 PickType.valueOf(it)
             } ?: PickType.NOTHING
             pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
-            pickedStartRangeCalendar = DateUtils.restoreCalendar(savedState.pickedStartRangeCalendar)
-            pickedEndRangeCalendar = DateUtils.restoreCalendar(savedState.pickedEndRangeCalendar)
+            pickedRangeStartCalendar = DateUtils.restoreCalendar(savedState.pickedRangeStartCalendar)
+            pickedRangeEndCalendar = DateUtils.restoreCalendar(savedState.pickedRangeEndCalendar)
 
             loadFactor = savedState.loadFactor
             maxTransitionLength = savedState.maxTransitionLength
@@ -784,8 +784,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         internal var pickType: String? = null
         internal var pickedSingleDayCalendar: String? = null
-        internal var pickedStartRangeCalendar: String? = null
-        internal var pickedEndRangeCalendar: String? = null
+        internal var pickedRangeStartCalendar: String? = null
+        internal var pickedRangeEndCalendar: String? = null
 
         internal var loadFactor: Int = 0
         internal var maxTransitionLength: Int = 0
@@ -811,8 +811,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
             pickType = input.readString()
             pickedSingleDayCalendar = input.readString()
-            pickedStartRangeCalendar = input.readString()
-            pickedEndRangeCalendar = input.readString()
+            pickedRangeStartCalendar = input.readString()
+            pickedRangeEndCalendar = input.readString()
 
             loadFactor = input.readInt()
             maxTransitionLength = input.readInt()
@@ -838,8 +838,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
             out.writeString(pickType)
             out.writeString(pickedSingleDayCalendar)
-            out.writeString(pickedStartRangeCalendar)
-            out.writeString(pickedEndRangeCalendar)
+            out.writeString(pickedRangeStartCalendar)
+            out.writeString(pickedRangeEndCalendar)
 
             out.writeInt(loadFactor)
             out.writeInt(maxTransitionLength)

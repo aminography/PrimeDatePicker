@@ -73,14 +73,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
-                android:padding="6dp">
+                android:padding="5dp">
 
                 <LinearLayout
                     android:id="@+id/singleLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="@dimen/material_size_4">
+                    android:padding="3dp">
 
                     <android.support.v7.widget.AppCompatTextView
                         android:layout_width="match_parent"
@@ -109,13 +109,13 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:id="@+id/fromLinearLayout"
+                        android:id="@+id/rangeStartLinearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/range_background_selector"
                         android:orientation="vertical"
-                        android:padding="@dimen/material_size_4">
+                        android:padding="3dp">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                             android:textSize="@dimen/text_size_small" />
 
                         <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/fromTextView"
+                            android:id="@+id/rangeStartTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -137,13 +137,13 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/toLinearLayout"
+                        android:id="@+id/rangeEndLinearLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/range_background_selector"
                         android:orientation="vertical"
-                        android:padding="@dimen/material_size_4">
+                        android:padding="3dp">
 
                         <android.support.v7.widget.AppCompatTextView
                             android:layout_width="match_parent"
@@ -155,7 +155,7 @@
                             android:textSize="@dimen/text_size_small" />
 
                         <android.support.v7.widget.AppCompatTextView
-                            android:id="@+id/toTextView"
+                            android:id="@+id/rangeEndTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"

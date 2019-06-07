@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
             val pickType = when {
                 singleRadioButton.isChecked -> PickType.SINGLE
-                rangeRadioButton.isChecked -> PickType.START_RANGE
+                rangeRadioButton.isChecked -> PickType.RANGE_START
                 else -> PickType.SINGLE
             }
 

@@ -5,7 +5,7 @@ package com.aminography.primedatepicker
  */
 enum class PickType {
     SINGLE,
-    START_RANGE,
-    END_RANGE,
+    RANGE_START,
+    RANGE_END,
     NOTHING
 }

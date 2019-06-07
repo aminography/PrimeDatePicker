@@ -16,9 +16,9 @@ interface IMonthViewHolderCallback: OnDayPickedListener {
 
     val pickType: PickType
 
-    val pickedStartRangeCalendar: BaseCalendar?
+    val pickedRangeStartCalendar: BaseCalendar?
 
-    val pickedEndRangeCalendar: BaseCalendar?
+    val pickedRangeEndCalendar: BaseCalendar?
 
     val pickedSingleDayCalendar: BaseCalendar?
 

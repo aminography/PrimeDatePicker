@@ -128,13 +128,13 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             startRangeRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
-                    monthView.pickType = PickType.START_RANGE
+                    monthView.pickType = PickType.RANGE_START
                 }
             }
             endRangeRadioButton.setOnCheckedChangeListener { button, isChecked ->
                 if (button.isPressed && isChecked) {
                     closeDrawer()
-                    monthView.pickType = PickType.END_RANGE
+                    monthView.pickType = PickType.RANGE_END
                 }
             }
         }
@@ -211,8 +211,8 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
             monthView.invalidateAfter {
                 monthView.pickedSingleDayCalendar = null
-                monthView.pickedStartRangeCalendar = null
-                monthView.pickedEndRangeCalendar = null
+                monthView.pickedRangeStartCalendar = null
+                monthView.pickedRangeEndCalendar = null
                 monthView.pickType = PickType.NOTHING
                 monthView.minDateCalendar = null
                 monthView.maxDateCalendar = null
@@ -237,12 +237,12 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                         pickedTextView.text = "Single Day: $longDateString"
                     }
                 }
-                PickType.START_RANGE, PickType.END_RANGE -> {
-                    monthView.pickedStartRangeCalendar?.let { start ->
+                PickType.RANGE_START, PickType.RANGE_END -> {
+                    monthView.pickedRangeStartCalendar?.let { start ->
                         endRangeRadioButton.isEnabled = true
                         pickedTextView.visibility = View.VISIBLE
                         var text = "Start Range Day: ${start.longDateString}"
-                        monthView.pickedEndRangeCalendar?.let { end ->
+                        monthView.pickedRangeEndCalendar?.let { end ->
                             text += "\n"
                             text += "End Range Day: ${end.longDateString}"
                         }

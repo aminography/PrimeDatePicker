@@ -17,8 +17,8 @@ internal object MonthViewUtils {
             dayOfMonth: Int,
             pickType: PickType,
             pickedSingleDayCalendar: BaseCalendar?,
-            pickedStartRangeCalendar: BaseCalendar?,
-            pickedEndRangeCalendar: BaseCalendar?
+            pickedRangeStartCalendar: BaseCalendar?,
+            pickedRangeEndCalendar: BaseCalendar?
     ): PrimeMonthView.PickedDayState {
 
         when (pickType) {
@@ -29,22 +29,22 @@ internal object MonthViewUtils {
                     }
                 }
             }
-            PickType.START_RANGE, PickType.END_RANGE -> {
-                pickedStartRangeCalendar?.let { start ->
+            PickType.RANGE_START, PickType.RANGE_END -> {
+                pickedRangeStartCalendar?.let { start ->
                     if (DateUtils.isSame(year, month, dayOfMonth, start)) {
-                        return if (pickedEndRangeCalendar == null) {
+                        return if (pickedRangeEndCalendar == null) {
                             PrimeMonthView.PickedDayState.START_OF_RANGE_SINGLE
                         } else {
-                            if (DateUtils.isSame(start, pickedEndRangeCalendar)) {
+                            if (DateUtils.isSame(start, pickedRangeEndCalendar)) {
                                 PrimeMonthView.PickedDayState.START_OF_RANGE_SINGLE
                             } else {
                                 PrimeMonthView.PickedDayState.START_OF_RANGE
                             }
                         }
-                    } else if (pickedEndRangeCalendar != null) {
-                        if (DateUtils.isSame(year, month, dayOfMonth, pickedEndRangeCalendar)) {
+                    } else if (pickedRangeEndCalendar != null) {
+                        if (DateUtils.isSame(year, month, dayOfMonth, pickedRangeEndCalendar)) {
                             return PrimeMonthView.PickedDayState.END_OF_RANGE
-                        } else if (DateUtils.isBetweenExclusive(year, month, dayOfMonth, start, pickedEndRangeCalendar)) {
+                        } else if (DateUtils.isBetweenExclusive(year, month, dayOfMonth, start, pickedRangeEndCalendar)) {
                             return PrimeMonthView.PickedDayState.IN_RANGE
                         }
                     } else {

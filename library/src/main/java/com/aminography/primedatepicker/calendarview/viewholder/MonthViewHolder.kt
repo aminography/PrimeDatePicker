@@ -32,8 +32,8 @@ class MonthViewHolder(
                         monthView.minDateCalendar = minDateCalendar
                         monthView.maxDateCalendar = maxDateCalendar
                         monthView.pickedSingleDayCalendar = pickedSingleDayCalendar
-                        monthView.pickedStartRangeCalendar = pickedStartRangeCalendar
-                        monthView.pickedEndRangeCalendar = pickedEndRangeCalendar
+                        monthView.pickedRangeStartCalendar = pickedRangeStartCalendar
+                        monthView.pickedRangeEndCalendar = pickedRangeEndCalendar
                         monthView.pickType = pickType
                     }
                 }
