@@ -280,7 +280,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     private fun currentItemCalendar(): BaseCalendar? = findFirstVisibleItem()?.run {
         val calendar = CalendarFactory.newInstance(calendarType)
-        calendar.setDate(year, month, 1)
+        calendar.set(year, month, 1)
         return calendar
     }
 

@@ -507,7 +507,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType)
         firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType).apply {
-            setDate(year, month, 1)
+            set(year, month, 1)
             firstDayOfMonthDayOfWeek = get(Calendar.DAY_OF_WEEK)
         }
 
@@ -892,7 +892,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
                         val calendar = CalendarFactory.newInstance(calendarType)
-                        calendar.setDate(year, month, dayOfMonth)
+                        calendar.set(year, month, dayOfMonth)
                         onDayClicked(calendar)
                     }
                 }

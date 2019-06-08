@@ -105,7 +105,7 @@ object DateUtils {
             input?.run {
                 split("-").let {
                     CalendarFactory.newInstance(CalendarType.valueOf(it[0])).apply {
-                        setDate(it[1].toInt(), it[2].toInt(), it[3].toInt())
+                        set(it[1].toInt(), it[2].toInt(), it[3].toInt())
                     }
                 }
             }

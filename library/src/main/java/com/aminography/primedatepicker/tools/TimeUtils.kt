@@ -28,7 +28,7 @@ object TimeUtils {
                 }
 
                 val calendar = CalendarFactory.newInstance(calendarType)
-                calendar.setDate(year, month, day)
+                calendar.set(year, month, day)
                 return calendar
             }
         }
