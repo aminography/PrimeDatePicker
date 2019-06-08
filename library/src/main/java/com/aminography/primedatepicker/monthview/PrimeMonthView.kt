@@ -532,13 +532,13 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun updateRowCount() {
-        val offset = weekOffset(firstDayOfMonthDayOfWeek)
+        val offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
         val dividend = (offset + daysInMonth) / columnCount
         val remainder = (offset + daysInMonth) % columnCount
         rowCount = dividend + if (remainder > 0) 1 else 0
     }
 
-    private fun weekOffset(dayOfWeek: Int): Int {
+    private fun adjustDayOfWeekOffset(dayOfWeek: Int): Int {
         val day = if (dayOfWeek < weekStartDay) dayOfWeek + 7 else dayOfWeek
         return (day - weekStartDay) % 7
     }
@@ -696,7 +696,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun drawDayLabels(canvas: Canvas) {
         var topY: Float = (paddingTop + monthHeaderHeight + weekHeaderHeight).toFloat()
-        var offset = weekOffset(firstDayOfMonthDayOfWeek)
+        var offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
         val radius = Math.min(cellWidth, cellHeight) / 2 - dp(2f)
 
         val xPositionList = arrayListOf<Float>().apply {
@@ -956,7 +956,7 @@ class PrimeMonthView @JvmOverloads constructor(
             Direction.RTL -> columnCount - 1 - column
         }
 
-        var day = column - weekOffset(firstDayOfMonthDayOfWeek) + 1
+        var day = column - adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek) + 1
         day += row * columnCount
 
         return if (day < 1 || day > daysInMonth) {
