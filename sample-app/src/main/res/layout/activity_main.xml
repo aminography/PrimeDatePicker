@@ -6,222 +6,36 @@
     tools:context=".view.MainActivity"
     tools:ignore="RtlHardcoded">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <LinearLayout
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/datePickerButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="16dp">
+            android:layout_gravity="center"
+            android:text="DatePicker"
+            android:textAllCaps="false" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:text="Calendar Type"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold" />
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/calendarViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Stand Alone CalendarView"
+            android:textAllCaps="false" />
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp">
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/monthViewButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Stand Alone MonthView"
+            android:textAllCaps="false" />
 
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/civilRadioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:paddingLeft="16dp"
-                    android:text="Civil"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/persianRadioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:text="Persian"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/hijriRadioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:text="Hijri"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:background="@color/colorDivider" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:text="Picker Type"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold" />
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp">
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/singleRadioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:paddingLeft="16dp"
-                    android:text="Single Day"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <android.support.v7.widget.AppCompatRadioButton
-                    android:id="@+id/rangeRadioButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:text="Range of Days"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </RadioGroup>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:background="@color/colorDivider" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:text="Date Boundary"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp">
-
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/minDateCheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:text="Min Date: 5 months earlier"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <android.support.v7.widget.AppCompatCheckBox
-                    android:id="@+id/maxDateCheckBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:text="Max Date: 5 months later"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/showDatePickerButton"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/material_size_16"
-                android:layout_marginTop="@dimen/material_size_16"
-                android:layout_marginRight="@dimen/material_size_16"
-                android:text="Show Date Picker" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1px"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                android:background="@color/colorDivider" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:text="Stand Alone Views"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="@dimen/text_size_normal"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/material_size_16"
-                android:layout_marginTop="@dimen/material_size_16"
-                android:layout_marginRight="@dimen/material_size_16"
-                android:orientation="horizontal">
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/calendarViewButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/material_size_16"
-                    android:layout_weight="1"
-                    android:text="Calendar View" />
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/monthViewButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="@dimen/material_size_16"
-                    android:layout_weight="1"
-                    android:text="Month View" />
-
-            </LinearLayout>
-
-            <Space
-                android:layout_width="24dp"
-                android:layout_height="24dp" />
-
-        </LinearLayout>
-
-    </ScrollView>
+    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

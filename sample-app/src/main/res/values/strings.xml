@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">PrimeDatePicker [Kotlin Sample]</string>
-    <string name="title_calendar_activity">Stand Alone CalendarView</string>
-    <string name="title_month_activity">Stand Alone MonthView</string>
+    <string name="title_date_picker_activity">DatePicker</string>
+    <string name="title_calendar_activity">CalendarView</string>
+    <string name="title_month_activity">MonthView</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
