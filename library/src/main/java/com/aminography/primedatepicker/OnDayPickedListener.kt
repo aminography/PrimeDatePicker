@@ -1,12 +1,12 @@
 package com.aminography.primedatepicker
 
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 
 /**
  * @author aminography
  */
 interface OnDayPickedListener {
 
-    fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?)
+    fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?)
 
 }

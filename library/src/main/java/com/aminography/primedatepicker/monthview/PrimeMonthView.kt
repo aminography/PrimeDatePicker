@@ -16,7 +16,7 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.Direction
@@ -76,8 +76,8 @@ class PrimeMonthView @JvmOverloads constructor(
     private var rowCount = 6
     private var columnCount = 7
 
-    private var dayOfWeekLabelCalendar: BaseCalendar? = null
-    private var firstDayOfMonthCalendar: BaseCalendar? = null
+    private var dayOfWeekLabelCalendar: PrimeCalendar? = null
+    private var firstDayOfMonthCalendar: PrimeCalendar? = null
 
     // Listeners -----------------------------------------------------------------------------------
 
@@ -229,21 +229,21 @@ class PrimeMonthView @JvmOverloads constructor(
             if (invalidate) invalidate()
         }
 
-    var pickedSingleDayCalendar: BaseCalendar? = null
+    var pickedSingleDayCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             if (invalidate) invalidate()
             notifyDayPicked(true)
         }
 
-    var pickedRangeStartCalendar: BaseCalendar? = null
+    var pickedRangeStartCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             if (invalidate) invalidate()
             notifyDayPicked(true)
         }
 
-    var pickedRangeEndCalendar: BaseCalendar? = null
+    var pickedRangeEndCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             if (invalidate) invalidate()
@@ -272,7 +272,7 @@ class PrimeMonthView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
-    var minDateCalendar: BaseCalendar? = null
+    var minDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             var change = false
@@ -303,7 +303,7 @@ class PrimeMonthView @JvmOverloads constructor(
             notifyDayPicked(change)
         }
 
-    var maxDateCalendar: BaseCalendar? = null
+    var maxDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             var change = false
@@ -493,7 +493,7 @@ class PrimeMonthView @JvmOverloads constructor(
         drawDayLabels(canvas)
     }
 
-    fun setDate(calendar: BaseCalendar) {
+    fun setDate(calendar: PrimeCalendar) {
         setDate(calendar.calendarType, calendar.year, calendar.month)
     }
 
@@ -901,7 +901,7 @@ class PrimeMonthView @JvmOverloads constructor(
         return true
     }
 
-    private fun onDayClicked(calendar: BaseCalendar) {
+    private fun onDayClicked(calendar: PrimeCalendar) {
         calendar.apply {
             var change = false
             invalidateAfter {

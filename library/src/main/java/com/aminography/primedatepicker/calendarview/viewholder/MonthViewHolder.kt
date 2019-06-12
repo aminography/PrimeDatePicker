@@ -2,7 +2,7 @@ package com.aminography.primedatepicker.calendarview.viewholder
 
 import com.aminography.primeadapter.PrimeViewHolder
 import com.aminography.primeadapter.callback.PrimeDelegate
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
@@ -42,7 +42,7 @@ class MonthViewHolder(
         }
     }
 
-    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
+    override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
         callback?.onDayPicked(pickType, singleDay, startDay, endDay)
     }
 

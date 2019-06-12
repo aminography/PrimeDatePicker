@@ -5,13 +5,13 @@ import android.content.res.Configuration
 import android.graphics.Point
 import android.view.Display
 import android.view.WindowManager
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 
 /**
  * @author aminography
  */
 
-fun BaseCalendar.monthOffset(): Int =
+fun PrimeCalendar.monthOffset(): Int =
         year * 12 + month
 
 fun Context.isDisplayLandscape(): Boolean = (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)

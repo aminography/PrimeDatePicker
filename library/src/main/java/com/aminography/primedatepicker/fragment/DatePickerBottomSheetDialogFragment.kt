@@ -10,7 +10,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
@@ -170,7 +170,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
         }
     }
 
-    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
+    override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
         with(rootView) {
             when (pickType) {
                 PickType.SINGLE -> {
@@ -238,21 +238,21 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
     interface OnDayPickedListener {
 
-        fun onSingleDayPicked(singleDay: BaseCalendar)
+        fun onSingleDayPicked(singleDay: PrimeCalendar)
 
-        fun onRangeDaysPicked(startDay: BaseCalendar, endDay: BaseCalendar)
+        fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar)
     }
 
     companion object {
 
         fun newInstance(
-                currentDateCalendar: BaseCalendar,
-                minDateCalendar: BaseCalendar? = null,
-                maxDateCalendar: BaseCalendar? = null,
+                currentDateCalendar: PrimeCalendar,
+                minDateCalendar: PrimeCalendar? = null,
+                maxDateCalendar: PrimeCalendar? = null,
                 pickType: PickType,
-                pickedSingleDayCalendar: BaseCalendar? = null,
-                pickedRangeStartCalendar: BaseCalendar? = null,
-                pickedRangeEndCalendar: BaseCalendar? = null,
+                pickedSingleDayCalendar: PrimeCalendar? = null,
+                pickedRangeStartCalendar: PrimeCalendar? = null,
+                pickedRangeEndCalendar: PrimeCalendar? = null,
                 typefacePath: String? = null
         ): DatePickerBottomSheetDialogFragment {
             val fragment = DatePickerBottomSheetDialogFragment()

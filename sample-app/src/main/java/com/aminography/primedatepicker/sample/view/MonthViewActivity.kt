@@ -7,7 +7,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
@@ -226,7 +226,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private fun closeDrawer() = drawerLayout.closeDrawer(GravityCompat.START)
 
-    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
+    override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
         with(navigationLayout) {
             endRangeRadioButton.isEnabled = false
             pickedTextView.text = ""

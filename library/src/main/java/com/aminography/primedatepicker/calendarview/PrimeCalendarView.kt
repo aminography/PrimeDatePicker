@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.aminography.primeadapter.PrimeAdapter
 import com.aminography.primeadapter.PrimeDataHolder
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.Direction
@@ -117,28 +117,28 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
-    override var pickedSingleDayCalendar: BaseCalendar? = null
+    override var pickedSingleDayCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
 
-    override var pickedRangeStartCalendar: BaseCalendar? = null
+    override var pickedRangeStartCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
 
-    override var pickedRangeEndCalendar: BaseCalendar? = null
+    override var pickedRangeEndCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
 
-    override var minDateCalendar: BaseCalendar? = null
+    override var minDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             var change = false
@@ -180,7 +180,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(change)
         }
 
-    override var maxDateCalendar: BaseCalendar? = null
+    override var maxDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
             var change = false
@@ -278,7 +278,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     // ---------------------------------------------------------------------------------------------
 
-    private fun currentItemCalendar(): BaseCalendar? = findFirstVisibleItem()?.run {
+    private fun currentItemCalendar(): PrimeCalendar? = findFirstVisibleItem()?.run {
         val calendar = CalendarFactory.newInstance(calendarType)
         calendar.set(year, month, 1)
         return calendar
@@ -429,7 +429,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
     }
 
-    fun goto(calendar: BaseCalendar, animate: Boolean = false): Boolean {
+    fun goto(calendar: PrimeCalendar, animate: Boolean = false): Boolean {
         return goto(calendar.year, calendar.month, animate)
     }
 
@@ -533,7 +533,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         recyclerView.isVerticalFadingEdgeEnabled = verticalFadingEdgeEnabled
     }
 
-    override fun onDayPicked(pickType: PickType, singleDay: BaseCalendar?, startDay: BaseCalendar?, endDay: BaseCalendar?) {
+    override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
         var change = false
         invalidateAfter {
             when (pickType) {

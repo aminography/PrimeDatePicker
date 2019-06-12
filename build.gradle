@@ -40,7 +40,7 @@ ext {
 
     publishedGroupId = 'com.aminography'
     artifact = 'primedatepicker'
-    libraryVersion = "1.0.1"
+    libraryVersion = "1.0.2"
 
     libraryName = 'PrimeDatePicker'
     libraryDescription = 'PrimeDatePicker is a date picker tool.'

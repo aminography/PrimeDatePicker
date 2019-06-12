@@ -1,7 +1,7 @@
 package com.aminography.primedatepicker.calendarview
 
 import com.aminography.primeadapter.PrimeDataHolder
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.tools.monthOffset
@@ -13,7 +13,7 @@ import com.aminography.primedatepicker.tools.monthOffset
 @Suppress("MemberVisibilityCanBePrivate")
 internal object CalendarViewUtils {
 
-    fun extendMoreList(calendarType: CalendarType, year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int, isForward: Boolean): MutableList<PrimeDataHolder> {
+    fun extendMoreList(calendarType: CalendarType, year: Int, month: Int, minDateCalendar: PrimeCalendar?, maxDateCalendar: PrimeCalendar?, loadFactor: Int, isForward: Boolean): MutableList<PrimeDataHolder> {
         return if (isForward) {
             val offset = (year * 12 + month) + 1
             val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
@@ -29,7 +29,7 @@ internal object CalendarViewUtils {
         }
     }
 
-    fun createPivotList(calendarType: CalendarType, year: Int, month: Int, minDateCalendar: BaseCalendar?, maxDateCalendar: BaseCalendar?, loadFactor: Int): MutableList<PrimeDataHolder> {
+    fun createPivotList(calendarType: CalendarType, year: Int, month: Int, minDateCalendar: PrimeCalendar?, maxDateCalendar: PrimeCalendar?, loadFactor: Int): MutableList<PrimeDataHolder> {
         val centerOffset = year * 12 + month
 
         val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE

@@ -2,7 +2,7 @@ package com.aminography.primedatepicker.sample.view
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
@@ -36,7 +36,7 @@ class DatePickerActivity : AppCompatActivity() {
                 else -> PickType.SINGLE
             }
 
-            val minDateCalendar: BaseCalendar?
+            val minDateCalendar: PrimeCalendar?
             if (minDateCheckBox.isChecked) {
                 minDateCalendar = CalendarFactory.newInstance(calendarType)
                 minDateCalendar.add(Calendar.MONTH, -5)
@@ -44,7 +44,7 @@ class DatePickerActivity : AppCompatActivity() {
                 minDateCalendar = null
             }
 
-            val maxDateCalendar: BaseCalendar?
+            val maxDateCalendar: PrimeCalendar?
             if (maxDateCheckBox.isChecked) {
                 maxDateCalendar = CalendarFactory.newInstance(calendarType)
                 maxDateCalendar.add(Calendar.MONTH, +5)
@@ -68,11 +68,11 @@ class DatePickerActivity : AppCompatActivity() {
                     typefacePath = typeface
             ).apply {
                 registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDayPickedListener {
-                    override fun onSingleDayPicked(singleDay: BaseCalendar) {
+                    override fun onSingleDayPicked(singleDay: PrimeCalendar) {
                         longToast(singleDay.longDateString)
                     }
 
-                    override fun onRangeDaysPicked(startDay: BaseCalendar, endDay: BaseCalendar) {
+                    override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
                         longToast("From: ${startDay.longDateString}\nTo: ${endDay.longDateString}")
                     }
                 })

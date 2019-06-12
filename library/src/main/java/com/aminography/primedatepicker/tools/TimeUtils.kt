@@ -1,6 +1,6 @@
 package com.aminography.primedatepicker.tools
 
-import com.aminography.primecalendar.base.BaseCalendar
+import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 
@@ -9,10 +9,10 @@ import com.aminography.primecalendar.common.CalendarType
  */
 object TimeUtils {
 
-    fun formatSimpleDate(calendar: BaseCalendar): String =
+    fun formatSimpleDate(calendar: PrimeCalendar): String =
             "${calendar.dayOfMonth} ${calendar.monthName} ${calendar.year}"
 
-    fun extractDate(date: String?, calendarType: CalendarType): BaseCalendar {
+    fun extractDate(date: String?, calendarType: CalendarType): PrimeCalendar {
         if (date != null && !date.isEmpty()) {
             val split = date.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             if (split.size == 3) {
