@@ -1,5 +1,6 @@
 package com.aminography.primedatepicker.sample.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.PrimeCalendar
@@ -16,7 +17,7 @@ import org.jetbrains.anko.longToast
 import java.util.*
 
 
-class DatePickerActivity : AppCompatActivity() {
+class DatePickerActivity : AppCompatActivity(), DatePickerBottomSheetDialogFragment.OnDayPickedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,26 +61,31 @@ class DatePickerActivity : AppCompatActivity() {
 
             val today = CalendarFactory.newInstance(calendarType)
 
-            DatePickerBottomSheetDialogFragment.newInstance(
+            datePicker = DatePickerBottomSheetDialogFragment.newInstance(
                     currentDateCalendar = today,
                     minDateCalendar = minDateCalendar,
                     maxDateCalendar = maxDateCalendar,
                     pickType = pickType,
                     typefacePath = typeface
-            ).apply {
-                registerOnDateSetListener(object : DatePickerBottomSheetDialogFragment.OnDayPickedListener {
-                    override fun onSingleDayPicked(singleDay: PrimeCalendar) {
-                        longToast(singleDay.longDateString)
-                    }
-
-                    override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
-                        longToast("From: ${startDay.longDateString}\nTo: ${endDay.longDateString}")
-                    }
-                })
-                show(supportFragmentManager)
-            }
+            )
+            datePicker?.setOnDateSetListener(this)
+            datePicker?.show(supportFragmentManager)
         }
 
+        datePicker?.setOnDateSetListener(this)
+    }
+
+    override fun onSingleDayPicked(singleDay: PrimeCalendar) {
+        longToast(singleDay.longDateString)
+    }
+
+    override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
+        longToast("From: ${startDay.longDateString}\nTo: ${endDay.longDateString}")
+    }
+
+    companion object {
+        @SuppressLint("StaticFieldLeak")
+        private var datePicker: DatePickerBottomSheetDialogFragment? = null
     }
 
 }

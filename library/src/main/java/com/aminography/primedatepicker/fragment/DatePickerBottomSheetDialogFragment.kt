@@ -24,10 +24,6 @@ import org.jetbrains.anko.support.v4.toast
 
 class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_picker_bottom_sheet), OnDayPickedListener {
 
-    private var onCancelListener: DialogInterface.OnCancelListener? = null
-    private var onDismissListener: DialogInterface.OnDismissListener? = null
-    private var onDayPickedListener: OnDayPickedListener? = null
-
     @SuppressLint("RestrictedApi")
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
@@ -118,7 +114,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
 
     override fun onResume() {
         super.onResume()
-        with(rootView){
+        with(rootView) {
             when (calendarView.pickType) {
                 PickType.SINGLE -> {
                     rangeLinearLayout.visibility = View.GONE
@@ -216,23 +212,18 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
         onDismissListener?.onDismiss(dialog)
     }
 
-    /**
-     * Sets the minimal date supported by this DatePicker. Dates before (but not including) the
-     * specified date will be disallowed from being selected.
-     *
-     * @param calendar a Calendar object set to the year, month, day desired as the mindate.
-     */
-
-    fun setOnCancelListener(onCancelListener: DialogInterface.OnCancelListener) {
-        this.onCancelListener = onCancelListener
+    fun setOnCancelListener(listener: DialogInterface.OnCancelListener): DatePickerBottomSheetDialogFragment {
+        onCancelListener = listener
+        return this
     }
 
-    fun setOnDismissListener(onDismissListener: DialogInterface.OnDismissListener) {
-        this.onDismissListener = onDismissListener
+    fun setOnDismissListener(listener: DialogInterface.OnDismissListener): DatePickerBottomSheetDialogFragment {
+        onDismissListener = listener
+        return this
     }
 
-    fun registerOnDateSetListener(onDayPickedListener: OnDayPickedListener): DatePickerBottomSheetDialogFragment {
-        this.onDayPickedListener = onDayPickedListener
+    fun setOnDateSetListener(listener: OnDayPickedListener): DatePickerBottomSheetDialogFragment {
+        onDayPickedListener = listener
         return this
     }
 
@@ -244,6 +235,10 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
     }
 
     companion object {
+
+        private var onCancelListener: DialogInterface.OnCancelListener? = null
+        private var onDismissListener: DialogInterface.OnDismissListener? = null
+        private var onDayPickedListener: OnDayPickedListener? = null
 
         fun newInstance(
                 currentDateCalendar: PrimeCalendar,
