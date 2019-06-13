@@ -38,7 +38,7 @@ dependencies {
     implementation 'org.jetbrains.anko:anko-design:0.10.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation 'com.aminography:primecalendar:1.2.2'
+    implementation 'com.aminography:primecalendar:1.2.3'
 
     implementation 'com.aminography:primeadapter:1.0.6'
     compileOnly 'com.aminography:primeadapter-annotation:1.0.6'
