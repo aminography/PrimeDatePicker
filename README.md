@@ -13,10 +13,7 @@
   
 Download
 --------
-**`PrimeDatePicker`** is available on bintray to download using build tools systems.
-
-### • Gradle
-Add the following lines to your `build.gradle` file:
+**`PrimeDatePicker`** is available on bintray to download using build tools systems. Add the following lines to your `build.gradle` file:
 
 ```gradle
 repositories {
