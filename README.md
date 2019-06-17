@@ -4,7 +4,7 @@
 
 ![](static/prime_logo.png)
 
-![](http://giphygifs.s3.amazonaws.com/media/4T5vgfjnM1XkDmIWUe/giphy.gif)
+![](static/picking_range.gif)
   
 To change texts of date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
   
