@@ -4,7 +4,7 @@
 
 ![](static/prime_logo.png)
 
-| Picking Single | Picking Range |
+| Pick a Single Day | Pick a Range of Days |
 | --- | --- |
 | ![](static/picking_single.gif) | ![](static/picking_range.gif) | 
 
