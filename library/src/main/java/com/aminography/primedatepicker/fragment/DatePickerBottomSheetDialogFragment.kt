@@ -63,7 +63,12 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                 }
             }
 
-            calendarView.typeface = Typeface.createFromAsset(activityContext.assets, typefacePath)
+            Typeface.createFromAsset(activityContext.assets, typefacePath).apply {
+                calendarView.typeface = this
+                pickedTextView.typeface = this
+                rangeStartTextView.typeface = this
+                rangeEndTextView.typeface = this
+            }
 
             calendarView.onDayPickedListener = this@DatePickerBottomSheetDialogFragment
             calendarView.goto(currentDateCalendar!!)
