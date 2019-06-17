@@ -169,6 +169,8 @@ Attributes
 
 #### PrimeCalendarView
 
+The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in addition to below ones.
+
 <table>
 
   <tr>
