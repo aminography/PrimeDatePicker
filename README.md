@@ -18,6 +18,146 @@ dependencies {
 }
 ```
 
+Attributes
+----------
+
+<table>
+
+  <tr>
+    <td><b>Attribute</b></td>
+    <td><b>Type</b></td>
+  </tr>
+  
+  <tr>
+    <td><b>• monthLabelTextColor</b></td>
+    <td>color</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• weekLabelTextColor</b></td>
+    <td>color</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dayLabelTextColor</b></td>
+    <td>color</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• todayLabelTextColor</b></td>
+    <td>color</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• pickedDayLabelTextColor</b></td>
+    <td>color</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• pickedDayCircleColor</b></td>
+    <td>color</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• disabledDayLabelTextColor</b></td>
+    <td>color</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• monthLabelTextSize</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• weekLabelTextSize</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dayLabelTextSize</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• monthLabelTopPadding</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• monthLabelBottomPadding</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• weekLabelTopPadding</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• weekLabelBottomPadding</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dayLabelVerticalPadding</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• showTwoWeeksInLandscape</b></td>
+    <td>boolean</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+</table>
+
 License
 --------
 ```
