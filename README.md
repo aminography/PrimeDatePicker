@@ -25,10 +25,11 @@ dependencies {
 
 Customization
 --------------
-To change texts of date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+Descriptions
 
-Attributes
-----------
+## Attributes
+Descriptions
+
 ### Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
 
 <table>
@@ -269,6 +270,10 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
   </tr>
   
 </table>
+
+### Strings
+To change texts of date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+
 
 License
 --------
