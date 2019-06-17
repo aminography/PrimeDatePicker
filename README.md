@@ -29,7 +29,7 @@ To change texts of date picker bottom sheet, define strings in your project's `s
 
 Attributes
 ----------
-## Common attributes for `PrimeMonthView` and `PrimeCalendarView`:
+### Common attributes for `PrimeMonthView` and `PrimeCalendarView`:
 
 <table>
 
@@ -176,7 +176,8 @@ Attributes
   
 </table>
 
-## `PrimeCalendarView` Attributes:
+
+### `PrimeCalendarView` Attributes:
 
 The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in addition to below ones.
 
