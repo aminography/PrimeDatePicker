@@ -27,7 +27,7 @@ Customization
 --------------
 Descriptions
 
-### View Attributes
+### 1. View Attributes
 Descriptions
 
 #### Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
@@ -271,7 +271,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
   
 </table>
 
-### Strings
+### 2. Strings
 To change texts of date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 
