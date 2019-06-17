@@ -633,17 +633,11 @@ class PrimeMonthView @JvmOverloads constructor(
             val x = xPositionList[i]
 
             dayOfWeekLabelCalendar?.set(Calendar.DAY_OF_WEEK, dayOfWeek % 7)
-            val localWeekDisplayName = dayOfWeekLabelCalendar?.weekDayName
-
-            val weekString = when (calendarType) {
-                CalendarType.CIVIL -> localWeekDisplayName?.substring(0, 2)
-                CalendarType.PERSIAN -> localWeekDisplayName?.substring(0, 1)
-                CalendarType.HIJRI -> localWeekDisplayName?.substring(2, 4)
-            } ?: "?"
+            val weekDisplayName = dayOfWeekLabelCalendar?.weekDayNameShort ?: ""
 
             weekLabelPaint?.apply {
                 canvas.drawText(
-                        weekString,
+                        weekDisplayName,
                         x,
                         y,
                         this
