@@ -179,27 +179,11 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
   </tr>
   
   <tr>
-    <td><b>• loadFactor</b></td>
-    <td>integer</td>
+    <td><b>• flingOrientation</b></td>
+    <td>enum</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
-  </tr>
-  
-  <tr>
-    <td><b>• maxTransitionLength</b></td>
-    <td>integer</td>
-  </tr>
-  <tr>
-    <td colspan="2"><i>Descriptions</i></td>
-  </tr>
-  
-  <tr>
-    <td><b>• transitionSpeedFactor</b></td>
-    <td>float</td>
-  </tr>
-  <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>vertical, horizontal</i></td>
   </tr>
   
   <tr>
@@ -251,11 +235,27 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
   </tr>
   
   <tr>
-    <td><b>• flingOrientation</b></td>
-    <td>enum</td>
+    <td><b>• loadFactor</b></td>
+    <td>integer</td>
   </tr>
   <tr>
-    <td colspan="2"><i>vertical, horizontal</i></td>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• maxTransitionLength</b></td>
+    <td>integer</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• transitionSpeedFactor</b></td>
+    <td>float</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
   </tr>
   
 </table>
