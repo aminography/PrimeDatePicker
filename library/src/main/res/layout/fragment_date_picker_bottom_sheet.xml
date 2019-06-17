@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:alpha="0.65"
                         android:gravity="center"
-                        android:text="@string/selected_day"
+                        android:text="@string/prime_date_picker_selected_day"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_small" />
 
@@ -97,6 +97,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:includeFontPadding="false"
+                        android:paddingTop="@dimen/material_size_2"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_normal" />
 
@@ -123,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:alpha="0.65"
                             android:gravity="center"
-                            android:text="@string/from"
+                            android:text="@string/prime_date_picker_from"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_small" />
 
@@ -133,6 +134,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:includeFontPadding="false"
+                            android:paddingTop="@dimen/material_size_2"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_normal" />
 
@@ -152,7 +154,7 @@
                             android:layout_height="wrap_content"
                             android:alpha="0.65"
                             android:gravity="center"
-                            android:text="@string/to"
+                            android:text="@string/prime_date_picker_to"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_small" />
 
@@ -162,6 +164,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:includeFontPadding="false"
+                            android:paddingTop="@dimen/material_size_2"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_size_normal" />
 
