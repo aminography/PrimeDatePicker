@@ -112,13 +112,13 @@ class PrimeMonthView @JvmOverloads constructor(
             if (invalidate) invalidate()
         }
 
-    var selectedDayLabelTextColor: Int = 0
+    var pickedDayLabelTextColor: Int = 0
         set(value) {
             field = value
             if (invalidate) invalidate()
         }
 
-    var selectedDayCircleColor: Int = 0
+    var pickedDayCircleColor: Int = 0
         set(value) {
             field = value
             if (invalidate) invalidate()
@@ -134,8 +134,8 @@ class PrimeMonthView @JvmOverloads constructor(
         set(value) {
             field = value
             monthLabelPaint?.textSize = value.toFloat()
-            calculateSizes()
             if (invalidate) {
+                calculateSizes()
                 requestLayout()
                 invalidate()
             }
@@ -145,8 +145,8 @@ class PrimeMonthView @JvmOverloads constructor(
         set(value) {
             field = value
             weekLabelPaint?.textSize = value.toFloat()
-            calculateSizes()
             if (invalidate) {
+                calculateSizes()
                 requestLayout()
                 invalidate()
             }
@@ -156,8 +156,8 @@ class PrimeMonthView @JvmOverloads constructor(
         set(value) {
             field = value
             dayLabelPaint?.textSize = value.toFloat()
-            calculateSizes()
             if (invalidate) {
+                calculateSizes()
                 requestLayout()
                 invalidate()
             }
@@ -166,8 +166,8 @@ class PrimeMonthView @JvmOverloads constructor(
     var monthLabelTopPadding: Int = 0
         set(value) {
             field = value
-            calculateSizes()
             if (invalidate) {
+                calculateSizes()
                 requestLayout()
                 invalidate()
             }
@@ -176,8 +176,8 @@ class PrimeMonthView @JvmOverloads constructor(
     var monthLabelBottomPadding: Int = 0
         set(value) {
             field = value
-            calculateSizes()
             if (invalidate) {
+                calculateSizes()
                 requestLayout()
                 invalidate()
             }
@@ -186,8 +186,8 @@ class PrimeMonthView @JvmOverloads constructor(
     var weekLabelTopPadding: Int = 0
         set(value) {
             field = value
-            calculateSizes()
             if (invalidate) {
+                calculateSizes()
                 requestLayout()
                 invalidate()
             }
@@ -196,8 +196,8 @@ class PrimeMonthView @JvmOverloads constructor(
     var weekLabelBottomPadding: Int = 0
         set(value) {
             field = value
-            calculateSizes()
             if (invalidate) {
+                calculateSizes()
                 requestLayout()
                 invalidate()
             }
@@ -206,18 +206,20 @@ class PrimeMonthView @JvmOverloads constructor(
     var dayLabelVerticalPadding: Int = 0
         set(value) {
             field = value
-            calculateSizes()
             if (invalidate) {
+                calculateSizes()
                 requestLayout()
                 invalidate()
             }
         }
 
-    var twoWeeksInLandscape: Boolean = false
+    var showTwoWeeksInLandscape: Boolean = false
         set(value) {
             field = value
-            calculateSizes()
-            if (invalidate) invalidate()
+            if (invalidate) {
+                calculateSizes()
+                invalidate()
+            }
         }
 
     // Programmatically Control Variables ----------------------------------------------------------
@@ -349,14 +351,6 @@ class PrimeMonthView @JvmOverloads constructor(
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
 
-    fun invalidateAfter(function: () -> Unit) {
-        val previous = invalidate
-        invalidate = false
-        function.invoke()
-        invalidate = previous
-        invalidate()
-    }
-
     fun doNotInvalidate(function: () -> Unit) {
         val previous = invalidate
         invalidate = false
@@ -369,14 +363,14 @@ class PrimeMonthView @JvmOverloads constructor(
     init {
         context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
             doNotInvalidate {
-                calendarType = CalendarType.values()[getInt(R.styleable.Common_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
+                calendarType = CalendarType.values()[getInt(R.styleable.PrimeMonthView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
 
                 monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
                 weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
                 dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
                 todayLabelTextColor = getColor(R.styleable.PrimeMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.defaultTodayLabelTextColor))
-                selectedDayLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
-                selectedDayCircleColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
+                pickedDayLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
+                pickedDayCircleColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
                 disabledDayLabelTextColor = getColor(R.styleable.PrimeMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDisabledDayLabelTextColor))
 
                 monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
@@ -389,7 +383,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
                 dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
 
-                twoWeeksInLandscape = getBoolean(R.styleable.PrimeMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
+                showTwoWeeksInLandscape = getBoolean(R.styleable.PrimeMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
             }
             recycle()
         }
@@ -406,7 +400,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun calculateSizes() {
         if (context.isDisplayLandscape()) {
-            if (twoWeeksInLandscape) {
+            if (showTwoWeeksInLandscape) {
                 maxRowCount = 3
                 rowCount = 3
                 columnCount = 14
@@ -454,7 +448,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         selectedDayBackgroundPaint = Paint().apply {
-            color = selectedDayCircleColor
+            color = pickedDayCircleColor
             style = Style.FILL
             textAlign = Align.CENTER
             isAntiAlias = true
@@ -523,6 +517,7 @@ class PrimeMonthView @JvmOverloads constructor(
         updateToday()
         updateRowCount()
 
+        calculateSizes()
         requestLayout()
         invalidate()
     }
@@ -837,19 +832,19 @@ class PrimeMonthView @JvmOverloads constructor(
             } else if (pickType != PickType.NOTHING) {
                 when (pickedDayState) {
                     PickedDayState.PICKED_SINGLE -> {
-                        selectedDayLabelTextColor
+                        pickedDayLabelTextColor
                     }
                     PickedDayState.START_OF_RANGE_SINGLE -> {
-                        selectedDayLabelTextColor
+                        pickedDayLabelTextColor
                     }
                     PickedDayState.START_OF_RANGE -> {
-                        selectedDayLabelTextColor
+                        pickedDayLabelTextColor
                     }
                     PickedDayState.IN_RANGE -> {
-                        selectedDayLabelTextColor
+                        pickedDayLabelTextColor
                     }
                     PickedDayState.END_OF_RANGE -> {
-                        selectedDayLabelTextColor
+                        pickedDayLabelTextColor
                     }
                     PickedDayState.NOTHING -> {
                         if (hasToday && dayOfMonth == todayDayOfMonth) {
@@ -900,7 +895,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun onDayClicked(calendar: PrimeCalendar) {
         calendar.apply {
             var change = false
-            invalidateAfter {
+            doNotInvalidate {
                 when (pickType) {
                     PickType.SINGLE -> {
                         pickedSingleDayCalendar = calendar
@@ -923,6 +918,7 @@ class PrimeMonthView @JvmOverloads constructor(
                     }
                 }
             }
+            invalidate()
             notifyDayPicked(change)
         }
     }
@@ -1000,8 +996,8 @@ class PrimeMonthView @JvmOverloads constructor(
         savedState.weekLabelTextColor = weekLabelTextColor
         savedState.dayLabelTextColor = dayLabelTextColor
         savedState.todayLabelTextColor = todayLabelTextColor
-        savedState.selectedDayLabelTextColor = selectedDayLabelTextColor
-        savedState.selectedDayCircleColor = selectedDayCircleColor
+        savedState.selectedDayLabelTextColor = pickedDayLabelTextColor
+        savedState.selectedDayCircleColor = pickedDayCircleColor
         savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
         savedState.monthLabelTextSize = monthLabelTextSize
         savedState.weekLabelTextSize = weekLabelTextSize
@@ -1011,7 +1007,7 @@ class PrimeMonthView @JvmOverloads constructor(
         savedState.weekLabelTopPadding = weekLabelTopPadding
         savedState.weekLabelBottomPadding = weekLabelBottomPadding
         savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
-        savedState.twoWeeksInLandscape = twoWeeksInLandscape
+        savedState.twoWeeksInLandscape = showTwoWeeksInLandscape
 
         return savedState
     }
@@ -1039,8 +1035,8 @@ class PrimeMonthView @JvmOverloads constructor(
             weekLabelTextColor = savedState.weekLabelTextColor
             dayLabelTextColor = savedState.dayLabelTextColor
             todayLabelTextColor = savedState.todayLabelTextColor
-            selectedDayLabelTextColor = savedState.selectedDayLabelTextColor
-            selectedDayCircleColor = savedState.selectedDayCircleColor
+            pickedDayLabelTextColor = savedState.selectedDayLabelTextColor
+            pickedDayCircleColor = savedState.selectedDayCircleColor
             disabledDayLabelTextColor = savedState.disabledDayLabelTextColor
             monthLabelTextSize = savedState.monthLabelTextSize
             weekLabelTextSize = savedState.weekLabelTextSize
@@ -1050,7 +1046,7 @@ class PrimeMonthView @JvmOverloads constructor(
             weekLabelTopPadding = savedState.weekLabelTopPadding
             weekLabelBottomPadding = savedState.weekLabelBottomPadding
             dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
-            twoWeeksInLandscape = savedState.twoWeeksInLandscape
+            showTwoWeeksInLandscape = savedState.twoWeeksInLandscape
         }
 
         applyTypeface()

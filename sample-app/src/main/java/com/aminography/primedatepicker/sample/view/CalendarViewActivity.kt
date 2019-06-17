@@ -1,6 +1,7 @@
 package com.aminography.primedatepicker.sample.view
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.view.GravityCompat

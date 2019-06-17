@@ -1,36 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="Common">
-        <attr name="calendarType" format="enum">
-            <enum name="civil" value="0" />
-            <enum name="persian" value="1" />
-            <enum name="hijri" value="2" />
-        </attr>
-    </declare-styleable>
+
+    <attr name="monthLabelTextColor" format="color" />
+    <attr name="weekLabelTextColor" format="color" />
+    <attr name="dayLabelTextColor" format="color" />
+    <attr name="todayLabelTextColor" format="color" />
+    <attr name="pickedDayLabelTextColor" format="color" />
+    <attr name="pickedDayCircleColor" format="color" />
+    <attr name="disabledDayLabelTextColor" format="color" />
+
+    <attr name="monthLabelTextSize" format="dimension" />
+    <attr name="weekLabelTextSize" format="dimension" />
+    <attr name="dayLabelTextSize" format="dimension" />
+
+    <attr name="monthLabelTopPadding" format="dimension" />
+    <attr name="monthLabelBottomPadding" format="dimension" />
+    <attr name="weekLabelTopPadding" format="dimension" />
+    <attr name="weekLabelBottomPadding" format="dimension" />
+    <attr name="dayLabelVerticalPadding" format="dimension" />
+
+    <attr name="showTwoWeeksInLandscape" format="boolean" />
+
+    <attr name="calendarType" format="enum">
+        <enum name="civil" value="0" />
+        <enum name="persian" value="1" />
+        <enum name="hijri" value="2" />
+    </attr>
 
     <declare-styleable name="PrimeMonthView">
-        <attr name="monthLabelTextColor" format="color" />
-        <attr name="weekLabelTextColor" format="color" />
-        <attr name="dayLabelTextColor" format="color" />
-        <attr name="todayLabelTextColor" format="color" />
-        <attr name="pickedDayLabelTextColor" format="color" />
-        <attr name="pickedDayCircleColor" format="color" />
-        <attr name="disabledDayLabelTextColor" format="color" />
 
-        <attr name="monthLabelTextSize" format="dimension" />
-        <attr name="weekLabelTextSize" format="dimension" />
-        <attr name="dayLabelTextSize" format="dimension" />
+        <attr name="monthLabelTextColor" />
+        <attr name="weekLabelTextColor" />
+        <attr name="dayLabelTextColor" />
+        <attr name="todayLabelTextColor" />
+        <attr name="pickedDayLabelTextColor" />
+        <attr name="pickedDayCircleColor" />
+        <attr name="disabledDayLabelTextColor" />
 
-        <attr name="monthLabelTopPadding" format="dimension" />
-        <attr name="monthLabelBottomPadding" format="dimension" />
-        <attr name="weekLabelTopPadding" format="dimension" />
-        <attr name="weekLabelBottomPadding" format="dimension" />
-        <attr name="dayLabelVerticalPadding" format="dimension" />
+        <attr name="monthLabelTextSize" />
+        <attr name="weekLabelTextSize" />
+        <attr name="dayLabelTextSize" />
 
-        <attr name="showTwoWeeksInLandscape" format="boolean" />
+        <attr name="monthLabelTopPadding" />
+        <attr name="monthLabelBottomPadding" />
+        <attr name="weekLabelTopPadding" />
+        <attr name="weekLabelBottomPadding" />
+        <attr name="dayLabelVerticalPadding" />
+
+        <attr name="showTwoWeeksInLandscape" />
+
+        <attr name="calendarType" />
+
     </declare-styleable>
 
     <declare-styleable name="PrimeCalendarView">
+        <attr name="monthLabelTextColor" />
+        <attr name="weekLabelTextColor" />
+        <attr name="dayLabelTextColor" />
+        <attr name="todayLabelTextColor" />
+        <attr name="pickedDayLabelTextColor" />
+        <attr name="pickedDayCircleColor" />
+        <attr name="disabledDayLabelTextColor" />
+
+        <attr name="monthLabelTextSize" />
+        <attr name="weekLabelTextSize" />
+        <attr name="dayLabelTextSize" />
+
+        <attr name="monthLabelTopPadding" />
+        <attr name="monthLabelBottomPadding" />
+        <attr name="weekLabelTopPadding" />
+        <attr name="weekLabelBottomPadding" />
+        <attr name="dayLabelVerticalPadding" />
+
+        <attr name="showTwoWeeksInLandscape" />
+
+        <attr name="calendarType" />
+
         <attr name="loadFactor" format="integer" />
         <attr name="maxTransitionLength" format="integer" />
         <attr name="transitionSpeedFactor" format="float" />

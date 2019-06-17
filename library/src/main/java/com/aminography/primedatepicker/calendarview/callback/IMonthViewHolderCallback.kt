@@ -26,4 +26,23 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
 
     fun onHeightDetect(height: Float)
 
+    // Common Attributes ---------------------------------------------------------------------------
+
+    val monthLabelTextColor: Int
+    val weekLabelTextColor: Int
+    val dayLabelTextColor: Int
+    val todayLabelTextColor: Int
+    val pickedDayLabelTextColor: Int
+    val pickedDayCircleColor: Int
+    val disabledDayLabelTextColor: Int
+    val monthLabelTextSize: Int
+    val weekLabelTextSize: Int
+    val dayLabelTextSize: Int
+    val monthLabelTopPadding: Int
+    val monthLabelBottomPadding: Int
+    val weekLabelTopPadding: Int
+    val weekLabelBottomPadding: Int
+    val dayLabelVerticalPadding: Int
+    val showTwoWeeksInLandscape: Boolean
+
 }

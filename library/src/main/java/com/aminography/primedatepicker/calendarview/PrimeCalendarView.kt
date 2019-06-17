@@ -61,6 +61,104 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     var onDayPickedListener: OnDayPickedListener? = null
 
+    // Common Control Variables --------------------------------------------------------------------
+
+    override var monthLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var weekLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var dayLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var todayLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var pickedDayLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var pickedDayCircleColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var disabledDayLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var monthLabelTextSize: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var weekLabelTextSize: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var dayLabelTextSize: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var monthLabelTopPadding: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var monthLabelBottomPadding: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var weekLabelTopPadding: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var weekLabelBottomPadding: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var dayLabelVerticalPadding: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var showTwoWeeksInLandscape: Boolean = false
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
     // Control Variables ---------------------------------------------------------------------------
 
     var loadFactor: Int = 0
@@ -343,7 +441,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
             doNotInvalidate {
-                calendarType = CalendarType.values()[getInt(R.styleable.Common_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
+                calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
                 flingOrientation = FlingOrientation.values()[getInt(R.styleable.PrimeCalendarView_flingOrientation, DEFAULT_FLING_ORIENTATION.ordinal)]
 
                 loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, resources.getInteger(R.integer.defaultLoadFactor))
@@ -356,6 +454,28 @@ class PrimeCalendarView @JvmOverloads constructor(
                 dividerInsetRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetRight, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetRight))
                 dividerInsetTop = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetTop, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetTop))
                 dividerInsetBottom = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetBottom, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetBottom))
+
+                // Common Attributes ---------------------------------------------------------------
+
+                monthLabelTextColor = getColor(R.styleable.PrimeCalendarView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
+                weekLabelTextColor = getColor(R.styleable.PrimeCalendarView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
+                dayLabelTextColor = getColor(R.styleable.PrimeCalendarView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
+                todayLabelTextColor = getColor(R.styleable.PrimeCalendarView_todayLabelTextColor, ContextCompat.getColor(context, R.color.defaultTodayLabelTextColor))
+                pickedDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
+                pickedDayCircleColor = getColor(R.styleable.PrimeCalendarView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
+                disabledDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDisabledDayLabelTextColor))
+
+                monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeCalendarView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
+                weekLabelTextSize = getDimensionPixelSize(R.styleable.PrimeCalendarView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
+                dayLabelTextSize = getDimensionPixelSize(R.styleable.PrimeCalendarView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
+
+                monthLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_monthLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTopPadding))
+                monthLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_monthLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding))
+                weekLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
+                weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
+                dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
+
+                showTwoWeeksInLandscape = getBoolean(R.styleable.PrimeCalendarView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
             }
             recycle()
         }
@@ -730,6 +850,26 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.dividerInsetRight = dividerInsetRight
         savedState.dividerInsetTop = dividerInsetTop
         savedState.dividerInsetBottom = dividerInsetBottom
+
+        // Common Attributes -----------------------------------------------------------------------
+
+        savedState.monthLabelTextColor = monthLabelTextColor
+        savedState.weekLabelTextColor = weekLabelTextColor
+        savedState.dayLabelTextColor = dayLabelTextColor
+        savedState.todayLabelTextColor = todayLabelTextColor
+        savedState.selectedDayLabelTextColor = pickedDayLabelTextColor
+        savedState.selectedDayCircleColor = pickedDayCircleColor
+        savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
+        savedState.monthLabelTextSize = monthLabelTextSize
+        savedState.weekLabelTextSize = weekLabelTextSize
+        savedState.dayLabelTextSize = dayLabelTextSize
+        savedState.monthLabelTopPadding = monthLabelTopPadding
+        savedState.monthLabelBottomPadding = monthLabelBottomPadding
+        savedState.weekLabelTopPadding = weekLabelTopPadding
+        savedState.weekLabelBottomPadding = weekLabelBottomPadding
+        savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
+        savedState.twoWeeksInLandscape = showTwoWeeksInLandscape
+        
         return savedState
     }
 
@@ -764,6 +904,25 @@ class PrimeCalendarView @JvmOverloads constructor(
             dividerInsetRight = savedState.dividerInsetRight
             dividerInsetTop = savedState.dividerInsetTop
             dividerInsetBottom = savedState.dividerInsetBottom
+
+            // Common Attributes -------------------------------------------------------------------
+
+            monthLabelTextColor = savedState.monthLabelTextColor
+            weekLabelTextColor = savedState.weekLabelTextColor
+            dayLabelTextColor = savedState.dayLabelTextColor
+            todayLabelTextColor = savedState.todayLabelTextColor
+            pickedDayLabelTextColor = savedState.selectedDayLabelTextColor
+            pickedDayCircleColor = savedState.selectedDayCircleColor
+            disabledDayLabelTextColor = savedState.disabledDayLabelTextColor
+            monthLabelTextSize = savedState.monthLabelTextSize
+            weekLabelTextSize = savedState.weekLabelTextSize
+            dayLabelTextSize = savedState.dayLabelTextSize
+            monthLabelTopPadding = savedState.monthLabelTopPadding
+            monthLabelBottomPadding = savedState.monthLabelBottomPadding
+            weekLabelTopPadding = savedState.weekLabelTopPadding
+            weekLabelBottomPadding = savedState.weekLabelBottomPadding
+            dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
+            showTwoWeeksInLandscape = savedState.twoWeeksInLandscape
         }
 
         applyDividers()
@@ -797,6 +956,25 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var dividerInsetTop: Int = 0
         internal var dividerInsetBottom: Int = 0
 
+        // Common Attributes -----------------------------------------------------------------------
+
+        internal var monthLabelTextColor: Int = 0
+        internal var weekLabelTextColor: Int = 0
+        internal var dayLabelTextColor: Int = 0
+        internal var todayLabelTextColor: Int = 0
+        internal var selectedDayLabelTextColor: Int = 0
+        internal var selectedDayCircleColor: Int = 0
+        internal var disabledDayLabelTextColor: Int = 0
+        internal var monthLabelTextSize: Int = 0
+        internal var weekLabelTextSize: Int = 0
+        internal var dayLabelTextSize: Int = 0
+        internal var monthLabelTopPadding: Int = 0
+        internal var monthLabelBottomPadding: Int = 0
+        internal var weekLabelTopPadding: Int = 0
+        internal var weekLabelBottomPadding: Int = 0
+        internal var dayLabelVerticalPadding: Int = 0
+        internal var twoWeeksInLandscape: Boolean = false
+
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
@@ -823,6 +1001,25 @@ class PrimeCalendarView @JvmOverloads constructor(
             dividerInsetRight = input.readInt()
             dividerInsetTop = input.readInt()
             dividerInsetBottom = input.readInt()
+
+            // Common Attributes -------------------------------------------------------------------
+
+            monthLabelTextColor = input.readInt()
+            weekLabelTextColor = input.readInt()
+            dayLabelTextColor = input.readInt()
+            todayLabelTextColor = input.readInt()
+            selectedDayLabelTextColor = input.readInt()
+            selectedDayCircleColor = input.readInt()
+            disabledDayLabelTextColor = input.readInt()
+            monthLabelTextSize = input.readInt()
+            weekLabelTextSize = input.readInt()
+            dayLabelTextSize = input.readInt()
+            monthLabelTopPadding = input.readInt()
+            monthLabelBottomPadding = input.readInt()
+            weekLabelTopPadding = input.readInt()
+            weekLabelBottomPadding = input.readInt()
+            dayLabelVerticalPadding = input.readInt()
+            twoWeeksInLandscape = input.readInt() == 1
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
@@ -850,6 +1047,25 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(dividerInsetRight)
             out.writeInt(dividerInsetTop)
             out.writeInt(dividerInsetBottom)
+
+            // Common Attributes -------------------------------------------------------------------
+
+            out.writeInt(monthLabelTextColor)
+            out.writeInt(weekLabelTextColor)
+            out.writeInt(dayLabelTextColor)
+            out.writeInt(todayLabelTextColor)
+            out.writeInt(selectedDayLabelTextColor)
+            out.writeInt(selectedDayCircleColor)
+            out.writeInt(disabledDayLabelTextColor)
+            out.writeInt(monthLabelTextSize)
+            out.writeInt(weekLabelTextSize)
+            out.writeInt(dayLabelTextSize)
+            out.writeInt(monthLabelTopPadding)
+            out.writeInt(monthLabelBottomPadding)
+            out.writeInt(weekLabelTopPadding)
+            out.writeInt(weekLabelBottomPadding)
+            out.writeInt(dayLabelVerticalPadding)
+            out.writeInt(if (twoWeeksInLandscape) 1 else 0)
         }
 
         companion object {

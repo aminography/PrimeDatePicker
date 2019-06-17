@@ -35,6 +35,25 @@ class MonthViewHolder(
                         monthView.pickedRangeStartCalendar = pickedRangeStartCalendar
                         monthView.pickedRangeEndCalendar = pickedRangeEndCalendar
                         monthView.pickType = pickType
+
+                        // Common Attributes -------------------------------------------------------
+
+                        monthView.monthLabelTextColor = monthLabelTextColor
+                        monthView.weekLabelTextColor = weekLabelTextColor
+                        monthView.dayLabelTextColor = dayLabelTextColor
+                        monthView.todayLabelTextColor = todayLabelTextColor
+                        monthView.pickedDayLabelTextColor = pickedDayLabelTextColor
+                        monthView.pickedDayCircleColor = pickedDayCircleColor
+                        monthView.disabledDayLabelTextColor = disabledDayLabelTextColor
+                        monthView.monthLabelTextSize = monthLabelTextSize
+                        monthView.weekLabelTextSize = weekLabelTextSize
+                        monthView.dayLabelTextSize = dayLabelTextSize
+                        monthView.monthLabelTopPadding = monthLabelTopPadding
+                        monthView.monthLabelBottomPadding = monthLabelBottomPadding
+                        monthView.weekLabelTopPadding = weekLabelTopPadding
+                        monthView.weekLabelBottomPadding = weekLabelBottomPadding
+                        monthView.dayLabelVerticalPadding = dayLabelVerticalPadding
+                        monthView.showTwoWeeksInLandscape = showTwoWeeksInLandscape
                     }
                 }
                 monthView.setDate(calendarType, year, month)
