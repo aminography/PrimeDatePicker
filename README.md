@@ -23,8 +23,11 @@ dependencies {
 }
 ```
 
-Customization
---------------
+Stand Alone Views
+-----------------
+Descriptions
+
+### Customization
 Descriptions
 
 ### 1. View Attributes
