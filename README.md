@@ -4,6 +4,8 @@
 
 ![](static/prime_logo.png)
   
+To change strings in date picker bottom sheet, define strings with similar name as [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml) in your project's `strings.xml`.   
+  
 Download
 --------
 **`PrimeDatePicker`** is available on bintray to download using build tools systems. Add the following lines to your `build.gradle` file:
