@@ -9,8 +9,6 @@
 | ![](static/picking_single.gif) | ![](static/picking_range.gif) | 
 
   
-To change texts of date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
-  
 Download
 --------
 **`PrimeDatePicker`** is available on bintray to download using build tools systems. Add the following lines to your `build.gradle` file:
@@ -24,6 +22,10 @@ dependencies {
     implementation 'com.aminography:primedatepicker:1.0.3'
 }
 ```
+
+Customization
+--------------
+To change texts of date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 Attributes
 ----------
