@@ -4,7 +4,7 @@
 
 ![](static/prime_logo.png)
   
-To change texts in date picker bottom sheet, define strings with similar name as [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml) in your project's `strings.xml` to override them.   
+To change texts in date picker bottom sheet, define strings with equal names from [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml) in your project's `strings.xml` to override them.   
   
 Download
 --------
