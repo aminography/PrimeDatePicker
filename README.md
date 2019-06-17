@@ -20,6 +20,7 @@ dependencies {
 
 Attributes
 ----------
+#### PrimeMonthView
 
 <table>
 
@@ -154,6 +155,105 @@ Attributes
   </tr>
   <tr>
     <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+</table>
+
+#### PrimeCalendarView
+
+<table>
+
+  <tr>
+    <td><b>Attribute</b></td>
+    <td><b>Type</b></td>
+  </tr>
+  
+  <tr>
+    <td><b>• loadFactor</b></td>
+    <td>integer</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• maxTransitionLength</b></td>
+    <td>integer</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• transitionSpeedFactor</b></td>
+    <td>float</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dividerColor</b></td>
+    <td>color</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dividerThickness</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dividerInsetLeft</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dividerInsetRight</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dividerInsetTop</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• dividerInsetBottom</b></td>
+    <td>dimension</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Descriptions</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• calendarType</b></td>
+    <td>enum</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>civil, persian, hijri</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• flingOrientation</b></td>
+    <td>enum</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>vertical, horizontal</i></td>
   </tr>
   
 </table>
