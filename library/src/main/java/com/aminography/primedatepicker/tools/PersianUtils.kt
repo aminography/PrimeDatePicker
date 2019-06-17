@@ -6,16 +6,16 @@ package com.aminography.primedatepicker.tools
 object PersianUtils {
 
     private val PERSIAN_DIGITS = charArrayOf(
-            ('0'.toInt() + 1728).toChar(),
-            ('1'.toInt() + 1728).toChar(),
-            ('2'.toInt() + 1728).toChar(),
-            ('3'.toInt() + 1728).toChar(),
-            ('4'.toInt() + 1728).toChar(),
-            ('5'.toInt() + 1728).toChar(),
-            ('6'.toInt() + 1728).toChar(),
-            ('7'.toInt() + 1728).toChar(),
-            ('8'.toInt() + 1728).toChar(),
-            ('9'.toInt() + 1728).toChar()
+            '0' + 1728,
+            '1' + 1728,
+            '2' + 1728,
+            '3' + 1728,
+            '4' + 1728,
+            '5' + 1728,
+            '6' + 1728,
+            '7' + 1728,
+            '8' + 1728,
+            '9' + 1728
     )
 
     fun convertDigitsToLatin(input: String): String {
