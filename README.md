@@ -27,7 +27,7 @@ Customization
 --------------
 Descriptions
 
-## Attributes
+## View Attributes
 Descriptions
 
 ### Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
