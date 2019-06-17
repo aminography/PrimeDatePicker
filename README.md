@@ -1,11 +1,4 @@
-# `PrimeDatePicker` :zap:
-  
-# Under Development: Documentations will be added soon!  
-.  
-.  
-.  
-.  
-.  
+# `PrimeDatePicker` :zap: 
   
 **`PrimeDatePicker`** is a date picker tool.
 
