@@ -865,8 +865,8 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         val date = when (direction) {
-            Direction.LTR -> String.format(Locale.getDefault(), "%d", dayOfMonth)
-            Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(String.format(Locale.getDefault(), "%d", dayOfMonth))
+            Direction.LTR -> "$dayOfMonth"
+            Direction.RTL -> PersianUtils.convertLatinDigitsToPersian("$dayOfMonth")
         }
 
         dayLabelPaint?.apply {

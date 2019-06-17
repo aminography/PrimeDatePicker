@@ -17,7 +17,6 @@ import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.DateUtils
-import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.screenSize
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 import org.jetbrains.anko.support.v4.toast
@@ -121,11 +120,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                     singleLinearLayout.visibility = View.VISIBLE
 
                     calendarView.pickedSingleDayCalendar?.apply {
-                        pickedTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> shortDateString
-                            CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
-                        }
+                        pickedTextView.text = shortDateString
                     }
                 }
                 PickType.RANGE_START, PickType.RANGE_END -> {
@@ -146,18 +141,10 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                     }
 
                     calendarView.pickedRangeStartCalendar?.apply {
-                        rangeStartTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> shortDateString
-                            CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
-                        }
+                        rangeStartTextView.text = shortDateString
                     }
                     calendarView.pickedRangeEndCalendar?.apply {
-                        rangeEndTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> shortDateString
-                            CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
-                        }
+                        rangeEndTextView.text = shortDateString
                     }
                 }
                 PickType.NOTHING -> {
@@ -171,29 +158,17 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
             when (pickType) {
                 PickType.SINGLE -> {
                     singleDay?.apply {
-                        pickedTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> shortDateString
-                            CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
-                        }
+                        pickedTextView.text = shortDateString
                     }
                 }
                 PickType.RANGE_START -> {
                     startDay?.apply {
-                        rangeStartTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> shortDateString
-                            CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
-                        }
+                        rangeStartTextView.text = shortDateString
                     }
                 }
                 PickType.RANGE_END -> {
                     endDay?.apply {
-                        rangeEndTextView.text = when (calendarType) {
-                            CalendarType.CIVIL -> shortDateString
-                            CalendarType.PERSIAN, CalendarType.HIJRI ->
-                                PersianUtils.convertLatinDigitsToPersian(PersianUtils.convertLatinCommaToPersian(shortDateString))
-                        }
+                        rangeEndTextView.text = shortDateString
                     }
                 }
                 PickType.NOTHING -> {
