@@ -277,7 +277,9 @@ To change texts of date picker bottom sheet, define strings in your project's `s
 Third Party Libraries
 ---------------------
 **• PrimeCalendar** (https://github.com/aminography/PrimeCalendar)
+
 **• PrimeAdapter** (https://github.com/aminography/PrimeAdapter)
+
 **• ThreeTen-Backport** (https://www.threeten.org/threetenbp)
 
 License
