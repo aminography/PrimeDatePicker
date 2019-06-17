@@ -280,8 +280,6 @@ Third Party Libraries
 
 **• PrimeAdapter** (https://github.com/aminography/PrimeAdapter)
 
-**• ThreeTen-Backport** (https://www.threeten.org/threetenbp)
-
 License
 --------
 ```
