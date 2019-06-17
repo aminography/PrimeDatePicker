@@ -11,6 +11,22 @@
 
 ![](static/prime_logo.png)
   
+Download
+--------
+**`PrimeDatePicker`** is available on bintray to download using build tools systems.
+
+### • Gradle
+Add the following lines to your `build.gradle` file:
+
+```gradle
+repositories {
+    jcenter()
+}
+  
+dependencies {
+    implementation 'com.aminography:primedatepicker:1.0.3'
+}
+```
 
 License
 --------
