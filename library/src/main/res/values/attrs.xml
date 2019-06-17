@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="Common">
+        <attr name="calendarType" format="enum">
+            <enum name="civil" value="0" />
+            <enum name="persian" value="1" />
+            <enum name="hijri" value="2" />
+        </attr>
+    </declare-styleable>
+
     <declare-styleable name="PrimeMonthView">
         <attr name="monthLabelTextColor" format="color" />
         <attr name="weekLabelTextColor" format="color" />
@@ -33,12 +41,6 @@
         <attr name="dividerInsetRight" format="dimension" />
         <attr name="dividerInsetTop" format="dimension" />
         <attr name="dividerInsetBottom" format="dimension" />
-
-        <attr name="calendarType" format="enum">
-            <enum name="civil" value="0" />
-            <enum name="persian" value="1" />
-            <enum name="hijri" value="2" />
-        </attr>
 
         <attr name="flingOrientation" format="enum">
             <enum name="vertical" value="0" />

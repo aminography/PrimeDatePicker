@@ -369,6 +369,8 @@ class PrimeMonthView @JvmOverloads constructor(
     init {
         context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
             doNotInvalidate {
+                calendarType = CalendarType.values()[getInt(R.styleable.Common_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
+
                 monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
                 weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
                 dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
@@ -1164,6 +1166,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     companion object {
         private const val SHOW_GUIDE_LINES = false
+        private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
     }
 
 }
