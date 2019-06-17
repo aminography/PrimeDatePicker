@@ -251,14 +251,6 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
   </tr>
   
   <tr>
-    <td><b>• calendarType</b></td>
-    <td>enum</td>
-  </tr>
-  <tr>
-    <td colspan="2"><i>civil, persian, hijri</i></td>
-  </tr>
-  
-  <tr>
     <td><b>• flingOrientation</b></td>
     <td>enum</td>
   </tr>
