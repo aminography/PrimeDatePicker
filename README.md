@@ -274,6 +274,11 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
 ### 2. Strings
 To change texts of date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
+Third Party Libraries
+---------------------
+**• PrimeCalendar** (https://github.com/aminography/PrimeCalendar)
+**• PrimeAdapter** (https://github.com/aminography/PrimeAdapter)
+**• ThreeTen-Backport** (https://www.threeten.org/threetenbp)
 
 License
 --------
