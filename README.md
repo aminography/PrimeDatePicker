@@ -319,7 +319,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
 <br/>
 
 ### 2. Control Variables (Common for `PrimeMonthView` & `PrimeCalendarView`)
-Applying ...
+These variables are only accessible programmatically to get or set. (Available by getter and setter methods in java)
 
 <table>
 
