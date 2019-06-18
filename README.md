@@ -429,17 +429,52 @@ monthView.onDayPickedListener = object : OnDayPickedListener {
 
 <br/>
 
-Customizing Texts in Date Picker Bottom Sheet
+Locale
 -------------------------------------------
-If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) are implemented with localization ability. 
+By passing locale for input `PrimeCalendar` argument of `goto` methods, or by setting it directly to these views, you can specify locale of names, digits and layout direction.
+
+#### Localization example for `PrimeMonthView` using `PersianCalendar`:
 
 <br/>
 
-Locale
--------------------------------------------
-You can...
+<table>
 
-fun setDate(calendar: PrimeCalendar)
+  <tr>
+    <td><b>monthView.goto(PersianCalendar())</b><br/><i>// or</i><br/><b>monthView.locale = Locale("fa")</b></td>
+    <td><b>monthView.goto(PersianCalendar(Locale.ENGLISH))</b><br/><i>// or</i><br/><b>monthView.locale = Locale.ENGLISH</b></td>
+  </tr>
+
+  <tr>
+    <td><img src="static/month_persian_fa.jpg"/></td>
+    <td><img src="static/month_persian_en.jpg"/></td>
+  </tr>
+
+</table>
+
+#### Localization example for `PrimeCalendarView` using `HijriCalendar`:
+
+<br/>
+
+<table>
+
+  <tr>
+    <td><b>calendarView.goto(HijriCalendar())</b><br/><i>// or</i><br/><b>calendarView.locale = Locale("ar")</b></td>
+    <td><b>calendarView.goto(HijriCalendar(Locale.ENGLISH))</b><br/><i>// or</i><br/><b>calendarView.locale = Locale.ENGLISH</b></td>
+  </tr>
+
+  <tr>
+    <td><img src="static/calendar_hijri_ar.jpg"/></td>
+    <td><img src="static/calendar_hijri_en.jpg"/></td>
+  </tr>
+
+</table>
+
+<br/>
+
+Customizing Texts in Date Picker Bottom Sheet
+-------------------------------------------
+If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 <br/>
 

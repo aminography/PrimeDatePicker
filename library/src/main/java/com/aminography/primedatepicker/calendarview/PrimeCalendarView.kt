@@ -344,6 +344,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     var calendarType = CalendarType.CIVIL
         set(value) {
+            val previous = calendarType
             field = value
             direction = when (locale.language) {
                 "fa", "ar" -> when (value) {
@@ -353,11 +354,15 @@ class PrimeCalendarView @JvmOverloads constructor(
                 else -> Direction.LTR
             }
 
-            layoutManager = createLayoutManager()
-            recyclerView.layoutManager = layoutManager
-            applyDividers()
 
-            if (invalidate) goto(CalendarFactory.newInstance(value, locale), false)
+            if (invalidate) {
+                if (previous != value) {
+                    layoutManager = createLayoutManager()
+                    recyclerView.layoutManager = layoutManager
+                    applyDividers()
+                }
+                goto(CalendarFactory.newInstance(value, locale), false)
+            }
         }
 
     override var locale = Locale.getDefault()
@@ -456,6 +461,10 @@ class PrimeCalendarView @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
             doNotInvalidate {
                 calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
+
+                layoutManager = createLayoutManager()
+                recyclerView.layoutManager = layoutManager
+
                 flingOrientation = FlingOrientation.values()[getInt(R.styleable.PrimeCalendarView_flingOrientation, DEFAULT_FLING_ORIENTATION.ordinal)]
 
                 loadFactor = getInteger(R.styleable.PrimeCalendarView_loadFactor, resources.getInteger(R.integer.defaultLoadFactor))
@@ -493,6 +502,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
             recycle()
         }
+
+        applyDividers()
 
         addView(recyclerView)
         recyclerView.speedFactor = transitionSpeedFactor
@@ -903,6 +914,9 @@ class PrimeCalendarView @JvmOverloads constructor(
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
             locale = Locale(savedState.locale)
+
+            layoutManager = createLayoutManager()
+            recyclerView.layoutManager = layoutManager
 
             flingOrientation = FlingOrientation.values()[savedState.flingOrientation]
 
