@@ -55,12 +55,12 @@ They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml
 
 <br/>
 
-### 1. XML & View Attributes
-Descriptions
+### XML & View Attributes
+Applying customization has been provided for `PrimeMonthView` and `PrimeCalendarView` by using `xml` attributes as well as setting them programmatically.
 
 <br/>
 
-### 1.1. Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
+### 1. Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
 
 <table>
 
@@ -209,7 +209,7 @@ Descriptions
 
 <br/>
 
-### 1.2. `PrimeCalendarView` Specific Attributes:
+### 2. `PrimeCalendarView` Specific Attributes:
 
 <table>
 
