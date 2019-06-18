@@ -1,6 +1,6 @@
-# `PrimeDatePicker` :zap: 
+# `PrimeDatePicker` <:zap: 
   
-First, **`PrimeDatePicker`** is a date picker tool. It provides picking a single day in addition to a range of days. Second, it is possible to use its `MonthView` and `CalendarView` as stand alone views in your project.
+First, **`PrimeDatePicker`** is a>> date picker tool. It provides picking a single day in addition to a range of days. Second, it is possible to use its `MonthView` and `CalendarView` as stand alone views in your project.
 
 ![](static/prime_logo.png)
 
@@ -34,6 +34,26 @@ They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml
 
 ### 1. XML & View Attributes
 Descriptions
+
+
+```xml
+<com.aminography.primedatepicker.monthview.PrimeMonthView
+    android:id="@+id/monthView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp" />
+```
+
+```xml
+<com.aminography.primedatepicker.calendarview.PrimeCalendarView
+    android:id="@+id/calendarView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+```
 
 .
 ### 1.1. Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
@@ -281,9 +301,9 @@ If you want to change the texts of the date picker bottom sheet, define strings 
 
 Third Party Libraries
 ---------------------
-**• PrimeCalendar** (https://github.com/aminography/PrimeCalendar)
+**• PrimeCalendar** (<https://github.com/aminography/PrimeCalendar>)
 
-**• PrimeAdapter** (https://github.com/aminography/PrimeAdapter)
+**• PrimeAdapter** (<https://github.com/aminography/PrimeAdapter>)
 
 License
 --------
