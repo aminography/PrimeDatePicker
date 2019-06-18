@@ -29,9 +29,32 @@ dependencies {
 
 Usage
 -----------------
-Descriptions
+To use `PrimeDatePickerBottomSheet`, simply use below snippet:
 
-onDayPickedListener: OnDayPickedListener
+```kotlin
+val datePicker = PrimeDatePickerBottomSheet.newInstance(
+            currentDateCalendar,
+            pickType,
+            pickedSingleDayCalendar, // can be null
+            pickedRangeStartCalendar, // can be null
+            pickedRangeEndCalendar, // can be null
+            minDateCalendar, // can be null
+            maxDateCalendar, // can be null
+            typefacePath // can be null
+    )
+    
+datePicker.setOnDateSetListener(object : OnDayPickedListener {
+
+    override fun onDayPicked(pickType: PickType, 
+                             singleDay: PrimeCalendar?, 
+                             startDay: PrimeCalendar?, 
+                             endDay: PrimeCalendar?) {
+        // TODO
+    }
+})
+
+datePicker.show(supportFragmentManager)
+```
 
 <br/>
 

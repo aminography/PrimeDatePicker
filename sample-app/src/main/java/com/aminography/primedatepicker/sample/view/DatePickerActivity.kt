@@ -7,7 +7,7 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.fragment.DatePickerBottomSheetDialogFragment
+import com.aminography.primedatepicker.fragment.PrimeDatePickerBottomSheet
 import com.aminography.primedatepicker.sample.FONT_PATH_CIVIL
 import com.aminography.primedatepicker.sample.FONT_PATH_HIJRI
 import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
@@ -17,7 +17,7 @@ import org.jetbrains.anko.longToast
 import java.util.*
 
 
-class DatePickerActivity : AppCompatActivity(), DatePickerBottomSheetDialogFragment.OnDayPickedListener {
+class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDayPickedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class DatePickerActivity : AppCompatActivity(), DatePickerBottomSheetDialogFragm
 
             val today = CalendarFactory.newInstance(calendarType)
 
-            datePicker = DatePickerBottomSheetDialogFragment.newInstance(
+            datePicker = PrimeDatePickerBottomSheet.newInstance(
                     currentDateCalendar = today,
                     minDateCalendar = minDateCalendar,
                     maxDateCalendar = maxDateCalendar,
@@ -85,7 +85,7 @@ class DatePickerActivity : AppCompatActivity(), DatePickerBottomSheetDialogFragm
 
     companion object {
         @SuppressLint("StaticFieldLeak")
-        private var datePicker: DatePickerBottomSheetDialogFragment? = null
+        private var datePicker: PrimeDatePickerBottomSheet? = null
     }
 
 }

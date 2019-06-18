@@ -21,7 +21,7 @@ import com.aminography.primedatepicker.tools.screenSize
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 import org.jetbrains.anko.support.v4.toast
 
-class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layout.fragment_date_picker_bottom_sheet), OnDayPickedListener {
+class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(R.layout.fragment_date_picker_bottom_sheet), OnDayPickedListener {
 
     @SuppressLint("RestrictedApi")
     override fun setupDialog(dialog: Dialog, style: Int) {
@@ -70,7 +70,7 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                 rangeEndTextView.typeface = this
             }
 
-            calendarView.onDayPickedListener = this@DatePickerBottomSheetDialogFragment
+            calendarView.onDayPickedListener = this@PrimeDatePickerBottomSheet
             calendarView.goto(currentDateCalendar!!)
 
             positiveButton.setOnClickListener {
@@ -192,17 +192,17 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
         onDismissListener?.onDismiss(dialog)
     }
 
-    fun setOnCancelListener(listener: DialogInterface.OnCancelListener): DatePickerBottomSheetDialogFragment {
+    fun setOnCancelListener(listener: DialogInterface.OnCancelListener): PrimeDatePickerBottomSheet {
         onCancelListener = listener
         return this
     }
 
-    fun setOnDismissListener(listener: DialogInterface.OnDismissListener): DatePickerBottomSheetDialogFragment {
+    fun setOnDismissListener(listener: DialogInterface.OnDismissListener): PrimeDatePickerBottomSheet {
         onDismissListener = listener
         return this
     }
 
-    fun setOnDateSetListener(listener: OnDayPickedListener): DatePickerBottomSheetDialogFragment {
+    fun setOnDateSetListener(listener: OnDayPickedListener): PrimeDatePickerBottomSheet {
         onDayPickedListener = listener
         return this
     }
@@ -229,8 +229,8 @@ class DatePickerBottomSheetDialogFragment : BaseBottomSheetDialogFragment(R.layo
                 pickedRangeStartCalendar: PrimeCalendar? = null,
                 pickedRangeEndCalendar: PrimeCalendar? = null,
                 typefacePath: String? = null
-        ): DatePickerBottomSheetDialogFragment {
-            val fragment = DatePickerBottomSheetDialogFragment()
+        ): PrimeDatePickerBottomSheet {
+            val fragment = PrimeDatePickerBottomSheet()
             val bundle = Bundle()
             bundle.putString("currentDateCalendar", DateUtils.storeCalendar(currentDateCalendar))
             bundle.putString("minDateCalendar", DateUtils.storeCalendar(minDateCalendar))
