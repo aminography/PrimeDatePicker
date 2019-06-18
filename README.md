@@ -38,11 +38,6 @@ Stand Alone Views
 In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand alone views in your project. 
 They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml` files or instantiated programmatically.
 
-<br/>
-
-### 1. XML & View Attributes
-Descriptions
-
 ```xml
 <com.aminography.primedatepicker.monthview.PrimeMonthView
     android:id="@+id/monthView"
@@ -57,6 +52,11 @@ Descriptions
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
 ```
+
+<br/>
+
+### 1. XML & View Attributes
+Descriptions
 
 <br/>
 
