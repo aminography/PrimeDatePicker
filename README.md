@@ -35,7 +35,7 @@ They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml
 ### 1. XML & View Attributes
 Descriptions
 
-### Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
+### 1.1. Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
 
 <table>
 
@@ -183,7 +183,7 @@ Descriptions
 </table>
 
 
-### `PrimeCalendarView` Specific Attributes:
+### 1.2. `PrimeCalendarView` Specific Attributes:
 
 <table>
 
