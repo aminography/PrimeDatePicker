@@ -452,6 +452,8 @@ By passing locale for input `PrimeCalendar` argument of `goto` methods, or by se
 
 </table>
 
+<br/>
+
 #### Localization example for `PrimeCalendarView` using `HijriCalendar`:
 
 <br/>
