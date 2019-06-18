@@ -5,9 +5,9 @@ First, **`PrimeDatePicker`** is a>> date picker tool. It provides picking a sing
 ![](static/prime_logo.png)
 
 
-| Pick a Single Day | Pick a Range of Days |
-| --- | --- |
-| ![](static/picking_single.gif) | ![](static/picking_range.gif) | 
+| Pick a Single Day | Pick a Range of Days | Fling Orientations |
+| --- | --- | --- |
+| ![](static/picking_single.gif) | ![](static/picking_range.gif) | ![](static/fling_orientations.gif) | 
 
 <br/>
 
