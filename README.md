@@ -56,7 +56,7 @@ val monthView = PrimeMonthView(context)
 
 <br/>
 
-### XML Attributes
+### 1. XML Attributes
 Applying customization has been provided for `PrimeMonthView` and `PrimeCalendarView` by using `xml` attributes as well as setting them programmatically.
 For example:
 
@@ -76,7 +76,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
 
 <br/>
 
-### 1. Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
+### 1.1. Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
 
 <table>
 
@@ -225,7 +225,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
 
 <br/>
 
-### 2. `PrimeCalendarView` Specific Attributes:
+### 2.2. `PrimeCalendarView` Specific Attributes:
 
 <table>
 
@@ -318,7 +318,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
 
 <br/>
 
-### Control Variables (Common for `PrimeMonthView` & `PrimeCalendarView`)
+### 2. Control Variables (Common for `PrimeMonthView` & `PrimeCalendarView`)
 Applying ...
 
 <table>
