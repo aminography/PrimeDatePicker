@@ -23,6 +23,10 @@ dependencies {
 }
 ```
 
+Usage
+-----------------
+Descriptions
+
 Stand Alone Views
 -----------------
 Descriptions
@@ -33,7 +37,7 @@ Descriptions
 ### 1. XML & View Attributes
 Descriptions
 
-### Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
+### Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
 
 <table>
 
