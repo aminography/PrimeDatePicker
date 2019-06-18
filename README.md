@@ -197,7 +197,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>enum</td>
   </tr>
   <tr>
-    <td colspan="2"><i>vertical, horizontal</i></td>
+    <td colspan="2"><i>Specifies the fling orientation of calendar view. Its possible values are: <b>vertical</b>, <b>horizontal</b>.</i></td>
   </tr>
   
   <tr>
@@ -205,7 +205,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>color</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the color of divider lines separating month views.</i></td>
   </tr>
   
   <tr>
@@ -213,7 +213,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the thickness of divider lines separating month views.</i></td>
   </tr>
   
   <tr>
@@ -221,7 +221,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the left margin of divider lines when the fling orientation is vertical.</i></td>
   </tr>
   
   <tr>
@@ -229,7 +229,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the right margin of divider lines when the fling orientation is vertical.</i></td>
   </tr>
   
   <tr>
@@ -237,7 +237,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the top margin of divider lines when the fling orientation is horizontal.</i></td>
   </tr>
   
   <tr>
@@ -245,7 +245,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the bottom margin of divider lines when the fling orientation is horizontal.</i></td>
   </tr>
   
   <tr>
@@ -253,7 +253,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>integer</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the number of month to be load in pagination.</i></td>
   </tr>
   
   <tr>
@@ -261,7 +261,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>integer</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the maximum number of month that are shown between current and target in transitions. It's used when <b>goto</b> method has called.</i></td>
   </tr>
   
   <tr>
@@ -269,7 +269,7 @@ The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in additi
     <td>float</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the speed factor of scrolling in transitions. It's used when <b>goto</b> method has called.</i></td>
   </tr>
   
 </table>
