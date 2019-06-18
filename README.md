@@ -388,6 +388,23 @@ These variables are only accessible programmatically to get or set. (Available b
 
 <br/>
 
+### 3. Day Picking Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
+You can listen to day picking actions by setting [OnDayPickedListener](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/OnDayPickedListener.kt) to the views.
+For example:
+
+```kotlin
+monthView.onDayPickedListener = object : OnDayPickedListener {
+    override fun onDayPicked(pickType: PickType, 
+                             singleDay: PrimeCalendar?, 
+                             startDay: PrimeCalendar?, 
+                             endDay: PrimeCalendar?) {
+        // TODO
+    }
+}
+```
+
+<br/>
+
 Customizing Texts in Date Picker Bottom Sheet
 -------------------------------------------
 If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
