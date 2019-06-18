@@ -439,6 +439,8 @@ Locale
 -------------------------------------------
 You can...
 
+fun setDate(calendar: PrimeCalendar)
+
 <br/>
 
 Third Party Libraries

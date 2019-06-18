@@ -346,7 +346,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 }
                 else -> Direction.LTR
             }
-            if (invalidate) setDate(CalendarFactory.newInstance(value, locale))
+            if (invalidate) goto(CalendarFactory.newInstance(value, locale))
         }
 
     var locale = Locale.getDefault()
@@ -359,7 +359,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 }
                 else -> Direction.LTR
             }
-            if (invalidate) setDate(CalendarFactory.newInstance(calendarType, value))
+            if (invalidate) goto(CalendarFactory.newInstance(calendarType, value))
         }
 
     // ---------------------------------------------------------------------------------------------
@@ -410,7 +410,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         if (isInEditMode) {
             val calendar = CalendarFactory.newInstance(calendarType, locale)
-            setDate(calendar)
+            goto(calendar)
         }
     }
 
@@ -505,14 +505,14 @@ class PrimeMonthView @JvmOverloads constructor(
         drawDayLabels(canvas)
     }
 
-    fun setDate(calendar: PrimeCalendar) {
+    fun goto(calendar: PrimeCalendar) {
         doNotInvalidate {
             locale = calendar.locale
         }
-        setDate(calendar.calendarType, calendar.year, calendar.month)
+        goto(calendar.calendarType, calendar.year, calendar.month)
     }
 
-    fun setDate(calendarType: CalendarType, year: Int, month: Int) {
+    fun goto(calendarType: CalendarType, year: Int, month: Int) {
         doNotInvalidate {
             this.calendarType = calendarType
         }
@@ -1074,7 +1074,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         applyTypeface()
         calculateSizes()
-        setDate(calendarType, year, month)
+        goto(calendarType, year, month)
         notifyDayPicked(true)
     }
 

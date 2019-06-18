@@ -49,7 +49,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
 
         monthView.onDayPickedListener = this
-        monthView.setDate(CalendarFactory.newInstance(calendarType))
+        monthView.goto(CalendarFactory.newInstance(calendarType))
 
         initTypeface()
         initCalendarTypeSection()
@@ -91,7 +91,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.CIVIL
-                    monthView.setDate(CalendarFactory.newInstance(calendarType))
+                    monthView.goto(CalendarFactory.newInstance(calendarType))
 
                     restoreDefaults(calendarType)
                 }
@@ -100,7 +100,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.PERSIAN
-                    monthView.setDate(CalendarFactory.newInstance(calendarType))
+                    monthView.goto(CalendarFactory.newInstance(calendarType))
 
                     restoreDefaults(calendarType)
                 }
@@ -109,7 +109,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.HIJRI
-                    monthView.setDate(CalendarFactory.newInstance(calendarType))
+                    monthView.goto(CalendarFactory.newInstance(calendarType))
 
                     restoreDefaults(calendarType)
                 }
@@ -178,18 +178,18 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
                 calendar.add(Calendar.MONTH, -7)
-                monthView.setDate(calendar)
+                monthView.goto(calendar)
             }
             setToNowTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
-                monthView.setDate(calendar)
+                monthView.goto(calendar)
             }
             setToFutureTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
                 calendar.add(Calendar.MONTH, 7)
-                monthView.setDate(calendar)
+                monthView.goto(calendar)
             }
         }
     }

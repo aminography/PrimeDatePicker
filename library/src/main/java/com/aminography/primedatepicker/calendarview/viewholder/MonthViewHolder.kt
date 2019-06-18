@@ -57,7 +57,7 @@ class MonthViewHolder(
                         monthView.showTwoWeeksInLandscape = showTwoWeeksInLandscape
                     }
                 }
-                monthView.setDate(calendarType, year, month)
+                monthView.goto(calendarType, year, month)
             }
         }
     }
