@@ -47,7 +47,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>enum</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the calendar type which is shown by this view. Its possible values are: <b>civil</b>, <b>persian</b>, <b>hijri</b></i></td>
+    <td colspan="2"><i>Specifies the calendar type which is shown by this view. Its possible values are: <b>civil</b>, <b>persian</b>, <b>hijri</b>.</i></td>
   </tr>
   
   <tr>
@@ -55,7 +55,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>color</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text color of month name label.</i></td>
   </tr>
   
   <tr>
@@ -63,7 +63,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>color</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text color of week day name labels.</i></td>
   </tr>
   
   <tr>
@@ -71,7 +71,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>color</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text color of day number labels.</i></td>
   </tr>
   
   <tr>
@@ -79,7 +79,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>color</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text color of day number label which belongs to today.</i></td>
   </tr>
   
   <tr>
@@ -87,7 +87,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>color</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text color of day number labels when they are picked.</i></td>
   </tr>
   
   <tr>
@@ -95,7 +95,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>color</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the background color of day numbers when they are picked.</i></td>
   </tr>
   
   <tr>
@@ -103,7 +103,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>color</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text color of day number labels when they are disabled.</i></td>
   </tr>
   
   <tr>
@@ -111,7 +111,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text size of month name label.</i></td>
   </tr>
   
   <tr>
@@ -119,7 +119,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text size of week day name labels.</i></td>
   </tr>
   
   <tr>
@@ -127,7 +127,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the text size of day number labels.</i></td>
   </tr>
   
   <tr>
@@ -135,7 +135,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the top padding of month name label.</i></td>
   </tr>
   
   <tr>
@@ -143,7 +143,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the bottom padding of month name label.</i></td>
   </tr>
   
   <tr>
@@ -151,7 +151,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the top padding of week day name labels.</i></td>
   </tr>
   
   <tr>
@@ -159,7 +159,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the bottom padding of week day name labels.</i></td>
   </tr>
   
   <tr>
@@ -167,7 +167,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>dimension</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>Specifies the vertical padding (top and bottom) of day number labels.</i></td>
   </tr>
   
   <tr>
@@ -175,7 +175,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>boolean</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Descriptions</i></td>
+    <td colspan="2"><i>When in sets <b>true</b>, month view shows two weeks (14 days) in each row.</i></td>
   </tr>
   
 </table>
