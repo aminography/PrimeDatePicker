@@ -333,7 +333,7 @@ Applying ...
     <td>Typeface</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the ...</i></td>
+    <td colspan="2"><i>Specifies the typeface of showing texts.</i></td>
   </tr>
   
   <tr>
@@ -341,7 +341,7 @@ Applying ...
     <td>PrimeCalendar</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the ...</i></td>
+    <td colspan="2"><i>Specifies the single picked date.</i></td>
   </tr>
   
   <tr>
@@ -349,7 +349,7 @@ Applying ...
     <td>PrimeCalendar</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the ...</i></td>
+    <td colspan="2"><i>Specifies the start date of the picked range.</i></td>
   </tr>
   
   <tr>
@@ -357,7 +357,7 @@ Applying ...
     <td>PrimeCalendar</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the ...</i></td>
+    <td colspan="2"><i>Specifies the end date of the picked range.</i></td>
   </tr>
   
   <tr>
@@ -365,7 +365,7 @@ Applying ...
     <td>PrimeCalendar</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the ...</i></td>
+    <td colspan="2"><i>Specifies the minimum feasible date of the view.</i></td>
   </tr>
   
   <tr>
@@ -373,7 +373,7 @@ Applying ...
     <td>PrimeCalendar</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the ...</i></td>
+    <td colspan="2"><i>Specifies the maximum feasible date of the view.</i></td>
   </tr>
   
   <tr>
@@ -381,7 +381,7 @@ Applying ...
     <td><a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/PickType.kt">PickType</a></td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the ...  Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>NOTHING</b>.</i></td>
+    <td colspan="2"><i>Specifies the date picking type of the view. Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>NOTHING</b>.</i></td>
   </tr>
 
 </table>
