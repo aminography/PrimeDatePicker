@@ -31,6 +31,8 @@ Usage
 -----------------
 Descriptions
 
+onDayPickedListener: OnDayPickedListener
+
 <br/>
 
 Stand Alone Views
