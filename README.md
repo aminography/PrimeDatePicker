@@ -30,7 +30,7 @@ Descriptions
 ### Customization
 Descriptions
 
-### 1. View Attributes
+### 1. XML & View Attributes
 Descriptions
 
 Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
@@ -47,7 +47,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
     <td>enum</td>
   </tr>
   <tr>
-    <td colspan="2"><i>civil, persian, hijri</i></td>
+    <td colspan="2"><i>Specifies the calendar type which is shown by this view. Its possible values are: <b>civil</b>, <b>persian</b>, <b>hijri</b></i></td>
   </tr>
   
   <tr>
