@@ -41,11 +41,7 @@ Descriptions
     android:id="@+id/monthView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp" />
+    android:padding="16dp" />
 ```
 
 ```xml
