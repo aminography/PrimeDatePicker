@@ -32,9 +32,6 @@ Stand Alone Views
 In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand alone views in your project. 
 They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml` files or instantiated programmatically.
 
-### Customization
-Descriptions
-
 ### 1. XML & View Attributes
 Descriptions
 
@@ -277,8 +274,8 @@ Descriptions
   
 </table>
 
-### 2. Strings
-To change texts of date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+### Customize Texts in Date Picker Bottom Sheet
+If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 Third Party Libraries
 ---------------------
