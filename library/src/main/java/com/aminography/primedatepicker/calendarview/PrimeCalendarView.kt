@@ -345,23 +345,38 @@ class PrimeCalendarView @JvmOverloads constructor(
     var calendarType = CalendarType.CIVIL
         set(value) {
             field = value
-            direction = when (value) {
-                CalendarType.CIVIL -> Direction.LTR
-                CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+            direction = when (locale.language) {
+                "fa", "ar" -> when (value) {
+                    CalendarType.CIVIL -> Direction.LTR
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+                }
+                else -> Direction.LTR
             }
 
             layoutManager = createLayoutManager()
             recyclerView.layoutManager = layoutManager
             applyDividers()
 
-            if (invalidate) goto(CalendarFactory.newInstance(value), false)
+            if (invalidate) goto(CalendarFactory.newInstance(value, locale), false)
         }
 
+    override var locale = Locale.getDefault()
+        set(value) {
+            field = value
+            direction = when (value.language) {
+                "fa", "ar" -> when (calendarType) {
+                    CalendarType.CIVIL -> Direction.LTR
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+                }
+                else -> Direction.LTR
+            }
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
 
     var flingOrientation = FlingOrientation.VERTICAL
         set(value) {
             field = value
-            val calendar = CalendarFactory.newInstance(calendarType)
+            val calendar = CalendarFactory.newInstance(calendarType, locale)
             currentItemCalendar()?.let { current ->
                 calendar.year = current.year
                 calendar.month = current.month
@@ -369,7 +384,6 @@ class PrimeCalendarView @JvmOverloads constructor(
             layoutManager = createLayoutManager()
             recyclerView.layoutManager = layoutManager
             applyDividers()
-//            applyFadingEdges()
 
             if (invalidate) goto(calendar, false)
         }
@@ -377,7 +391,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     // ---------------------------------------------------------------------------------------------
 
     private fun currentItemCalendar(): PrimeCalendar? = findFirstVisibleItem()?.run {
-        val calendar = CalendarFactory.newInstance(calendarType)
+        val calendar = CalendarFactory.newInstance(calendarType, locale)
         calendar.set(year, month, 1)
         return calendar
     }
@@ -495,7 +509,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         applyDividers()
 
         if (isInEditMode) {
-            goto(CalendarFactory.newInstance(calendarType), false)
+            goto(CalendarFactory.newInstance(calendarType, locale), false)
         }
     }
 
@@ -522,34 +536,38 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     fun gotoNextMonth(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType).apply {
+        CalendarFactory.newInstance(calendarType, locale).apply {
             add(Calendar.MONTH, 1)
             return goto(year, month, animate)
         }
     }
 
     fun gotoPreviousMonth(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType).apply {
+        CalendarFactory.newInstance(calendarType, locale).apply {
             add(Calendar.MONTH, -1)
             return goto(year, month, animate)
         }
     }
 
     fun gotoNextYear(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType).apply {
+        CalendarFactory.newInstance(calendarType, locale).apply {
             add(Calendar.YEAR, 1)
             return goto(year, month, animate)
         }
     }
 
     fun gotoPreviousYear(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType).apply {
+        CalendarFactory.newInstance(calendarType, locale).apply {
             add(Calendar.YEAR, -1)
             return goto(year, month, animate)
         }
     }
 
     fun goto(calendar: PrimeCalendar, animate: Boolean = false): Boolean {
+        doNotInvalidate {
+            locale = calendar.locale
+            calendarType = calendar.calendarType
+        }
         return goto(calendar.year, calendar.month, animate)
     }
 
@@ -826,6 +844,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         val savedState = SavedState(superState)
 
         savedState.calendarType = calendarType.ordinal
+        savedState.locale = locale.language
+
         currentItemCalendar()?.apply {
             savedState.currentYear = year
             savedState.currentMonth = month
@@ -869,7 +889,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.weekLabelBottomPadding = weekLabelBottomPadding
         savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
         savedState.twoWeeksInLandscape = showTwoWeeksInLandscape
-        
+
         return savedState
     }
 
@@ -882,6 +902,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
+            locale = Locale(savedState.locale)
 
             flingOrientation = FlingOrientation.values()[savedState.flingOrientation]
 
@@ -933,6 +954,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     private class SavedState : BaseSavedState {
 
         internal var calendarType: Int = 0
+        internal var locale: String? = null
         internal var currentYear: Int = 0
         internal var currentMonth: Int = 0
 
@@ -979,6 +1001,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         private constructor(input: Parcel) : super(input) {
             calendarType = input.readInt()
+            locale = input.readString()
             currentYear = input.readInt()
             currentMonth = input.readInt()
 
@@ -1025,6 +1048,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
             out.writeInt(calendarType)
+            out.writeString(locale)
             out.writeInt(currentYear)
             out.writeInt(currentMonth)
 

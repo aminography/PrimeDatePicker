@@ -6,6 +6,7 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.hijri.HijriCalendarUtils
 import com.aminography.primecalendar.persian.PersianCalendarUtils
+import java.util.*
 
 
 /**
@@ -98,14 +99,14 @@ object DateUtils {
 
     fun storeCalendar(calendar: PrimeCalendar?): String? =
             calendar?.let {
-                "${calendar.calendarType.name}-${calendar.year}-${calendar.month}-${calendar.dayOfMonth}"
+                "${calendar.calendarType.name}-${calendar.locale.language}-${calendar.year}-${calendar.month}-${calendar.dayOfMonth}"
             }
 
     fun restoreCalendar(input: String?): PrimeCalendar? =
             input?.run {
                 split("-").let {
-                    CalendarFactory.newInstance(CalendarType.valueOf(it[0])).apply {
-                        set(it[1].toInt(), it[2].toInt(), it[3].toInt())
+                    CalendarFactory.newInstance(CalendarType.valueOf(it[0]), Locale(it[1])).apply {
+                        set(it[2].toInt(), it[3].toInt(), it[4].toInt())
                     }
                 }
             }

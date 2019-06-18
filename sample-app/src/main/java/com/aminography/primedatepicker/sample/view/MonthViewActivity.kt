@@ -91,7 +91,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.CIVIL
-                    monthView.calendarType = calendarType
+                    monthView.setDate(CalendarFactory.newInstance(calendarType))
 
                     restoreDefaults(calendarType)
                 }
@@ -100,7 +100,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.PERSIAN
-                    monthView.calendarType = calendarType
+                    monthView.setDate(CalendarFactory.newInstance(calendarType))
 
                     restoreDefaults(calendarType)
                 }
@@ -109,7 +109,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.HIJRI
-                    monthView.calendarType = calendarType
+                    monthView.setDate(CalendarFactory.newInstance(calendarType))
 
                     restoreDefaults(calendarType)
                 }

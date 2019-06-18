@@ -94,7 +94,9 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.CIVIL
-                    calendarView.calendarType = calendarType
+//                    calendarView.calendarType = calendarType
+//                    calendarView.locale = Locale.ENGLISH
+                    calendarView.goto(CalendarFactory.newInstance(calendarType), false)
 
                     restoreDefaults()
                 }
@@ -103,7 +105,9 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.PERSIAN
-                    calendarView.calendarType = calendarType
+//                    calendarView.calendarType = calendarType
+//                    calendarView.locale = Locale("fa")
+                    calendarView.goto(CalendarFactory.newInstance(calendarType), false)
 
                     restoreDefaults()
                 }
@@ -112,7 +116,9 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.HIJRI
-                    calendarView.calendarType = calendarType
+//                    calendarView.calendarType = calendarType
+//                    calendarView.locale = Locale("ar")
+                    calendarView.goto(CalendarFactory.newInstance(calendarType), false)
 
                     restoreDefaults()
                 }

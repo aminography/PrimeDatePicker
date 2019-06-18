@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
+import java.util.*
 
 /**
  * @author aminography
@@ -15,6 +16,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val maxDateCalendar: PrimeCalendar?
 
     val pickType: PickType
+
+    val locale: Locale
 
     val pickedRangeStartCalendar: PrimeCalendar?
 

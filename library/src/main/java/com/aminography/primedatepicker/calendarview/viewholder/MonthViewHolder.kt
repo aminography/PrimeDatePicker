@@ -35,6 +35,7 @@ class MonthViewHolder(
                         monthView.pickedRangeStartCalendar = pickedRangeStartCalendar
                         monthView.pickedRangeEndCalendar = pickedRangeEndCalendar
                         monthView.pickType = pickType
+                        monthView.locale = locale
 
                         // Common Attributes -------------------------------------------------------
 

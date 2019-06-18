@@ -435,6 +435,12 @@ If you want to change the texts of the date picker bottom sheet, define strings 
 
 <br/>
 
+Locale
+-------------------------------------------
+You can...
+
+<br/>
+
 Third Party Libraries
 ---------------------
 **• PrimeCalendar** (https://github.com/aminography/PrimeCalendar)

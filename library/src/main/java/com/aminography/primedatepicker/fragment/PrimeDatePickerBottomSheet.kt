@@ -99,7 +99,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(R.layout.fragme
             negativeButton.setOnClickListener { dismiss() }
 
             todayButton.setOnClickListener {
-                val calendar = CalendarFactory.newInstance(calendarType)
+                val calendar = CalendarFactory.newInstance(calendarType, calendarView.locale)
                 calendarView.goto(calendar.year, calendar.month, true)
             }
 
@@ -170,6 +170,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(R.layout.fragme
                     startDay?.apply {
                         rangeStartTextView.text = shortDateString
                     }
+                    rangeEndTextView.text = endDay?.let {
+                        it.shortDateString
+                    } ?: ""
                 }
                 PickType.RANGE_END -> {
                     endDay?.apply {

@@ -339,11 +339,27 @@ class PrimeMonthView @JvmOverloads constructor(
     var calendarType = CalendarType.CIVIL
         set(value) {
             field = value
-            direction = when (value) {
-                CalendarType.CIVIL -> Direction.LTR
-                CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+            direction = when (locale.language) {
+                "fa", "ar" -> when (value) {
+                    CalendarType.CIVIL -> Direction.LTR
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+                }
+                else -> Direction.LTR
             }
-            if (invalidate) setDate(CalendarFactory.newInstance(value))
+            if (invalidate) setDate(CalendarFactory.newInstance(value, locale))
+        }
+
+    var locale = Locale.getDefault()
+        set(value) {
+            field = value
+            direction = when (value.language) {
+                "fa", "ar" -> when (calendarType) {
+                    CalendarType.CIVIL -> Direction.LTR
+                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
+                }
+                else -> Direction.LTR
+            }
+            if (invalidate) setDate(CalendarFactory.newInstance(calendarType, value))
         }
 
     // ---------------------------------------------------------------------------------------------
@@ -393,7 +409,7 @@ class PrimeMonthView @JvmOverloads constructor(
         applyTypeface()
 
         if (isInEditMode) {
-            val calendar = CalendarFactory.newInstance(calendarType)
+            val calendar = CalendarFactory.newInstance(calendarType, locale)
             setDate(calendar)
         }
     }
@@ -490,6 +506,9 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     fun setDate(calendar: PrimeCalendar) {
+        doNotInvalidate {
+            locale = calendar.locale
+        }
         setDate(calendar.calendarType, calendar.year, calendar.month)
     }
 
@@ -501,8 +520,8 @@ class PrimeMonthView @JvmOverloads constructor(
         this.year = year
         this.month = month
 
-        dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType)
-        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType).apply {
+        dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType, locale)
+        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType, locale).apply {
             set(year, month, 1)
             firstDayOfMonthDayOfWeek = get(Calendar.DAY_OF_WEEK)
         }
@@ -523,7 +542,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun updateToday() {
-        val todayCalendar = CalendarFactory.newInstance(calendarType)
+        val todayCalendar = CalendarFactory.newInstance(calendarType, locale)
         hasToday = todayCalendar.year == year && todayCalendar.month == month
         todayDayOfMonth = if (hasToday) todayCalendar.dayOfMonth else -1
     }
@@ -882,7 +901,7 @@ class PrimeMonthView @JvmOverloads constructor(
             MotionEvent.ACTION_UP -> {
                 findDayByCoordinates(event.x, event.y)?.let { dayOfMonth ->
                     ifInValidRange(dayOfMonth) {
-                        val calendar = CalendarFactory.newInstance(calendarType)
+                        val calendar = CalendarFactory.newInstance(calendarType, locale)
                         calendar.set(year, month, dayOfMonth)
                         onDayClicked(calendar)
                     }
@@ -981,6 +1000,8 @@ class PrimeMonthView @JvmOverloads constructor(
         val savedState = SavedState(superState)
 
         savedState.calendarType = calendarType.ordinal
+        savedState.locale = locale.language
+
         savedState.year = year
         savedState.month = month
 
@@ -1018,6 +1039,8 @@ class PrimeMonthView @JvmOverloads constructor(
 
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
+            locale = Locale(savedState.locale)
+
             year = savedState.year
             month = savedState.month
 
@@ -1058,6 +1081,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private class SavedState : BaseSavedState {
 
         internal var calendarType: Int = 0
+        internal var locale: String? = null
         internal var year: Int = 0
         internal var month: Int = 0
 
@@ -1090,6 +1114,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         private constructor(input: Parcel) : super(input) {
             calendarType = input.readInt()
+            locale = input.readString()
             year = input.readInt()
             month = input.readInt()
 
@@ -1122,6 +1147,7 @@ class PrimeMonthView @JvmOverloads constructor(
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
             out.writeInt(calendarType)
+            out.writeString(locale)
             out.writeInt(year)
             out.writeInt(month)
 
