@@ -394,6 +394,7 @@ For example:
 
 ```kotlin
 monthView.onDayPickedListener = object : OnDayPickedListener {
+
     override fun onDayPicked(pickType: PickType, 
                              singleDay: PrimeCalendar?, 
                              startDay: PrimeCalendar?, 
