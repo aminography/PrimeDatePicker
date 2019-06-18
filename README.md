@@ -1,4 +1,4 @@
-# `PrimeDatePicker` <:zap: 
+# `PrimeDatePicker` :zap: 
   
 First, **`PrimeDatePicker`** is a>> date picker tool. It provides picking a single day in addition to a range of days. Second, it is possible to use its `MonthView` and `CalendarView` as stand alone views in your project.
 
