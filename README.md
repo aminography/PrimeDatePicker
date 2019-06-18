@@ -57,7 +57,6 @@ They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml
 
 ### XML & View Attributes
 Applying customization has been provided for `PrimeMonthView` and `PrimeCalendarView` by using `xml` attributes as well as setting them programmatically.
-
 For example:
 
 > xml
