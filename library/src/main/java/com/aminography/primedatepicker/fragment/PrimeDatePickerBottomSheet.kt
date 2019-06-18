@@ -220,6 +220,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(R.layout.fragme
         private var onDismissListener: DialogInterface.OnDismissListener? = null
         private var onDayPickedListener: OnDayPickedListener? = null
 
+        @JvmStatic
+        @JvmOverloads
         fun newInstance(
                 currentDateCalendar: PrimeCalendar,
                 minDateCalendar: PrimeCalendar? = null,
