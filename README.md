@@ -33,7 +33,7 @@ Descriptions
 ### 1. XML & View Attributes
 Descriptions
 
-Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
+### Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
 
 <table>
 
@@ -181,9 +181,7 @@ Common attributes in `PrimeMonthView` and `PrimeCalendarView`:
 </table>
 
 
-`PrimeCalendarView` Attributes:
-
-The `PrimeMonthView` attributes are accessible for `PrimeCalendarView` in addition to below ones.
+### `PrimeCalendarView` Specific Attributes:
 
 <table>
 
