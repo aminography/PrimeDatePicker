@@ -376,10 +376,10 @@ Applying ...
   
   <tr>
     <td><b>• pickType</b></td>
-    <td>PickType</td>
+    <td><a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/PickType.kt">PickType</a></td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the ...</i></td>
+    <td colspan="2"><i>Specifies the ...  Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>NOTHING</b>.</i></td>
   </tr>
 
 </table>
