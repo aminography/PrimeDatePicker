@@ -62,6 +62,7 @@ Stand Alone Views
 -----------------
 In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand alone views in your project. 
 They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml` files or instantiated programmatically.
+For example:
 
 > xml
 ```xml
@@ -341,7 +342,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
 
 <br/>
 
-### 2. Control Variables (Common for `PrimeMonthView` & `PrimeCalendarView`)
+### 2. Other Variables (Common for `PrimeMonthView` & `PrimeCalendarView`)
 These variables are only accessible programmatically to get or set. (Available by getter and setter methods in java)
 
 <table>
