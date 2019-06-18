@@ -36,6 +36,7 @@ class MonthViewHolder(
                         monthView.pickedRangeEndCalendar = pickedRangeEndCalendar
                         monthView.pickType = pickType
                         monthView.locale = locale
+                        monthView.calendarType = calendarType
 
                         // Common Attributes -------------------------------------------------------
 
@@ -57,7 +58,7 @@ class MonthViewHolder(
                         monthView.showTwoWeeksInLandscape = showTwoWeeksInLandscape
                     }
                 }
-                monthView.goto(calendarType, year, month)
+                monthView.goto(year, month)
             }
         }
     }

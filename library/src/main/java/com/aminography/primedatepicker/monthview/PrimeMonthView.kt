@@ -508,15 +508,12 @@ class PrimeMonthView @JvmOverloads constructor(
     fun goto(calendar: PrimeCalendar) {
         doNotInvalidate {
             locale = calendar.locale
+            calendarType = calendar.calendarType
         }
-        goto(calendar.calendarType, calendar.year, calendar.month)
+        goto(calendar.year, calendar.month)
     }
 
-    fun goto(calendarType: CalendarType, year: Int, month: Int) {
-        doNotInvalidate {
-            this.calendarType = calendarType
-        }
-
+    fun goto(year: Int, month: Int) {
         this.year = year
         this.month = month
 
@@ -1074,7 +1071,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         applyTypeface()
         calculateSizes()
-        goto(calendarType, year, month)
+        goto(year, month)
         notifyDayPicked(true)
     }
 
