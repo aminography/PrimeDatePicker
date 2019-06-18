@@ -58,6 +58,8 @@ They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml
 ### XML & View Attributes
 Applying customization has been provided for `PrimeMonthView` and `PrimeCalendarView` by using `xml` attributes as well as setting them programmatically.
 
+For example:
+
 > xml
 ```xml
 <com.aminography.primedatepicker.calendarview.PrimeCalendarView
@@ -69,7 +71,7 @@ Applying customization has been provided for `PrimeMonthView` and `PrimeCalendar
 
 > Programmatically
 ```kotlin
-calendarView.dayLabelTextSize = Color.BLUE
+calendarView.pickedDayCircleColor = Color.BLUE
 ```
 
 <br/>
