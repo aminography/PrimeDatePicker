@@ -35,6 +35,7 @@ They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml
 ### 1. XML & View Attributes
 Descriptions
 
+.
 ### 1.1. Common attributes for `PrimeMonthView` & `PrimeCalendarView`:
 
 <table>
@@ -182,7 +183,7 @@ Descriptions
   
 </table>
 
-
+.
 ### 1.2. `PrimeCalendarView` Specific Attributes:
 
 <table>
@@ -274,6 +275,7 @@ Descriptions
   
 </table>
 
+.
 ### Customize Texts in Date Picker Bottom Sheet
 If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
