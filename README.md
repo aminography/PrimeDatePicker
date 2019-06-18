@@ -302,7 +302,8 @@ Descriptions
 
 <br/>
 
-### Customize Texts in Date Picker Bottom Sheet
+Customizing Texts in Date Picker Bottom Sheet
+-------------------------------------------
 If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 <br/>
