@@ -8,6 +8,8 @@ First, **`PrimeDatePicker`** is a>> date picker tool. It provides picking a sing
 | --- | --- |
 | ![](static/picking_single.gif) | ![](static/picking_range.gif) | 
 
+<br/>
+
 Download
 --------
 **`PrimeDatePicker`** is available on bintray to download using build tools systems. Add the following lines to your `build.gradle` file:
