@@ -54,7 +54,7 @@ val monthView = PrimeMonthView(context)
 
 <br/>
 
-### XML & View Attributes
+### XML Attributes
 Applying customization has been provided for `PrimeMonthView` and `PrimeCalendarView` by using `xml` attributes as well as setting them programmatically.
 For example:
 
@@ -312,6 +312,76 @@ calendarView.pickedDayCircleColor = Color.BLUE
     <td colspan="2"><i>Specifies the speed factor of scrolling in transitions. It's used when <b>goto</b> method has called.</i></td>
   </tr>
   
+</table>
+
+<br/>
+
+### Control Variables (Common for `PrimeMonthView` & `PrimeCalendarView`)
+Applying ...
+
+<table>
+
+  <tr>
+    <td><b>Variable</b></td>
+    <td><b>Type</b></td>
+  </tr>
+  
+  <tr>
+    <td><b>• typeface</b></td>
+    <td>Typeface</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the ...</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• pickedSingleDayCalendar</b></td>
+    <td>PrimeCalendar</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the ...</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• pickedRangeStartCalendar</b></td>
+    <td>PrimeCalendar</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the ...</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• pickedRangeEndCalendar</b></td>
+    <td>PrimeCalendar</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the ...</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• minDateCalendar</b></td>
+    <td>PrimeCalendar</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the ...</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• maxDateCalendar</b></td>
+    <td>PrimeCalendar</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the ...</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• pickType</b></td>
+    <td>PickType</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the ...</i></td>
+  </tr>
+
 </table>
 
 <br/>

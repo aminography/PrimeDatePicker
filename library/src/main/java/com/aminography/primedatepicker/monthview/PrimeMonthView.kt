@@ -81,7 +81,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // Listeners -----------------------------------------------------------------------------------
 
-    var onHeightDetectListener: OnHeightDetectListener? = null
+    internal var onHeightDetectListener: OnHeightDetectListener? = null
     var onDayPickedListener: OnDayPickedListener? = null
 
     // Control Variables ---------------------------------------------------------------------------
