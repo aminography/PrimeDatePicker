@@ -301,9 +301,9 @@ If you want to change the texts of the date picker bottom sheet, define strings 
 
 Third Party Libraries
 ---------------------
-**• PrimeCalendar** (<https://github.com/aminography/PrimeCalendar>)
+**• PrimeCalendar** (https://github.com/aminography/PrimeCalendar)
 
-**• PrimeAdapter** (<https://github.com/aminography/PrimeAdapter>)
+**• PrimeAdapter** (https://github.com/aminography/PrimeAdapter)
 
 License
 --------
