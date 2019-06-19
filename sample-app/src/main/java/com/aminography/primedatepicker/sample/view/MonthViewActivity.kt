@@ -56,6 +56,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         initPickerTypeSection()
         initDateBoundarySection()
         initSetToSection()
+        initLocaleSection()
 
         titleTextView.setOnClickListener {
             monthView.weekLabelTextSize = dip(24)
@@ -194,6 +195,23 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
+    private fun initLocaleSection() {
+        with(navigationLayout) {
+            calendarDefaultLocaleRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    monthView.locale = CalendarFactory.newInstance(calendarType).locale
+                }
+            }
+            englishLocaleRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    monthView.locale = Locale.ENGLISH
+                }
+            }
+        }
+    }
+
     private fun restoreDefaults(calendarType: CalendarType) {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
@@ -206,6 +224,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             val today = CalendarFactory.newInstance(calendarType)
             minDateCheckBox.text = "Min Date: ${today.monthName} 5"
             maxDateCheckBox.text = "Max Date: ${today.monthName} 25"
+            calendarDefaultLocaleRadioButton.isChecked = true
 
             endRangeRadioButton.isEnabled = false
 

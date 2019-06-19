@@ -59,6 +59,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         initDateBoundarySection()
         initSetToSection()
         initFlingOrientationSection()
+        initLocaleSection()
 
         titleTextView.setOnClickListener {
             calendarView.transitionSpeedFactor = 1.3f
@@ -226,6 +227,23 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
+    private fun initLocaleSection() {
+        with(navigationLayout) {
+            calendarDefaultLocaleRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    calendarView.locale = CalendarFactory.newInstance(calendarType).locale
+                }
+            }
+            englishLocaleRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    calendarView.locale = Locale.ENGLISH
+                }
+            }
+        }
+    }
+
     private fun restoreDefaults() {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
@@ -235,8 +253,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             singleRadioButton.isChecked = false
             startRangeRadioButton.isChecked = false
             endRangeRadioButton.isChecked = false
-
-            endRangeRadioButton.isEnabled = false
+            calendarDefaultLocaleRadioButton.isChecked = true
 
             calendarView.invalidateAfter {
                 calendarView.pickedSingleDayCalendar = null
