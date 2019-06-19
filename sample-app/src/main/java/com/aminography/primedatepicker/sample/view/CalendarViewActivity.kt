@@ -248,16 +248,17 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private fun initTransitionSpeedFactorSection() {
         with(navigationLayout) {
+            val min = resources.getString(com.aminography.primedatepicker.R.string.defaultTransitionSpeedFactor).toFloat()
             val max = 1000
-            factorTextView.text = String.format("%.02f", 1f)
+            factorTextView.text = String.format("%.02f", calendarView.transitionSpeedFactor)
             factorSeekBar.max = max
-            factorSeekBar.progress = 0
+            factorSeekBar.progress = (calendarView.transitionSpeedFactor / max).toInt()
             factorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
                 override fun onProgressChanged(SeekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    val p = (progress.toDouble() * 9 / max).toFloat()
-                    factorTextView.text = String.format("%.02f", p + 1)
-                    calendarView.transitionSpeedFactor = p + 1f
+                    val p = (progress.toDouble() * (10 - min) / max).toFloat()
+                    factorTextView.text = String.format("%.02f", p + min)
+                    calendarView.transitionSpeedFactor = p + min
                 }
 
                 override fun onStartTrackingTouch(SeekBar: SeekBar?) {
@@ -272,9 +273,9 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     private fun initMaxTransitionLengthSection() {
         with(navigationLayout) {
             val max = 10
-            transitionLengthTextView.text = "2"
+            transitionLengthTextView.text = "${calendarView.maxTransitionLength}"
             transitionLengthSeekBar.max = max
-            transitionLengthSeekBar.progress = 2
+            transitionLengthSeekBar.progress = calendarView.maxTransitionLength
             transitionLengthSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
 
                 override fun onProgressChanged(SeekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -302,11 +303,12 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             endRangeRadioButton.isChecked = false
             calendarDefaultLocaleRadioButton.isChecked = true
 
-            factorTextView.text = String.format("%.02f", 1f)
-            factorSeekBar.progress = 0
 
-            transitionLengthTextView.text = "2"
-            transitionLengthSeekBar.progress = 2
+            factorTextView.text = String.format("%.02f", calendarView.transitionSpeedFactor)
+            factorSeekBar.progress = (calendarView.transitionSpeedFactor / 1000).toInt()
+
+            transitionLengthTextView.text = "${calendarView.maxTransitionLength}"
+            transitionLengthSeekBar.progress = calendarView.maxTransitionLength
 
             calendarView.invalidateAfter {
                 calendarView.pickedSingleDayCalendar = null
