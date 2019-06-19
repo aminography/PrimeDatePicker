@@ -13,7 +13,7 @@ First, **`PrimeDatePicker`** is a date picker tool. It provides picking a single
 
 Download
 --------
-**`PrimeDatePicker`** is available on bintray to download using build tools systems. Add the following lines to your `build.gradle` file:
+**`PrimeDatePicker`** is available on [bintray](https://bintray.com/aminography/maven/PrimeDatePicker) to download using build tools systems. Add the following lines to your `build.gradle` file:
 
 ```gradle
 repositories {
