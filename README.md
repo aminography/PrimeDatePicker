@@ -432,7 +432,7 @@ monthView.onDayPickedListener = object : OnDayPickedListener {
 
 Locale
 -------------------------------------------
-`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) are implemented with localization ability. 
+`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) have been implemented with localization capabilities. 
 By passing locale for input `PrimeCalendar` argument of `goto` methods, or by setting it directly to these views, you can specify locale of names, digits and layout direction.
 
 #### Localization example for `PrimeMonthView` using `PersianCalendar`:
