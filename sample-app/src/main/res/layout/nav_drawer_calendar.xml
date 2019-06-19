@@ -375,7 +375,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/material_size_16"
+            android:layout_marginTop="@dimen/material_size_8"
             android:paddingLeft="@dimen/material_size_16"
             android:paddingRight="@dimen/material_size_16">
 
