@@ -477,7 +477,7 @@ By passing locale for input `PrimeCalendar` argument of `goto` methods, or by se
 
 Customizing Texts in Date Picker Bottom Sheet
 -------------------------------------------
-If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 <br/>
 
