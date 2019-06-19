@@ -1,13 +1,13 @@
 package com.aminography.primedatepicker.sample.view
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.SeekBar
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -60,6 +60,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         initSetToSection()
         initFlingOrientationSection()
         initLocaleSection()
+        initTransitionsSection()
 
         titleTextView.setOnClickListener {
             calendarView.transitionSpeedFactor = 1.3f
@@ -244,6 +245,29 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
+    private fun initTransitionsSection() {
+        with(navigationLayout) {
+            val max = 1000
+            factorTextView.text = String.format("%.02f", 1)
+            factorSeekBar.max = max
+            factorSeekBar.progress = 0
+            factorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+                override fun onProgressChanged(SeekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    val p = (progress.toDouble() * 9 / max).toFloat()
+                    factorTextView.text = String.format("%.02f", p + 1)
+                    calendarView.transitionSpeedFactor = p + 1f
+                }
+
+                override fun onStartTrackingTouch(SeekBar: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(SeekBar: SeekBar?) {
+                }
+            })
+        }
+    }
+
     private fun restoreDefaults() {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
@@ -254,6 +278,9 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             startRangeRadioButton.isChecked = false
             endRangeRadioButton.isChecked = false
             calendarDefaultLocaleRadioButton.isChecked = true
+
+            factorTextView.text = String.format("%.02f", 1)
+            factorSeekBar.progress = 0
 
             calendarView.invalidateAfter {
                 calendarView.pickedSingleDayCalendar = null
