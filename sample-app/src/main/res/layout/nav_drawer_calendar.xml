@@ -365,7 +365,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
-            android:text="Transition"
+            android:text="Transition Speed Factor"
             android:textColor="@color/textColorSecondary"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
@@ -375,6 +375,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:layout_marginTop="@dimen/material_size_16"
             android:paddingLeft="@dimen/material_size_16"
             android:paddingRight="@dimen/material_size_16">
 
