@@ -248,7 +248,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     private fun initTransitionsSection() {
         with(navigationLayout) {
             val max = 1000
-            factorTextView.text = String.format("%.02f", 1)
+            factorTextView.text = String.format("%.02f", 1f)
             factorSeekBar.max = max
             factorSeekBar.progress = 0
             factorSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -279,7 +279,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             endRangeRadioButton.isChecked = false
             calendarDefaultLocaleRadioButton.isChecked = true
 
-            factorTextView.text = String.format("%.02f", 1)
+            factorTextView.text = String.format("%.02f", 1f)
             factorSeekBar.progress = 0
 
             calendarView.invalidateAfter {
