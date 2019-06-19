@@ -412,7 +412,7 @@ These variables are only accessible programmatically to get or set. (Available b
 
 <br/>
 
-### 3. Day Picking Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
+### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
 You can listen to day picking actions by setting an instance of [OnDayPickedListener](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/OnDayPickedListener.kt) to the views.
 For example:
 
@@ -432,8 +432,8 @@ monthView.onDayPickedListener = object : OnDayPickedListener {
 
 Locale
 -------------------------------------------
-`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) are implemented with localization ability. 
-By passing locale for input `PrimeCalendar` argument of `goto` methods, or by setting it directly to these views, you can specify locale of names, digits and layout direction.
+`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) have been implemented with localization capabilities. 
+By choosing locale for the `PrimeCalendar` instance which is passed to `goto` method, or by setting it directly to the views, you can  localize names, digits, and layout direction.
 
 #### Localization example for `PrimeMonthView` using `PersianCalendar`:
 
@@ -477,7 +477,7 @@ By passing locale for input `PrimeCalendar` argument of `goto` methods, or by se
 
 Customizing Texts in Date Picker Bottom Sheet
 -------------------------------------------
-If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 <br/>
 
