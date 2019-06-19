@@ -60,7 +60,8 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         initSetToSection()
         initFlingOrientationSection()
         initLocaleSection()
-        initTransitionsSection()
+        initTransitionSpeedFactorSection()
+        initMaxTransitionLengthSection()
 
         titleTextView.setOnClickListener {
             calendarView.transitionSpeedFactor = 1.3f
@@ -245,7 +246,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
-    private fun initTransitionsSection() {
+    private fun initTransitionSpeedFactorSection() {
         with(navigationLayout) {
             val max = 1000
             factorTextView.text = String.format("%.02f", 1f)
@@ -257,6 +258,28 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     val p = (progress.toDouble() * 9 / max).toFloat()
                     factorTextView.text = String.format("%.02f", p + 1)
                     calendarView.transitionSpeedFactor = p + 1f
+                }
+
+                override fun onStartTrackingTouch(SeekBar: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(SeekBar: SeekBar?) {
+                }
+            })
+        }
+    }
+
+    private fun initMaxTransitionLengthSection() {
+        with(navigationLayout) {
+            val max = 10
+            transitionLengthTextView.text = "2"
+            transitionLengthSeekBar.max = max
+            transitionLengthSeekBar.progress = 2
+            transitionLengthSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+                override fun onProgressChanged(SeekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    transitionLengthTextView.text = "$progress"
+                    calendarView.maxTransitionLength = progress
                 }
 
                 override fun onStartTrackingTouch(SeekBar: SeekBar?) {
@@ -281,6 +304,9 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
             factorTextView.text = String.format("%.02f", 1f)
             factorSeekBar.progress = 0
+
+            transitionLengthTextView.text = "2"
+            transitionLengthSeekBar.progress = 2
 
             calendarView.invalidateAfter {
                 calendarView.pickedSingleDayCalendar = null
