@@ -242,7 +242,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
     <td>boolean</td>
   </tr>
   <tr>
-    <td colspan="2"><i>When in sets <b>true</b>, month view shows two weeks (14 days) in each row for landscape screen orientation.</i></td>
+    <td colspan="2"><i>When it sets <b>true</b>, month view shows two weeks (14 days) in each row for landscape screen orientation.</i></td>
   </tr>
   
 </table>
