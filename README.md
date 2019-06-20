@@ -58,9 +58,9 @@ datePicker.show(supportFragmentManager)
 
 <br/>
 
-Stand Alone Views
+Stand-Alone Views
 -----------------
-In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand alone views in your project. 
+In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand-alone views in your project. 
 They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml` files or instantiated programmatically.
 For example:
 
