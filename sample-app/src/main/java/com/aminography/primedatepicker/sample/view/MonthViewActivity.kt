@@ -178,7 +178,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             setToPastTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
-                calendar.add(Calendar.MONTH, -7)
+                calendar[Calendar.MONTH] -= 7
                 monthView.goto(calendar)
             }
             setToNowTextView.setOnClickListener {
@@ -189,7 +189,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             setToFutureTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
-                calendar.add(Calendar.MONTH, 7)
+                calendar[Calendar.MONTH] += 7
                 monthView.goto(calendar)
             }
         }
