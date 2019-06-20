@@ -1,6 +1,6 @@
 # `PrimeDatePicker` :zap: 
   
-First, **`PrimeDatePicker`** is a date picker tool which provides picking a single day in addition to a range of days. Second, you can use its `MonthView` and `CalendarView` as stand alone views in your projects.
+First, **`PrimeDatePicker`** is a date picker tool which provides picking a single day in addition to a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
 
 ![](static/prime_logo.png)
 
