@@ -249,7 +249,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
 
 <br/>
 
-### 2.2. `PrimeCalendarView` Specific Attributes:
+### 1.2. `PrimeCalendarView` Specific Attributes:
 
 <table>
 
