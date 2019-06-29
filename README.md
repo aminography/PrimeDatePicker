@@ -31,6 +31,7 @@ Usage
 -----------------
 To use `PrimeDatePickerBottomSheet`, simply use below snippet:
 
+> Kotlin
 ```kotlin
 val datePicker = PrimeDatePickerBottomSheet.newInstance(
             currentDateCalendar,
@@ -42,18 +43,44 @@ val datePicker = PrimeDatePickerBottomSheet.newInstance(
             maxDateCalendar, // can be null
             typefacePath // can be null
     )
-    
-datePicker.setOnDateSetListener(object : OnDayPickedListener {
 
-    override fun onDayPicked(pickType: PickType, 
-                             singleDay: PrimeCalendar?, 
-                             startDay: PrimeCalendar?, 
-                             endDay: PrimeCalendar?) {
+datePicker.setOnDateSetListener(object : PrimeDatePickerBottomSheet.OnDayPickedListener {
+
+    override fun onSingleDayPicked(singleDay: PrimeCalendar) {
+        // TODO
+    }
+
+    override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
         // TODO
     }
 })
 
 datePicker.show(supportFragmentManager)
+```
+
+<br/>
+
+> Java
+```java
+PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.newInstance(
+        currentDateCalendar, // for example: new PersianCalendar()
+        pickType // for example: PickType.SINGLE
+);
+
+datePicker.setOnDateSetListener(new PrimeDatePickerBottomSheet.OnDayPickedListener() {
+
+    @Override
+    public void onSingleDayPicked(@NotNull PrimeCalendar singleDay) {
+        // TODO
+    }
+
+    @Override
+    public void onRangeDaysPicked(@NotNull PrimeCalendar startDay, @NotNull PrimeCalendar endDay) {
+        // TODO
+    }
+});
+
+datePicker.show(getSupportFragmentManager());
 ```
 
 <br/>
