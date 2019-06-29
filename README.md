@@ -1,6 +1,6 @@
 # `PrimeDatePicker` :zap: 
   
-First, **`PrimeDatePicker`** is a date picker tool. It provides picking a single day in addition to a range of days. Second, it is possible to use its `MonthView` and `CalendarView` as stand alone views in your project.
+First, **`PrimeDatePicker`** is a date picker tool which provides picking a single day in addition to a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
 
 ![](static/prime_logo.png)
 
@@ -13,7 +13,7 @@ First, **`PrimeDatePicker`** is a date picker tool. It provides picking a single
 
 Download
 --------
-**`PrimeDatePicker`** is available on bintray to download using build tools systems. Add the following lines to your `build.gradle` file:
+**`PrimeDatePicker`** is available on [bintray](https://bintray.com/aminography/maven/PrimeDatePicker) to download using build tools systems. Add the following lines to your `build.gradle` file:
 
 ```gradle
 repositories {
@@ -31,7 +31,6 @@ Usage
 -----------------
 To use `PrimeDatePickerBottomSheet`, simply use below snippet:
 
-> Kotlin
 ```kotlin
 val datePicker = PrimeDatePickerBottomSheet.newInstance(
             currentDateCalendar,
@@ -44,13 +43,12 @@ val datePicker = PrimeDatePickerBottomSheet.newInstance(
             typefacePath // can be null
     )
     
-datePicker.setOnDateSetListener(object : PrimeDatePickerBottomSheet.OnDayPickedListener {
+datePicker.setOnDateSetListener(object : OnDayPickedListener {
 
-    override fun onSingleDayPicked(singleDay: PrimeCalendar) {
-        // TODO
-    }
-
-    override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
+    override fun onDayPicked(pickType: PickType, 
+                             singleDay: PrimeCalendar?, 
+                             startDay: PrimeCalendar?, 
+                             endDay: PrimeCalendar?) {
         // TODO
     }
 })
@@ -60,34 +58,9 @@ datePicker.show(supportFragmentManager)
 
 <br/>
 
-> Java
-```java
-PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.newInstance(
-        currentDateCalendar, // for example: new PersianCalendar()
-        pickType // for example: PickType.SINGLE
-);
-
-datePicker.setOnDateSetListener(new PrimeDatePickerBottomSheet.OnDayPickedListener() {
-
-    @Override
-    public void onSingleDayPicked(@NotNull PrimeCalendar singleDay) {
-        // TODO
-    }
-
-    @Override
-    public void onRangeDaysPicked(@NotNull PrimeCalendar startDay, @NotNull PrimeCalendar endDay) {
-        // TODO
-    }
-});
-
-datePicker.show(getSupportFragmentManager());
-```
-
-<br/>
-
-Stand Alone Views
+Stand-Alone Views
 -----------------
-In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand alone views in your project. 
+In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand-alone views in your project. 
 They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml` files or instantiated programmatically.
 For example:
 
@@ -269,14 +242,14 @@ calendarView.pickedDayCircleColor = Color.BLUE
     <td>boolean</td>
   </tr>
   <tr>
-    <td colspan="2"><i>When in sets <b>true</b>, month view shows two weeks (14 days) in each row for landscape screen orientation.</i></td>
+    <td colspan="2"><i>When it sets <b>true</b>, month view shows two weeks (14 days) in each row for landscape screen orientation.</i></td>
   </tr>
   
 </table>
 
 <br/>
 
-### 2.2. `PrimeCalendarView` Specific Attributes:
+### 1.2. `PrimeCalendarView` Specific Attributes:
 
 <table>
 
@@ -439,7 +412,7 @@ These variables are only accessible programmatically to get or set. (Available b
 
 <br/>
 
-### 3. Day Picking Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
+### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
 You can listen to day picking actions by setting an instance of [OnDayPickedListener](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/OnDayPickedListener.kt) to the views.
 For example:
 
@@ -459,8 +432,8 @@ monthView.onDayPickedListener = object : OnDayPickedListener {
 
 Locale
 -------------------------------------------
-`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) are implemented with localization ability. 
-By passing locale for input `PrimeCalendar` argument of `goto` methods, or by setting it directly to these views, you can specify locale of names, digits and layout direction.
+`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) have been implemented with localization capabilities. 
+By choosing locale for the `PrimeCalendar` instance which is passed to `goto` method, or by setting it directly to the views, you can  localize names, digits, and layout direction.
 
 #### Localization example for `PrimeMonthView` using `PersianCalendar`:
 
@@ -504,7 +477,7 @@ By passing locale for input `PrimeCalendar` argument of `goto` methods, or by se
 
 Customizing Texts in Date Picker Bottom Sheet
 -------------------------------------------
-If you want to change the texts of the date picker bottom sheet, define strings in your project's `strings.xml` with equal names defined in library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 <br/>
 

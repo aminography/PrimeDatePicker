@@ -159,7 +159,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     closeDrawer()
                     if (isChecked) {
                         val calendar = CalendarFactory.newInstance(calendarType)
-                        calendar.add(Calendar.MONTH, -5)
+                        calendar[Calendar.MONTH] -= 5
                         calendarView.minDateCalendar = calendar
                     } else {
                         calendarView.minDateCalendar = null
@@ -171,7 +171,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     closeDrawer()
                     if (isChecked) {
                         val calendar = CalendarFactory.newInstance(calendarType)
-                        calendar.add(Calendar.MONTH, 5)
+                        calendar[Calendar.MONTH] += 5
                         calendarView.maxDateCalendar = calendar
                     } else {
                         calendarView.maxDateCalendar = null
@@ -186,7 +186,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             gotoPastTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
-                calendar.add(Calendar.MONTH, -7)
+                calendar[Calendar.MONTH] -= 7
                 val result = calendarView.goto(calendar, true)
                 if (!result) {
                     toast("Target date is out of specified feasible range!")
@@ -203,7 +203,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             gotoFutureTextView.setOnClickListener {
                 closeDrawer()
                 val calendar = CalendarFactory.newInstance(calendarType)
-                calendar.add(Calendar.MONTH, 7)
+                calendar[Calendar.MONTH] += 7
                 val result = calendarView.goto(calendar, true)
                 if (!result) {
                     toast("Target date is out of specified feasible range!")

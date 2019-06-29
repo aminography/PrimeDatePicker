@@ -40,7 +40,7 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
             val minDateCalendar: PrimeCalendar?
             if (minDateCheckBox.isChecked) {
                 minDateCalendar = CalendarFactory.newInstance(calendarType)
-                minDateCalendar.add(Calendar.MONTH, -5)
+                minDateCalendar[Calendar.MONTH] -= 5
             } else {
                 minDateCalendar = null
             }
@@ -48,7 +48,7 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
             val maxDateCalendar: PrimeCalendar?
             if (maxDateCheckBox.isChecked) {
                 maxDateCalendar = CalendarFactory.newInstance(calendarType)
-                maxDateCalendar.add(Calendar.MONTH, +5)
+                maxDateCalendar[Calendar.MONTH] += 5
             } else {
                 maxDateCalendar = null
             }
