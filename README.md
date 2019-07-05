@@ -1,4 +1,11 @@
-# `PrimeDatePicker` :zap: 
+# `PrimeDatePicker` :zap:
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PrimeDatePicker-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7743)
+[![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23221-blue.svg)](http://androidweekly.net/issues/issue-367)
+[![Download](https://api.bintray.com/packages/aminography/maven/PrimeDatePicker/images/download.svg) ](https://bintray.com/aminography/maven/PrimeDatePicker/_latestVersion)
+ 
+ <a href="http://androidweekly.net/issues/issue-221">
+        <img src="https://img.shields.io/badge/Android%20Weekly-%23221-blue.svg"/>
+    </a>
   
 First, **`PrimeDatePicker`** is a date picker tool which provides picking a single day in addition to a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
 
