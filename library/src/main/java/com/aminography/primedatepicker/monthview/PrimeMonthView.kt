@@ -121,6 +121,7 @@ class PrimeMonthView @JvmOverloads constructor(
     var pickedDayCircleColor: Int = 0
         set(value) {
             field = value
+            initSelectedDayBackgroundPaint()
             if (invalidate) invalidate()
         }
 
@@ -435,7 +436,7 @@ class PrimeMonthView @JvmOverloads constructor(
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
     }
 
-    private fun initPaints() {
+    private fun initMonthLabelPaint() {
         monthLabelPaint = Paint().apply {
             textSize = monthLabelTextSize.toFloat()
             color = monthLabelTextColor
@@ -444,7 +445,9 @@ class PrimeMonthView @JvmOverloads constructor(
             isAntiAlias = true
             isFakeBoldText = true
         }
+    }
 
+    private fun initWeekLabelPaint() {
         weekLabelPaint = Paint().apply {
             textSize = weekLabelTextSize.toFloat()
             color = weekLabelTextColor
@@ -453,7 +456,9 @@ class PrimeMonthView @JvmOverloads constructor(
             isAntiAlias = true
             isFakeBoldText = true
         }
+    }
 
+    private fun initDayLabelPaint() {
         dayLabelPaint = Paint().apply {
             textSize = dayLabelTextSize.toFloat()
             color = dayLabelTextColor
@@ -462,7 +467,9 @@ class PrimeMonthView @JvmOverloads constructor(
             isAntiAlias = true
             isFakeBoldText = false
         }
+    }
 
+    private fun initSelectedDayBackgroundPaint() {
         selectedDayBackgroundPaint = Paint().apply {
             color = pickedDayCircleColor
             style = Style.FILL
@@ -470,6 +477,13 @@ class PrimeMonthView @JvmOverloads constructor(
             isAntiAlias = true
             isFakeBoldText = true
         }
+    }
+
+    private fun initPaints() {
+        initMonthLabelPaint()
+        initWeekLabelPaint()
+        initDayLabelPaint()
+        initSelectedDayBackgroundPaint()
     }
 
     private fun applyTypeface() {
