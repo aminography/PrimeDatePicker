@@ -511,7 +511,7 @@ If you want to change the texts of the date picker bottom sheet, define some str
 
 <br/>
 
-Third Party Libraries
+Third-Party Libraries
 ---------------------
 **• PrimeCalendar** (https://github.com/aminography/PrimeCalendar)
 
