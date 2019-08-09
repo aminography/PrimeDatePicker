@@ -63,11 +63,13 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(R.layout.fragme
                 }
             }
 
-            Typeface.createFromAsset(activityContext.assets, typefacePath).apply {
-                calendarView.typeface = this
-                pickedTextView.typeface = this
-                rangeStartTextView.typeface = this
-                rangeEndTextView.typeface = this
+            typefacePath?.let {
+                Typeface.createFromAsset(activityContext.assets, it).apply {
+                    calendarView.typeface = this
+                    pickedTextView.typeface = this
+                    rangeStartTextView.typeface = this
+                    rangeEndTextView.typeface = this
+                }
             }
 
             calendarView.onDayPickedListener = this@PrimeDatePickerBottomSheet
@@ -108,6 +110,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(R.layout.fragme
                 rangeStartLinearLayout.isSelected = true
                 rangeEndLinearLayout.isSelected = false
             }
+
             rangeEndLinearLayout.setOnClickListener {
                 calendarView.pickType = PickType.RANGE_END
                 rangeStartLinearLayout.isSelected = false
