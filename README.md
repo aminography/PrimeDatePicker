@@ -4,7 +4,6 @@
 [![Download](https://api.bintray.com/packages/aminography/maven/PrimeDatePicker/images/download.svg) ](https://bintray.com/aminography/maven/PrimeDatePicker/_latestVersion)
   
 First, **`PrimeDatePicker`** is a date picker tool which provides picking a single day in addition to a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
-
 ![](static/prime_logo.png)
 
 
@@ -349,7 +348,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
     <td>integer</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the number of month to be load in pagination.</i></td>
+    <td colspan="2"><i>Specifies the number of month to be load in pagination (endless scrolling).</i></td>
   </tr>
   
   <tr>
