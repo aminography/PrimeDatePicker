@@ -3,7 +3,7 @@
 [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23367-red.svg)](http://androidweekly.net/issues/issue-367)
 [![Download](https://api.bintray.com/packages/aminography/maven/PrimeDatePicker/images/download.svg) ](https://bintray.com/aminography/maven/PrimeDatePicker/_latestVersion)
   
-First, **`PrimeDatePicker`** is a date picker tool which provides picking a single day in addition to a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
+First, **`PrimeDatePicker`** is a tool which provides picking a single day in addition to a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
 ![](static/prime_logo.png)
 
 
