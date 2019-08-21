@@ -7,7 +7,7 @@ First, **`PrimeDatePicker`** is a tool which provides picking a single day as we
 ![](static/prime_logo.png)
 
 
-| Pick a Single Day | Pick a Range of Days | Fling Orientations |
+| Picking a Single Day | Picking a Range of Days | Fling Orientations |
 | --- | --- | --- |
 | ![](static/picking_single.gif) | ![](static/picking_range.gif) | ![](static/fling_orientations.gif) | 
 
