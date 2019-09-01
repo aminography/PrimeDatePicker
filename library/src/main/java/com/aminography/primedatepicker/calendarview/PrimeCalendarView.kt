@@ -12,8 +12,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import com.aminography.primeadapter.PrimeAdapter
-import com.aminography.primeadapter.PrimeDataHolder
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -45,7 +43,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
     private lateinit var layoutManager: LinearLayoutManager
-    private var dataList: MutableList<PrimeDataHolder>? = null
+    private var dataList: MutableList<MonthDataHolder>? = null
     private var isInTransition = false
     private var isInLoading = false
 
@@ -510,12 +508,12 @@ class PrimeCalendarView @JvmOverloads constructor(
         recyclerView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         recyclerView.addOnScrollListener(OnScrollListener())
 
-        adapter = PrimeAdapter.with(recyclerView)
-                .setSnapHelper(StartSnapHelper())
-                .setHasFixedSize(true)
-                .set()
-                .build(MonthListAdapter::class.java)
+        recyclerView.setHasFixedSize(true)
+        StartSnapHelper().attachToRecyclerView(recyclerView)
+
+        adapter = MonthListAdapter(recyclerView)
         adapter.iMonthViewHolderCallback = this
+        recyclerView.adapter = adapter
 
         applyDividers()
 
@@ -638,9 +636,9 @@ class PrimeCalendarView @JvmOverloads constructor(
         return true
     }
 
-    private fun findPositionInList(year: Int, month: Int, list: List<PrimeDataHolder>?): Int? {
+    private fun findPositionInList(year: Int, month: Int, list: List<MonthDataHolder>?): Int? {
         list?.apply {
-            val dataHolder = get(0) as MonthDataHolder
+            val dataHolder = get(0)
             val firstOffset = dataHolder.offset
             val targetOffset = year * 12 + month
             return targetOffset - firstOffset
@@ -654,7 +652,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             position = layoutManager.findFirstVisibleItemPosition()
         }
         if (position != RecyclerView.NO_POSITION) {
-            return adapter.getItem(position) as MonthDataHolder
+            return adapter.getItem(position)
         }
         return null
     }
