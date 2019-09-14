@@ -66,8 +66,7 @@ class MonthListAdapter(
     fun getItem(position: Int): MonthDataHolder = dataList[position]
 
     fun replaceDataList(modelList: List<MonthDataHolder>) {
-        dataList.clear()
-        dataList.addAll(modelList)
+        dataList = modelList as MutableList<MonthDataHolder>
         notifyDataSetChanged()
     }
 }
