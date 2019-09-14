@@ -26,10 +26,11 @@ class MonthListAdapter(
     private var dataList = mutableListOf<MonthDataHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonthViewHolder {
-        return PrimeMonthView(recyclerView.context).run {
+        val monthView = PrimeMonthView(recyclerView.context).apply {
+            layoutParams = parent.layoutParams
             padding = dip(16) // Default padding
-            MonthViewHolder(this, iMonthViewHolderCallback)
         }
+        return MonthViewHolder(monthView, iMonthViewHolderCallback)
     }
 
     override fun onBindViewHolder(viewHolder: MonthViewHolder, position: Int) {
