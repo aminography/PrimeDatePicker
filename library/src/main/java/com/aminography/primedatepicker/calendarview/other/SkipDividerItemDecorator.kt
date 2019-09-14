@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.calendarview.adapter
+package com.aminography.primedatepicker.calendarview.other
 
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
+import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 
 /**
  * Created by aminography on 9/4/2018.

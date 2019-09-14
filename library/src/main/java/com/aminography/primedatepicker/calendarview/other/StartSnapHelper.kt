@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.calendarview
+package com.aminography.primedatepicker.calendarview.other
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper

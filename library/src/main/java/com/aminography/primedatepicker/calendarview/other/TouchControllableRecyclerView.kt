@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.calendarview
+package com.aminography.primedatepicker.calendarview.other
 
 import android.annotation.SuppressLint
 import android.content.Context

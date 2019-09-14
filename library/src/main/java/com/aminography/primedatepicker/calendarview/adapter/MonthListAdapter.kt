@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
+import com.aminography.primedatepicker.calendarview.other.SkipDividerItemDecorator
 import com.aminography.primedatepicker.calendarview.viewholder.MonthViewHolder
 import com.aminography.primedatepicker.monthview.PrimeMonthView
 import org.jetbrains.anko.dip
@@ -70,4 +71,5 @@ class MonthListAdapter(
         dataList = list as MutableList<MonthDataHolder>
         notifyDataSetChanged()
     }
+
 }
