@@ -23,7 +23,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:1.0.8'
+    implementation 'com.aminography:primedatepicker:1.0.10'
     implementation 'com.aminography:primecalendar:1.2.13'
 }
 ```
