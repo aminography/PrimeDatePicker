@@ -12,10 +12,7 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.sample.FONT_PATH_CIVIL
-import com.aminography.primedatepicker.sample.FONT_PATH_HIJRI
-import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
-import com.aminography.primedatepicker.sample.R
+import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_month_view.*
 import kotlinx.android.synthetic.main.nav_drawer_month.view.*
 import org.jetbrains.anko.dip
@@ -43,6 +40,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 civilRadioButton.isChecked -> CalendarType.CIVIL
                 persianRadioButton.isChecked -> CalendarType.PERSIAN
                 hijriRadioButton.isChecked -> CalendarType.HIJRI
+                japaneseRadioButton.isChecked -> CalendarType.JAPANESE
                 else -> CalendarType.CIVIL
             }
             endRangeRadioButton.isEnabled = false
@@ -83,6 +81,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             CalendarType.CIVIL -> Typeface.createFromAsset(assets, FONT_PATH_CIVIL)
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
             CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_HIJRI)
+            CalendarType.JAPANESE -> Typeface.createFromAsset(assets, FONT_PATH_JAPANESE)
         }
     }
 
@@ -110,6 +109,15 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 if (button.isPressed && isChecked) {
                     closeDrawer()
                     calendarType = CalendarType.HIJRI
+                    monthView.goto(CalendarFactory.newInstance(calendarType))
+
+                    restoreDefaults(calendarType)
+                }
+            }
+            japaneseRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    calendarType = CalendarType.JAPANESE
                     monthView.goto(CalendarFactory.newInstance(calendarType))
 
                     restoreDefaults(calendarType)

@@ -23,7 +23,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:1.0.10'
+    implementation 'com.aminography:primedatepicker:1.0.11'
     implementation 'com.aminography:primecalendar:1.2.13'
 }
 ```
@@ -144,7 +144,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
     <td>enum</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the calendar type which is shown by this view. Its possible values are: <b>civil</b>, <b>persian</b>, <b>hijri</b>.</i></td>
+    <td colspan="2"><i>Specifies the calendar type which is shown by this view. Its possible values are: <b>civil</b>, <b>persian</b>, <b>hijri</b>, and <b>japanese</b>.</i></td>
   </tr>
   
   <tr>

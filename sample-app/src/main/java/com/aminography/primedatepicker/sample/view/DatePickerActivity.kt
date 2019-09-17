@@ -8,10 +8,7 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.fragment.PrimeDatePickerBottomSheet
-import com.aminography.primedatepicker.sample.FONT_PATH_CIVIL
-import com.aminography.primedatepicker.sample.FONT_PATH_HIJRI
-import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
-import com.aminography.primedatepicker.sample.R
+import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
 import org.jetbrains.anko.longToast
 import java.util.*
@@ -28,6 +25,7 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
                 civilRadioButton.isChecked -> CalendarType.CIVIL
                 persianRadioButton.isChecked -> CalendarType.PERSIAN
                 hijriRadioButton.isChecked -> CalendarType.HIJRI
+                japaneseRadioButton.isChecked -> CalendarType.JAPANESE
                 else -> CalendarType.CIVIL
             }
 
@@ -57,6 +55,7 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
                 CalendarType.CIVIL -> FONT_PATH_CIVIL
                 CalendarType.PERSIAN -> FONT_PATH_PERSIAN
                 CalendarType.HIJRI -> FONT_PATH_HIJRI
+                CalendarType.JAPANESE -> FONT_PATH_JAPANESE
             }
 
             val today = CalendarFactory.newInstance(calendarType)

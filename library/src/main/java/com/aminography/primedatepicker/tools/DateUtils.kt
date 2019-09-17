@@ -5,6 +5,7 @@ import com.aminography.primecalendar.civil.CivilCalendarUtils
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.hijri.HijriCalendarUtils
+import com.aminography.primecalendar.japanese.JapaneseCalendarUtils
 import com.aminography.primecalendar.persian.PersianCalendarUtils
 import java.util.*
 
@@ -94,6 +95,7 @@ object DateUtils {
             CalendarType.CIVIL -> CivilCalendarUtils.monthLength(year, month)
             CalendarType.PERSIAN -> PersianCalendarUtils.monthLength(year, month)
             CalendarType.HIJRI -> HijriCalendarUtils.monthLength(year, month)
+            CalendarType.JAPANESE -> JapaneseCalendarUtils.monthLength(year, month)
         }
     }
 

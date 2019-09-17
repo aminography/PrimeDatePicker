@@ -14,10 +14,7 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
-import com.aminography.primedatepicker.sample.FONT_PATH_CIVIL
-import com.aminography.primedatepicker.sample.FONT_PATH_HIJRI
-import com.aminography.primedatepicker.sample.FONT_PATH_PERSIAN
-import com.aminography.primedatepicker.sample.R
+import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_calendar_view.*
 import kotlinx.android.synthetic.main.nav_drawer_calendar.view.*
 import org.jetbrains.anko.toast
@@ -45,6 +42,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 civilRadioButton.isChecked -> CalendarType.CIVIL
                 persianRadioButton.isChecked -> CalendarType.PERSIAN
                 hijriRadioButton.isChecked -> CalendarType.HIJRI
+                japaneseRadioButton.isChecked -> CalendarType.JAPANESE
                 else -> CalendarType.CIVIL
             }
             endRangeRadioButton.isEnabled = false
@@ -88,6 +86,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             CalendarType.CIVIL -> Typeface.createFromAsset(assets, FONT_PATH_CIVIL)
             CalendarType.PERSIAN -> Typeface.createFromAsset(assets, FONT_PATH_PERSIAN)
             CalendarType.HIJRI -> Typeface.createFromAsset(assets, FONT_PATH_HIJRI)
+            CalendarType.JAPANESE -> Typeface.createFromAsset(assets, FONT_PATH_JAPANESE)
         }
     }
 
@@ -121,6 +120,17 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     calendarType = CalendarType.HIJRI
 //                    calendarView.calendarType = calendarType
 //                    calendarView.locale = Locale("ar")
+                    calendarView.goto(CalendarFactory.newInstance(calendarType), false)
+
+                    restoreDefaults()
+                }
+            }
+            japaneseRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    calendarType = CalendarType.JAPANESE
+//                    calendarView.calendarType = calendarType
+//                    calendarView.locale = Locale("ja")
                     calendarView.goto(CalendarFactory.newInstance(calendarType), false)
 
                     restoreDefaults()
@@ -302,7 +312,6 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             startRangeRadioButton.isChecked = false
             endRangeRadioButton.isChecked = false
             calendarDefaultLocaleRadioButton.isChecked = true
-
 
             factorTextView.text = String.format("%.02f", calendarView.transitionSpeedFactor)
             factorSeekBar.progress = (calendarView.transitionSpeedFactor / 1000).toInt()

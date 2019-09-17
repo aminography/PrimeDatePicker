@@ -348,7 +348,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             field = value
             direction = when (locale.language) {
                 "fa", "ar" -> when (value) {
-                    CalendarType.CIVIL -> Direction.LTR
+                    CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR
                     CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
                 }
                 else -> Direction.LTR
@@ -370,7 +370,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             field = value
             direction = when (value.language) {
                 "fa", "ar" -> when (calendarType) {
-                    CalendarType.CIVIL -> Direction.LTR
+                    CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR
                     CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
                 }
                 else -> Direction.LTR
