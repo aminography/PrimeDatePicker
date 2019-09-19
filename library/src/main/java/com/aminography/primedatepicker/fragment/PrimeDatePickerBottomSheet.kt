@@ -21,7 +21,9 @@ import com.aminography.primedatepicker.tools.screenSize
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 import org.jetbrains.anko.support.v4.toast
 
-class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(R.layout.fragment_date_picker_bottom_sheet), OnDayPickedListener {
+class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
+        R.layout.fragment_date_picker_bottom_sheet
+), OnDayPickedListener {
 
     @SuppressLint("RestrictedApi")
     override fun setupDialog(dialog: Dialog, style: Int) {
