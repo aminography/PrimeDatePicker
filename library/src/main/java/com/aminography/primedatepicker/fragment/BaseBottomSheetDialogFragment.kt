@@ -29,9 +29,9 @@ abstract class BaseBottomSheetDialogFragment(@LayoutRes private val layoutResId:
 
     abstract fun onInitViews(rootView: View)
 
-    open fun show(manager: FragmentManager?) {
+    override fun show(manager: FragmentManager?, tag: String) {
         if (!isShowing) manager?.let {
-            show(manager, tag)
+            super.show(manager, tag)
         }
     }
 

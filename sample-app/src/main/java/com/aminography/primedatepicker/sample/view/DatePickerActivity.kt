@@ -1,6 +1,5 @@
 package com.aminography.primedatepicker.sample.view
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.PrimeCalendar
@@ -15,6 +14,8 @@ import java.util.*
 
 
 class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDayPickedListener {
+
+    private var datePicker: PrimeDatePickerBottomSheet? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,13 +69,14 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
                     typefacePath = typeface
             )
             datePicker?.setOnDateSetListener(this)
-            datePicker?.show(supportFragmentManager)
+            datePicker?.show(supportFragmentManager, PICKER_TAG)
         }
 
     }
 
     override fun onResume() {
         super.onResume()
+        datePicker = supportFragmentManager.findFragmentByTag(PICKER_TAG) as? PrimeDatePickerBottomSheet
         datePicker?.setOnDateSetListener(this)
     }
 
@@ -87,8 +89,7 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
     }
 
     companion object {
-        @SuppressLint("StaticFieldLeak")
-        private var datePicker: PrimeDatePickerBottomSheet? = null
+        const val PICKER_TAG = "PrimeDatePickerBottomSheet"
     }
 
 }
