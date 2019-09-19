@@ -71,6 +71,10 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
             datePicker?.show(supportFragmentManager)
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         datePicker?.setOnDateSetListener(this)
     }
 
