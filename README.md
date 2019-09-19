@@ -23,7 +23,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:1.0.11'
+    implementation 'com.aminography:primedatepicker:1.0.12'
     implementation 'com.aminography:primecalendar:1.2.14'
 }
 ```
@@ -58,7 +58,7 @@ datePicker.setOnDateSetListener(object : PrimeDatePickerBottomSheet.OnDayPickedL
     }
 })
 
-datePicker.show(supportFragmentManager)
+datePicker.show(supportFragmentManager, "SOME_TAG")
 ```
 
 <br/>
@@ -83,7 +83,7 @@ datePicker.setOnDateSetListener(new PrimeDatePickerBottomSheet.OnDayPickedListen
     }
 });
 
-datePicker.show(getSupportFragmentManager());
+datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 ```
 
 <br/>
