@@ -1224,7 +1224,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     companion object {
         private const val SHOW_GUIDE_LINES = false
-        private const val SHOW_ANIMATIONS = true
+        private const val SHOW_ANIMATIONS = false
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
     }
 
