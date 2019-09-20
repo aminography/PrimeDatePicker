@@ -16,7 +16,6 @@ import android.support.annotation.AttrRes
 import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -93,7 +92,6 @@ class PrimeMonthView @JvmOverloads constructor(
         interpolator = OvershootInterpolator()
         addUpdateListener {
             animationProgress = it.getAnimatedValue("PROGRESS") as Float
-            Log.e("FFF", "animationProgress: $animationProgress")
             invalidate()
         }
     }
@@ -1226,7 +1224,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     companion object {
         private const val SHOW_GUIDE_LINES = false
-        private const val SHOW_ANIMATIONS = false
+        private const val SHOW_ANIMATIONS = true
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
     }
 
