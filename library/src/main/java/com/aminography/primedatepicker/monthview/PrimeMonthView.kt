@@ -16,6 +16,7 @@ import android.support.annotation.AttrRes
 import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -31,6 +32,7 @@ import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.isDisplayLandscape
 import org.jetbrains.anko.dip
 import java.util.*
+import kotlin.math.min
 
 
 /**
@@ -93,6 +95,7 @@ class PrimeMonthView @JvmOverloads constructor(
         addUpdateListener {
             animationProgress = it.getAnimatedValue("PROGRESS") as Float
             invalidate()
+            Log.e("animationProgress", "animationProgress: $animationProgress      invalidate: $invalidate")
         }
     }
 
@@ -736,7 +739,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun drawDayLabels(canvas: Canvas) {
         var topY: Float = (paddingTop + monthHeaderHeight + weekHeaderHeight).toFloat()
         var offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
-        val radius = Math.min(cellWidth, cellHeight) / 2 - dp(2f)
+        val radius = min(cellWidth, cellHeight) / 2 - dp(2f)
 
         val xPositionList = arrayListOf<Float>().apply {
             for (i in 0 until columnCount) {
@@ -801,7 +804,6 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float) {
         selectedDayBackgroundPaint?.apply {
-
             fun drawCircle() = canvas.drawCircle(
                     x,
                     y,
@@ -968,13 +970,15 @@ class PrimeMonthView @JvmOverloads constructor(
                 }
             }
 
+            notifyDayPicked(change)
+
             if (SHOW_ANIMATIONS) {
+                invalidate()
                 animator.start()
             } else {
                 invalidate()
             }
 
-            notifyDayPicked(change)
         }
     }
 

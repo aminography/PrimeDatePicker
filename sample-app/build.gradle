@@ -38,7 +38,7 @@ dependencies {
     //noinspection DifferentStdlibGradleVersion
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation 'com.aminography:primecalendar:1.2.14'
+    implementation 'com.aminography:primecalendar:1.2.15'
     implementation project(':library')
 //    implementation 'com.aminography:primedatepicker:1.0.8'
 

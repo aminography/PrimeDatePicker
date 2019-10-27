@@ -81,7 +81,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 when (calendarView.pickType) {
                     PickType.SINGLE -> {
                         if (calendarView.pickedSingleDayCalendar == null) {
-                            toast("No day is selected!")
+                            toast(activityContext.getString(R.string.no_day_is_selected))
                         } else {
                             onDayPickedListener?.onSingleDayPicked(calendarView.pickedSingleDayCalendar!!)
                             dismiss()
@@ -89,7 +89,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     }
                     PickType.RANGE_START, PickType.RANGE_END -> {
                         if (calendarView.pickedRangeStartCalendar == null || calendarView.pickedRangeEndCalendar == null) {
-                            toast("No range is selected!")
+                            toast(activityContext.getString(R.string.no_range_is_selected))
                         } else {
                             onDayPickedListener?.onRangeDaysPicked(calendarView.pickedRangeStartCalendar!!, calendarView.pickedRangeEndCalendar!!)
                             dismiss()

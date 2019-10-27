@@ -717,7 +717,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         // to update MonthViews:
         findLastVisibleItem()?.apply {
-            goto(year, month, false)
+            goto(year, month, false) // TODO: Could be commented?
         }
         notifyDayPicked(change)
     }
