@@ -4,6 +4,8 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.tools.monthOffset
+import kotlin.math.ceil
+import kotlin.math.floor
 
 
 /**
@@ -12,7 +14,16 @@ import com.aminography.primedatepicker.tools.monthOffset
 @Suppress("MemberVisibilityCanBePrivate")
 internal object CalendarViewUtils {
 
-    fun extendMoreList(calendarType: CalendarType, year: Int, month: Int, minDateCalendar: PrimeCalendar?, maxDateCalendar: PrimeCalendar?, loadFactor: Int, isForward: Boolean): MutableList<MonthDataHolder> {
+    fun extendMoreList(
+            calendarType: CalendarType,
+            year: Int,
+            month: Int,
+            minDateCalendar: PrimeCalendar?,
+            maxDateCalendar: PrimeCalendar?,
+            loadFactor: Int,
+            isForward: Boolean
+    ): MutableList<MonthDataHolder> {
+
         return if (isForward) {
             val offset = (year * 12 + month) + 1
             val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
@@ -28,7 +39,15 @@ internal object CalendarViewUtils {
         }
     }
 
-    fun createPivotList(calendarType: CalendarType, year: Int, month: Int, minDateCalendar: PrimeCalendar?, maxDateCalendar: PrimeCalendar?, loadFactor: Int): MutableList<MonthDataHolder> {
+    fun createPivotList(
+            calendarType: CalendarType,
+            year: Int,
+            month: Int,
+            minDateCalendar: PrimeCalendar?,
+            maxDateCalendar: PrimeCalendar?,
+            loadFactor: Int
+    ): MutableList<MonthDataHolder> {
+
         val centerOffset = year * 12 + month
 
         val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
@@ -39,7 +58,15 @@ internal object CalendarViewUtils {
         return createList(calendarType, min, max)
     }
 
-    fun createTransitionList(calendarType: CalendarType, currentYear: Int, currentMonth: Int, targetYear: Int, targetMonth: Int, maxTransitionLength: Int): MutableList<MonthDataHolder>? {
+    fun createTransitionList(
+            calendarType: CalendarType,
+            currentYear: Int,
+            currentMonth: Int,
+            targetYear: Int,
+            targetMonth: Int,
+            maxTransitionLength: Int
+    ): MutableList<MonthDataHolder>? {
+
         val current = currentYear * 12 + currentMonth
         val target = targetYear * 12 + targetMonth
         return if (current == target) {
@@ -50,8 +77,8 @@ internal object CalendarViewUtils {
                     createList(calendarType, current - 1, target + 1)
                 } else {
                     arrayListOf<MonthDataHolder>().apply {
-                        addAll(createList(calendarType, current - 1, Math.ceil(current + maxTransitionLength / 2.0).toInt()))
-                        addAll(createList(calendarType, Math.floor(target - maxTransitionLength / 2.0).toInt(), target + 1))
+                        addAll(createList(calendarType, current - 1, ceil(current + maxTransitionLength / 2.0).toInt()))
+                        addAll(createList(calendarType, floor(target - maxTransitionLength / 2.0).toInt(), target + 1))
                     }
                 }
             } else {
@@ -59,19 +86,21 @@ internal object CalendarViewUtils {
                     createList(calendarType, target - 1, current + 1)
                 } else {
                     arrayListOf<MonthDataHolder>().apply {
-                        addAll(createList(calendarType, target - 1, Math.ceil(target + maxTransitionLength / 2.0).toInt()))
-                        addAll(createList(calendarType, Math.floor(current - maxTransitionLength / 2.0).toInt(), current + 1))
+                        addAll(createList(calendarType, target - 1, ceil(target + maxTransitionLength / 2.0).toInt()))
+                        addAll(createList(calendarType, floor(current - maxTransitionLength / 2.0).toInt(), current + 1))
                     }
                 }
             }
         }
     }
 
-    private fun createList(calendarType: CalendarType, lowerOffset: Int, upperOffset: Int): MutableList<MonthDataHolder> {
-        return arrayListOf<MonthDataHolder>().apply {
-            for (offset in lowerOffset..upperOffset) {
-                add(MonthDataHolder(calendarType, offset / 12, offset % 12))
-            }
+    private fun createList(
+            calendarType: CalendarType,
+            lowerOffset: Int,
+            upperOffset: Int
+    ) = arrayListOf<MonthDataHolder>().apply {
+        for (offset in lowerOffset..upperOffset) {
+            add(MonthDataHolder(calendarType, offset / 12, offset % 12))
         }
     }
 
