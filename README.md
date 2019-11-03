@@ -13,6 +13,12 @@ First, **`PrimeDatePicker`** is a tool which provides picking a single day as we
 
 <br/>
 
+Core Logic
+----------
+The core logic of this library is provided by [PrimeCalendar](https://github.com/aminography/PrimeCalendar).
+
+<br/>
+
 Download
 --------
 **`PrimeDatePicker`** is available on [bintray](https://bintray.com/aminography/maven/PrimeDatePicker) to download using build tools systems. Add the following lines to your `build.gradle` file:
