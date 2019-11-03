@@ -15,7 +15,7 @@ First, **`PrimeDatePicker`** is a tool which provides picking a single day as we
 
 Core Logic
 ----------
-The core logic of this library is provided by [PrimeCalendar](https://github.com/aminography/PrimeCalendar).
+The core logic of this library is provided by [**PrimeCalendar**](https://github.com/aminography/PrimeCalendar).
 
 <br/>
 
