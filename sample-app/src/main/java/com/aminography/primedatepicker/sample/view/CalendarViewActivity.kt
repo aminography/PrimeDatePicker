@@ -60,6 +60,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         initLocaleSection()
         initTransitionSpeedFactorSection()
         initMaxTransitionLengthSection()
+        initAnimationSection()
 
         titleTextView.setOnClickListener {
             calendarView.transitionSpeedFactor = 1.3f
@@ -306,6 +307,35 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
+    private fun initAnimationSection() {
+        with(navigationLayout) {
+            enableAnimationCheckBox.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed) {
+                    closeDrawer()
+                    calendarView.animateSelection = isChecked
+                }
+            }
+
+            val max = 5000
+            animationDurationTextView.text = "${calendarView.animationDuration}"
+            animationDurationSeekBar.max = max
+            animationDurationSeekBar.progress = calendarView.animationDuration
+            animationDurationSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+                override fun onProgressChanged(SeekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    animationDurationTextView.text = "$progress"
+                    calendarView.animationDuration = progress
+                }
+
+                override fun onStartTrackingTouch(SeekBar: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(SeekBar: SeekBar?) {
+                }
+            })
+        }
+    }
+
     private fun restoreDefaults() {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
@@ -323,6 +353,10 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             transitionLengthTextView.text = "${calendarView.maxTransitionLength}"
             transitionLengthSeekBar.progress = calendarView.maxTransitionLength
 
+            enableAnimationCheckBox.isChecked = false
+            animationDurationTextView.text = "400"
+            animationDurationSeekBar.progress = 400
+
             calendarView.invalidateAfter {
                 calendarView.pickedSingleDayCalendar = null
                 calendarView.pickedRangeStartCalendar = null
@@ -330,6 +364,8 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 calendarView.pickType = PickType.NOTHING
                 calendarView.minDateCalendar = null
                 calendarView.maxDateCalendar = null
+                calendarView.animateSelection = false
+                calendarView.animationDuration = 400
             }
 
             initTypeface()

@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.SeekBar
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -55,6 +56,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         initDateBoundarySection()
         initSetToSection()
         initLocaleSection()
+        initAnimationSection()
 
         titleTextView.setOnClickListener {
             monthView.weekLabelTextSize = dip(24)
@@ -220,6 +222,35 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
+    private fun initAnimationSection() {
+        with(navigationLayout) {
+            enableAnimationCheckBox.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed) {
+                    closeDrawer()
+                    monthView.animateSelection = isChecked
+                }
+            }
+
+            val max = 5000
+            animationDurationTextView.text = "${monthView.animationDuration}"
+            animationDurationSeekBar.max = max
+            animationDurationSeekBar.progress = monthView.animationDuration
+            animationDurationSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+                override fun onProgressChanged(SeekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    animationDurationTextView.text = "$progress"
+                    monthView.animationDuration = progress
+                }
+
+                override fun onStartTrackingTouch(SeekBar: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(SeekBar: SeekBar?) {
+                }
+            })
+        }
+    }
+
     private fun restoreDefaults(calendarType: CalendarType) {
         pickedTextView.visibility = View.INVISIBLE
         pickedTextView.text = ""
@@ -236,6 +267,10 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
             endRangeRadioButton.isEnabled = false
 
+            enableAnimationCheckBox.isChecked = false
+            animationDurationTextView.text = "400"
+            animationDurationSeekBar.progress = 400
+
             monthView.doNotInvalidate {
                 monthView.pickedSingleDayCalendar = null
                 monthView.pickedRangeStartCalendar = null
@@ -243,6 +278,8 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 monthView.pickType = PickType.NOTHING
                 monthView.minDateCalendar = null
                 monthView.maxDateCalendar = null
+                monthView.animateSelection = false
+                monthView.animationDuration = 400
             }
             monthView.invalidate()
 
