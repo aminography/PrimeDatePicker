@@ -281,6 +281,30 @@ calendarView.pickedDayCircleColor = Color.BLUE
     <td colspan="2"><i>When it sets <b>true</b>, month view shows two weeks (14 days) in each row for landscape screen orientation.</i></td>
   </tr>
   
+  <tr>
+    <td><b>• animateSelection</b></td>
+  <td>boolean</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>When it sets <b>true</b>, selected day/days will appear with animation.</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• animationDuration</b></td>
+  <td>integer</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the duration of day selection animation.</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• animationInterpolator</b></td>
+  <td>integer</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the interpolation of day selection animation.</i></td>
+  </tr>
+  
 </table>
 
 <br/>
