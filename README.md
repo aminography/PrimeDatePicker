@@ -551,7 +551,7 @@ Third-Party Libraries
 
 Change Log
 --------
-## Version 1.0.14:
+### Version 1.0.14:
 Selected days can be appeared with animation using `animateSelection`, `animationDuration`, and `animationInterpolator` attributes.
 
 <br/>
