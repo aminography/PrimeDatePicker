@@ -13,6 +13,12 @@ First, **`PrimeDatePicker`** is a tool which provides picking a single day as we
 
 <br/>
 
+Core Logic
+----------
+The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com/aminography/PrimeCalendar).
+
+<br/>
+
 Download
 --------
 **`PrimeDatePicker`** is available on [bintray](https://bintray.com/aminography/maven/PrimeDatePicker) to download using build tools systems. Add the following lines to your `build.gradle` file:
@@ -275,6 +281,22 @@ calendarView.pickedDayCircleColor = Color.BLUE
     <td colspan="2"><i>When it sets <b>true</b>, month view shows two weeks (14 days) in each row for landscape screen orientation.</i></td>
   </tr>
   
+  <tr>
+    <td><b>• animateSelection</b></td>
+  <td>boolean</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>When it sets <b>true</b>, selected day/days will appear with animation.</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• animationDuration</b></td>
+  <td>integer</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the duration of day selection animation.</i></td>
+  </tr>
+  
 </table>
 
 <br/>
@@ -436,6 +458,14 @@ These variables are only accessible programmatically to get or set. (Available b
   </tr>
   <tr>
     <td colspan="2"><i>Specifies the date picking type of the view. Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>NOTHING</b>.</i></td>
+  </tr>
+  
+  <tr>
+    <td><b>• animationInterpolator</b></td>
+  <td><a href="https://developer.android.com/reference/android/view/animation/Interpolator">Interpolator</a></td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the interpolator of day selection animation.</i></td>
   </tr>
 
 </table>
