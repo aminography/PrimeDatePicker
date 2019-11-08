@@ -465,7 +465,7 @@ These variables are only accessible programmatically to get or set. (Available b
   <td><a href="https://developer.android.com/reference/android/view/animation/Interpolator">Interpolator</a></td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the interpolation of day selection animation.</i></td>
+    <td colspan="2"><i>Specifies the interpolator of day selection animation.</i></td>
   </tr>
 
 </table>
