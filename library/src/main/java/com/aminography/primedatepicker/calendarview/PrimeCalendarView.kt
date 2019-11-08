@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.ViewGroup
+import android.view.animation.Interpolator
 import android.widget.FrameLayout
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
@@ -24,7 +25,9 @@ import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCal
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
+import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.tools.DateUtils
+import com.aminography.primedatepicker.tools.TimerWatchDog
 import com.aminography.primedatepicker.tools.monthOffset
 import java.util.*
 
@@ -41,6 +44,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
     // Interior Variables --------------------------------------------------------------------------
+    private val watchDog = TimerWatchDog(400)
 
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
@@ -154,6 +158,24 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
     override var showTwoWeeksInLandscape: Boolean = false
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var animateSelection: Boolean = false
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var animationDuration: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var animationInterpolator: Interpolator = DEFAULT_INTERPOLATOR
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -365,7 +387,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
 
-    override var locale = Locale.getDefault()
+    override var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
             direction = when (value.language) {
@@ -448,12 +470,10 @@ class PrimeCalendarView @JvmOverloads constructor(
     init {
         val layoutHeight = attrs?.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height")
         when {
-            layoutHeight.equals(ViewGroup.LayoutParams.MATCH_PARENT.toString()) ->
-                definedHeight = ViewGroup.LayoutParams.MATCH_PARENT
-            layoutHeight.equals(ViewGroup.LayoutParams.WRAP_CONTENT.toString()) ->
-                definedHeight = ViewGroup.LayoutParams.WRAP_CONTENT
+            layoutHeight.equals(LayoutParams.MATCH_PARENT.toString()) -> definedHeight = LayoutParams.MATCH_PARENT
+            layoutHeight.equals(LayoutParams.WRAP_CONTENT.toString()) -> definedHeight = LayoutParams.WRAP_CONTENT
             else -> context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.layout_height)).apply {
-                definedHeight = getDimensionPixelSize(0, ViewGroup.LayoutParams.WRAP_CONTENT)
+                definedHeight = getDimensionPixelSize(0, LayoutParams.WRAP_CONTENT)
                 recycle()
             }
         }
@@ -499,6 +519,9 @@ class PrimeCalendarView @JvmOverloads constructor(
                 dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
 
                 showTwoWeeksInLandscape = getBoolean(R.styleable.PrimeCalendarView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
+
+                animateSelection = getBoolean(R.styleable.PrimeCalendarView_animateSelection, resources.getBoolean(R.bool.defaultAnimateSelection))
+                animationDuration = getInteger(R.styleable.PrimeCalendarView_animationDuration, resources.getInteger(R.integer.defaultAnimationDuration))
             }
             recycle()
         }
@@ -665,7 +688,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             position = layoutManager.findLastVisibleItemPosition()
         }
         if (position != RecyclerView.NO_POSITION) {
-            return adapter.getItem(position) as MonthDataHolder
+            return adapter.getItem(position)
         }
         return null
     }
@@ -684,7 +707,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
         var change = false
-        invalidateAfter {
+        doNotInvalidate {
             when (pickType) {
                 PickType.SINGLE -> {
                     pickedSingleDayCalendar = singleDay
@@ -715,10 +738,17 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
 
-        // to update MonthViews:
-        findLastVisibleItem()?.apply {
-            goto(year, month, false) // TODO: Could be commented?
+        val animate = true
+        if (animate) {
+            watchDog.refresh {
+                post {
+                    adapter?.notifyDataSetChanged()
+                }
+            }
+        } else {
+            adapter?.notifyDataSetChanged()
         }
+
         notifyDayPicked(change)
     }
 
@@ -786,7 +816,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                     if (!isInLoading && (visibleItemCount + firstVisibleItemPosition >= totalItemCount)) {
                         isInLoading = true
-                        val dataHolder = adapter.getItem(totalItemCount - 1) as MonthDataHolder
+                        val dataHolder = adapter.getItem(totalItemCount - 1)
                         val offset = dataHolder.offset
                         val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
@@ -813,7 +843,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                     if (!isInLoading && firstVisibleItemPosition == 0) {
                         isInLoading = true
-                        val dataHolder = adapter.getItem(0) as MonthDataHolder
+                        val dataHolder = adapter.getItem(0)
                         val offset = dataHolder.offset
                         val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
@@ -901,6 +931,9 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
         savedState.twoWeeksInLandscape = showTwoWeeksInLandscape
 
+        savedState.animateSelection = animateSelection
+        savedState.animationDuration = animationDuration
+
         return savedState
     }
 
@@ -923,9 +956,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             minDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
             maxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
 
-            pickType = savedState.pickType?.let {
-                PickType.valueOf(it)
-            } ?: PickType.NOTHING
+            pickType = savedState.pickType?.let { PickType.valueOf(it) } ?: PickType.NOTHING
             pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
             pickedRangeStartCalendar = DateUtils.restoreCalendar(savedState.pickedRangeStartCalendar)
             pickedRangeEndCalendar = DateUtils.restoreCalendar(savedState.pickedRangeEndCalendar)
@@ -958,6 +989,9 @@ class PrimeCalendarView @JvmOverloads constructor(
             weekLabelBottomPadding = savedState.weekLabelBottomPadding
             dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
             showTwoWeeksInLandscape = savedState.twoWeeksInLandscape
+
+            animateSelection = savedState.animateSelection
+            animationDuration = savedState.animationDuration
         }
 
         applyDividers()
@@ -1011,6 +1045,9 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var dayLabelVerticalPadding: Int = 0
         internal var twoWeeksInLandscape: Boolean = false
 
+        internal var animateSelection: Boolean = false
+        internal var animationDuration: Int = 0
+
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
@@ -1057,6 +1094,9 @@ class PrimeCalendarView @JvmOverloads constructor(
             weekLabelBottomPadding = input.readInt()
             dayLabelVerticalPadding = input.readInt()
             twoWeeksInLandscape = input.readInt() == 1
+
+            animateSelection = input.readInt() == 1
+            animationDuration = input.readInt()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
@@ -1104,6 +1144,9 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(weekLabelBottomPadding)
             out.writeInt(dayLabelVerticalPadding)
             out.writeInt(if (twoWeeksInLandscape) 1 else 0)
+
+            out.writeInt(if (animateSelection) 1 else 0)
+            out.writeInt(animationDuration)
         }
 
         companion object {

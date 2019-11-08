@@ -64,6 +64,10 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         titleTextView.setOnClickListener {
             calendarView.transitionSpeedFactor = 1.3f
         }
+
+//        calendarView.animateSelection = true
+//        calendarView.animationDuration = 1000
+//        calendarView.animationInterpolator = AccelerateInterpolator()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

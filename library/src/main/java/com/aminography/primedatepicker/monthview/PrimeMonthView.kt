@@ -19,6 +19,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.Interpolator
 import android.view.animation.OvershootInterpolator
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
@@ -87,17 +88,6 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private var animationProgress = 1.0f
     private val progressProperty = PropertyValuesHolder.ofFloat("PROGRESS", 1.0f, 0.75f, 1f)
-
-    private val animator = ValueAnimator().apply {
-        setValues(progressProperty)
-        duration = 400
-        interpolator = OvershootInterpolator()
-        addUpdateListener {
-            animationProgress = it.getAnimatedValue("PROGRESS") as Float
-            invalidate()
-            Log.e("animationProgress", "animationProgress: $animationProgress      invalidate: $invalidate")
-        }
-    }
 
     // Listeners -----------------------------------------------------------------------------------
 
@@ -243,6 +233,14 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
+    var animateSelection: Boolean = false
+
+    var animationDuration: Int = 400
+        set(value) {
+            field = value
+            animator.duration = value.toLong()
+        }
+
     // Programmatically Control Variables ----------------------------------------------------------
 
     var typeface: Typeface? = null
@@ -370,7 +368,7 @@ class PrimeMonthView @JvmOverloads constructor(
             if (invalidate) goto(CalendarFactory.newInstance(value, locale))
         }
 
-    var locale = Locale.getDefault()
+    var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
             direction = when (value.language) {
@@ -383,7 +381,23 @@ class PrimeMonthView @JvmOverloads constructor(
             if (invalidate) goto(CalendarFactory.newInstance(calendarType, value))
         }
 
+    var animationInterpolator: Interpolator = DEFAULT_INTERPOLATOR
+        set(value) {
+            field = value
+            animator.interpolator = animationInterpolator
+        }
+
     // ---------------------------------------------------------------------------------------------
+
+    private var animator = ValueAnimator().apply {
+        setValues(progressProperty)
+        duration = animationDuration.toLong()
+        interpolator = animationInterpolator
+        addUpdateListener {
+            animationProgress = it.getAnimatedValue("PROGRESS") as Float
+            invalidate()
+        }
+    }
 
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
@@ -421,6 +435,9 @@ class PrimeMonthView @JvmOverloads constructor(
                 dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
 
                 showTwoWeeksInLandscape = getBoolean(R.styleable.PrimeMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
+
+                animateSelection = getBoolean(R.styleable.PrimeMonthView_animateSelection, resources.getBoolean(R.bool.defaultAnimateSelection))
+                animationDuration = getInteger(R.styleable.PrimeMonthView_animationDuration, resources.getInteger(R.integer.defaultAnimationDuration))
             }
             recycle()
         }
@@ -751,6 +768,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
+        Log.w("animationProgress", "DrawDayBackground->    animationProgress: $animationProgress      invalidate: $invalidate")
         for (dayOfMonth in 1..daysInMonth) {
             val y = topY + cellHeight / 2
             val x = xPositionList[offset]
@@ -972,7 +990,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
             notifyDayPicked(change)
 
-            if (SHOW_ANIMATIONS) {
+            if (animateSelection) {
                 invalidate()
                 animator.start()
             } else {
@@ -1070,6 +1088,9 @@ class PrimeMonthView @JvmOverloads constructor(
         savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
         savedState.twoWeeksInLandscape = showTwoWeeksInLandscape
 
+        savedState.animateSelection = animateSelection
+        savedState.animationDuration = animationDuration
+
         return savedState
     }
 
@@ -1087,9 +1108,7 @@ class PrimeMonthView @JvmOverloads constructor(
             minDateCalendar = DateUtils.restoreCalendar(savedState.minDateCalendar)
             maxDateCalendar = DateUtils.restoreCalendar(savedState.maxDateCalendar)
 
-            pickType = savedState.pickType?.let {
-                PickType.valueOf(it)
-            } ?: PickType.NOTHING
+            pickType = savedState.pickType?.let { PickType.valueOf(it) } ?: PickType.NOTHING
             pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
             pickedRangeStartCalendar = DateUtils.restoreCalendar(savedState.pickedRangeStartCalendar)
             pickedRangeEndCalendar = DateUtils.restoreCalendar(savedState.pickedRangeEndCalendar)
@@ -1110,6 +1129,9 @@ class PrimeMonthView @JvmOverloads constructor(
             weekLabelBottomPadding = savedState.weekLabelBottomPadding
             dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
             showTwoWeeksInLandscape = savedState.twoWeeksInLandscape
+
+            animateSelection = savedState.animateSelection
+            animationDuration = savedState.animationDuration
         }
 
         applyTypeface()
@@ -1150,6 +1172,9 @@ class PrimeMonthView @JvmOverloads constructor(
         internal var dayLabelVerticalPadding: Int = 0
         internal var twoWeeksInLandscape: Boolean = false
 
+        internal var animateSelection: Boolean = false
+        internal var animationDuration: Int = 0
+
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
@@ -1182,6 +1207,9 @@ class PrimeMonthView @JvmOverloads constructor(
             weekLabelBottomPadding = input.readInt()
             dayLabelVerticalPadding = input.readInt()
             twoWeeksInLandscape = input.readInt() == 1
+
+            animateSelection = input.readInt() == 1
+            animationDuration = input.readInt()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
@@ -1215,6 +1243,9 @@ class PrimeMonthView @JvmOverloads constructor(
             out.writeInt(weekLabelBottomPadding)
             out.writeInt(dayLabelVerticalPadding)
             out.writeInt(if (twoWeeksInLandscape) 1 else 0)
+
+            out.writeInt(if (animateSelection) 1 else 0)
+            out.writeInt(animationDuration)
         }
 
         companion object {
@@ -1228,8 +1259,8 @@ class PrimeMonthView @JvmOverloads constructor(
 
     companion object {
         private const val SHOW_GUIDE_LINES = false
-        private const val SHOW_ANIMATIONS = false
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
+        val DEFAULT_INTERPOLATOR = OvershootInterpolator()
     }
 
 }

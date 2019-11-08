@@ -27,6 +27,9 @@
         <enum name="hijri" value="2" />
     </attr>
 
+    <attr name="animateSelection" format="boolean" />
+    <attr name="animationDuration" format="integer" />
+
     <declare-styleable name="PrimeMonthView">
 
         <attr name="monthLabelTextColor" />
@@ -50,6 +53,9 @@
         <attr name="showTwoWeeksInLandscape" />
 
         <attr name="calendarType" />
+
+        <attr name="animateSelection" />
+        <attr name="animationDuration" />
 
     </declare-styleable>
 
@@ -75,6 +81,9 @@
         <attr name="showTwoWeeksInLandscape" />
 
         <attr name="calendarType" />
+
+        <attr name="animateSelection" />
+        <attr name="animationDuration" />
 
         <attr name="loadFactor" format="integer" />
         <attr name="maxTransitionLength" format="integer" />

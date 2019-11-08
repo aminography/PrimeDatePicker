@@ -52,6 +52,9 @@ class MonthViewHolder(
                     monthView.weekLabelBottomPadding = weekLabelBottomPadding
                     monthView.dayLabelVerticalPadding = dayLabelVerticalPadding
                     monthView.showTwoWeeksInLandscape = showTwoWeeksInLandscape
+                    monthView.animateSelection = animateSelection
+                    monthView.animationDuration = animationDuration
+                    monthView.animationInterpolator = animationInterpolator
                 }
             }
             monthView.goto(year, month)

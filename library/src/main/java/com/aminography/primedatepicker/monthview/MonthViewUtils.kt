@@ -8,10 +8,9 @@ import com.aminography.primedatepicker.PickType
 /**
  * @author aminography
  */
-@Suppress("MemberVisibilityCanBePrivate")
 internal object MonthViewUtils {
 
-    fun findDayState(
+    internal fun findDayState(
             year: Int,
             month: Int,
             dayOfMonth: Int,

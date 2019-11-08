@@ -11,10 +11,9 @@ import kotlin.math.floor
 /**
  * @author aminography
  */
-@Suppress("MemberVisibilityCanBePrivate")
 internal object CalendarViewUtils {
 
-    fun extendMoreList(
+    internal fun extendMoreList(
             calendarType: CalendarType,
             year: Int,
             month: Int,
@@ -39,7 +38,7 @@ internal object CalendarViewUtils {
         }
     }
 
-    fun createPivotList(
+    internal fun createPivotList(
             calendarType: CalendarType,
             year: Int,
             month: Int,
@@ -58,7 +57,7 @@ internal object CalendarViewUtils {
         return createList(calendarType, min, max)
     }
 
-    fun createTransitionList(
+    internal fun createTransitionList(
             calendarType: CalendarType,
             currentYear: Int,
             currentMonth: Int,

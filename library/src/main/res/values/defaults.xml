@@ -23,6 +23,9 @@
 
     <bool name="defaultShowTwoWeeksInLandscape">true</bool>
 
+    <bool name="defaultAnimateSelection">false</bool>
+    <integer name="defaultAnimationDuration">400</integer>
+
     <!-- PrimeCalendarView -->
 
     <color name="defaultDividerColor">#BDBDBD</color>

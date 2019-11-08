@@ -1,6 +1,7 @@
 package com.aminography.primedatepicker.calendarview.callback
 
 import android.graphics.Typeface
+import android.view.animation.Interpolator
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
@@ -47,5 +48,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val weekLabelBottomPadding: Int
     val dayLabelVerticalPadding: Int
     val showTwoWeeksInLandscape: Boolean
+    val animateSelection: Boolean
+    val animationDuration: Int
+    val animationInterpolator: Interpolator
 
 }
