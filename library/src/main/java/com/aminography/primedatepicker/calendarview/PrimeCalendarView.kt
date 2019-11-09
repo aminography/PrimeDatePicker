@@ -27,7 +27,6 @@ import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.tools.DateUtils
-import com.aminography.primedatepicker.tools.TimerWatchDog
 import com.aminography.primedatepicker.tools.monthOffset
 import java.util.*
 
@@ -44,7 +43,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
     // Interior Variables --------------------------------------------------------------------------
-    private val watchDog = TimerWatchDog(400)
+    private var needInvalidation = false
 
     private var adapter: MonthListAdapter
     private var recyclerView = TouchControllableRecyclerView(context)
@@ -738,13 +737,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
         }
 
-        val animate = true
-        if (animate) {
-            watchDog.refresh {
-                post {
-                    adapter?.notifyDataSetChanged()
-                }
-            }
+        if (animateSelection) {
+            needInvalidation = true
         } else {
             adapter?.notifyDataSetChanged()
         }
@@ -801,6 +795,11 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(view, dx, dy)
+            if (needInvalidation) {
+                needInvalidation = false
+                adapter?.notifyDataSetChanged()
+            }
+
             if (!isInTransition) {
                 val factor = when (flingOrientation) {
                     FlingOrientation.VERTICAL -> dy
