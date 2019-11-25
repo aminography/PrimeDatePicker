@@ -544,7 +544,7 @@ If you want to change the texts of the date picker bottom sheet, define some str
 Change Log
 --------
 ### Version 1.0.14
-Selected days can be appeared with animation using `animateSelection`, `animationDuration`, and `animationInterpolator` attributes.
+Animation for selected days using `animateSelection`, `animationDuration`, and `animationInterpolator` attributes.
 
 <br/>
 
