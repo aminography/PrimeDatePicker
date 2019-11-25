@@ -40,7 +40,13 @@ class MonthListAdapter(
         viewHolder.bindDataToView(dataHolder)
     }
 
-    private fun setDivider(dividerDrawable: Drawable?, insetLeft: Int = 0, insetTop: Int = 0, insetRight: Int = 0, insetBottom: Int = 0) {
+    private fun setDivider(
+            dividerDrawable: Drawable?,
+            insetLeft: Int = 0,
+            insetTop: Int = 0,
+            insetRight: Int = 0,
+            insetBottom: Int = 0
+    ) {
         val itemDecorationCount = recyclerView.itemDecorationCount
         if (itemDecorationCount > 0) {
             recyclerView.removeItemDecorationAt(0)
@@ -54,7 +60,14 @@ class MonthListAdapter(
         }
     }
 
-    fun setDivider(@ColorInt color: Int = Color.parseColor("#BDBDBD"), thickness: Int = 1, insetLeft: Int = 0, insetTop: Int = 0, insetRight: Int = 0, insetBottom: Int = 0) {
+    fun setDivider(
+            @ColorInt color: Int = Color.parseColor("#BDBDBD"),
+            thickness: Int = 1,
+            insetLeft: Int = 0,
+            insetTop: Int = 0,
+            insetRight: Int = 0,
+            insetBottom: Int = 0
+    ) {
         val dividerDrawable = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE
             setSize(thickness, thickness)

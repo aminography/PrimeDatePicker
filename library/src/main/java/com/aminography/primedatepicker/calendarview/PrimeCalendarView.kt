@@ -808,12 +808,12 @@ class PrimeCalendarView @JvmOverloads constructor(
                         Direction.RTL -> -dx
                     }
                 }
-                if (factor > 0) { // scroll down / left
+                if (factor > 0) {
                     val visibleItemCount = layoutManager.childCount
                     val totalItemCount = layoutManager.itemCount
-                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+                    val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
 
-                    if (!isInLoading && (visibleItemCount + firstVisibleItemPosition >= totalItemCount)) {
+                    if (!isInLoading && (visibleItemCount + lastVisibleItemPosition > totalItemCount)) {
                         isInLoading = true
                         val dataHolder = adapter.getItem(totalItemCount - 1)
                         val offset = dataHolder.offset
@@ -860,9 +860,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                             dataList?.apply {
                                 addAll(0, moreData)
                                 adapter.replaceDataList(this)
-                                findPositionInList(dataHolder.year, dataHolder.month, this)?.apply {
-                                    recyclerView.fastScrollTo(this)
-                                }
+                                recyclerView.fastScrollTo(moreData.size + 1)
                             }
                         }
                         isInLoading = false
