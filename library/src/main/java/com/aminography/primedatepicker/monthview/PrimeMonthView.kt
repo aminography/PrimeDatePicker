@@ -16,7 +16,6 @@ import android.support.annotation.AttrRes
 import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Interpolator
@@ -33,6 +32,7 @@ import com.aminography.primedatepicker.tools.PersianUtils
 import com.aminography.primedatepicker.tools.isDisplayLandscape
 import org.jetbrains.anko.dip
 import java.util.*
+import kotlin.collections.LinkedHashMap
 import kotlin.math.min
 
 
@@ -271,6 +271,21 @@ class PrimeMonthView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
+    internal var pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>? = null
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+            notifyDayPicked(true)
+        }
+
+    var pickedMultipleDaysList: List<PrimeCalendar>
+        get() = pickedMultipleDaysMap?.values?.toList() ?: arrayListOf()
+        set(value) {
+            linkedMapOf<String, PrimeCalendar>().apply {
+                putAll(value.map { Pair(DateUtils.dateString(it) ?: "", it) })
+            }.also { pickedMultipleDaysMap = it }
+        }
+
     var pickType: PickType = PickType.NOTHING
         set(value) {
             field = value
@@ -279,13 +294,26 @@ class PrimeMonthView @JvmOverloads constructor(
                     PickType.SINGLE -> {
                         pickedRangeStartCalendar = null
                         pickedRangeEndCalendar = null
+                        pickedMultipleDaysMap = null
                     }
-                    PickType.RANGE_START -> pickedSingleDayCalendar = null
-                    PickType.RANGE_END -> pickedSingleDayCalendar = null
+                    PickType.RANGE_START -> {
+                        pickedSingleDayCalendar = null
+                        pickedMultipleDaysMap = null
+                    }
+                    PickType.RANGE_END -> {
+                        pickedSingleDayCalendar = null
+                        pickedMultipleDaysMap = null
+                    }
+                    PickType.MULTIPLE -> {
+                        pickedSingleDayCalendar = null
+                        pickedRangeStartCalendar = null
+                        pickedRangeEndCalendar = null
+                    }
                     PickType.NOTHING -> {
                         pickedSingleDayCalendar = null
                         pickedRangeStartCalendar = null
                         pickedRangeEndCalendar = null
+                        pickedMultipleDaysMap = null
                     }
                 }
             }
@@ -768,7 +796,6 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        Log.w("animationProgress", "DrawDayBackground->    animationProgress: $animationProgress      invalidate: $invalidate")
         for (dayOfMonth in 1..daysInMonth) {
             val y = topY + cellHeight / 2
             val x = xPositionList[offset]
@@ -780,7 +807,8 @@ class PrimeMonthView @JvmOverloads constructor(
                     pickType,
                     pickedSingleDayCalendar,
                     pickedRangeStartCalendar,
-                    pickedRangeEndCalendar
+                    pickedRangeEndCalendar,
+                    pickedMultipleDaysMap
             )
 
             drawDayBackground(canvas, pickedDayState, x, y, radius)
@@ -983,6 +1011,16 @@ class PrimeMonthView @JvmOverloads constructor(
                             change = true
                         }
                     }
+                    PickType.MULTIPLE -> {
+                        if (pickedMultipleDaysMap == null) pickedMultipleDaysMap = LinkedHashMap()
+                        val dateString = DateUtils.dateString(year, month, dayOfMonth)
+                        if (pickedMultipleDaysMap?.containsKey(dateString) == true) {
+                            pickedMultipleDaysMap?.remove(dateString)
+                        } else {
+                            pickedMultipleDaysMap?.put(dateString, calendar)
+                        }
+                        change = true
+                    }
                     PickType.NOTHING -> {
                     }
                 }
@@ -1007,7 +1045,8 @@ class PrimeMonthView @JvmOverloads constructor(
                     pickType,
                     pickedSingleDayCalendar,
                     pickedRangeStartCalendar,
-                    pickedRangeEndCalendar
+                    pickedRangeEndCalendar,
+                    pickedMultipleDaysList
             )
             pickedDaysChanged = false
         }
@@ -1069,7 +1108,10 @@ class PrimeMonthView @JvmOverloads constructor(
         savedState.pickType = pickType.name
         savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
         savedState.pickedRangeStartCalendar = DateUtils.storeCalendar(pickedRangeStartCalendar)
-        savedState.pickedRangeEndCalendar = DateUtils.storeCalendar(pickedRangeEndCalendar)
+
+        savedState.pickedMultipleDaysList = pickedMultipleDaysMap?.values?.map {
+            DateUtils.storeCalendar(it)!!
+        } ?: arrayListOf()
 
         savedState.monthLabelTextColor = monthLabelTextColor
         savedState.weekLabelTextColor = weekLabelTextColor
@@ -1113,6 +1155,13 @@ class PrimeMonthView @JvmOverloads constructor(
             pickedRangeStartCalendar = DateUtils.restoreCalendar(savedState.pickedRangeStartCalendar)
             pickedRangeEndCalendar = DateUtils.restoreCalendar(savedState.pickedRangeEndCalendar)
 
+            linkedMapOf<String, PrimeCalendar>().apply {
+                savedState.pickedMultipleDaysList?.map {
+                    val calendar = DateUtils.restoreCalendar(it)
+                    Pair(DateUtils.dateString(calendar)!!, calendar!!)
+                }?.also { putAll(it) }
+            }.also { pickedMultipleDaysMap = it }
+
             monthLabelTextColor = savedState.monthLabelTextColor
             weekLabelTextColor = savedState.weekLabelTextColor
             dayLabelTextColor = savedState.dayLabelTextColor
@@ -1154,6 +1203,7 @@ class PrimeMonthView @JvmOverloads constructor(
         internal var pickedSingleDayCalendar: String? = null
         internal var pickedRangeStartCalendar: String? = null
         internal var pickedRangeEndCalendar: String? = null
+        internal var pickedMultipleDaysList: List<String>? = null
 
         internal var monthLabelTextColor: Int = 0
         internal var weekLabelTextColor: Int = 0
@@ -1190,6 +1240,7 @@ class PrimeMonthView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedRangeStartCalendar = input.readString()
             pickedRangeEndCalendar = input.readString()
+            input.readStringList(pickedMultipleDaysList)
 
             monthLabelTextColor = input.readInt()
             weekLabelTextColor = input.readInt()
@@ -1226,6 +1277,7 @@ class PrimeMonthView @JvmOverloads constructor(
             out.writeString(pickedSingleDayCalendar)
             out.writeString(pickedRangeStartCalendar)
             out.writeString(pickedRangeEndCalendar)
+            out.writeStringList(pickedMultipleDaysList)
 
             out.writeInt(monthLabelTextColor)
             out.writeInt(weekLabelTextColor)

@@ -17,7 +17,8 @@ internal object MonthViewUtils {
             pickType: PickType,
             pickedSingleDayCalendar: PrimeCalendar?,
             pickedRangeStartCalendar: PrimeCalendar?,
-            pickedRangeEndCalendar: PrimeCalendar?
+            pickedRangeEndCalendar: PrimeCalendar?,
+            pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>?
     ): PrimeMonthView.PickedDayState {
 
         when (pickType) {
@@ -48,6 +49,13 @@ internal object MonthViewUtils {
                         }
                     } else {
                         return PrimeMonthView.PickedDayState.NOTHING
+                    }
+                }
+            }
+            PickType.MULTIPLE -> {
+                pickedMultipleDaysMap?.apply {
+                    if (containsKey(DateUtils.dateString(year, month, dayOfMonth))) {
+                        return PrimeMonthView.PickedDayState.PICKED_SINGLE
                     }
                 }
             }

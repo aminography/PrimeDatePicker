@@ -257,6 +257,21 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
+    /*internal*/ override var pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>? = null
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+            notifyDayPicked(true)
+        }
+
+    var pickedMultipleDaysList: List<PrimeCalendar>
+        get() = pickedMultipleDaysMap?.values?.toList() ?: arrayListOf()
+        set(value) {
+            linkedMapOf<String, PrimeCalendar>().apply {
+                putAll(value.map { Pair(DateUtils.dateString(it) ?: "", it) })
+            }.also { pickedMultipleDaysMap = it }
+        }
+
     override var minDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
@@ -349,13 +364,26 @@ class PrimeCalendarView @JvmOverloads constructor(
                     PickType.SINGLE -> {
                         pickedRangeStartCalendar = null
                         pickedRangeEndCalendar = null
+                        pickedMultipleDaysMap = null
                     }
-                    PickType.RANGE_START -> pickedSingleDayCalendar = null
-                    PickType.RANGE_END -> pickedSingleDayCalendar = null
+                    PickType.RANGE_START -> {
+                        pickedSingleDayCalendar = null
+                        pickedMultipleDaysMap = null
+                    }
+                    PickType.RANGE_END -> {
+                        pickedSingleDayCalendar = null
+                        pickedMultipleDaysMap = null
+                    }
+                    PickType.MULTIPLE -> {
+                        pickedSingleDayCalendar = null
+                        pickedRangeStartCalendar = null
+                        pickedRangeEndCalendar = null
+                    }
                     PickType.NOTHING -> {
                         pickedSingleDayCalendar = null
                         pickedRangeStartCalendar = null
                         pickedRangeEndCalendar = null
+                        pickedMultipleDaysMap = null
                     }
                 }
             }
@@ -704,7 +732,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         recyclerView.isVerticalFadingEdgeEnabled = verticalFadingEdgeEnabled
     }
 
-    override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
+    override fun onDayPicked(pickType: PickType,
+                             singleDay: PrimeCalendar?,
+                             startDay: PrimeCalendar?,
+                             endDay: PrimeCalendar?,
+                             multipleDays: List<PrimeCalendar>?) {
         var change = false
         doNotInvalidate {
             when (pickType) {
@@ -732,6 +764,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                         change = true
                     }
                 }
+                PickType.MULTIPLE -> {
+                    pickedMultipleDaysList = multipleDays ?: arrayListOf()
+                    change = true
+                }
                 PickType.NOTHING -> {
                 }
             }
@@ -753,7 +789,8 @@ class PrimeCalendarView @JvmOverloads constructor(
                     pickType,
                     pickedSingleDayCalendar,
                     pickedRangeStartCalendar,
-                    pickedRangeEndCalendar
+                    pickedRangeEndCalendar,
+                    pickedMultipleDaysList
             )
             pickedDaysChanged = false
         }
@@ -899,6 +936,10 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.pickedRangeStartCalendar = DateUtils.storeCalendar(pickedRangeStartCalendar)
         savedState.pickedRangeEndCalendar = DateUtils.storeCalendar(pickedRangeEndCalendar)
 
+        savedState.pickedMultipleDaysList = pickedMultipleDaysMap?.values?.map {
+            DateUtils.storeCalendar(it)!!
+        } ?: arrayListOf()
+
         savedState.loadFactor = loadFactor
         savedState.maxTransitionLength = maxTransitionLength
         savedState.transitionSpeedFactor = transitionSpeedFactor
@@ -958,6 +999,13 @@ class PrimeCalendarView @JvmOverloads constructor(
             pickedRangeStartCalendar = DateUtils.restoreCalendar(savedState.pickedRangeStartCalendar)
             pickedRangeEndCalendar = DateUtils.restoreCalendar(savedState.pickedRangeEndCalendar)
 
+            linkedMapOf<String, PrimeCalendar>().apply {
+                savedState.pickedMultipleDaysList?.map {
+                    val calendar = DateUtils.restoreCalendar(it)
+                    Pair(DateUtils.dateString(calendar)!!, calendar!!)
+                }?.also { putAll(it) }
+            }.also { pickedMultipleDaysMap = it }
+
             loadFactor = savedState.loadFactor
             maxTransitionLength = savedState.maxTransitionLength
             transitionSpeedFactor = savedState.transitionSpeedFactor
@@ -1012,6 +1060,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var pickedSingleDayCalendar: String? = null
         internal var pickedRangeStartCalendar: String? = null
         internal var pickedRangeEndCalendar: String? = null
+        internal var pickedMultipleDaysList: List<String>? = null
 
         internal var loadFactor: Int = 0
         internal var maxTransitionLength: Int = 0
@@ -1062,6 +1111,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedRangeStartCalendar = input.readString()
             pickedRangeEndCalendar = input.readString()
+            input.readStringList(pickedMultipleDaysList)
 
             loadFactor = input.readInt()
             maxTransitionLength = input.readInt()
@@ -1112,6 +1162,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeString(pickedSingleDayCalendar)
             out.writeString(pickedRangeStartCalendar)
             out.writeString(pickedRangeEndCalendar)
+            out.writeStringList(pickedMultipleDaysList)
 
             out.writeInt(loadFactor)
             out.writeInt(maxTransitionLength)

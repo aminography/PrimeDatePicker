@@ -7,5 +7,6 @@ enum class PickType {
     SINGLE,
     RANGE_START,
     RANGE_END,
+    MULTIPLE,
     NOTHING
 }

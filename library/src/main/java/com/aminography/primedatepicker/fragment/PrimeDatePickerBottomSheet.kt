@@ -20,6 +20,7 @@ import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.screenSize
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 import org.jetbrains.anko.support.v4.toast
+import java.util.ArrayList
 
 class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         R.layout.fragment_date_picker_bottom_sheet
@@ -62,6 +63,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     calendarView.pickedSingleDayCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedSingleDayCalendar"))
                     calendarView.pickedRangeStartCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeStartCalendar"))
                     calendarView.pickedRangeEndCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeEndCalendar"))
+                    arguments?.getStringArrayList("pickedMultipleDaysList")?.apply {
+                        calendarView.pickedMultipleDaysList = map { DateUtils.restoreCalendar(it)!! }
+                    }
                 }
             }
 
@@ -92,6 +96,14 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                             toast(activityContext.getString(R.string.no_range_is_selected))
                         } else {
                             onDayPickedListener?.onRangeDaysPicked(calendarView.pickedRangeStartCalendar!!, calendarView.pickedRangeEndCalendar!!)
+                            dismiss()
+                        }
+                    }
+                    PickType.MULTIPLE -> {
+                        if (calendarView.pickedMultipleDaysList.isEmpty()) {
+                            toast(activityContext.getString(R.string.no_day_is_selected))
+                        } else {
+                            onDayPickedListener?.onMultipleDaysPicked(calendarView.pickedMultipleDaysList)
                             dismiss()
                         }
                     }
@@ -157,13 +169,21 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                         rangeEndTextView.text = shortDateString
                     }
                 }
+                PickType.MULTIPLE -> {
+                    rangeLinearLayout.visibility = View.GONE
+                    singleLinearLayout.visibility = View.GONE
+                }
                 PickType.NOTHING -> {
                 }
             }
         }
     }
 
-    override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
+    override fun onDayPicked(pickType: PickType,
+                             singleDay: PrimeCalendar?,
+                             startDay: PrimeCalendar?,
+                             endDay: PrimeCalendar?,
+                             multipleDays: List<PrimeCalendar>?) {
         with(rootView) {
             when (pickType) {
                 PickType.SINGLE -> {
@@ -175,14 +195,15 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     startDay?.apply {
                         rangeStartTextView.text = shortDateString
                     }
-                    rangeEndTextView.text = endDay?.let {
-                        it.shortDateString
-                    } ?: ""
+                    rangeEndTextView.text = endDay?.shortDateString ?: ""
                 }
                 PickType.RANGE_END -> {
                     endDay?.apply {
                         rangeEndTextView.text = shortDateString
                     }
+                }
+                PickType.MULTIPLE -> {
+                    // TODO
                 }
                 PickType.NOTHING -> {
                 }
@@ -220,6 +241,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         fun onSingleDayPicked(singleDay: PrimeCalendar)
 
         fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar)
+
+        fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>)
     }
 
     companion object {
@@ -238,6 +261,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 pickedSingleDayCalendar: PrimeCalendar? = null,
                 pickedRangeStartCalendar: PrimeCalendar? = null,
                 pickedRangeEndCalendar: PrimeCalendar? = null,
+                pickedMultipleDaysList: List<PrimeCalendar>? = null,
                 typefacePath: String? = null
         ): PrimeDatePickerBottomSheet {
             val fragment = PrimeDatePickerBottomSheet()
@@ -249,6 +273,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
             bundle.putString("pickedSingleDayCalendar", DateUtils.storeCalendar(pickedSingleDayCalendar))
             bundle.putString("pickedRangeStartCalendar", DateUtils.storeCalendar(pickedRangeStartCalendar))
             bundle.putString("pickedRangeEndCalendar", DateUtils.storeCalendar(pickedRangeEndCalendar))
+            if (pickedMultipleDaysList != null) {
+                bundle.putStringArrayList("pickedMultipleDaysList", pickedMultipleDaysList.map { DateUtils.storeCalendar(it)!! } as ArrayList<String>)
+            }
             bundle.putString("typefacePath", typefacePath)
             fragment.arguments = bundle
             return fragment

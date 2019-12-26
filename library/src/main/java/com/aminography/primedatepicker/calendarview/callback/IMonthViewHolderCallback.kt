@@ -26,6 +26,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
 
     val pickedSingleDayCalendar: PrimeCalendar?
 
+    val pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>?
+
     val typeface: Typeface?
 
     fun onHeightDetect(height: Float)

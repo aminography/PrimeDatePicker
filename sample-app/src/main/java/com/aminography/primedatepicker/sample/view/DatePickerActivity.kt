@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.sample.view
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
@@ -33,6 +34,7 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
             val pickType = when {
                 singleRadioButton.isChecked -> PickType.SINGLE
                 rangeRadioButton.isChecked -> PickType.RANGE_START
+                multipleRadioButton.isChecked -> PickType.MULTIPLE
                 else -> PickType.SINGLE
             }
 
@@ -86,6 +88,10 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
 
     override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
         longToast("From: ${startDay.longDateString}\nTo: ${endDay.longDateString}")
+    }
+
+    override fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>) {
+        longToast(multipleDays.joinToString(" -\n") { it.longDateString })
     }
 
     companion object {

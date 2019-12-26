@@ -100,8 +100,8 @@ object DateUtils {
     }
 
     fun storeCalendar(calendar: PrimeCalendar?): String? =
-            calendar?.let {
-                "${calendar.calendarType.name}-${calendar.locale.language}-${calendar.year}-${calendar.month}-${calendar.dayOfMonth}"
+            calendar?.run {
+                "${calendarType.name}-${locale.language}-${year}-${month}-${dayOfMonth}"
             }
 
     fun restoreCalendar(input: String?): PrimeCalendar? =
@@ -112,6 +112,13 @@ object DateUtils {
                     }
                 }
             }
+
+    fun dateString(calendar: PrimeCalendar?): String? =
+            calendar?.run {
+                "${year}-${month}-${dayOfMonth}"
+            }
+
+    fun dateString(year: Int, month: Int, dayOfMonth: Int) = "${year}-${month}-${dayOfMonth}"
 
 //    fun persianDateToCivilStandardString(context: Context, year: Int, monthOfYear: Int, dayOfMonth: Int): String {
 //        val civilDate = DateConverter.persianToCivil(context, PersianDate(context, year, monthOfYear, dayOfMonth))

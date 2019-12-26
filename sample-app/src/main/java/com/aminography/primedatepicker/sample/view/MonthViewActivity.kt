@@ -148,6 +148,12 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                     monthView.pickType = PickType.RANGE_END
                 }
             }
+            multipleRadioButton.setOnCheckedChangeListener { button, isChecked ->
+                if (button.isPressed && isChecked) {
+                    closeDrawer()
+                    monthView.pickType = PickType.MULTIPLE
+                }
+            }
         }
     }
 
@@ -291,7 +297,11 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private fun closeDrawer() = drawerLayout.closeDrawer(GravityCompat.START)
 
-    override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
+    override fun onDayPicked(pickType: PickType,
+                             singleDay: PrimeCalendar?,
+                             startDay: PrimeCalendar?,
+                             endDay: PrimeCalendar?,
+                             multipleDays: List<PrimeCalendar>?) {
         with(navigationLayout) {
             endRangeRadioButton.isEnabled = false
             pickedTextView.text = ""
@@ -312,6 +322,12 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                             text += "End Range Day: ${end.longDateString}"
                         }
                         pickedTextView.text = text
+                    }
+                }
+                PickType.MULTIPLE -> {
+                    monthView.pickedMultipleDaysList.apply {
+                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.text = "Multiple Days: ${joinToString(" -\n") { it.longDateString }}"
                     }
                 }
                 PickType.NOTHING -> {

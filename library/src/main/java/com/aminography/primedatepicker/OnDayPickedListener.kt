@@ -18,12 +18,15 @@ interface OnDayPickedListener {
      *        Specifies the start day of picked range if the [pickType] is [PickType.RANGE_START].
      * @param endDay
      *        Specifies the end day of picked range if the [pickType] is [PickType.RANGE_END].
+     * @param multipleDays
+     *        Specifies the list of picked days if the [pickType] is [PickType.MULTIPLE].
      */
     fun onDayPicked(
             pickType: PickType,
             singleDay: PrimeCalendar?,
             startDay: PrimeCalendar?,
-            endDay: PrimeCalendar?
+            endDay: PrimeCalendar?,
+            multipleDays: List<PrimeCalendar>?
     )
 
 }

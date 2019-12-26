@@ -30,6 +30,7 @@ class MonthViewHolder(
                     monthView.pickedSingleDayCalendar = pickedSingleDayCalendar
                     monthView.pickedRangeStartCalendar = pickedRangeStartCalendar
                     monthView.pickedRangeEndCalendar = pickedRangeEndCalendar
+                    monthView.pickedMultipleDaysMap = pickedMultipleDaysMap
                     monthView.pickType = pickType
                     monthView.locale = locale
                     monthView.calendarType = calendarType
@@ -61,8 +62,12 @@ class MonthViewHolder(
         }
     }
 
-    override fun onDayPicked(pickType: PickType, singleDay: PrimeCalendar?, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
-        callback?.onDayPicked(pickType, singleDay, startDay, endDay)
+    override fun onDayPicked(pickType: PickType,
+                             singleDay: PrimeCalendar?,
+                             startDay: PrimeCalendar?,
+                             endDay: PrimeCalendar?,
+                             multipleDays: List<PrimeCalendar>?) {
+        callback?.onDayPicked(pickType, singleDay, startDay, endDay, multipleDays)
     }
 
     override fun onHeightDetect(height: Float) {

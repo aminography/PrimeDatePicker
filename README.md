@@ -29,7 +29,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:1.0.15'
+    implementation 'com.aminography:primedatepicker:1.0.16'
     implementation 'com.aminography:primecalendar:1.2.15'
 }
 ```
@@ -48,6 +48,7 @@ val datePicker = PrimeDatePickerBottomSheet.newInstance(
             pickedSingleDayCalendar, // can be null
             pickedRangeStartCalendar, // can be null
             pickedRangeEndCalendar, // can be null
+            pickedMultipleDaysList, // can be null
             minDateCalendar, // can be null
             maxDateCalendar, // can be null
             typefacePath // can be null
@@ -60,6 +61,10 @@ datePicker.setOnDateSetListener(object : PrimeDatePickerBottomSheet.OnDayPickedL
     }
 
     override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
+        // TODO
+    }
+
+    override fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>) {
         // TODO
     }
 })
@@ -85,6 +90,11 @@ datePicker.setOnDateSetListener(new PrimeDatePickerBottomSheet.OnDayPickedListen
 
     @Override
     public void onRangeDaysPicked(@NotNull PrimeCalendar startDay, @NotNull PrimeCalendar endDay) {
+        // TODO
+    }
+
+    @Override
+    public void onMultipleDaysPicked(@NotNull List<PrimeCalendar> multipleDays) {
         // TODO
     }
 });
@@ -435,7 +445,15 @@ These variables are only accessible programmatically to get or set. (Available b
   <tr>
     <td colspan="2"><i>Specifies the end date of the picked range.</i></td>
   </tr>
-  
+
+  <tr>
+    <td><b>• pickedMultipleDaysList</b></td>
+    <td>List<PrimeCalendar></td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the list of multiple picked dates.</i></td>
+  </tr>
+
   <tr>
     <td><b>• minDateCalendar</b></td>
     <td>PrimeCalendar</td>
@@ -457,7 +475,7 @@ These variables are only accessible programmatically to get or set. (Available b
     <td><a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/PickType.kt">PickType</a></td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the date picking type of the view. Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>NOTHING</b>.</i></td>
+    <td colspan="2"><i>Specifies the date picking type of the view. Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>MULTIPLE</b>, <b>NOTHING</b>.</i></td>
   </tr>
   
   <tr>
@@ -482,7 +500,8 @@ monthView.onDayPickedListener = object : OnDayPickedListener {
     override fun onDayPicked(pickType: PickType, 
                              singleDay: PrimeCalendar?, 
                              startDay: PrimeCalendar?, 
-                             endDay: PrimeCalendar?) {
+                             endDay: PrimeCalendar?,
+                             multipleDays: List<PrimeCalendar>?) {
         // TODO
     }
 }
@@ -543,6 +562,9 @@ If you want to change the texts of the date picker bottom sheet, define some str
 
 Change Log
 --------
+### Version 1.0.16
+- Ability to pick multiple days using `MULTIPLE` <a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/PickType.kt">PickType</a>.
+
 ### Version 1.0.15
 - A minor bug is fixed.
 

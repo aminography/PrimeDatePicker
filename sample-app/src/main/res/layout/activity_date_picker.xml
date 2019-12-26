@@ -123,6 +123,16 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/multipleRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:text="Multiple Days"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
             </RadioGroup>
 
             <View
