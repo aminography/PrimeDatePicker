@@ -448,7 +448,7 @@ These variables are only accessible programmatically to get or set. (Available b
 
   <tr>
     <td><b>• pickedMultipleDaysList</b></td>
-    <td>'List<PrimeCalendar>'</td>
+    <td>List&lt;PrimeCalendar&gt;</td>
   </tr>
   <tr>
     <td colspan="2"><i>Specifies the list of multiple picked dates.</i></td>
