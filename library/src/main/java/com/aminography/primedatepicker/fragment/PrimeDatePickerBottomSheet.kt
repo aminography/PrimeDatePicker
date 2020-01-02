@@ -5,11 +5,11 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -18,9 +18,9 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.screenSize
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
-import org.jetbrains.anko.support.v4.toast
-import java.util.ArrayList
+import java.util.*
 
 class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         R.layout.fragment_date_picker_bottom_sheet
@@ -85,7 +85,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 when (calendarView.pickType) {
                     PickType.SINGLE -> {
                         if (calendarView.pickedSingleDayCalendar == null) {
-                            toast(activityContext.getString(R.string.no_day_is_selected))
+                            toast(R.string.no_day_is_selected)
                         } else {
                             onDayPickedListener?.onSingleDayPicked(calendarView.pickedSingleDayCalendar!!)
                             dismiss()
@@ -93,7 +93,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     }
                     PickType.RANGE_START, PickType.RANGE_END -> {
                         if (calendarView.pickedRangeStartCalendar == null || calendarView.pickedRangeEndCalendar == null) {
-                            toast(activityContext.getString(R.string.no_range_is_selected))
+                            toast(R.string.no_range_is_selected)
                         } else {
                             onDayPickedListener?.onRangeDaysPicked(calendarView.pickedRangeStartCalendar!!, calendarView.pickedRangeEndCalendar!!)
                             dismiss()
@@ -101,7 +101,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     }
                     PickType.MULTIPLE -> {
                         if (calendarView.pickedMultipleDaysList.isEmpty()) {
-                            toast(activityContext.getString(R.string.no_day_is_selected))
+                            toast(R.string.no_day_is_selected)
                         } else {
                             onDayPickedListener?.onMultipleDaysPicked(calendarView.pickedMultipleDaysList)
                             dismiss()
@@ -211,12 +211,12 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         }
     }
 
-    override fun onCancel(dialog: DialogInterface?) {
+    override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
         onCancelListener?.onCancel(dialog)
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         onDismissListener?.onDismiss(dialog)
     }
@@ -244,6 +244,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
         fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>)
     }
+
+    private fun toast(textResource: Int) =
+            Toast.makeText(requireActivity(), textResource, Toast.LENGTH_SHORT).show()
 
     companion object {
 

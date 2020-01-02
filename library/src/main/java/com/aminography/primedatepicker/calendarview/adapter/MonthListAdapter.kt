@@ -4,17 +4,16 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
-import android.support.annotation.ColorInt
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.ColorInt
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.SkipDividerItemDecorator
 import com.aminography.primedatepicker.calendarview.viewholder.MonthViewHolder
 import com.aminography.primedatepicker.monthview.PrimeMonthView
-import org.jetbrains.anko.dip
-import org.jetbrains.anko.padding
+import com.aminography.primedatepicker.tools.dp2px
 
 /**
  * @author aminography
@@ -29,7 +28,8 @@ class MonthListAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonthViewHolder {
         val monthView = PrimeMonthView(recyclerView.context).apply {
             layoutParams = parent.layoutParams
-            padding = dip(16) // Default padding
+            val padding = recyclerView.context.dp2px(16f)
+            setPadding(padding, padding, padding, padding) // Default padding
         }
         return MonthViewHolder(monthView, iMonthViewHolderCallback)
     }

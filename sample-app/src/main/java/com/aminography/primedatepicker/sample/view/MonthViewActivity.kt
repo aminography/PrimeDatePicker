@@ -3,20 +3,20 @@ package com.aminography.primedatepicker.sample.view
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.SeekBar
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.sample.*
+import com.aminography.primedatepicker.tools.dp2px
 import kotlinx.android.synthetic.main.activity_month_view.*
 import kotlinx.android.synthetic.main.nav_drawer_month.view.*
-import org.jetbrains.anko.dip
 import java.util.*
 
 @SuppressLint("SetTextI18n")
@@ -59,22 +59,18 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         initAnimationSection()
 
         titleTextView.setOnClickListener {
-            monthView.weekLabelTextSize = dip(24)
+            monthView.weekLabelTextSize = dp2px(24f)
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.apply {
-            putInt("CALENDAR_TYPE", calendarType.ordinal)
-        }
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("CALENDAR_TYPE", calendarType.ordinal)
         super.onSaveInstanceState(outState)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState?.apply {
-            calendarType = CalendarType.values()[getInt("CALENDAR_TYPE")]
-        }
+        calendarType = CalendarType.values()[savedInstanceState.getInt("CALENDAR_TYPE")]
         initTypeface()
     }
 

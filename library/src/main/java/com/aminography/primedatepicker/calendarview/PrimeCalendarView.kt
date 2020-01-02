@@ -4,11 +4,11 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.annotation.AttrRes
-import android.support.annotation.StyleRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.AttrRes
+import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.ViewGroup
 import android.view.animation.Interpolator

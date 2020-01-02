@@ -38,3 +38,11 @@ fun Context.screenSize(): Point {
     display?.getSize(point)
     return point
 }
+
+/**
+ * Returns dimension value in pixels.
+ *
+ * @param dp the input value in dp
+ * @return dimension value in pixels
+ */
+fun Context.dp2px(dp: Float): Int = (dp * resources.displayMetrics.density).toInt()

@@ -2,11 +2,11 @@ package com.aminography.primedatepicker.calendarview.other
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.annotation.AttrRes
-import android.support.annotation.StyleRes
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.LinearSmoothScroller
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.AttrRes
+import androidx.annotation.StyleRes
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.view.MotionEvent

@@ -12,14 +12,14 @@ import android.graphics.Paint.Style
 import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
-import android.support.annotation.AttrRes
-import android.support.annotation.StyleRes
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Interpolator
 import android.view.animation.OvershootInterpolator
+import androidx.annotation.AttrRes
+import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -29,8 +29,8 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.PersianUtils
+import com.aminography.primedatepicker.tools.dp2px
 import com.aminography.primedatepicker.tools.isDisplayLandscape
-import org.jetbrains.anko.dip
 import java.util.*
 import kotlin.collections.LinkedHashMap
 import kotlin.math.min
@@ -49,7 +49,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // Interior Variables --------------------------------------------------------------------------
 
-    private val dp = dip(1)
+    private val dp = context.dp2px(1f)
     private fun dp(value: Float) = dp.times(value).toInt()
 
     private var monthLabelPaint: Paint? = null
@@ -1142,7 +1142,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
-            locale = Locale(savedState.locale)
+            savedState.locale?.let { locale = Locale(it) }
 
             year = savedState.year
             month = savedState.month
@@ -1240,7 +1240,7 @@ class PrimeMonthView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedRangeStartCalendar = input.readString()
             pickedRangeEndCalendar = input.readString()
-            input.readStringList(pickedMultipleDaysList)
+            pickedMultipleDaysList?.let { input.readStringList(it) }
 
             monthLabelTextColor = input.readInt()
             weekLabelTextColor = input.readInt()

@@ -5,10 +5,10 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.v4.app.FragmentManager
 import android.view.View
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
 /**
@@ -29,8 +29,8 @@ abstract class BaseBottomSheetDialogFragment(@LayoutRes private val layoutResId:
 
     abstract fun onInitViews(rootView: View)
 
-    override fun show(manager: FragmentManager?, tag: String) {
-        if (!isShowing) manager?.let {
+    override fun show(manager: FragmentManager, tag: String?) {
+        if (!isShowing) manager.let {
             super.show(manager, tag)
         }
     }
@@ -40,7 +40,7 @@ abstract class BaseBottomSheetDialogFragment(@LayoutRes private val layoutResId:
         return super.onCreateDialog(savedInstanceState)
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         isShowing = false
     }

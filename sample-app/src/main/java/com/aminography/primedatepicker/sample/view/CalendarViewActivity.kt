@@ -3,11 +3,12 @@ package com.aminography.primedatepicker.sample.view
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.SeekBar
+import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -17,7 +18,6 @@ import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_calendar_view.*
 import kotlinx.android.synthetic.main.nav_drawer_calendar.view.*
-import org.jetbrains.anko.toast
 import java.util.*
 
 @SuppressLint("SetTextI18n")
@@ -67,18 +67,14 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.apply {
-            putInt("CALENDAR_TYPE", calendarType.ordinal)
-        }
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("CALENDAR_TYPE", calendarType.ordinal)
         super.onSaveInstanceState(outState)
     }
 
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        savedInstanceState?.apply {
-            calendarType = CalendarType.values()[getInt("CALENDAR_TYPE")]
-        }
+        calendarType = CalendarType.values()[savedInstanceState.getInt("CALENDAR_TYPE")]
         initTypeface()
     }
 
@@ -417,5 +413,8 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             }
         }
     }
+
+    private fun toast(text: String) =
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
 }

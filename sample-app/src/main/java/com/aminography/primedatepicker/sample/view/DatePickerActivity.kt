@@ -1,16 +1,15 @@
 package com.aminography.primedatepicker.sample.view
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.fragment.PrimeDatePickerBottomSheet
 import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
-import org.jetbrains.anko.longToast
 import java.util.*
 
 
@@ -93,6 +92,9 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
     override fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>) {
         longToast(multipleDays.joinToString(" -\n") { it.longDateString })
     }
+
+    private fun longToast(text: String) =
+            Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 
     companion object {
         const val PICKER_TAG = "PrimeDatePickerBottomSheet"
