@@ -14,7 +14,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 /**
  * Created by Amin on 8/24/2018.
  */
-abstract class BaseBottomSheetDialogFragment(@LayoutRes private val layoutResId: Int) : BottomSheetDialogFragment() {
+abstract class BaseBottomSheetDialogFragment(
+        @LayoutRes private val layoutResId: Int
+) : BottomSheetDialogFragment() {
 
     protected val activityContext: Context by lazy { activity!!.applicationContext }
     protected lateinit var rootView: View

@@ -2,27 +2,68 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:orientation="vertical"
-    android:padding="3dp">
+    android:layout_gravity="center"
+    android:baselineAligned="false"
+    android:orientation="horizontal">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <LinearLayout
+        android:id="@+id/rangeStartLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.65"
-        android:gravity="center"
-        android:text="@string/prime_date_picker_selected_day"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_small" />
+        android:layout_weight="1"
+        android:background="@drawable/range_background_selector"
+        android:orientation="vertical"
+        android:padding="3dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/pickedTextView"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.65"
+            android:gravity="center"
+            android:text="@string/prime_date_picker_from"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rangeStartTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingTop="@dimen/material_size_2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rangeEndLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:paddingTop="@dimen/material_size_2"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_normal" />
+        android:layout_weight="1"
+        android:background="@drawable/range_background_selector"
+        android:orientation="vertical"
+        android:padding="3dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.65"
+            android:gravity="center"
+            android:text="@string/prime_date_picker_to"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_small" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rangeEndTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:paddingTop="@dimen/material_size_2"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.aminography.foursquareapp.presentation.ui.base
+package com.aminography.primedatepicker.fragment
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -13,20 +13,20 @@ import androidx.recyclerview.widget.RecyclerView
  * @author aminography
  */
 abstract class BaseAdapter<DH, VH : BaseAdapter.BaseViewHolder> :
-    RecyclerView.Adapter<VH>() {
+        RecyclerView.Adapter<VH>() {
 
     protected var diffUtilCallback: DiffUtil.ItemCallback<DH> =
-        object : DiffUtil.ItemCallback<DH>() {
+            object : DiffUtil.ItemCallback<DH>() {
 
-            override fun areItemsTheSame(new: DH, old: DH): Boolean {
-                return new === old
-            }
+                override fun areItemsTheSame(new: DH, old: DH): Boolean {
+                    return new === old
+                }
 
-            @SuppressLint("DiffUtilEquals")
-            override fun areContentsTheSame(new: DH, old: DH): Boolean {
-                return new == old
+                @SuppressLint("DiffUtilEquals")
+                override fun areContentsTheSame(new: DH, old: DH): Boolean {
+                    return new == old
+                }
             }
-        }
 
     private val differ by lazy {
         AsyncListDiffer(this, diffUtilCallback)

@@ -1,38 +1,38 @@
-package com.aminography.foursquareapp.presentation.ui.recommendations.adapter
+package com.aminography.primedatepicker.fragment
 
+import android.graphics.Typeface
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.aminography.foursquareapp.domain.model.VenueItemModel
-import com.aminography.foursquareapp.presentation.ui.base.BaseAdapter
-import com.aminography.foursquareapp.presentation.ui.recommendations.viewholder.VenueItemViewHolder
 
 /**
  * A concrete instance of adapter for list of the venue recommendations
  *
  * @author aminography
  */
-class VenueListAdapter : BaseAdapter<VenueItemModel, VenueItemViewHolder>() {
+class PickedDaysListAdapter : BaseAdapter<PickedDayDataHolder, PickedDayViewHolder>() {
 
     init {
-        diffUtilCallback = object : DiffUtil.ItemCallback<VenueItemModel>() {
+        diffUtilCallback = object : DiffUtil.ItemCallback<PickedDayDataHolder>() {
             override fun areItemsTheSame(
-                new: VenueItemModel,
-                old: VenueItemModel
+                new: PickedDayDataHolder,
+                old: PickedDayDataHolder
             ): Boolean {
-                return new.venueId == old.venueId
+                return new.id == old.id
             }
 
             override fun areContentsTheSame(
-                new: VenueItemModel,
-                old: VenueItemModel
+                new: PickedDayDataHolder,
+                old: PickedDayDataHolder
             ): Boolean {
                 return new == old
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VenueItemViewHolder {
-        return VenueItemViewHolder(parent.context).also { setupClickListener(it) }
+    var typeface: Typeface? = null
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PickedDayViewHolder {
+        return PickedDayViewHolder(parent.context, typeface).also { setupClickListener(it) }
     }
 
 }

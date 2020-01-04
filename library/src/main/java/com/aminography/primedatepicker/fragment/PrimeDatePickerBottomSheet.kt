@@ -1,6 +1,5 @@
 package com.aminography.primedatepicker.fragment
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Typeface
@@ -10,6 +9,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -20,20 +20,36 @@ import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.screenSize
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
+import kotlinx.android.synthetic.main.multiple_days_header.view.*
+import kotlinx.android.synthetic.main.range_days_header.view.*
+import kotlinx.android.synthetic.main.single_day_header.view.*
 import java.util.*
 
 class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         R.layout.fragment_date_picker_bottom_sheet
 ), OnDayPickedListener {
 
-    @SuppressLint("RestrictedApi")
+    private val multipleDaysAdapter: PickedDaysListAdapter by lazy {
+        PickedDaysListAdapter().also {
+            it.setOnListItemClickListener(object : OnListItemClickListener {
+                override fun <DH> onItemClicked(dataHolder: DH) {
+                    if (dataHolder is PickedDayDataHolder) {
+                        with(rootView) {
+                            calendarView.goto(dataHolder.calendar, true)
+                        }
+                    }
+                }
+            })
+        }
+    }
+
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
         val parentView = rootView.parent as View
         parentView.setBackgroundColor(ContextCompat.getColor(activityContext, R.color.transparent))
         val params = parentView.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior
-        if (behavior != null && behavior is BottomSheetBehavior<*>) {
+        if (behavior is BottomSheetBehavior<*>) {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
             behavior.peekHeight = activityContext.screenSize().y
         }
@@ -47,10 +63,10 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     override fun onInitViews(rootView: View) {
         val currentDateCalendar = DateUtils.restoreCalendar(arguments?.getString("currentDateCalendar"))
         val calendarType = currentDateCalendar?.calendarType ?: CalendarType.CIVIL
+        val pickType = PickType.valueOf(arguments?.getString("pickType") ?: PickType.NOTHING.name)
         val typefacePath = arguments?.getString("typefacePath")
 
         with(rootView) {
-
             calendarView.doNotInvalidate {
                 if (calendarView.pickType == PickType.NOTHING) {
                     calendarView.calendarType = calendarType
@@ -58,8 +74,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     calendarView.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
                     calendarView.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
 
-                    calendarView.pickType = PickType.valueOf(arguments?.getString("pickType")
-                            ?: PickType.NOTHING.name)
+                    calendarView.pickType = pickType
                     calendarView.pickedSingleDayCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedSingleDayCalendar"))
                     calendarView.pickedRangeStartCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeStartCalendar"))
                     calendarView.pickedRangeEndCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeEndCalendar"))
@@ -69,14 +84,13 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 }
             }
 
-            typefacePath?.let {
+            val typeface = typefacePath?.let {
                 Typeface.createFromAsset(activityContext.assets, it).apply {
                     calendarView.typeface = this
-                    pickedTextView.typeface = this
-                    rangeStartTextView.typeface = this
-                    rangeEndTextView.typeface = this
                 }
             }
+
+            initHeaderLayout(pickType, typeface)
 
             calendarView.onDayPickedListener = this@PrimeDatePickerBottomSheet
             calendarView.goto(currentDateCalendar!!)
@@ -118,36 +132,36 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 val calendar = CalendarFactory.newInstance(calendarType, calendarView.locale)
                 calendarView.goto(calendar.year, calendar.month, true)
             }
-
-            rangeStartLinearLayout.setOnClickListener {
-                calendarView.pickType = PickType.RANGE_START
-                rangeStartLinearLayout.isSelected = true
-                rangeEndLinearLayout.isSelected = false
-            }
-
-            rangeEndLinearLayout.setOnClickListener {
-                calendarView.pickType = PickType.RANGE_END
-                rangeStartLinearLayout.isSelected = false
-                rangeEndLinearLayout.isSelected = true
-            }
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun initHeaderLayout(pickType: PickType, typeface: Typeface?) {
         with(rootView) {
-            when (calendarView.pickType) {
+            when (pickType) {
                 PickType.SINGLE -> {
-                    rangeLinearLayout.visibility = View.GONE
-                    singleLinearLayout.visibility = View.VISIBLE
+                    viewStub.layoutResource = R.layout.single_day_header
+                    val view = viewStub.inflate()
+
+                    typeface?.let { pickedTextView.typeface = it }
 
                     calendarView.pickedSingleDayCalendar?.apply {
                         pickedTextView.text = shortDateString
                     }
+
+                    view.setOnClickListener {
+                        calendarView.pickedSingleDayCalendar?.apply {
+                            calendarView.goto(this, true)
+                        }
+                    }
                 }
                 PickType.RANGE_START, PickType.RANGE_END -> {
-                    rangeLinearLayout.visibility = View.VISIBLE
-                    singleLinearLayout.visibility = View.GONE
+                    viewStub.layoutResource = R.layout.range_days_header
+                    viewStub.inflate()
+
+                    typeface?.let {
+                        rangeStartTextView.typeface = it
+                        rangeEndTextView.typeface = it
+                    }
 
                     when (calendarView.pickType) {
                         PickType.RANGE_START -> {
@@ -168,10 +182,34 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     calendarView.pickedRangeEndCalendar?.apply {
                         rangeEndTextView.text = shortDateString
                     }
+
+                    rangeStartLinearLayout.setOnClickListener {
+                        calendarView.pickType = PickType.RANGE_START
+                        rangeStartLinearLayout.isSelected = true
+                        rangeEndLinearLayout.isSelected = false
+
+                        calendarView.pickedRangeStartCalendar?.apply {
+                            calendarView.goto(this, true)
+                        }
+                    }
+                    rangeEndLinearLayout.setOnClickListener {
+                        calendarView.pickType = PickType.RANGE_END
+                        rangeStartLinearLayout.isSelected = false
+                        rangeEndLinearLayout.isSelected = true
+
+                        calendarView.pickedRangeEndCalendar?.apply {
+                            calendarView.goto(this, true)
+                        }
+                    }
                 }
                 PickType.MULTIPLE -> {
-                    rangeLinearLayout.visibility = View.GONE
-                    singleLinearLayout.visibility = View.GONE
+                    viewStub.layoutResource = R.layout.multiple_days_header
+                    viewStub.inflate()
+
+                    recyclerView.layoutManager = LinearLayoutManager(activityContext, LinearLayoutManager.HORIZONTAL, false)
+                    recyclerView.adapter = multipleDaysAdapter
+                    recyclerView.isNestedScrollingEnabled = false
+                    multipleDaysAdapter.typeface = typeface
                 }
                 PickType.NOTHING -> {
                 }
@@ -203,7 +241,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     }
                 }
                 PickType.MULTIPLE -> {
-                    // TODO
+                    multipleDays?.map {
+                        PickedDayDataHolder(it.shortDateString, it)
+                    }?.also { multipleDaysAdapter.submitList(it) }
                 }
                 PickType.NOTHING -> {
                 }
