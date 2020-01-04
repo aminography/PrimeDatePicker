@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="vertical"
+    android:padding="3dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.65"
+        android:gravity="center"
+        android:text="@string/prime_date_picker_selected_day"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_small" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/pickedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:paddingTop="@dimen/material_size_2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal" />
+
+</LinearLayout>
