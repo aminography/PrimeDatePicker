@@ -20,8 +20,8 @@ class PickedDayViewHolder(
     init {
         with(itemView) {
             typeface?.run {
-                dayTextView.typeface = this
-                monthTextView.typeface = this
+//                dayTextView.typeface = this
+//                monthTextView.typeface = this
             }
         }
     }
@@ -31,8 +31,8 @@ class PickedDayViewHolder(
             with(itemView) {
                 dataHolder.calendar.run {
                     shortDateString.split("/").run {
-                        dayTextView.text = get(2)
-                        monthTextView.text = String.format("%s '%s", getDisplayName(Calendar.MONTH, Calendar.SHORT, locale), get(0).substring(2))
+//                        dayTextView.text = get(2)
+//                        monthTextView.text = String.format("%s '%s", getDisplayName(Calendar.MONTH, Calendar.SHORT, locale), get(0).substring(2))
                     }
                 }
             }

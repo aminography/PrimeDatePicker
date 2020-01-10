@@ -40,4 +40,9 @@
     <integer name="defaultLoadFactor">24</integer>
     <integer name="defaultMaxTransitionLength">2</integer>
 
+    <!-- TwoLineTextView -->
+
+    <color name="defaultTwoLineTextColor">@color/white</color>
+    <dimen name="defaultTwoLineTextSize">15sp</dimen>
+
 </resources>
