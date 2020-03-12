@@ -9,6 +9,7 @@
     <dimen name="material_size_4">4dp</dimen>
     <dimen name="material_size_2">2dp</dimen>
 
+    <dimen name="text_size_extra_large">28sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_normal">15sp</dimen>
     <dimen name="text_size_small">12sp</dimen>

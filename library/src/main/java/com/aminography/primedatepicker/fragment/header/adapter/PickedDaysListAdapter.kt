@@ -1,14 +1,14 @@
-package com.aminography.primedatepicker.fragment.adapter
+package com.aminography.primedatepicker.fragment.header.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.aminography.primedatepicker.fragment.dataholder.BasePickedDayDataHolder
-import com.aminography.primedatepicker.fragment.dataholder.PickedDayDataHolder
-import com.aminography.primedatepicker.fragment.dataholder.PickedDayEmptyDataHolder
-import com.aminography.primedatepicker.fragment.viewholder.PickedDayEmptyViewHolder
-import com.aminography.primedatepicker.fragment.viewholder.PickedDayViewHolder
+import com.aminography.primedatepicker.fragment.header.dataholder.BasePickedDayDataHolder
+import com.aminography.primedatepicker.fragment.header.dataholder.PickedDayDataHolder
+import com.aminography.primedatepicker.fragment.header.dataholder.PickedDayEmptyDataHolder
+import com.aminography.primedatepicker.fragment.header.viewholder.PickedDayEmptyViewHolder
+import com.aminography.primedatepicker.fragment.header.viewholder.PickedDayViewHolder
 
 /**
  * A concrete instance of adapter for list of the venue recommendations

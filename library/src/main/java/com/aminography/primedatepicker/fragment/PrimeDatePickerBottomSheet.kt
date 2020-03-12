@@ -16,9 +16,11 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.fragment.adapter.PickedDaysListAdapter
-import com.aminography.primedatepicker.fragment.dataholder.PickedDayDataHolder
-import com.aminography.primedatepicker.fragment.dataholder.PickedDayEmptyDataHolder
+import com.aminography.primedatepicker.fragment.base.BaseBottomSheetDialogFragment
+import com.aminography.primedatepicker.fragment.header.OnListItemClickListener
+import com.aminography.primedatepicker.fragment.header.adapter.PickedDaysListAdapter
+import com.aminography.primedatepicker.fragment.header.dataholder.PickedDayDataHolder
+import com.aminography.primedatepicker.fragment.header.dataholder.PickedDayEmptyDataHolder
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.screenSize
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -266,7 +268,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
                 if (it.isEmpty()) {
                     emptyStateTextView.visibility = View.VISIBLE
-                    arrayListOf(PickedDayEmptyDataHolder(""))
+                    arrayListOf(PickedDayEmptyDataHolder())
                 } else {
                     emptyStateTextView.visibility = View.GONE
                     it

@@ -12,15 +12,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.aminography.primedatepicker.fragment.TwoLineTextView
+    <com.aminography.primedatepicker.fragment.header.TwoLineTextView
         android:id="@+id/twoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingStart="@dimen/material_size_8"
         android:paddingTop="@dimen/material_size_4"
+        android:paddingEnd="@dimen/material_size_8"
         android:paddingBottom="@dimen/material_size_4"
+        app:firstLabelTextColor="@color/white"
+        app:firstLabelTextSize="@dimen/text_size_extra_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:secondLabelTextColor="@color/white"
+        app:secondLabelTextSize="@dimen/text_size_small" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.fragment
+package com.aminography.primedatepicker.fragment.header
 
 /**
  * An interface to implement on item click listener for the [androidx.recyclerview.widget.RecyclerView]

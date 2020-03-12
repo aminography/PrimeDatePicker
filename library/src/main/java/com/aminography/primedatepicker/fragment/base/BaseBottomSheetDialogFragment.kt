@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.fragment
+package com.aminography.primedatepicker.fragment.base
 
 import android.annotation.SuppressLint
 import android.app.Dialog

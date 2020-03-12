@@ -1,11 +1,11 @@
-package com.aminography.primedatepicker.fragment.viewholder
+package com.aminography.primedatepicker.fragment.header.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.fragment.adapter.BaseAdapter
+import com.aminography.primedatepicker.fragment.header.adapter.BaseAdapter
 import kotlinx.android.synthetic.main.list_item_picked_day_empty.view.*
 
 /**
@@ -21,8 +21,6 @@ class PickedDayEmptyViewHolder(
         with(itemView) {
             typeface?.run {
                 twoLineTextView.typeface = this
-                twoLineTextView.firstLabelTextSize = 90
-                twoLineTextView.secondLabelTextSize = 40
             }
         }
     }

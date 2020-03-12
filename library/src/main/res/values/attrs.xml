@@ -103,6 +103,9 @@
     </declare-styleable>
 
     <declare-styleable name="TwoLineTextView">
+        <attr name="firstLabelText" format="string" />
+        <attr name="secondLabelText" format="string" />
+
         <attr name="firstLabelTextColor" format="color" />
         <attr name="secondLabelTextColor" format="color" />
 

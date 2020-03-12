@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.fragment
+package com.aminography.primedatepicker.fragment.header
 
 import android.content.Context
 import android.graphics.Canvas
@@ -166,6 +166,9 @@ class TwoLineTextView @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.TwoLineTextView, defStyleAttr, defStyleRes).apply {
             doNotInvalidate {
 
+                firstLabelText = getString(R.styleable.TwoLineTextView_firstLabelText) ?: ""
+                secondLabelText = getString(R.styleable.TwoLineTextView_secondLabelText) ?: ""
+
                 firstLabelTextColor = getColor(R.styleable.TwoLineTextView_firstLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
                 secondLabelTextColor = getColor(R.styleable.TwoLineTextView_secondLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
 
@@ -297,6 +300,8 @@ class TwoLineTextView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
 
+        savedState.firstLabelText = firstLabelText
+        savedState.secondLabelText = secondLabelText
         savedState.firstLabelTextColor = firstLabelTextColor
         savedState.secondLabelTextColor = secondLabelTextColor
         savedState.firstLabelTextSize = firstLabelTextSize
@@ -314,6 +319,8 @@ class TwoLineTextView @JvmOverloads constructor(
         super.onRestoreInstanceState(savedState.superState)
 
         doNotInvalidate {
+            firstLabelText = savedState.firstLabelText
+            secondLabelText = savedState.secondLabelText
             firstLabelTextColor = savedState.firstLabelTextColor
             secondLabelTextColor = savedState.secondLabelTextColor
             firstLabelTextSize = savedState.firstLabelTextSize
@@ -330,6 +337,8 @@ class TwoLineTextView @JvmOverloads constructor(
 
     private class SavedState : BaseSavedState {
 
+        internal var firstLabelText: String = ""
+        internal var secondLabelText: String = ""
         internal var firstLabelTextColor: Int = 0
         internal var secondLabelTextColor: Int = 0
         internal var firstLabelTextSize: Int = 0
@@ -342,6 +351,8 @@ class TwoLineTextView @JvmOverloads constructor(
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
+            firstLabelText = input.readString() ?: ""
+            secondLabelText = input.readString() ?: ""
             firstLabelTextColor = input.readInt()
             secondLabelTextColor = input.readInt()
             firstLabelTextSize = input.readInt()
@@ -354,6 +365,8 @@ class TwoLineTextView @JvmOverloads constructor(
 
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
+            out.writeString(firstLabelText)
+            out.writeString(secondLabelText)
             out.writeInt(firstLabelTextColor)
             out.writeInt(secondLabelTextColor)
             out.writeInt(firstLabelTextSize)
