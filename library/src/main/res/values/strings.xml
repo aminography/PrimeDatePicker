@@ -9,7 +9,7 @@
     <string name="prime_date_picker_selected_day">Selected Day</string>
     <string name="prime_date_picker_from">From</string>
     <string name="prime_date_picker_to">To</string>
-    <string name="no_day_is_selected">No day is selected!</string>
     <string name="no_range_is_selected">No range is selected!</string>
+    <string name="no_day_is_selected">No day is selected!</string>
 
 </resources>

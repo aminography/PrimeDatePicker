@@ -53,5 +53,6 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val animateSelection: Boolean
     val animationDuration: Int
     val animationInterpolator: Interpolator
+    val toFocusDay: PrimeCalendar?
 
 }

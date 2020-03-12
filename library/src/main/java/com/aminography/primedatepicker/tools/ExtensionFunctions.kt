@@ -24,7 +24,8 @@ fun PrimeCalendar.monthOffset(): Int =
  *
  * @return true if the orientation of the screen is landscape, false if the orientation is portrait.
  */
-fun Context.isDisplayLandscape(): Boolean = (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+fun Context.isDisplayLandscape(): Boolean =
+        resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
 /**
  * Returns screen size of the device in pixels.
@@ -45,4 +46,5 @@ fun Context.screenSize(): Point {
  * @param dp the input value in dp
  * @return dimension value in pixels
  */
-fun Context.dp2px(dp: Float): Int = (dp * resources.displayMetrics.density).toInt()
+fun Context.dp2px(dp: Float): Int =
+        (dp * resources.displayMetrics.density).toInt()

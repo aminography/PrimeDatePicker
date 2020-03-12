@@ -4,15 +4,15 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.AttributeSet
+import android.view.ViewGroup
+import android.view.animation.Interpolator
+import android.widget.FrameLayout
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.util.AttributeSet
-import android.view.ViewGroup
-import android.view.animation.Interpolator
-import android.widget.FrameLayout
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
@@ -180,6 +180,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
+    override var toFocusDay: PrimeCalendar? = null
+
     // Control Variables ---------------------------------------------------------------------------
 
     var loadFactor: Int = 0
@@ -257,7 +259,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
-    /*internal*/ override var pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>? = null
+    override var pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>? = null
         set(value) {
             field = value
             if (invalidate) invalidate()
@@ -622,6 +624,17 @@ class PrimeCalendarView @JvmOverloads constructor(
             add(Calendar.YEAR, -1)
             return goto(year, month, animate)
         }
+    }
+
+    fun focusOnDay(calendar: PrimeCalendar) {
+        toFocusDay = calendar
+        findFirstVisibleItem()?.let { current ->
+            if (current.year == calendar.year && current.month == calendar.month) {
+                adapter?.notifyDataSetChanged()
+            } else {
+                goto(calendar, true)
+            }
+        } ?: goto(calendar, true)
     }
 
     fun goto(calendar: PrimeCalendar, animate: Boolean = false): Boolean {

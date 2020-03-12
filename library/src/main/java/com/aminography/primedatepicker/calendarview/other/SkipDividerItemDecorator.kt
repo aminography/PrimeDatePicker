@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
+import kotlin.math.roundToInt
 
 /**
  * Created by aminography on 9/4/2018.
@@ -45,7 +46,7 @@ internal class SkipDividerItemDecorator(
             val position = parent.getChildAdapterPosition(child)
             if (position != RecyclerView.NO_POSITION && position != parent.adapter!!.itemCount - 1 && (parent.adapter as MonthListAdapter).getItem(position).hasDivider) {
                 parent.getDecoratedBoundsWithMargins(child, bounds)
-                val bottom = bounds.bottom + Math.round(child.translationY)
+                val bottom = bounds.bottom + child.translationY.roundToInt()
                 divider?.apply {
                     val top = bottom - intrinsicHeight
                     setBounds(left, top, right, bottom)
@@ -76,7 +77,7 @@ internal class SkipDividerItemDecorator(
             val position = parent.getChildAdapterPosition(child)
             if (position != RecyclerView.NO_POSITION && position != parent.adapter!!.itemCount - 1 && (parent.adapter as MonthListAdapter).getItem(position).hasDivider) {
                 parent.layoutManager!!.getDecoratedBoundsWithMargins(child, bounds)
-                val right = bounds.right + Math.round(child.translationX)
+                val right = bounds.right + child.translationX.roundToInt()
                 divider?.apply {
                     val left = right - intrinsicWidth
                     setBounds(left, top, right, bottom)

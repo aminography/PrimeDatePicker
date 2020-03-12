@@ -2,10 +2,10 @@ package com.aminography.primedatepicker.fragment
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Paint.Align
 import android.graphics.Paint.Style
+import android.graphics.Rect
 import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
@@ -16,6 +16,7 @@ import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.tools.dp2px
+import kotlin.math.max
 
 
 /**
@@ -42,6 +43,26 @@ class TwoLineTextView @JvmOverloads constructor(
     private var secondLabelHeight = 0
 
     // Control Variables ---------------------------------------------------------------------------
+
+    var firstLabelText: String = ""
+        set(value) {
+            field = value
+            if (invalidate) {
+                calculateSizes()
+                requestLayout()
+                invalidate()
+            }
+        }
+
+    var secondLabelText: String = ""
+        set(value) {
+            field = value
+            if (invalidate) {
+                calculateSizes()
+                requestLayout()
+                invalidate()
+            }
+        }
 
     var firstLabelTextColor: Int = 0
         set(value) {
@@ -159,23 +180,29 @@ class TwoLineTextView @JvmOverloads constructor(
             recycle()
         }
 
-        calculateSizes()
         initPaints()
         applyTypeface()
+        calculateSizes()
 
         if (isInEditMode) {
             invalidate()
-//            val calendar = CalendarFactory.newInstance(calendarType, locale)
-//            goto(calendar)
         }
     }
 
     private fun calculateSizes() {
         firstLabelHeight = firstLabelTextSize + firstLabelTopPadding + firstLabelBottomPadding
         secondLabelHeight = secondLabelTextSize + secondLabelTopPadding + secondLabelBottomPadding
+
+        val firstLabelBounds = Rect()
+        firstLabelPaint?.getTextBounds(firstLabelText, 0, firstLabelText.length, firstLabelBounds)
+
+        val secondLabelBounds = Rect()
+        secondLabelPaint?.getTextBounds(secondLabelText, 0, secondLabelText.length, secondLabelBounds)
+
+        viewWidth = max(firstLabelBounds.width(), secondLabelBounds.width())
     }
 
-    private fun initMonthLabelPaint() {
+    private fun initFirstLabelPaint() {
         firstLabelPaint = Paint().apply {
             textSize = firstLabelTextSize.toFloat()
             color = firstLabelTextColor
@@ -186,7 +213,7 @@ class TwoLineTextView @JvmOverloads constructor(
         }
     }
 
-    private fun initWeekLabelPaint() {
+    private fun initSecondLabelPaint() {
         secondLabelPaint = Paint().apply {
             textSize = secondLabelTextSize.toFloat()
             color = secondLabelTextColor
@@ -198,8 +225,8 @@ class TwoLineTextView @JvmOverloads constructor(
     }
 
     private fun initPaints() {
-        initMonthLabelPaint()
-        initWeekLabelPaint()
+        initFirstLabelPaint()
+        initSecondLabelPaint()
     }
 
     private fun applyTypeface() {
@@ -208,24 +235,23 @@ class TwoLineTextView @JvmOverloads constructor(
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val width = paddingLeft +
+                viewWidth +
+                paddingRight
         val height = paddingTop +
                 firstLabelHeight +
                 secondLabelHeight +
                 paddingBottom
-        setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height)
-    }
-
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        viewWidth = w
+        setMeasuredDimension(width, height)
     }
 
     override fun onDraw(canvas: Canvas) {
-        drawMonthLabel(canvas)
-        drawWeekLabels(canvas)
+        drawFirstLabel(canvas)
+        drawSecondLabel(canvas)
     }
 
-    private fun drawMonthLabel(canvas: Canvas) {
-        val x = viewWidth / 2f
+    private fun drawFirstLabel(canvas: Canvas) {
+        val x = paddingLeft + viewWidth / 2f
         var y = paddingTop +
                 (firstLabelHeight - firstLabelTopPadding - firstLabelBottomPadding) / 2f +
                 firstLabelTopPadding
@@ -234,11 +260,9 @@ class TwoLineTextView @JvmOverloads constructor(
             y -= ((descent() + ascent()) / 2)
         }
 
-        var monthAndYearString = "AAAAAA"
-
         firstLabelPaint?.apply {
             canvas.drawText(
-                    monthAndYearString,
+                    firstLabelText,
                     x,
                     y,
                     this
@@ -246,8 +270,8 @@ class TwoLineTextView @JvmOverloads constructor(
         }
     }
 
-    private fun drawWeekLabels(canvas: Canvas) {
-        val x = viewWidth / 2f
+    private fun drawSecondLabel(canvas: Canvas) {
+        val x = paddingLeft + viewWidth / 2f
         var y = paddingTop +
                 firstLabelHeight +
                 (secondLabelHeight - secondLabelTopPadding - secondLabelBottomPadding) / 2f +
@@ -257,11 +281,9 @@ class TwoLineTextView @JvmOverloads constructor(
             y -= ((descent() + ascent()) / 2)
         }
 
-        var monthAndYearString = "BBBBBB"
-
         secondLabelPaint?.apply {
             canvas.drawText(
-                    monthAndYearString,
+                    secondLabelText,
                     x,
                     y,
                     this

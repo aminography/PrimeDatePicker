@@ -16,6 +16,9 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.fragment.adapter.PickedDaysListAdapter
+import com.aminography.primedatepicker.fragment.dataholder.PickedDayDataHolder
+import com.aminography.primedatepicker.fragment.dataholder.PickedDayEmptyDataHolder
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.screenSize
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -35,7 +38,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 override fun <DH> onItemClicked(dataHolder: DH) {
                     if (dataHolder is PickedDayDataHolder) {
                         with(rootView) {
-                            calendarView.goto(dataHolder.calendar, true)
+                            calendarView.focusOnDay(dataHolder.calendar)
                         }
                     }
                 }
@@ -81,6 +84,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     arguments?.getStringArrayList("pickedMultipleDaysList")?.apply {
                         calendarView.pickedMultipleDaysList = map { DateUtils.restoreCalendar(it)!! }
                     }
+                    calendarView.animateSelection = arguments?.getBoolean("animateSelection")
+                            ?: true
                 }
             }
 
@@ -209,7 +214,10 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     recyclerView.layoutManager = LinearLayoutManager(activityContext, LinearLayoutManager.HORIZONTAL, false)
                     recyclerView.adapter = multipleDaysAdapter
                     recyclerView.isNestedScrollingEnabled = false
+                    recyclerView.speedFactor = 2.5f
+
                     multipleDaysAdapter.typeface = typeface
+                    handleMultipleDaysHeader(arrayListOf())
                 }
                 PickType.NOTHING -> {
                 }
@@ -241,11 +249,33 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     }
                 }
                 PickType.MULTIPLE -> {
-                    multipleDays?.map {
-                        PickedDayDataHolder(it.shortDateString, it)
-                    }?.also { multipleDaysAdapter.submitList(it) }
+                    handleMultipleDaysHeader(multipleDays)
                 }
                 PickType.NOTHING -> {
+                }
+            }
+        }
+    }
+
+    private fun handleMultipleDaysHeader(multipleDays: List<PrimeCalendar>?) {
+        with(rootView) {
+            multipleDays?.map {
+                PickedDayDataHolder(it.shortDateString, it)
+            }?.also {
+                val count = multipleDaysAdapter.itemCount
+
+                if (it.isEmpty()) {
+                    emptyStateTextView.visibility = View.VISIBLE
+                    arrayListOf(PickedDayEmptyDataHolder(""))
+                } else {
+                    emptyStateTextView.visibility = View.GONE
+                    it
+                }.let { list ->
+                    multipleDaysAdapter.submitList(list)
+                }
+
+                if (it.size > 2 && count < it.size) {
+                    recyclerView.smoothScrollTo(it.size - 1)
                 }
             }
         }
@@ -305,7 +335,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 pickedRangeStartCalendar: PrimeCalendar? = null,
                 pickedRangeEndCalendar: PrimeCalendar? = null,
                 pickedMultipleDaysList: List<PrimeCalendar>? = null,
-                typefacePath: String? = null
+                typefacePath: String? = null,
+                animateSelection: Boolean = true
         ): PrimeDatePickerBottomSheet {
             val fragment = PrimeDatePickerBottomSheet()
             val bundle = Bundle()
@@ -320,6 +351,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 bundle.putStringArrayList("pickedMultipleDaysList", pickedMultipleDaysList.map { DateUtils.storeCalendar(it)!! } as ArrayList<String>)
             }
             bundle.putString("typefacePath", typefacePath)
+            bundle.putBoolean("animateSelection", animateSelection)
             fragment.arguments = bundle
             return fragment
         }

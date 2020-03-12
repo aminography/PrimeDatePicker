@@ -18,55 +18,62 @@ class MonthViewHolder(
         OnDayPickedListener,
         PrimeMonthView.OnHeightDetectListener {
 
-    fun bindDataToView(dataHolder: MonthDataHolder) {
-        dataHolder.apply {
-            monthView.onDayPickedListener = this@MonthViewHolder
-            monthView.onHeightDetectListener = this@MonthViewHolder
-            callback?.apply {
-                monthView.doNotInvalidate {
-                    monthView.typeface = typeface
-                    monthView.minDateCalendar = minDateCalendar
-                    monthView.maxDateCalendar = maxDateCalendar
-                    monthView.pickedSingleDayCalendar = pickedSingleDayCalendar
-                    monthView.pickedRangeStartCalendar = pickedRangeStartCalendar
-                    monthView.pickedRangeEndCalendar = pickedRangeEndCalendar
-                    monthView.pickedMultipleDaysMap = pickedMultipleDaysMap
-                    monthView.pickType = pickType
-                    monthView.locale = locale
-                    monthView.calendarType = calendarType
+    internal fun bindDataToView(dataHolder: MonthDataHolder) {
+        monthView.onDayPickedListener = this@MonthViewHolder
+        monthView.onHeightDetectListener = this@MonthViewHolder
+        callback?.apply {
+            monthView.doNotInvalidate {
+                monthView.typeface = typeface
+                monthView.minDateCalendar = minDateCalendar
+                monthView.maxDateCalendar = maxDateCalendar
+                monthView.pickedSingleDayCalendar = pickedSingleDayCalendar
+                monthView.pickedRangeStartCalendar = pickedRangeStartCalendar
+                monthView.pickedRangeEndCalendar = pickedRangeEndCalendar
+                monthView.pickedMultipleDaysMap = pickedMultipleDaysMap
+                monthView.pickType = pickType
+                monthView.locale = locale
+                monthView.calendarType = dataHolder.calendarType
 
-                    // Common Attributes -------------------------------------------------------
+                // Common Attributes -------------------------------------------------------
 
-                    monthView.monthLabelTextColor = monthLabelTextColor
-                    monthView.weekLabelTextColor = weekLabelTextColor
-                    monthView.dayLabelTextColor = dayLabelTextColor
-                    monthView.todayLabelTextColor = todayLabelTextColor
-                    monthView.pickedDayLabelTextColor = pickedDayLabelTextColor
-                    monthView.pickedDayCircleColor = pickedDayCircleColor
-                    monthView.disabledDayLabelTextColor = disabledDayLabelTextColor
-                    monthView.monthLabelTextSize = monthLabelTextSize
-                    monthView.weekLabelTextSize = weekLabelTextSize
-                    monthView.dayLabelTextSize = dayLabelTextSize
-                    monthView.monthLabelTopPadding = monthLabelTopPadding
-                    monthView.monthLabelBottomPadding = monthLabelBottomPadding
-                    monthView.weekLabelTopPadding = weekLabelTopPadding
-                    monthView.weekLabelBottomPadding = weekLabelBottomPadding
-                    monthView.dayLabelVerticalPadding = dayLabelVerticalPadding
-                    monthView.showTwoWeeksInLandscape = showTwoWeeksInLandscape
-                    monthView.animateSelection = animateSelection
-                    monthView.animationDuration = animationDuration
-                    monthView.animationInterpolator = animationInterpolator
+                monthView.monthLabelTextColor = monthLabelTextColor
+                monthView.weekLabelTextColor = weekLabelTextColor
+                monthView.dayLabelTextColor = dayLabelTextColor
+                monthView.todayLabelTextColor = todayLabelTextColor
+                monthView.pickedDayLabelTextColor = pickedDayLabelTextColor
+                monthView.pickedDayCircleColor = pickedDayCircleColor
+                monthView.disabledDayLabelTextColor = disabledDayLabelTextColor
+                monthView.monthLabelTextSize = monthLabelTextSize
+                monthView.weekLabelTextSize = weekLabelTextSize
+                monthView.dayLabelTextSize = dayLabelTextSize
+                monthView.monthLabelTopPadding = monthLabelTopPadding
+                monthView.monthLabelBottomPadding = monthLabelBottomPadding
+                monthView.weekLabelTopPadding = weekLabelTopPadding
+                monthView.weekLabelBottomPadding = weekLabelBottomPadding
+                monthView.dayLabelVerticalPadding = dayLabelVerticalPadding
+                monthView.showTwoWeeksInLandscape = showTwoWeeksInLandscape
+                monthView.animateSelection = animateSelection
+                monthView.animationDuration = animationDuration
+                monthView.animationInterpolator = animationInterpolator
+            }
+        }
+        dataHolder.run {
+            monthView.goto(year, month)
+            callback?.toFocusDay?.let {
+                if (it.year == year && it.month == month) {
+                    monthView.focusOnDay(it)
                 }
             }
-            monthView.goto(year, month)
         }
     }
 
-    override fun onDayPicked(pickType: PickType,
-                             singleDay: PrimeCalendar?,
-                             startDay: PrimeCalendar?,
-                             endDay: PrimeCalendar?,
-                             multipleDays: List<PrimeCalendar>?) {
+    override fun onDayPicked(
+            pickType: PickType,
+            singleDay: PrimeCalendar?,
+            startDay: PrimeCalendar?,
+            endDay: PrimeCalendar?,
+            multipleDays: List<PrimeCalendar>?
+    ) {
         callback?.onDayPicked(pickType, singleDay, startDay, endDay, multipleDays)
     }
 

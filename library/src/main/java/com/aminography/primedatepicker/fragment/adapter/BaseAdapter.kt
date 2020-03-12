@@ -1,10 +1,10 @@
-package com.aminography.primedatepicker.fragment
+package com.aminography.primedatepicker.fragment.adapter
 
-import android.annotation.SuppressLint
 import android.view.View
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.aminography.primedatepicker.fragment.OnListItemClickListener
 
 /**
  * A class contains base functionalities of a [RecyclerView.Adapter] to make adapter classes cleaner.
@@ -12,21 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
  *
  * @author aminography
  */
-abstract class BaseAdapter<DH, VH : BaseAdapter.BaseViewHolder> :
-        RecyclerView.Adapter<VH>() {
+abstract class BaseAdapter<DH, VH : BaseAdapter.BaseViewHolder> : RecyclerView.Adapter<VH>() {
 
-    protected var diffUtilCallback: DiffUtil.ItemCallback<DH> =
-            object : DiffUtil.ItemCallback<DH>() {
-
-                override fun areItemsTheSame(new: DH, old: DH): Boolean {
-                    return new === old
-                }
-
-                @SuppressLint("DiffUtilEquals")
-                override fun areContentsTheSame(new: DH, old: DH): Boolean {
-                    return new == old
-                }
-            }
+    protected abstract val diffUtilCallback: DiffUtil.ItemCallback<DH>
 
     private val differ by lazy {
         AsyncListDiffer(this, diffUtilCallback)

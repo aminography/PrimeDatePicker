@@ -13,6 +13,7 @@ import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Interpolator
@@ -88,6 +89,8 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private var animationProgress = 1.0f
     private val progressProperty = PropertyValuesHolder.ofFloat("PROGRESS", 1.0f, 0.75f, 1f)
+
+    private var toAnimateDay: PrimeCalendar? = null
 
     // Listeners -----------------------------------------------------------------------------------
 
@@ -811,7 +814,11 @@ class PrimeMonthView @JvmOverloads constructor(
                     pickedMultipleDaysMap
             )
 
-            drawDayBackground(canvas, pickedDayState, x, y, radius)
+            val animate = toAnimateDay?.let {
+                it.year == year && it.month == month && it.dayOfMonth == dayOfMonth
+            } ?: true
+
+            drawDayBackground(canvas, pickedDayState, x, y, radius, animate)
             drawDayLabel(canvas, dayOfMonth, pickedDayState, x, y)
 
             if (SHOW_GUIDE_LINES) {
@@ -848,20 +855,20 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float) {
+    private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float, animate: Boolean) {
         selectedDayBackgroundPaint?.apply {
             fun drawCircle() = canvas.drawCircle(
                     x,
                     y,
-                    radius * animationProgress,
+                    radius * (if (animate) animationProgress else 1f),
                     this
             )
 
             fun drawRect() = canvas.drawRect(
                     x - cellWidth / 2,
-                    y - radius * animationProgress,
+                    y - radius * (if (animate) animationProgress else 1f),
                     x + cellWidth / 2,
-                    y + radius * animationProgress,
+                    y + radius * (if (animate) animationProgress else 1f),
                     this
             )
 
@@ -870,32 +877,32 @@ class PrimeMonthView @JvmOverloads constructor(
                     Direction.LTR -> if (isStart)
                         canvas.drawRect(
                                 x,
-                                y - radius * animationProgress,
+                                y - radius * (if (animate) animationProgress else 1f),
                                 (x + cellWidth / 2),
-                                y + radius * animationProgress,
+                                y + radius * (if (animate) animationProgress else 1f),
                                 this
                         )
                     else canvas.drawRect(
                             x - cellWidth / 2,
-                            y - radius * animationProgress,
+                            y - radius * (if (animate) animationProgress else 1f),
                             x,
-                            y + radius * animationProgress,
+                            y + radius * (if (animate) animationProgress else 1f),
                             this
                     )
                     // ---------------------
                     Direction.RTL -> if (isStart)
                         canvas.drawRect(
                                 x - cellWidth / 2,
-                                y - radius * animationProgress,
+                                y - radius * (if (animate) animationProgress else 1f),
                                 x,
-                                y + radius * animationProgress,
+                                y + radius * (if (animate) animationProgress else 1f),
                                 this
                         )
                     else canvas.drawRect(
                             x,
-                            y - radius * animationProgress,
+                            y - radius * (if (animate) animationProgress else 1f),
                             (x + cellWidth / 2),
-                            y + radius * animationProgress,
+                            y + radius * (if (animate) animationProgress else 1f),
                             this
                     )
                 }
@@ -1019,6 +1026,7 @@ class PrimeMonthView @JvmOverloads constructor(
                         } else {
                             pickedMultipleDaysMap?.put(dateString, calendar)
                         }
+                        toAnimateDay = calendar
                         change = true
                     }
                     PickType.NOTHING -> {
@@ -1027,15 +1035,23 @@ class PrimeMonthView @JvmOverloads constructor(
             }
 
             notifyDayPicked(change)
-
-            if (animateSelection) {
-                invalidate()
-                animator.start()
-            } else {
-                invalidate()
-            }
-
+            checkAnimatedInvalidation()
         }
+    }
+
+    private fun checkAnimatedInvalidation() {
+        if (animateSelection) {
+            invalidate()
+            animator.start()
+        } else {
+            invalidate()
+        }
+    }
+
+    fun focusOnDay(calendar: PrimeCalendar) {
+        Log.e("FFF", "********************************   focusOnDay: ${calendar.shortDateString}")
+        toAnimateDay = calendar
+        checkAnimatedInvalidation()
     }
 
     private fun notifyDayPicked(change: Boolean) {
@@ -1067,9 +1083,9 @@ class PrimeMonthView @JvmOverloads constructor(
         var day = column - adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek) + 1
         day += row * columnCount
 
-        return if (day < 1 || day > daysInMonth) {
+        return if (day < 1 || day > daysInMonth)
             null
-        } else day
+        else day
     }
 
     private fun ifInValidRange(dayOfMonth: Int, function: () -> Unit) {

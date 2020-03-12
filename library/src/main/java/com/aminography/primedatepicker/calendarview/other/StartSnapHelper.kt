@@ -1,10 +1,10 @@
 package com.aminography.primedatepicker.calendarview.other
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 
 /**
  * @author aminography
@@ -14,17 +14,17 @@ class StartSnapHelper : LinearSnapHelper() {
     private var verticalHelper: OrientationHelper? = null
     private var horizontalHelper: OrientationHelper? = null
 
-    override fun calculateDistanceToFinalSnap(layoutManager: RecyclerView.LayoutManager, targetView: View): IntArray? {
-        val out = IntArray(2)
-        if (layoutManager.canScrollHorizontally())
-            out[0] = distanceToStart(targetView, getHorizontalHelper(layoutManager))
-        else out[0] = 0
+    override fun calculateDistanceToFinalSnap(
+            layoutManager: RecyclerView.LayoutManager,
+            targetView: View
+    ) = IntArray(2).also {
+        it[0] = if (layoutManager.canScrollHorizontally())
+            distanceToStart(targetView, getHorizontalHelper(layoutManager))
+        else 0
 
-        if (layoutManager.canScrollVertically())
-            out[1] = distanceToStart(targetView, getVerticalHelper(layoutManager))
-        else out[1] = 0
-
-        return out
+        it[1] = if (layoutManager.canScrollVertically())
+            distanceToStart(targetView, getVerticalHelper(layoutManager))
+        else 0
     }
 
     override fun findSnapView(layoutManager: RecyclerView.LayoutManager): View? {
