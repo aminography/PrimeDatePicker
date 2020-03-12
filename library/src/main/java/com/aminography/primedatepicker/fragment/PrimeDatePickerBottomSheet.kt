@@ -152,7 +152,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     typeface?.let { pickedTextView.typeface = it }
 
                     calendarView.pickedSingleDayCalendar?.apply {
-                        pickedTextView.text = shortDateString
+                        pickedTextView.secondLabelText = shortDateString
                     }
 
                     view.setOnClickListener {
@@ -172,37 +172,37 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
                     when (calendarView.pickType) {
                         PickType.RANGE_START -> {
-                            rangeStartLinearLayout.isSelected = true
-                            rangeEndLinearLayout.isSelected = false
+                            rangeStartFrameLayout.isSelected = true
+                            rangeEndFrameLayout.isSelected = false
                         }
                         PickType.RANGE_END -> {
-                            rangeStartLinearLayout.isSelected = false
-                            rangeEndLinearLayout.isSelected = true
+                            rangeStartFrameLayout.isSelected = false
+                            rangeEndFrameLayout.isSelected = true
                         }
                         else -> {
                         }
                     }
 
                     calendarView.pickedRangeStartCalendar?.apply {
-                        rangeStartTextView.text = shortDateString
+                        rangeStartTextView.secondLabelText = shortDateString
                     }
                     calendarView.pickedRangeEndCalendar?.apply {
-                        rangeEndTextView.text = shortDateString
+                        rangeEndTextView.secondLabelText = shortDateString
                     }
 
-                    rangeStartLinearLayout.setOnClickListener {
+                    rangeStartFrameLayout.setOnClickListener {
                         calendarView.pickType = PickType.RANGE_START
-                        rangeStartLinearLayout.isSelected = true
-                        rangeEndLinearLayout.isSelected = false
+                        rangeStartFrameLayout.isSelected = true
+                        rangeEndFrameLayout.isSelected = false
 
                         calendarView.pickedRangeStartCalendar?.apply {
                             calendarView.goto(this, true)
                         }
                     }
-                    rangeEndLinearLayout.setOnClickListener {
+                    rangeEndFrameLayout.setOnClickListener {
                         calendarView.pickType = PickType.RANGE_END
-                        rangeStartLinearLayout.isSelected = false
-                        rangeEndLinearLayout.isSelected = true
+                        rangeStartFrameLayout.isSelected = false
+                        rangeEndFrameLayout.isSelected = true
 
                         calendarView.pickedRangeEndCalendar?.apply {
                             calendarView.goto(this, true)
@@ -236,18 +236,18 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
             when (pickType) {
                 PickType.SINGLE -> {
                     singleDay?.apply {
-                        pickedTextView.text = shortDateString
+                        pickedTextView.secondLabelText = shortDateString
                     }
                 }
                 PickType.RANGE_START -> {
                     startDay?.apply {
-                        rangeStartTextView.text = shortDateString
+                        rangeStartTextView.secondLabelText = shortDateString
                     }
-                    rangeEndTextView.text = endDay?.shortDateString ?: ""
+                    rangeEndTextView.secondLabelText = endDay?.shortDateString ?: ""
                 }
                 PickType.RANGE_END -> {
                     endDay?.apply {
-                        rangeEndTextView.text = shortDateString
+                        rangeEndTextView.secondLabelText = shortDateString
                     }
                 }
                 PickType.MULTIPLE -> {

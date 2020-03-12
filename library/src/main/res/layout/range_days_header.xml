@@ -1,69 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:baselineAligned="false"
     android:orientation="horizontal">
 
-    <LinearLayout
-        android:id="@+id/rangeStartLinearLayout"
+    <FrameLayout
+        android:id="@+id/rangeStartFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/range_background_selector"
-        android:orientation="vertical"
-        android:padding="3dp">
+        android:background="@drawable/range_background_selector">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.65"
-            android:gravity="center"
-            android:text="@string/prime_date_picker_from"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small" />
-
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.aminography.primedatepicker.fragment.header.TwoLineTextView
             android:id="@+id/rangeStartTextView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:paddingTop="@dimen/material_size_2"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
+            android:layout_gravity="center"
+            android:paddingStart="@dimen/material_size_8"
+            android:paddingTop="@dimen/material_size_4"
+            android:paddingEnd="@dimen/material_size_8"
+            android:paddingBottom="@dimen/material_size_4"
+            app:firstLabelBottomPadding="@dimen/material_size_2"
+            app:firstLabelText="@string/prime_date_picker_from"
+            app:firstLabelTextColor="@color/transWhiteAA"
+            app:firstLabelTextSize="@dimen/text_size_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:secondLabelTextColor="@color/white"
+            app:secondLabelTextSize="@dimen/text_size_normal"
+            app:secondLabelTopPadding="@dimen/material_size_2" />
 
-    </LinearLayout>
+    </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/rangeEndLinearLayout"
+    <FrameLayout
+        android:id="@+id/rangeEndFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/range_background_selector"
-        android:orientation="vertical"
-        android:padding="3dp">
+        android:background="@drawable/range_background_selector">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.65"
-            android:gravity="center"
-            android:text="@string/prime_date_picker_to"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small" />
-
-        <androidx.appcompat.widget.AppCompatTextView
+        <com.aminography.primedatepicker.fragment.header.TwoLineTextView
             android:id="@+id/rangeEndTextView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:includeFontPadding="false"
-            android:paddingTop="@dimen/material_size_2"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_normal" />
+            android:layout_gravity="center"
+            android:paddingStart="@dimen/material_size_8"
+            android:paddingTop="@dimen/material_size_4"
+            android:paddingEnd="@dimen/material_size_8"
+            android:paddingBottom="@dimen/material_size_4"
+            app:firstLabelBottomPadding="@dimen/material_size_2"
+            app:firstLabelText="@string/prime_date_picker_to"
+            app:firstLabelTextColor="@color/transWhiteAA"
+            app:firstLabelTextSize="@dimen/text_size_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:secondLabelTextColor="@color/white"
+            app:secondLabelTextSize="@dimen/text_size_normal"
+            app:secondLabelTopPadding="@dimen/material_size_2" />
 
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>
