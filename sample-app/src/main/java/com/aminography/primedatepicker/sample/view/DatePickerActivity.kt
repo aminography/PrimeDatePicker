@@ -110,7 +110,6 @@ class DatePickerActivity : AppCompatActivity() {
 
             datePicker?.show(supportFragmentManager, PICKER_TAG)
         }
-
     }
 
     override fun onResume() {
