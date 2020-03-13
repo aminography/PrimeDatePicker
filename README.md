@@ -46,6 +46,10 @@ val singleDayPickCallback = SingleDayPickCallback { singleDay ->
     // TODO
 }
 
+val today = CivilCalendar().also{
+    it.firstDayOfWeek = Calendar.MONDAY
+}
+
 val datePicker = PrimeDatePickerBottomSheet.with(today)
                     .pickSingleDay()
                     .minPossibleDate(minDateCalendar) // Optional
