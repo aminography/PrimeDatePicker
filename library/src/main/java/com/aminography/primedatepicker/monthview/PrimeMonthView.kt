@@ -21,12 +21,8 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primecalendar.hijri.HijriCalendar
-import com.aminography.primecalendar.japanese.JapaneseCalendar
-import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
@@ -78,7 +74,6 @@ class PrimeMonthView @JvmOverloads constructor(
     private var hasToday = false
     private var todayDayOfMonth = -1
 
-    internal var weekStartDay = -1
     private var daysInMonth = 0
 
     private var firstDayOfMonthDayOfWeek = 0
@@ -433,6 +428,12 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
+    internal var weekStartDay = -1
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
 
@@ -610,7 +611,9 @@ class PrimeMonthView @JvmOverloads constructor(
         this.month = month
 
         if (weekStartDay == -1) {
-            weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+            doNotInvalidate {
+                weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+            }
         }
 
         dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType, locale)
