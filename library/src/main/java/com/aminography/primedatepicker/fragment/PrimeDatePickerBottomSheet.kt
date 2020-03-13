@@ -157,7 +157,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
                     view.setOnClickListener {
                         calendarView.pickedSingleDayCalendar?.apply {
-                            calendarView.goto(this, true)
+                            calendarView.focusOnDay(this)
                         }
                     }
                 }
