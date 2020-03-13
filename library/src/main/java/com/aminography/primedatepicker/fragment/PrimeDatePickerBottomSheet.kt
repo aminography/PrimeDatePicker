@@ -79,8 +79,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     }
 
     override fun onInitViews(rootView: View) {
-        val currentDateCalendar = DateUtils.restoreCalendar(arguments?.getString("currentDateCalendar"))
-        val calendarType = currentDateCalendar?.calendarType ?: CalendarType.CIVIL
+        val initialDateCalendar = DateUtils.restoreCalendar(arguments?.getString("initialDateCalendar"))
+        val calendarType = initialDateCalendar?.calendarType ?: CalendarType.CIVIL
         internalPickType = PickType.valueOf(arguments?.getString("pickType")
             ?: PickType.NOTHING.name)
         val typefacePath = arguments?.getString("typefacePath")
@@ -114,7 +114,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
             initHeaderLayout(pickType, typeface)
 
             calendarView.onDayPickedListener = this@PrimeDatePickerBottomSheet
-            calendarView.goto(currentDateCalendar!!)
+            calendarView.goto(initialDateCalendar!!)
 
             positiveButton.setOnClickListener {
                 when (calendarView.pickType) {
@@ -357,13 +357,13 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
     abstract class BaseRequestBuilder<T : BaseDayPickCallback> internal constructor(
         pickType: PickType,
-        currentDate: PrimeCalendar
+        initialDateCalendar: PrimeCalendar
     ) {
 
         protected val bundle = Bundle()
 
         init {
-            bundle.putString("currentDateCalendar", DateUtils.storeCalendar(currentDate))
+            bundle.putString("initialDateCalendar", DateUtils.storeCalendar(initialDateCalendar))
             bundle.putString("pickType", pickType.name)
         }
 
@@ -396,8 +396,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     }
 
     class SingleDayRequestBuilder internal constructor(
-        currentDateCalendar: PrimeCalendar
-    ) : BaseRequestBuilder<SingleDayPickCallback>(PickType.SINGLE, currentDateCalendar) {
+        initialDateCalendar: PrimeCalendar
+    ) : BaseRequestBuilder<SingleDayPickCallback>(PickType.SINGLE, initialDateCalendar) {
 
         fun initiallyPickedSingleDay(singleDay: PrimeCalendar): SingleDayRequestBuilder {
             bundle.putString("pickedSingleDayCalendar", DateUtils.storeCalendar(singleDay))
@@ -406,8 +406,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     }
 
     class RangeDaysRequestBuilder internal constructor(
-        currentDateCalendar: PrimeCalendar
-    ) : BaseRequestBuilder<RangeDaysPickCallback>(PickType.RANGE_START, currentDateCalendar) {
+        initialDateCalendar: PrimeCalendar
+    ) : BaseRequestBuilder<RangeDaysPickCallback>(PickType.RANGE_START, initialDateCalendar) {
 
         fun initiallyPickedRangeDays(startDay: PrimeCalendar, endDay: PrimeCalendar): RangeDaysRequestBuilder {
             bundle.putString("pickedRangeStartCalendar", DateUtils.storeCalendar(startDay))
@@ -417,8 +417,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     }
 
     class MultipleDaysRequestBuilder internal constructor(
-        currentDateCalendar: PrimeCalendar
-    ) : BaseRequestBuilder<MultipleDaysPickCallback>(PickType.MULTIPLE, currentDateCalendar) {
+        initialDateCalendar: PrimeCalendar
+    ) : BaseRequestBuilder<MultipleDaysPickCallback>(PickType.MULTIPLE, initialDateCalendar) {
 
         fun initiallyPickedMultipleDays(multipleDays: List<PrimeCalendar>): MultipleDaysRequestBuilder {
             bundle.putStringArrayList("pickedMultipleDaysList", multipleDays.map {
@@ -429,27 +429,27 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     }
 
     class RequestBuilder(
-        private val currentDateCalendar: PrimeCalendar
+        private val initialDateCalendar: PrimeCalendar
     ) {
 
         fun pickSingleDay(): SingleDayRequestBuilder {
-            return SingleDayRequestBuilder(currentDateCalendar)
+            return SingleDayRequestBuilder(initialDateCalendar)
         }
 
         fun pickRangeDays(): RangeDaysRequestBuilder {
-            return RangeDaysRequestBuilder(currentDateCalendar)
+            return RangeDaysRequestBuilder(initialDateCalendar)
         }
 
         fun pickMultipleDays(): MultipleDaysRequestBuilder {
-            return MultipleDaysRequestBuilder(currentDateCalendar)
+            return MultipleDaysRequestBuilder(initialDateCalendar)
         }
     }
 
     companion object {
 
         @JvmStatic
-        fun with(currentDate: PrimeCalendar): RequestBuilder =
-            RequestBuilder(currentDate)
+        fun with(initialDate: PrimeCalendar): RequestBuilder =
+            RequestBuilder(initialDate)
     }
 
 }

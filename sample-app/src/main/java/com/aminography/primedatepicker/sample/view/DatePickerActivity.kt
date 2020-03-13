@@ -105,7 +105,7 @@ class DatePickerActivity : AppCompatActivity() {
                         .animateSelection(true)
                         .build(multipleDaysPickCallback)
                 }
-                else -> null!!
+                else -> null
             }
 
             datePicker?.show(supportFragmentManager, PICKER_TAG)

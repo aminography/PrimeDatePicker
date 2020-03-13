@@ -13,7 +13,6 @@ import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Interpolator
@@ -587,6 +586,12 @@ class PrimeMonthView @JvmOverloads constructor(
         drawDayLabels(canvas)
     }
 
+    fun goTo(calendar: PrimeCalendar) =
+        goto(calendar)
+
+    fun goTo(year: Int, month: Int) =
+        goto(year, month)
+
     fun goto(calendar: PrimeCalendar) {
         doNotInvalidate {
             locale = calendar.locale
@@ -1049,7 +1054,6 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     fun focusOnDay(calendar: PrimeCalendar) {
-        Log.e("FFF", "********************************   focusOnDay: ${calendar.shortDateString}")
         toAnimateDay = calendar
         checkAnimatedInvalidation()
     }

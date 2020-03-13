@@ -637,6 +637,12 @@ class PrimeCalendarView @JvmOverloads constructor(
         } ?: goto(calendar, true)
     }
 
+    fun goTo(calendar: PrimeCalendar, animate: Boolean = false): Boolean =
+        goto(calendar, animate)
+
+    fun goTo(year: Int, month: Int, animate: Boolean = false): Boolean =
+        goto(year, month, animate)
+
     fun goto(calendar: PrimeCalendar, animate: Boolean = false): Boolean {
         doNotInvalidate {
             locale = calendar.locale
