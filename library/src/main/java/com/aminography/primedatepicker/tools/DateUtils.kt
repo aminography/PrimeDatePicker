@@ -1,11 +1,15 @@
 package com.aminography.primedatepicker.tools
 
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.civil.CivilCalendarUtils
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.hijri.HijriCalendarUtils
+import com.aminography.primecalendar.japanese.JapaneseCalendar
 import com.aminography.primecalendar.japanese.JapaneseCalendarUtils
+import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primecalendar.persian.PersianCalendarUtils
 import java.util.*
 
@@ -101,14 +105,15 @@ object DateUtils {
 
     fun storeCalendar(calendar: PrimeCalendar?): String? =
         calendar?.run {
-            "${calendarType.name}-${locale.language}-${year}-${month}-${dayOfMonth}"
+            "${calendarType.name}-${locale.language}-$firstDayOfWeek-${year}-${month}-${dayOfMonth}"
         }
 
     fun restoreCalendar(input: String?): PrimeCalendar? =
         input?.run {
             split("-").let {
                 CalendarFactory.newInstance(CalendarType.valueOf(it[0]), Locale(it[1])).apply {
-                    set(it[2].toInt(), it[3].toInt(), it[4].toInt())
+                    firstDayOfWeek = it[2].toInt()
+                    set(it[3].toInt(), it[4].toInt(), it[5].toInt())
                 }
             }
         }
@@ -119,6 +124,15 @@ object DateUtils {
         }
 
     fun dateString(year: Int, month: Int, dayOfMonth: Int) = "${year}-${month}-${dayOfMonth}"
+
+    fun defaultWeekStartDay(calendarType: CalendarType): Int {
+        return when (calendarType) {
+            CalendarType.CIVIL -> CivilCalendar.DEFAULT_FIRST_DAY_OF_WEEK
+            CalendarType.PERSIAN -> PersianCalendar.DEFAULT_FIRST_DAY_OF_WEEK
+            CalendarType.HIJRI -> HijriCalendar.DEFAULT_FIRST_DAY_OF_WEEK
+            CalendarType.JAPANESE -> JapaneseCalendar.DEFAULT_FIRST_DAY_OF_WEEK
+        }
+    }
 
 //    fun persianDateToCivilStandardString(context: Context, year: Int, monthOfYear: Int, dayOfMonth: Int): String {
 //        val civilDate = DateConverter.persianToCivil(context, PersianDate(context, year, monthOfYear, dayOfMonth))

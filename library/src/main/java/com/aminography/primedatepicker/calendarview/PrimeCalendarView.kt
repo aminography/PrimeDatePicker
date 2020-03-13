@@ -393,6 +393,12 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
+    override var weekStartDay: Int = -1
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
     var calendarType = CalendarType.CIVIL
         set(value) {
             val previous = calendarType
@@ -647,6 +653,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         doNotInvalidate {
             locale = calendar.locale
             calendarType = calendar.calendarType
+            weekStartDay = calendar.firstDayOfWeek
         }
         return goto(calendar.year, calendar.month, animate)
     }
@@ -655,6 +662,10 @@ class PrimeCalendarView @JvmOverloads constructor(
         if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
             return false
         }
+        if (weekStartDay == -1) {
+            weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+        }
+
         dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)
         if (animate) {
             findFirstVisibleItem()?.let { current ->

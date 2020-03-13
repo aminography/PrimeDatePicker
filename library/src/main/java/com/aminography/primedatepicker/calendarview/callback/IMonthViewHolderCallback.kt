@@ -18,6 +18,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
 
     val pickType: PickType
 
+    val weekStartDay: Int
+
     val locale: Locale
 
     val pickedRangeStartCalendar: PrimeCalendar?

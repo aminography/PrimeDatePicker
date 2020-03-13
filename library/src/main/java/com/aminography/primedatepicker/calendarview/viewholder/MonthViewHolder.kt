@@ -31,6 +31,7 @@ class MonthViewHolder(
                 monthView.pickedRangeEndCalendar = pickedRangeEndCalendar
                 monthView.pickedMultipleDaysMap = pickedMultipleDaysMap
                 monthView.pickType = pickType
+                monthView.weekStartDay = weekStartDay
                 monthView.locale = locale
                 monthView.calendarType = dataHolder.calendarType
 

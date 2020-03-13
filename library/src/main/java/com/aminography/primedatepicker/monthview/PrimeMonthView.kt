@@ -21,8 +21,12 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primecalendar.hijri.HijriCalendar
+import com.aminography.primecalendar.japanese.JapaneseCalendar
+import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
@@ -74,7 +78,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private var hasToday = false
     private var todayDayOfMonth = -1
 
-    private var weekStartDay = Calendar.SUNDAY
+    internal var weekStartDay = -1
     private var daysInMonth = 0
 
     private var firstDayOfMonthDayOfWeek = 0
@@ -596,6 +600,7 @@ class PrimeMonthView @JvmOverloads constructor(
         doNotInvalidate {
             locale = calendar.locale
             calendarType = calendar.calendarType
+            weekStartDay = calendar.firstDayOfWeek
         }
         goto(calendar.year, calendar.month)
     }
@@ -604,19 +609,19 @@ class PrimeMonthView @JvmOverloads constructor(
         this.year = year
         this.month = month
 
+        if (weekStartDay == -1) {
+            weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+        }
+
         dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType, locale)
         firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType, locale).apply {
+            firstDayOfWeek = weekStartDay
             set(year, month, 1)
-            firstDayOfMonthDayOfWeek = get(Calendar.DAY_OF_WEEK)
+        }.also {
+            firstDayOfMonthDayOfWeek = it[Calendar.DAY_OF_WEEK]
         }
 
         daysInMonth = DateUtils.getDaysInMonth(calendarType, year, month)
-        weekStartDay = when (calendarType) {
-            CalendarType.CIVIL -> Calendar.SUNDAY
-            CalendarType.PERSIAN -> Calendar.SATURDAY
-            CalendarType.HIJRI -> Calendar.SATURDAY
-            CalendarType.JAPANESE -> Calendar.SUNDAY
-        }
 
         updateToday()
         updateRowCount()
@@ -1117,6 +1122,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val savedState = SavedState(superState)
 
         savedState.calendarType = calendarType.ordinal
+        savedState.weekStartDay = weekStartDay
         savedState.locale = locale.language
 
         savedState.year = year
@@ -1162,6 +1168,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
+            weekStartDay = savedState.weekStartDay
             savedState.locale?.let { locale = Locale(it) }
 
             year = savedState.year
@@ -1212,6 +1219,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private class SavedState : BaseSavedState {
 
         internal var calendarType: Int = 0
+        internal var weekStartDay: Int = 0
         internal var locale: String? = null
         internal var year: Int = 0
         internal var month: Int = 0
@@ -1249,6 +1257,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         private constructor(input: Parcel) : super(input) {
             calendarType = input.readInt()
+            weekStartDay = input.readInt()
             locale = input.readString()
             year = input.readInt()
             month = input.readInt()
@@ -1286,6 +1295,7 @@ class PrimeMonthView @JvmOverloads constructor(
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
             out.writeInt(calendarType)
+            out.writeInt(weekStartDay)
             out.writeString(locale)
             out.writeInt(year)
             out.writeInt(month)

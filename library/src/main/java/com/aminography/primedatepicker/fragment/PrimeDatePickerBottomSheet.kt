@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.range_days_header.view.*
 import kotlinx.android.synthetic.main.single_day_header.view.*
 import java.util.*
 
+@Suppress("unused")
 class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     R.layout.fragment_date_picker_bottom_sheet
 ), OnDayPickedListener {
