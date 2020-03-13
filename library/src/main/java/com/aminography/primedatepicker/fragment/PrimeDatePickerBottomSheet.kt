@@ -172,12 +172,12 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
                     when (calendarView.pickType) {
                         PickType.RANGE_START -> {
-                            rangeStartFrameLayout.isSelected = true
-                            rangeEndFrameLayout.isSelected = false
+                            rangeStartBackView.isSelected = true
+                            rangeEndBackView.isSelected = false
                         }
                         PickType.RANGE_END -> {
-                            rangeStartFrameLayout.isSelected = false
-                            rangeEndFrameLayout.isSelected = true
+                            rangeStartBackView.isSelected = false
+                            rangeEndBackView.isSelected = true
                         }
                         else -> {
                         }
@@ -190,19 +190,19 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                         rangeEndTextView.secondLabelText = shortDateString
                     }
 
-                    rangeStartFrameLayout.setOnClickListener {
+                    rangeStartBackView.setOnClickListener {
                         calendarView.pickType = PickType.RANGE_START
-                        rangeStartFrameLayout.isSelected = true
-                        rangeEndFrameLayout.isSelected = false
+                        rangeStartBackView.isSelected = true
+                        rangeEndBackView.isSelected = false
 
                         calendarView.pickedRangeStartCalendar?.apply {
                             calendarView.goto(this, true)
                         }
                     }
-                    rangeEndFrameLayout.setOnClickListener {
+                    rangeEndBackView.setOnClickListener {
                         calendarView.pickType = PickType.RANGE_END
-                        rangeStartFrameLayout.isSelected = false
-                        rangeEndFrameLayout.isSelected = true
+                        rangeStartBackView.isSelected = false
+                        rangeEndBackView.isSelected = true
 
                         calendarView.pickedRangeEndCalendar?.apply {
                             calendarView.goto(this, true)
