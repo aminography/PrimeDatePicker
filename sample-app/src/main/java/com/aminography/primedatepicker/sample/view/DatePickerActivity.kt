@@ -8,14 +8,29 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.fragment.PrimeDatePickerBottomSheet
+import com.aminography.primedatepicker.fragment.callback.MultipleDaysPickCallback
+import com.aminography.primedatepicker.fragment.callback.RangeDaysPickCallback
+import com.aminography.primedatepicker.fragment.callback.SingleDayPickCallback
 import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
 import java.util.*
 
 
-class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDayPickedListener {
+class DatePickerActivity : AppCompatActivity() {
 
     private var datePicker: PrimeDatePickerBottomSheet? = null
+
+    private val singleDayPickCallback = SingleDayPickCallback { singleDay ->
+        longToast(singleDay.longDateString)
+    }
+
+    private val rangeDaysPickCallback = RangeDaysPickCallback { startDay, endDay ->
+        longToast("From: ${startDay.longDateString}\nTo: ${endDay.longDateString}")
+    }
+
+    private val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
+        longToast(multipleDays.joinToString(" -\n") { it.longDateString })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,14 +77,37 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
 
             val today = CalendarFactory.newInstance(calendarType)
 
-            datePicker = PrimeDatePickerBottomSheet.newInstance(
-                    currentDateCalendar = today,
-                    minDateCalendar = minDateCalendar,
-                    maxDateCalendar = maxDateCalendar,
-                    pickType = pickType,
-                    typefacePath = typeface
-            )
-            datePicker?.setOnDateSetListener(this)
+            datePicker = when (pickType) {
+                PickType.SINGLE -> {
+                    PrimeDatePickerBottomSheet.with(today)
+                        .pickSingleDay()
+                        .minPossibleDate(minDateCalendar)
+                        .maxPossibleDate(maxDateCalendar)
+                        .typefacePath(typeface)
+                        .animateSelection(true)
+                        .build(singleDayPickCallback)
+                }
+                PickType.RANGE_START -> {
+                    PrimeDatePickerBottomSheet.with(today)
+                        .pickRangeDays()
+                        .minPossibleDate(minDateCalendar)
+                        .maxPossibleDate(maxDateCalendar)
+                        .typefacePath(typeface)
+                        .animateSelection(true)
+                        .build(rangeDaysPickCallback)
+                }
+                PickType.MULTIPLE -> {
+                    PrimeDatePickerBottomSheet.with(today)
+                        .pickMultipleDays()
+                        .minPossibleDate(minDateCalendar)
+                        .maxPossibleDate(maxDateCalendar)
+                        .typefacePath(typeface)
+                        .animateSelection(true)
+                        .build(multipleDaysPickCallback)
+                }
+                else -> null!!
+            }
+
             datePicker?.show(supportFragmentManager, PICKER_TAG)
         }
 
@@ -78,23 +116,23 @@ class DatePickerActivity : AppCompatActivity(), PrimeDatePickerBottomSheet.OnDay
     override fun onResume() {
         super.onResume()
         datePicker = supportFragmentManager.findFragmentByTag(PICKER_TAG) as? PrimeDatePickerBottomSheet
-        datePicker?.setOnDateSetListener(this)
-    }
-
-    override fun onSingleDayPicked(singleDay: PrimeCalendar) {
-        longToast(singleDay.longDateString)
-    }
-
-    override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
-        longToast("From: ${startDay.longDateString}\nTo: ${endDay.longDateString}")
-    }
-
-    override fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>) {
-        longToast(multipleDays.joinToString(" -\n") { it.longDateString })
+        when (datePicker?.pickType) {
+            PickType.SINGLE -> {
+                datePicker?.setDayPickCallback(singleDayPickCallback)
+            }
+            PickType.RANGE_START, PickType.RANGE_END -> {
+                datePicker?.setDayPickCallback(rangeDaysPickCallback)
+            }
+            PickType.MULTIPLE -> {
+                datePicker?.setDayPickCallback(multipleDaysPickCallback)
+            }
+            else -> {
+            }
+        }
     }
 
     private fun longToast(text: String) =
-            Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
 
     companion object {
         const val PICKER_TAG = "PrimeDatePickerBottomSheet"

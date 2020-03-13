@@ -3,10 +3,10 @@ package com.aminography.primedatepicker.calendarview.other
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import kotlin.math.roundToInt
 
@@ -14,7 +14,7 @@ import kotlin.math.roundToInt
  * Created by aminography on 9/4/2018.
  */
 internal class SkipDividerItemDecorator(
-        private val divider: Drawable? = null
+    private val divider: Drawable? = null
 ) : RecyclerView.ItemDecoration() {
 
     private val bounds = Rect()

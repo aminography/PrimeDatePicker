@@ -22,11 +22,11 @@ interface OnDayPickedListener {
      *        Specifies the list of picked days if the [pickType] is [PickType.MULTIPLE].
      */
     fun onDayPicked(
-            pickType: PickType,
-            singleDay: PrimeCalendar?,
-            startDay: PrimeCalendar?,
-            endDay: PrimeCalendar?,
-            multipleDays: List<PrimeCalendar>?
+        pickType: PickType,
+        singleDay: PrimeCalendar?,
+        startDay: PrimeCalendar?,
+        endDay: PrimeCalendar?,
+        multipleDays: List<PrimeCalendar>?
     )
 
 }

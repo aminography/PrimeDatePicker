@@ -17,6 +17,10 @@ import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.fragment.base.BaseBottomSheetDialogFragment
+import com.aminography.primedatepicker.fragment.callback.BaseDayPickCallback
+import com.aminography.primedatepicker.fragment.callback.MultipleDaysPickCallback
+import com.aminography.primedatepicker.fragment.callback.RangeDaysPickCallback
+import com.aminography.primedatepicker.fragment.callback.SingleDayPickCallback
 import com.aminography.primedatepicker.fragment.header.OnListItemClickListener
 import com.aminography.primedatepicker.fragment.header.adapter.PickedDaysListAdapter
 import com.aminography.primedatepicker.fragment.header.dataholder.PickedDayDataHolder
@@ -31,8 +35,17 @@ import kotlinx.android.synthetic.main.single_day_header.view.*
 import java.util.*
 
 class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
-        R.layout.fragment_date_picker_bottom_sheet
+    R.layout.fragment_date_picker_bottom_sheet
 ), OnDayPickedListener {
+
+    private var onCancelListener: DialogInterface.OnCancelListener? = null
+    private var onDismissListener: DialogInterface.OnDismissListener? = null
+    private var onDayPickCallback: BaseDayPickCallback? = null
+
+    private var internalPickType: PickType = PickType.NOTHING
+
+    val pickType: PickType
+        get() = internalPickType
 
     private val multipleDaysAdapter: PickedDaysListAdapter by lazy {
         PickedDaysListAdapter().also {
@@ -68,7 +81,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     override fun onInitViews(rootView: View) {
         val currentDateCalendar = DateUtils.restoreCalendar(arguments?.getString("currentDateCalendar"))
         val calendarType = currentDateCalendar?.calendarType ?: CalendarType.CIVIL
-        val pickType = PickType.valueOf(arguments?.getString("pickType") ?: PickType.NOTHING.name)
+        internalPickType = PickType.valueOf(arguments?.getString("pickType")
+            ?: PickType.NOTHING.name)
         val typefacePath = arguments?.getString("typefacePath")
 
         with(rootView) {
@@ -79,7 +93,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     calendarView.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
                     calendarView.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
 
-                    calendarView.pickType = pickType
+                    calendarView.pickType = internalPickType
                     calendarView.pickedSingleDayCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedSingleDayCalendar"))
                     calendarView.pickedRangeStartCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeStartCalendar"))
                     calendarView.pickedRangeEndCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeEndCalendar"))
@@ -87,7 +101,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                         calendarView.pickedMultipleDaysList = map { DateUtils.restoreCalendar(it)!! }
                     }
                     calendarView.animateSelection = arguments?.getBoolean("animateSelection")
-                            ?: true
+                        ?: true
                 }
             }
 
@@ -108,7 +122,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                         if (calendarView.pickedSingleDayCalendar == null) {
                             toast(R.string.no_day_is_selected)
                         } else {
-                            onDayPickedListener?.onSingleDayPicked(calendarView.pickedSingleDayCalendar!!)
+                            (onDayPickCallback as? SingleDayPickCallback)?.onSingleDayPicked(
+                                calendarView.pickedSingleDayCalendar!!
+                            )
                             dismiss()
                         }
                     }
@@ -116,7 +132,10 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                         if (calendarView.pickedRangeStartCalendar == null || calendarView.pickedRangeEndCalendar == null) {
                             toast(R.string.no_range_is_selected)
                         } else {
-                            onDayPickedListener?.onRangeDaysPicked(calendarView.pickedRangeStartCalendar!!, calendarView.pickedRangeEndCalendar!!)
+                            (onDayPickCallback as? RangeDaysPickCallback)?.onRangeDaysPicked(
+                                calendarView.pickedRangeStartCalendar!!,
+                                calendarView.pickedRangeEndCalendar!!
+                            )
                             dismiss()
                         }
                     }
@@ -124,7 +143,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                         if (calendarView.pickedMultipleDaysList.isEmpty()) {
                             toast(R.string.no_day_is_selected)
                         } else {
-                            onDayPickedListener?.onMultipleDaysPicked(calendarView.pickedMultipleDaysList)
+                            (onDayPickCallback as? MultipleDaysPickCallback)?.onMultipleDaysPicked(
+                                calendarView.pickedMultipleDaysList
+                            )
                             dismiss()
                         }
                     }
@@ -143,123 +164,145 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     }
 
     private fun initHeaderLayout(pickType: PickType, typeface: Typeface?) {
+        when (pickType) {
+            PickType.SINGLE -> initHeaderSingle(typeface)
+            PickType.RANGE_START, PickType.RANGE_END -> initHeaderRange(typeface)
+            PickType.MULTIPLE -> initHeaderMultiple(typeface)
+            PickType.NOTHING -> {
+            }
+        }
+    }
+
+    private fun initHeaderSingle(typeface: Typeface?) {
         with(rootView) {
-            when (pickType) {
-                PickType.SINGLE -> {
-                    viewStub.layoutResource = R.layout.single_day_header
-                    val view = viewStub.inflate()
+            viewStub.layoutResource = R.layout.single_day_header
+            val view = viewStub.inflate()
 
-                    typeface?.let { pickedTextView.typeface = it }
+            typeface?.let { pickedTextView.typeface = it }
 
-                    calendarView.pickedSingleDayCalendar?.apply {
-                        pickedTextView.secondLabelText = shortDateString
-                    }
+            calendarView.pickedSingleDayCalendar?.apply {
+                pickedTextView.secondLabelText = shortDateString
+            }
 
-                    view.setOnClickListener {
-                        calendarView.pickedSingleDayCalendar?.apply {
-                            calendarView.focusOnDay(this)
-                        }
-                    }
-                }
-                PickType.RANGE_START, PickType.RANGE_END -> {
-                    viewStub.layoutResource = R.layout.range_days_header
-                    viewStub.inflate()
-
-                    typeface?.let {
-                        rangeStartTextView.typeface = it
-                        rangeEndTextView.typeface = it
-                    }
-
-                    when (calendarView.pickType) {
-                        PickType.RANGE_START -> {
-                            rangeStartBackView.isSelected = true
-                            rangeEndBackView.isSelected = false
-                        }
-                        PickType.RANGE_END -> {
-                            rangeStartBackView.isSelected = false
-                            rangeEndBackView.isSelected = true
-                        }
-                        else -> {
-                        }
-                    }
-
-                    calendarView.pickedRangeStartCalendar?.apply {
-                        rangeStartTextView.secondLabelText = shortDateString
-                    }
-                    calendarView.pickedRangeEndCalendar?.apply {
-                        rangeEndTextView.secondLabelText = shortDateString
-                    }
-
-                    rangeStartBackView.setOnClickListener {
-                        calendarView.pickType = PickType.RANGE_START
-                        rangeStartBackView.isSelected = true
-                        rangeEndBackView.isSelected = false
-
-                        calendarView.pickedRangeStartCalendar?.apply {
-                            calendarView.goto(this, true)
-                        }
-                    }
-                    rangeEndBackView.setOnClickListener {
-                        calendarView.pickType = PickType.RANGE_END
-                        rangeStartBackView.isSelected = false
-                        rangeEndBackView.isSelected = true
-
-                        calendarView.pickedRangeEndCalendar?.apply {
-                            calendarView.goto(this, true)
-                        }
-                    }
-                }
-                PickType.MULTIPLE -> {
-                    viewStub.layoutResource = R.layout.multiple_days_header
-                    viewStub.inflate()
-
-                    recyclerView.layoutManager = LinearLayoutManager(activityContext, LinearLayoutManager.HORIZONTAL, false)
-                    recyclerView.adapter = multipleDaysAdapter
-                    recyclerView.isNestedScrollingEnabled = false
-                    recyclerView.speedFactor = 2.5f
-
-                    multipleDaysAdapter.typeface = typeface
-                    handleMultipleDaysHeader(arrayListOf())
-                }
-                PickType.NOTHING -> {
+            view.setOnClickListener {
+                calendarView.pickedSingleDayCalendar?.apply {
+                    calendarView.focusOnDay(this)
                 }
             }
         }
     }
 
-    override fun onDayPicked(pickType: PickType,
-                             singleDay: PrimeCalendar?,
-                             startDay: PrimeCalendar?,
-                             endDay: PrimeCalendar?,
-                             multipleDays: List<PrimeCalendar>?) {
+    private fun initHeaderRange(typeface: Typeface?) {
+        with(rootView) {
+            viewStub.layoutResource = R.layout.range_days_header
+            viewStub.inflate()
+
+            typeface?.let {
+                rangeStartTextView.typeface = it
+                rangeEndTextView.typeface = it
+            }
+
+            when (calendarView.pickType) {
+                PickType.RANGE_START -> {
+                    rangeStartBackView.isSelected = true
+                    rangeEndBackView.isSelected = false
+                }
+                PickType.RANGE_END -> {
+                    rangeStartBackView.isSelected = false
+                    rangeEndBackView.isSelected = true
+                }
+                else -> {
+                }
+            }
+
+            calendarView.pickedRangeStartCalendar?.apply {
+                rangeStartTextView.secondLabelText = shortDateString
+            }
+            calendarView.pickedRangeEndCalendar?.apply {
+                rangeEndTextView.secondLabelText = shortDateString
+            }
+
+            rangeStartBackView.setOnClickListener {
+                calendarView.pickType = PickType.RANGE_START
+                rangeStartBackView.isSelected = true
+                rangeEndBackView.isSelected = false
+
+                calendarView.pickedRangeStartCalendar?.apply {
+                    calendarView.goto(this, true)
+                }
+            }
+            rangeEndBackView.setOnClickListener {
+                calendarView.pickType = PickType.RANGE_END
+                rangeStartBackView.isSelected = false
+                rangeEndBackView.isSelected = true
+
+                calendarView.pickedRangeEndCalendar?.apply {
+                    calendarView.goto(this, true)
+                }
+            }
+        }
+    }
+
+    private fun initHeaderMultiple(typeface: Typeface?) {
+        with(rootView) {
+            viewStub.layoutResource = R.layout.multiple_days_header
+            viewStub.inflate()
+
+            recyclerView.layoutManager = LinearLayoutManager(activityContext, LinearLayoutManager.HORIZONTAL, false)
+            recyclerView.adapter = multipleDaysAdapter
+            recyclerView.isNestedScrollingEnabled = false
+            recyclerView.speedFactor = 2.5f
+
+            multipleDaysAdapter.typeface = typeface
+            refreshMultipleDaysHeader(arrayListOf())
+        }
+    }
+
+    override fun onDayPicked(
+        pickType: PickType,
+        singleDay: PrimeCalendar?,
+        startDay: PrimeCalendar?,
+        endDay: PrimeCalendar?,
+        multipleDays: List<PrimeCalendar>?
+    ) {
+        when (pickType) {
+            PickType.SINGLE -> refreshSingleDayHeader(singleDay)
+            PickType.RANGE_START, PickType.RANGE_END -> refreshRangeDaysHeader(pickType, startDay, endDay)
+            PickType.MULTIPLE -> refreshMultipleDaysHeader(multipleDays)
+            PickType.NOTHING -> {
+            }
+        }
+    }
+
+    private fun refreshSingleDayHeader(singleDay: PrimeCalendar?) {
+        with(rootView) {
+            singleDay?.run {
+                pickedTextView.secondLabelText = shortDateString
+            }
+        }
+    }
+
+    private fun refreshRangeDaysHeader(pickType: PickType, startDay: PrimeCalendar?, endDay: PrimeCalendar?) {
         with(rootView) {
             when (pickType) {
-                PickType.SINGLE -> {
-                    singleDay?.apply {
-                        pickedTextView.secondLabelText = shortDateString
-                    }
-                }
                 PickType.RANGE_START -> {
-                    startDay?.apply {
+                    startDay?.run {
                         rangeStartTextView.secondLabelText = shortDateString
                     }
                     rangeEndTextView.secondLabelText = endDay?.shortDateString ?: ""
                 }
                 PickType.RANGE_END -> {
-                    endDay?.apply {
+                    endDay?.run {
                         rangeEndTextView.secondLabelText = shortDateString
                     }
                 }
-                PickType.MULTIPLE -> {
-                    handleMultipleDaysHeader(multipleDays)
-                }
-                PickType.NOTHING -> {
+                else -> {
                 }
             }
         }
     }
 
-    private fun handleMultipleDaysHeader(multipleDays: List<PrimeCalendar>?) {
+    private fun refreshMultipleDaysHeader(multipleDays: List<PrimeCalendar>?) {
         with(rootView) {
             multipleDays?.map {
                 PickedDayDataHolder(it.shortDateString, it)
@@ -303,60 +346,110 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         return this
     }
 
-    fun setOnDateSetListener(listener: OnDayPickedListener): PrimeDatePickerBottomSheet {
-        onDayPickedListener = listener
-        return this
-    }
-
-    interface OnDayPickedListener {
-
-        fun onSingleDayPicked(singleDay: PrimeCalendar)
-
-        fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar)
-
-        fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>)
+    fun setDayPickCallback(callback: BaseDayPickCallback) {
+        onDayPickCallback = callback
     }
 
     private fun toast(textResource: Int) =
-            Toast.makeText(requireActivity(), textResource, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireActivity(), textResource, Toast.LENGTH_SHORT).show()
+
+    //----------------------------------------------------------------------------------------------
+
+    abstract class BaseRequestBuilder<T : BaseDayPickCallback> internal constructor(
+        pickType: PickType,
+        currentDate: PrimeCalendar
+    ) {
+
+        protected val bundle = Bundle()
+
+        init {
+            bundle.putString("currentDateCalendar", DateUtils.storeCalendar(currentDate))
+            bundle.putString("pickType", pickType.name)
+        }
+
+        fun minPossibleDate(minDate: PrimeCalendar?): BaseRequestBuilder<T> {
+            bundle.putString("minDateCalendar", DateUtils.storeCalendar(minDate))
+            return this
+        }
+
+        fun maxPossibleDate(maxDate: PrimeCalendar?): BaseRequestBuilder<T> {
+            bundle.putString("maxDateCalendar", DateUtils.storeCalendar(maxDate))
+            return this
+        }
+
+        fun typefacePath(typefacePath: String): BaseRequestBuilder<T> {
+            bundle.putString("typefacePath", typefacePath)
+            return this
+        }
+
+        fun animateSelection(animateSelection: Boolean): BaseRequestBuilder<T> {
+            bundle.putBoolean("animateSelection", animateSelection)
+            return this
+        }
+
+        fun build(callback: T): PrimeDatePickerBottomSheet {
+            return PrimeDatePickerBottomSheet().also {
+                it.arguments = bundle
+                it.setDayPickCallback(callback)
+            }
+        }
+    }
+
+    class SingleDayRequestBuilder internal constructor(
+        currentDateCalendar: PrimeCalendar
+    ) : BaseRequestBuilder<SingleDayPickCallback>(PickType.SINGLE, currentDateCalendar) {
+
+        fun initiallyPickedSingleDay(singleDay: PrimeCalendar): SingleDayRequestBuilder {
+            bundle.putString("pickedSingleDayCalendar", DateUtils.storeCalendar(singleDay))
+            return this
+        }
+    }
+
+    class RangeDaysRequestBuilder internal constructor(
+        currentDateCalendar: PrimeCalendar
+    ) : BaseRequestBuilder<RangeDaysPickCallback>(PickType.RANGE_START, currentDateCalendar) {
+
+        fun initiallyPickedRangeDays(startDay: PrimeCalendar, endDay: PrimeCalendar): RangeDaysRequestBuilder {
+            bundle.putString("pickedRangeStartCalendar", DateUtils.storeCalendar(startDay))
+            bundle.putString("pickedRangeEndCalendar", DateUtils.storeCalendar(endDay))
+            return this
+        }
+    }
+
+    class MultipleDaysRequestBuilder internal constructor(
+        currentDateCalendar: PrimeCalendar
+    ) : BaseRequestBuilder<MultipleDaysPickCallback>(PickType.MULTIPLE, currentDateCalendar) {
+
+        fun initiallyPickedMultipleDays(multipleDays: List<PrimeCalendar>): MultipleDaysRequestBuilder {
+            bundle.putStringArrayList("pickedMultipleDaysList", multipleDays.map {
+                DateUtils.storeCalendar(it)!!
+            } as ArrayList<String>)
+            return this
+        }
+    }
+
+    class RequestBuilder(
+        private val currentDateCalendar: PrimeCalendar
+    ) {
+
+        fun pickSingleDay(): SingleDayRequestBuilder {
+            return SingleDayRequestBuilder(currentDateCalendar)
+        }
+
+        fun pickRangeDays(): RangeDaysRequestBuilder {
+            return RangeDaysRequestBuilder(currentDateCalendar)
+        }
+
+        fun pickMultipleDays(): MultipleDaysRequestBuilder {
+            return MultipleDaysRequestBuilder(currentDateCalendar)
+        }
+    }
 
     companion object {
 
-        private var onCancelListener: DialogInterface.OnCancelListener? = null
-        private var onDismissListener: DialogInterface.OnDismissListener? = null
-        private var onDayPickedListener: OnDayPickedListener? = null
-
         @JvmStatic
-        @JvmOverloads
-        fun newInstance(
-                currentDateCalendar: PrimeCalendar,
-                minDateCalendar: PrimeCalendar? = null,
-                maxDateCalendar: PrimeCalendar? = null,
-                pickType: PickType,
-                pickedSingleDayCalendar: PrimeCalendar? = null,
-                pickedRangeStartCalendar: PrimeCalendar? = null,
-                pickedRangeEndCalendar: PrimeCalendar? = null,
-                pickedMultipleDaysList: List<PrimeCalendar>? = null,
-                typefacePath: String? = null,
-                animateSelection: Boolean = true
-        ): PrimeDatePickerBottomSheet {
-            val fragment = PrimeDatePickerBottomSheet()
-            val bundle = Bundle()
-            bundle.putString("currentDateCalendar", DateUtils.storeCalendar(currentDateCalendar))
-            bundle.putString("minDateCalendar", DateUtils.storeCalendar(minDateCalendar))
-            bundle.putString("maxDateCalendar", DateUtils.storeCalendar(maxDateCalendar))
-            bundle.putString("pickType", pickType.name)
-            bundle.putString("pickedSingleDayCalendar", DateUtils.storeCalendar(pickedSingleDayCalendar))
-            bundle.putString("pickedRangeStartCalendar", DateUtils.storeCalendar(pickedRangeStartCalendar))
-            bundle.putString("pickedRangeEndCalendar", DateUtils.storeCalendar(pickedRangeEndCalendar))
-            if (pickedMultipleDaysList != null) {
-                bundle.putStringArrayList("pickedMultipleDaysList", pickedMultipleDaysList.map { DateUtils.storeCalendar(it)!! } as ArrayList<String>)
-            }
-            bundle.putString("typefacePath", typefacePath)
-            bundle.putBoolean("animateSelection", animateSelection)
-            fragment.arguments = bundle
-            return fragment
-        }
+        fun with(currentDate: PrimeCalendar): RequestBuilder =
+            RequestBuilder(currentDate)
     }
 
 }

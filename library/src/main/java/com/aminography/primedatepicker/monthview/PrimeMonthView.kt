@@ -42,10 +42,10 @@ import kotlin.math.min
  */
 @Suppress("ConstantConditionIf", "MemberVisibilityCanBePrivate", "unused")
 class PrimeMonthView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        @AttrRes defStyleAttr: Int = 0,
-        @StyleRes defStyleRes: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    @AttrRes defStyleAttr: Int = 0,
+    @StyleRes defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
     // Interior Variables --------------------------------------------------------------------------
@@ -562,17 +562,17 @@ class PrimeMonthView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val height = paddingTop +
-                monthHeaderHeight +
-                weekHeaderHeight +
-                cellHeight * rowCount +
-                paddingBottom
+            monthHeaderHeight +
+            weekHeaderHeight +
+            cellHeight * rowCount +
+            paddingBottom
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height.toInt())
 
         val maxHeight = paddingTop +
-                monthHeaderHeight +
-                weekHeaderHeight +
-                cellHeight * maxRowCount +
-                paddingBottom
+            monthHeaderHeight +
+            weekHeaderHeight +
+            cellHeight * maxRowCount +
+            paddingBottom
         onHeightDetectListener?.onHeightDetect(maxHeight)
     }
 
@@ -642,8 +642,8 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun drawMonthLabel(canvas: Canvas) {
         val x = viewWidth / 2f
         var y = paddingTop +
-                (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f +
-                monthLabelTopPadding
+            (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f +
+            monthLabelTopPadding
 
         monthLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
@@ -657,10 +657,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
         monthLabelPaint?.apply {
             canvas.drawText(
-                    monthAndYearString,
-                    x,
-                    y,
-                    this
+                monthAndYearString,
+                x,
+                y,
+                this
             )
         }
 
@@ -671,11 +671,11 @@ class PrimeMonthView @JvmOverloads constructor(
                 style = Style.FILL
                 alpha = 50
                 canvas.drawRect(
-                        paddingLeft.toFloat(),
-                        paddingTop.toFloat(),
-                        viewWidth - paddingRight.toFloat(),
-                        paddingTop + monthHeaderHeight.toFloat(),
-                        this
+                    paddingLeft.toFloat(),
+                    paddingTop.toFloat(),
+                    viewWidth - paddingRight.toFloat(),
+                    paddingTop + monthHeaderHeight.toFloat(),
+                    this
                 )
             }
             Paint().apply {
@@ -683,11 +683,11 @@ class PrimeMonthView @JvmOverloads constructor(
                 color = Color.GRAY
                 style = Style.STROKE
                 canvas.drawRect(
-                        paddingLeft.toFloat(),
-                        paddingTop.toFloat(),
-                        viewWidth - paddingRight.toFloat(),
-                        paddingTop + monthHeaderHeight.toFloat(),
-                        this
+                    paddingLeft.toFloat(),
+                    paddingTop.toFloat(),
+                    viewWidth - paddingRight.toFloat(),
+                    paddingTop + monthHeaderHeight.toFloat(),
+                    this
                 )
             }
             Paint().apply {
@@ -695,10 +695,10 @@ class PrimeMonthView @JvmOverloads constructor(
                 color = Color.RED
                 style = Style.FILL
                 canvas.drawCircle(
-                        x,
-                        paddingTop + (monthHeaderHeight / 2).toFloat(),
-                        dp(1f).toFloat(),
-                        this
+                    x,
+                    paddingTop + (monthHeaderHeight / 2).toFloat(),
+                    dp(1f).toFloat(),
+                    this
                 )
             }
         }
@@ -706,9 +706,9 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun drawWeekLabels(canvas: Canvas) {
         var y = paddingTop +
-                monthHeaderHeight +
-                (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f +
-                weekLabelTopPadding
+            monthHeaderHeight +
+            (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f +
+            weekLabelTopPadding
 
         weekLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
@@ -733,10 +733,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
             weekLabelPaint?.apply {
                 canvas.drawText(
-                        weekDisplayName,
-                        x,
-                        y,
-                        this
+                    weekDisplayName,
+                    x,
+                    y,
+                    this
                 )
             }
 
@@ -746,11 +746,11 @@ class PrimeMonthView @JvmOverloads constructor(
                     color = Color.GRAY
                     style = Style.STROKE
                     canvas.drawRect(
-                            (x - cellWidth / 2),
-                            paddingTop + monthHeaderHeight.toFloat(),
-                            (x + cellWidth / 2),
-                            paddingTop + monthHeaderHeight + weekHeaderHeight.toFloat(),
-                            this
+                        (x - cellWidth / 2),
+                        paddingTop + monthHeaderHeight.toFloat(),
+                        (x + cellWidth / 2),
+                        paddingTop + monthHeaderHeight + weekHeaderHeight.toFloat(),
+                        this
                     )
                 }
                 Paint().apply {
@@ -758,10 +758,10 @@ class PrimeMonthView @JvmOverloads constructor(
                     color = Color.RED
                     style = Style.FILL
                     canvas.drawCircle(
-                            x,
-                            paddingTop + (monthHeaderHeight + weekHeaderHeight / 2).toFloat(),
-                            dp(1f).toFloat(),
-                            this
+                        x,
+                        paddingTop + (monthHeaderHeight + weekHeaderHeight / 2).toFloat(),
+                        dp(1f).toFloat(),
+                        this
                     )
                 }
             }
@@ -774,11 +774,11 @@ class PrimeMonthView @JvmOverloads constructor(
                 style = Style.FILL
                 alpha = 50
                 canvas.drawRect(
-                        paddingLeft.toFloat(),
-                        paddingTop + monthHeaderHeight.toFloat(),
-                        viewWidth.toFloat() - paddingRight.toFloat(),
-                        paddingTop + (monthHeaderHeight + weekHeaderHeight).toFloat(),
-                        this
+                    paddingLeft.toFloat(),
+                    paddingTop + monthHeaderHeight.toFloat(),
+                    viewWidth.toFloat() - paddingRight.toFloat(),
+                    paddingTop + (monthHeaderHeight + weekHeaderHeight).toFloat(),
+                    this
                 )
             }
         }
@@ -804,14 +804,14 @@ class PrimeMonthView @JvmOverloads constructor(
             val x = xPositionList[offset]
 
             val pickedDayState = MonthViewUtils.findDayState(
-                    year,
-                    month,
-                    dayOfMonth,
-                    pickType,
-                    pickedSingleDayCalendar,
-                    pickedRangeStartCalendar,
-                    pickedRangeEndCalendar,
-                    pickedMultipleDaysMap
+                year,
+                month,
+                dayOfMonth,
+                pickType,
+                pickedSingleDayCalendar,
+                pickedRangeStartCalendar,
+                pickedRangeEndCalendar,
+                pickedMultipleDaysMap
             )
 
             val animate = toAnimateDay?.let {
@@ -827,11 +827,11 @@ class PrimeMonthView @JvmOverloads constructor(
                     color = Color.GRAY
                     style = Style.STROKE
                     canvas.drawRect(
-                            x - cellWidth / 2,
-                            topY,
-                            x + cellWidth / 2,
-                            topY + cellHeight,
-                            this
+                        x - cellWidth / 2,
+                        topY,
+                        x + cellWidth / 2,
+                        topY + cellHeight,
+                        this
                     )
                 }
                 Paint().apply {
@@ -839,10 +839,10 @@ class PrimeMonthView @JvmOverloads constructor(
                     color = Color.RED
                     style = Style.FILL
                     canvas.drawCircle(
-                            x,
-                            y,
-                            dp(1f).toFloat(),
-                            this
+                        x,
+                        y,
+                        dp(1f).toFloat(),
+                        this
                     )
                 }
             }
@@ -858,52 +858,52 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float, animate: Boolean) {
         selectedDayBackgroundPaint?.apply {
             fun drawCircle() = canvas.drawCircle(
-                    x,
-                    y,
-                    radius * (if (animate) animationProgress else 1f),
-                    this
+                x,
+                y,
+                radius * (if (animate) animationProgress else 1f),
+                this
             )
 
             fun drawRect() = canvas.drawRect(
-                    x - cellWidth / 2,
-                    y - radius * (if (animate) animationProgress else 1f),
-                    x + cellWidth / 2,
-                    y + radius * (if (animate) animationProgress else 1f),
-                    this
+                x - cellWidth / 2,
+                y - radius * (if (animate) animationProgress else 1f),
+                x + cellWidth / 2,
+                y + radius * (if (animate) animationProgress else 1f),
+                this
             )
 
             fun drawHalfRect(isStart: Boolean) {
                 when (direction) {
                     Direction.LTR -> if (isStart)
                         canvas.drawRect(
-                                x,
-                                y - radius * (if (animate) animationProgress else 1f),
-                                (x + cellWidth / 2),
-                                y + radius * (if (animate) animationProgress else 1f),
-                                this
-                        )
-                    else canvas.drawRect(
-                            x - cellWidth / 2,
-                            y - radius * (if (animate) animationProgress else 1f),
-                            x,
-                            y + radius * (if (animate) animationProgress else 1f),
-                            this
-                    )
-                    // ---------------------
-                    Direction.RTL -> if (isStart)
-                        canvas.drawRect(
-                                x - cellWidth / 2,
-                                y - radius * (if (animate) animationProgress else 1f),
-                                x,
-                                y + radius * (if (animate) animationProgress else 1f),
-                                this
-                        )
-                    else canvas.drawRect(
                             x,
                             y - radius * (if (animate) animationProgress else 1f),
                             (x + cellWidth / 2),
                             y + radius * (if (animate) animationProgress else 1f),
                             this
+                        )
+                    else canvas.drawRect(
+                        x - cellWidth / 2,
+                        y - radius * (if (animate) animationProgress else 1f),
+                        x,
+                        y + radius * (if (animate) animationProgress else 1f),
+                        this
+                    )
+                    // ---------------------
+                    Direction.RTL -> if (isStart)
+                        canvas.drawRect(
+                            x - cellWidth / 2,
+                            y - radius * (if (animate) animationProgress else 1f),
+                            x,
+                            y + radius * (if (animate) animationProgress else 1f),
+                            this
+                        )
+                    else canvas.drawRect(
+                        x,
+                        y - radius * (if (animate) animationProgress else 1f),
+                        (x + cellWidth / 2),
+                        y + radius * (if (animate) animationProgress else 1f),
+                        this
                     )
                 }
             }
@@ -972,10 +972,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
         dayLabelPaint?.apply {
             canvas.drawText(
-                    date,
-                    x,
-                    y - (descent() + ascent()) / 2,
-                    this
+                date,
+                x,
+                y - (descent() + ascent()) / 2,
+                this
             )
         }
     }
@@ -1058,11 +1058,11 @@ class PrimeMonthView @JvmOverloads constructor(
         pickedDaysChanged = pickedDaysChanged or change
         if (invalidate && pickedDaysChanged) {
             onDayPickedListener?.onDayPicked(
-                    pickType,
-                    pickedSingleDayCalendar,
-                    pickedRangeStartCalendar,
-                    pickedRangeEndCalendar,
-                    pickedMultipleDaysList
+                pickType,
+                pickedSingleDayCalendar,
+                pickedRangeStartCalendar,
+                pickedRangeEndCalendar,
+                pickedMultipleDaysList
             )
             pickedDaysChanged = false
         }

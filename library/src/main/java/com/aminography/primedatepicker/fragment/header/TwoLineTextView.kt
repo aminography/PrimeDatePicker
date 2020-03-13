@@ -24,10 +24,10 @@ import kotlin.math.max
  */
 @Suppress("ConstantConditionIf", "MemberVisibilityCanBePrivate", "unused")
 class TwoLineTextView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        @AttrRes defStyleAttr: Int = 0,
-        @StyleRes defStyleRes: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    @AttrRes defStyleAttr: Int = 0,
+    @StyleRes defStyleRes: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
     // Interior Variables --------------------------------------------------------------------------
@@ -239,12 +239,12 @@ class TwoLineTextView @JvmOverloads constructor(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val width = paddingLeft +
-                viewWidth +
-                paddingRight
+            viewWidth +
+            paddingRight
         val height = paddingTop +
-                firstLabelHeight +
-                secondLabelHeight +
-                paddingBottom
+            firstLabelHeight +
+            secondLabelHeight +
+            paddingBottom
         setMeasuredDimension(width, height)
     }
 
@@ -256,8 +256,8 @@ class TwoLineTextView @JvmOverloads constructor(
     private fun drawFirstLabel(canvas: Canvas) {
         val x = paddingLeft + viewWidth / 2f
         var y = paddingTop +
-                (firstLabelHeight - firstLabelTopPadding - firstLabelBottomPadding) / 2f +
-                firstLabelTopPadding
+            (firstLabelHeight - firstLabelTopPadding - firstLabelBottomPadding) / 2f +
+            firstLabelTopPadding
 
         firstLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
@@ -265,10 +265,10 @@ class TwoLineTextView @JvmOverloads constructor(
 
         firstLabelPaint?.apply {
             canvas.drawText(
-                    firstLabelText,
-                    x,
-                    y,
-                    this
+                firstLabelText,
+                x,
+                y,
+                this
             )
         }
     }
@@ -276,9 +276,9 @@ class TwoLineTextView @JvmOverloads constructor(
     private fun drawSecondLabel(canvas: Canvas) {
         val x = paddingLeft + viewWidth / 2f
         var y = paddingTop +
-                firstLabelHeight +
-                (secondLabelHeight - secondLabelTopPadding - secondLabelBottomPadding) / 2f +
-                secondLabelTopPadding
+            firstLabelHeight +
+            (secondLabelHeight - secondLabelTopPadding - secondLabelBottomPadding) / 2f +
+            secondLabelTopPadding
 
         secondLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
@@ -286,10 +286,10 @@ class TwoLineTextView @JvmOverloads constructor(
 
         secondLabelPaint?.apply {
             canvas.drawText(
-                    secondLabelText,
-                    x,
-                    y,
-                    this
+                secondLabelText,
+                x,
+                y,
+                this
             )
         }
     }

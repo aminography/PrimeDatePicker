@@ -13,8 +13,8 @@ import kotlinx.android.synthetic.main.list_item_picked_day_empty.view.*
  */
 @SuppressLint("InflateParams")
 class PickedDayEmptyViewHolder(
-        context: Context,
-        typeface: Typeface?
+    context: Context,
+    typeface: Typeface?
 ) : BaseAdapter.BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_picked_day_empty, null)) {
 
     init {

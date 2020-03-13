@@ -15,8 +15,8 @@ import java.util.*
  */
 @SuppressLint("InflateParams")
 class PickedDayViewHolder(
-        context: Context,
-        typeface: Typeface?
+    context: Context,
+    typeface: Typeface?
 ) : BaseAdapter.BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_picked_day, null)) {
 
     init {

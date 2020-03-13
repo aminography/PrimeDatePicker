@@ -36,21 +36,21 @@ class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, BaseAdapter.B
     }
 
     override val diffUtilCallback: DiffUtil.ItemCallback<BasePickedDayDataHolder> =
-            object : DiffUtil.ItemCallback<BasePickedDayDataHolder>() {
-                override fun areItemsTheSame(
-                        new: BasePickedDayDataHolder,
-                        old: BasePickedDayDataHolder
-                ): Boolean {
-                    return new.id == old.id
-                }
-
-                @SuppressLint("DiffUtilEquals")
-                override fun areContentsTheSame(
-                        new: BasePickedDayDataHolder,
-                        old: BasePickedDayDataHolder
-                ): Boolean {
-                    return new == old
-                }
+        object : DiffUtil.ItemCallback<BasePickedDayDataHolder>() {
+            override fun areItemsTheSame(
+                new: BasePickedDayDataHolder,
+                old: BasePickedDayDataHolder
+            ): Boolean {
+                return new.id == old.id
             }
+
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(
+                new: BasePickedDayDataHolder,
+                old: BasePickedDayDataHolder
+            ): Boolean {
+                return new == old
+            }
+        }
 
 }

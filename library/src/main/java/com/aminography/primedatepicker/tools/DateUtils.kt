@@ -17,10 +17,10 @@ import java.util.*
 object DateUtils {
 
     fun isSame(year: Int, month: Int, dayOfMonth: Int, calendar: PrimeCalendar) =
-            year == calendar.year && month == calendar.month && dayOfMonth == calendar.dayOfMonth
+        year == calendar.year && month == calendar.month && dayOfMonth == calendar.dayOfMonth
 
     fun isSame(first: PrimeCalendar, second: PrimeCalendar) =
-            first.year == second.year && first.month == second.month && first.dayOfMonth == second.dayOfMonth
+        first.year == second.year && first.month == second.month && first.dayOfMonth == second.dayOfMonth
 
     fun isBetweenExclusive(year: Int, month: Int, dayOfMonth: Int, start: PrimeCalendar, end: PrimeCalendar): Boolean {
         val offset = year * 12 + month
@@ -37,56 +37,56 @@ object DateUtils {
     }
 
     fun isBefore(year: Int, month: Int, dayOfMonth: Int, target: PrimeCalendar?): Boolean =
-            target?.let {
-                year < it.year ||
-                        (year == it.year && month < it.month) ||
-                        (year == it.year && month == it.month && dayOfMonth < it.dayOfMonth)
-            } ?: false
+        target?.let {
+            year < it.year ||
+                (year == it.year && month < it.month) ||
+                (year == it.year && month == it.month && dayOfMonth < it.dayOfMonth)
+        } ?: false
 
     fun isBefore(calendar: PrimeCalendar, target: PrimeCalendar?): Boolean =
-            target?.let {
-                calendar.year < it.year ||
-                        (calendar.year == it.year && calendar.month < it.month) ||
-                        (calendar.year == it.year && calendar.month == it.month && calendar.dayOfMonth < it.dayOfMonth)
-            } ?: false
+        target?.let {
+            calendar.year < it.year ||
+                (calendar.year == it.year && calendar.month < it.month) ||
+                (calendar.year == it.year && calendar.month == it.month && calendar.dayOfMonth < it.dayOfMonth)
+        } ?: false
 
     fun isAfter(year: Int, month: Int, dayOfMonth: Int, target: PrimeCalendar?): Boolean =
-            target?.let {
-                year > it.year ||
-                        (year == it.year && month > it.month) ||
-                        (year == it.year && month == it.month && dayOfMonth > it.dayOfMonth)
-            } ?: false
+        target?.let {
+            year > it.year ||
+                (year == it.year && month > it.month) ||
+                (year == it.year && month == it.month && dayOfMonth > it.dayOfMonth)
+        } ?: false
 
     fun isAfter(calendar: PrimeCalendar, target: PrimeCalendar?): Boolean =
-            target?.let {
-                calendar.year > it.year ||
-                        (calendar.year == it.year && calendar.month > it.month) ||
-                        (calendar.year == it.year && calendar.month == it.month && calendar.dayOfMonth > it.dayOfMonth)
-            } ?: false
+        target?.let {
+            calendar.year > it.year ||
+                (calendar.year == it.year && calendar.month > it.month) ||
+                (calendar.year == it.year && calendar.month == it.month && calendar.dayOfMonth > it.dayOfMonth)
+        } ?: false
 
     fun isOutOfRange(year: Int, month: Int, dayOfMonth: Int, minDateCalendar: PrimeCalendar?, maxDateCalendar: PrimeCalendar?): Boolean =
-            isBefore(year, month, dayOfMonth, minDateCalendar) || isAfter(year, month, dayOfMonth, maxDateCalendar)
+        isBefore(year, month, dayOfMonth, minDateCalendar) || isAfter(year, month, dayOfMonth, maxDateCalendar)
 
     //----------------------------------------------------------------------------------------------
 
     fun isBefore(year: Int, month: Int, target: PrimeCalendar?): Boolean =
-            target?.let {
-                year < it.year || (year == it.year && month < it.month)
-            } ?: false
+        target?.let {
+            year < it.year || (year == it.year && month < it.month)
+        } ?: false
 
     fun isBefore(year: Int, month: Int, targetYear: Int, targetMonth: Int) =
-            (year * 12 + month) < (targetYear * 12 + targetMonth)
+        (year * 12 + month) < (targetYear * 12 + targetMonth)
 
     fun isAfter(year: Int, month: Int, target: PrimeCalendar?): Boolean =
-            target?.let {
-                year > it.year || (year == it.year && month > it.month)
-            } ?: false
+        target?.let {
+            year > it.year || (year == it.year && month > it.month)
+        } ?: false
 
     fun isAfter(year: Int, month: Int, targetYear: Int, targetMonth: Int) =
-            (year * 12 + month) > (targetYear * 12 + targetMonth)
+        (year * 12 + month) > (targetYear * 12 + targetMonth)
 
     fun isOutOfRange(year: Int, month: Int, minDateCalendar: PrimeCalendar?, maxDateCalendar: PrimeCalendar?) =
-            isBefore(year, month, minDateCalendar) || isAfter(year, month, maxDateCalendar)
+        isBefore(year, month, minDateCalendar) || isAfter(year, month, maxDateCalendar)
 
     //----------------------------------------------------------------------------------------------
 
@@ -100,23 +100,23 @@ object DateUtils {
     }
 
     fun storeCalendar(calendar: PrimeCalendar?): String? =
-            calendar?.run {
-                "${calendarType.name}-${locale.language}-${year}-${month}-${dayOfMonth}"
-            }
+        calendar?.run {
+            "${calendarType.name}-${locale.language}-${year}-${month}-${dayOfMonth}"
+        }
 
     fun restoreCalendar(input: String?): PrimeCalendar? =
-            input?.run {
-                split("-").let {
-                    CalendarFactory.newInstance(CalendarType.valueOf(it[0]), Locale(it[1])).apply {
-                        set(it[2].toInt(), it[3].toInt(), it[4].toInt())
-                    }
+        input?.run {
+            split("-").let {
+                CalendarFactory.newInstance(CalendarType.valueOf(it[0]), Locale(it[1])).apply {
+                    set(it[2].toInt(), it[3].toInt(), it[4].toInt())
                 }
             }
+        }
 
     fun dateString(calendar: PrimeCalendar?): String? =
-            calendar?.run {
-                "${year}-${month}-${dayOfMonth}"
-            }
+        calendar?.run {
+            "${year}-${month}-${dayOfMonth}"
+        }
 
     fun dateString(year: Int, month: Int, dayOfMonth: Int) = "${year}-${month}-${dayOfMonth}"
 

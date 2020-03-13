@@ -29,7 +29,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:1.1.0'
+    implementation 'com.aminography:primedatepicker:2.0.0'
     implementation 'com.aminography:primecalendar:1.2.15'
 }
 ```
@@ -561,7 +561,12 @@ If you want to change the texts of the date picker bottom sheet, define some str
 <br/>
 
 Change Log
---------
+----------
+### Version 2.0.0
+- Building procedure is changed.
+- Picking multiple days has better UX.
+- Picking animation has improved.
+
 ### Version 1.1.0
 - Migrated to AndroidX
 

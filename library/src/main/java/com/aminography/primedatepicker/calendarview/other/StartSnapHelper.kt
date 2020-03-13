@@ -15,8 +15,8 @@ class StartSnapHelper : LinearSnapHelper() {
     private var horizontalHelper: OrientationHelper? = null
 
     override fun calculateDistanceToFinalSnap(
-            layoutManager: RecyclerView.LayoutManager,
-            targetView: View
+        layoutManager: RecyclerView.LayoutManager,
+        targetView: View
     ) = IntArray(2).also {
         it[0] = if (layoutManager.canScrollHorizontally())
             distanceToStart(targetView, getHorizontalHelper(layoutManager))
@@ -36,7 +36,7 @@ class StartSnapHelper : LinearSnapHelper() {
     }
 
     private fun distanceToStart(targetView: View, helper: OrientationHelper): Int =
-            helper.getDecoratedStart(targetView) - helper.startAfterPadding
+        helper.getDecoratedStart(targetView) - helper.startAfterPadding
 
     private fun getStartView(layoutManager: RecyclerView.LayoutManager, helper: OrientationHelper): View? {
         if (layoutManager is LinearLayoutManager) {

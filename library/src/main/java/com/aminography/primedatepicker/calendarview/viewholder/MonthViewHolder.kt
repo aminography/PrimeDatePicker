@@ -12,11 +12,11 @@ import com.aminography.primedatepicker.monthview.PrimeMonthView
  * @author aminography
  */
 class MonthViewHolder(
-        private val monthView: PrimeMonthView,
-        private val callback: IMonthViewHolderCallback?
+    private val monthView: PrimeMonthView,
+    private val callback: IMonthViewHolderCallback?
 ) : RecyclerView.ViewHolder(monthView),
-        OnDayPickedListener,
-        PrimeMonthView.OnHeightDetectListener {
+    OnDayPickedListener,
+    PrimeMonthView.OnHeightDetectListener {
 
     internal fun bindDataToView(dataHolder: MonthDataHolder) {
         monthView.onDayPickedListener = this@MonthViewHolder
@@ -68,11 +68,11 @@ class MonthViewHolder(
     }
 
     override fun onDayPicked(
-            pickType: PickType,
-            singleDay: PrimeCalendar?,
-            startDay: PrimeCalendar?,
-            endDay: PrimeCalendar?,
-            multipleDays: List<PrimeCalendar>?
+        pickType: PickType,
+        singleDay: PrimeCalendar?,
+        startDay: PrimeCalendar?,
+        endDay: PrimeCalendar?,
+        multipleDays: List<PrimeCalendar>?
     ) {
         callback?.onDayPicked(pickType, singleDay, startDay, endDay, multipleDays)
     }

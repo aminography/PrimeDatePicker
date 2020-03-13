@@ -14,13 +14,13 @@ import kotlin.math.floor
 internal object CalendarViewUtils {
 
     internal fun extendMoreList(
-            calendarType: CalendarType,
-            year: Int,
-            month: Int,
-            minDateCalendar: PrimeCalendar?,
-            maxDateCalendar: PrimeCalendar?,
-            loadFactor: Int,
-            isForward: Boolean
+        calendarType: CalendarType,
+        year: Int,
+        month: Int,
+        minDateCalendar: PrimeCalendar?,
+        maxDateCalendar: PrimeCalendar?,
+        loadFactor: Int,
+        isForward: Boolean
     ): MutableList<MonthDataHolder> {
 
         return if (isForward) {
@@ -39,12 +39,12 @@ internal object CalendarViewUtils {
     }
 
     internal fun createPivotList(
-            calendarType: CalendarType,
-            year: Int,
-            month: Int,
-            minDateCalendar: PrimeCalendar?,
-            maxDateCalendar: PrimeCalendar?,
-            loadFactor: Int
+        calendarType: CalendarType,
+        year: Int,
+        month: Int,
+        minDateCalendar: PrimeCalendar?,
+        maxDateCalendar: PrimeCalendar?,
+        loadFactor: Int
     ): MutableList<MonthDataHolder> {
 
         val centerOffset = year * 12 + month
@@ -58,12 +58,12 @@ internal object CalendarViewUtils {
     }
 
     internal fun createTransitionList(
-            calendarType: CalendarType,
-            currentYear: Int,
-            currentMonth: Int,
-            targetYear: Int,
-            targetMonth: Int,
-            maxTransitionLength: Int
+        calendarType: CalendarType,
+        currentYear: Int,
+        currentMonth: Int,
+        targetYear: Int,
+        targetMonth: Int,
+        maxTransitionLength: Int
     ): MutableList<MonthDataHolder>? {
 
         val current = currentYear * 12 + currentMonth
@@ -94,9 +94,9 @@ internal object CalendarViewUtils {
     }
 
     private fun createList(
-            calendarType: CalendarType,
-            lowerOffset: Int,
-            upperOffset: Int
+        calendarType: CalendarType,
+        lowerOffset: Int,
+        upperOffset: Int
     ) = arrayListOf<MonthDataHolder>().apply {
         for (offset in lowerOffset..upperOffset) {
             add(MonthDataHolder(calendarType, offset / 12, offset % 12))

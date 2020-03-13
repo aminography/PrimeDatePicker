@@ -17,7 +17,7 @@ import com.aminography.primecalendar.PrimeCalendar
  * @return month offset of the current calendar.
  */
 fun PrimeCalendar.monthOffset(): Int =
-        year * 12 + month
+    year * 12 + month
 
 /**
  * Checks the orientation of the screen.
@@ -25,7 +25,7 @@ fun PrimeCalendar.monthOffset(): Int =
  * @return true if the orientation of the screen is landscape, false if the orientation is portrait.
  */
 fun Context.isDisplayLandscape(): Boolean =
-        resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
 /**
  * Returns screen size of the device in pixels.
@@ -47,4 +47,4 @@ fun Context.screenSize(): Point {
  * @return dimension value in pixels
  */
 fun Context.dp2px(dp: Float): Int =
-        (dp * resources.displayMetrics.density).toInt()
+    (dp * resources.displayMetrics.density).toInt()

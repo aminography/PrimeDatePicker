@@ -1,8 +1,8 @@
 package com.aminography.primedatepicker.monthview
 
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.tools.DateUtils
 
 
 /**
@@ -11,14 +11,14 @@ import com.aminography.primedatepicker.PickType
 internal object MonthViewUtils {
 
     internal fun findDayState(
-            year: Int,
-            month: Int,
-            dayOfMonth: Int,
-            pickType: PickType,
-            pickedSingleDayCalendar: PrimeCalendar?,
-            pickedRangeStartCalendar: PrimeCalendar?,
-            pickedRangeEndCalendar: PrimeCalendar?,
-            pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>?
+        year: Int,
+        month: Int,
+        dayOfMonth: Int,
+        pickType: PickType,
+        pickedSingleDayCalendar: PrimeCalendar?,
+        pickedRangeStartCalendar: PrimeCalendar?,
+        pickedRangeEndCalendar: PrimeCalendar?,
+        pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>?
     ): PrimeMonthView.PickedDayState {
 
         when (pickType) {
