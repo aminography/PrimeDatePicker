@@ -42,32 +42,17 @@ To use `PrimeDatePickerBottomSheet`, simply use below snippet:
 
 > Kotlin
 ```kotlin
-val datePicker = PrimeDatePickerBottomSheet.newInstance(
-            currentDateCalendar,
-            pickType,
-            pickedSingleDayCalendar, // can be null
-            pickedRangeStartCalendar, // can be null
-            pickedRangeEndCalendar, // can be null
-            pickedMultipleDaysList, // can be null
-            minDateCalendar, // can be null
-            maxDateCalendar, // can be null
-            typefacePath // can be null
-    )
+val singleDayPickCallback = SingleDayPickCallback { singleDay ->
+    // TODO
+}
 
-datePicker.setOnDateSetListener(object : PrimeDatePickerBottomSheet.OnDayPickedListener {
-
-    override fun onSingleDayPicked(singleDay: PrimeCalendar) {
-        // TODO
-    }
-
-    override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
-        // TODO
-    }
-
-    override fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>) {
-        // TODO
-    }
-})
+val datePicker = PrimeDatePickerBottomSheet.with(today)
+                    .pickSingleDay()
+                    .minPossibleDate(minDateCalendar) // Optional
+                    .maxPossibleDate(maxDateCalendar) // Optional
+                    .typefacePath(typeface) // Optional
+                    .animateSelection(true) // Optional
+                    .build(singleDayPickCallback)
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
 ```
