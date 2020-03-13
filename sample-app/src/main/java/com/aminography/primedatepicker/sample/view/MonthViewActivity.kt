@@ -293,11 +293,13 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private fun closeDrawer() = drawerLayout.closeDrawer(GravityCompat.START)
 
-    override fun onDayPicked(pickType: PickType,
-                             singleDay: PrimeCalendar?,
-                             startDay: PrimeCalendar?,
-                             endDay: PrimeCalendar?,
-                             multipleDays: List<PrimeCalendar>?) {
+    override fun onDayPicked(
+        pickType: PickType,
+        singleDay: PrimeCalendar?,
+        startDay: PrimeCalendar?,
+        endDay: PrimeCalendar?,
+        multipleDays: List<PrimeCalendar>?
+    ) {
         with(navigationLayout) {
             endRangeRadioButton.isEnabled = false
             pickedTextView.text = ""

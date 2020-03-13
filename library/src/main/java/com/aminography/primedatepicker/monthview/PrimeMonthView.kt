@@ -27,10 +27,7 @@ import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.tools.DateUtils
-import com.aminography.primedatepicker.tools.PersianUtils
-import com.aminography.primedatepicker.tools.dp2px
-import com.aminography.primedatepicker.tools.isDisplayLandscape
+import com.aminography.primedatepicker.tools.*
 import java.util.*
 import kotlin.collections.LinkedHashMap
 import kotlin.math.min
@@ -387,26 +384,14 @@ class PrimeMonthView @JvmOverloads constructor(
     var calendarType = CalendarType.CIVIL
         set(value) {
             field = value
-            direction = when (locale.language) {
-                "fa", "ar" -> when (value) {
-                    CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
-                }
-                else -> Direction.LTR
-            }
+            direction = LanguageUtils.direction(value, locale.language)
             if (invalidate) goto(CalendarFactory.newInstance(value, locale))
         }
 
     var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
-            direction = when (value.language) {
-                "fa", "ar" -> when (calendarType) {
-                    CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
-                }
-                else -> Direction.LTR
-            }
+            direction = LanguageUtils.direction(calendarType, value.language)
             if (invalidate) goto(CalendarFactory.newInstance(calendarType, value))
         }
 

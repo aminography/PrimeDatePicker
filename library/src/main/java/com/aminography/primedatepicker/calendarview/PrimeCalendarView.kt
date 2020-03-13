@@ -27,6 +27,7 @@ import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.tools.DateUtils
+import com.aminography.primedatepicker.tools.LanguageUtils
 import com.aminography.primedatepicker.tools.monthOffset
 import java.util.*
 
@@ -403,14 +404,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         set(value) {
             val previous = calendarType
             field = value
-            direction = when (locale.language) {
-                "fa", "ar" -> when (value) {
-                    CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
-                }
-                else -> Direction.LTR
-            }
-
+            direction = LanguageUtils.direction(value, locale.language)
 
             if (invalidate) {
                 if (previous != value) {
@@ -425,13 +419,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
-            direction = when (value.language) {
-                "fa", "ar" -> when (calendarType) {
-                    CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
-                }
-                else -> Direction.LTR
-            }
+            direction = LanguageUtils.direction(calendarType, value.language)
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
@@ -762,11 +750,13 @@ class PrimeCalendarView @JvmOverloads constructor(
         recyclerView.isVerticalFadingEdgeEnabled = verticalFadingEdgeEnabled
     }
 
-    override fun onDayPicked(pickType: PickType,
-                             singleDay: PrimeCalendar?,
-                             startDay: PrimeCalendar?,
-                             endDay: PrimeCalendar?,
-                             multipleDays: List<PrimeCalendar>?) {
+    override fun onDayPicked(
+        pickType: PickType,
+        singleDay: PrimeCalendar?,
+        startDay: PrimeCalendar?,
+        endDay: PrimeCalendar?,
+        multipleDays: List<PrimeCalendar>?
+    ) {
         var change = false
         doNotInvalidate {
             when (pickType) {

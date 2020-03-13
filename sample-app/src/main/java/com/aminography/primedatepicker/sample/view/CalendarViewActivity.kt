@@ -374,11 +374,13 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private fun closeDrawer() = drawerLayout.closeDrawer(GravityCompat.START)
 
-    override fun onDayPicked(pickType: PickType,
-                             singleDay: PrimeCalendar?,
-                             startDay: PrimeCalendar?,
-                             endDay: PrimeCalendar?,
-                             multipleDays: List<PrimeCalendar>?) {
+    override fun onDayPicked(
+        pickType: PickType,
+        singleDay: PrimeCalendar?,
+        startDay: PrimeCalendar?,
+        endDay: PrimeCalendar?,
+        multipleDays: List<PrimeCalendar>?
+    ) {
         with(navigationLayout) {
             endRangeRadioButton.isEnabled = false
             pickedTextView.text = ""
@@ -415,6 +417,6 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun toast(text: String) =
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 
 }
