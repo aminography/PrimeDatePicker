@@ -46,7 +46,7 @@ val singleDayPickCallback = SingleDayPickCallback { singleDay ->
     // TODO
 }
 
-val today = CivilCalendar().also{
+val today = CivilCalendar().also {
     it.firstDayOfWeek = Calendar.MONDAY
 }
 
