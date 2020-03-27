@@ -34,6 +34,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
 
     fun onHeightDetect(height: Float)
 
+    fun onMonthLabelClicked(calendar: PrimeCalendar)
+
     // Common Attributes ---------------------------------------------------------------------------
 
     val monthLabelTextColor: Int

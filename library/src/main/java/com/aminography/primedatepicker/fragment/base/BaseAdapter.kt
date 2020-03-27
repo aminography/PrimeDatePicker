@@ -1,10 +1,10 @@
-package com.aminography.primedatepicker.fragment.header.adapter
+package com.aminography.primedatepicker.fragment.base
 
 import android.view.View
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.aminography.primedatepicker.fragment.header.OnListItemClickListener
+import com.aminography.primedatepicker.fragment.header.multiple.OnListItemClickListener
 
 /**
  * A class contains base functionalities of a [RecyclerView.Adapter] to make adapter classes cleaner.

@@ -2,9 +2,13 @@ package com.aminography.primedatepicker.tools
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Point
+import android.graphics.drawable.ColorDrawable
 import android.view.Display
 import android.view.WindowManager
+import android.widget.EditText
+import android.widget.NumberPicker
 import com.aminography.primecalendar.PrimeCalendar
 
 /**
@@ -48,3 +52,29 @@ fun Context.screenSize(): Point {
  */
 fun Context.dp2px(dp: Float): Int =
     (dp * resources.displayMetrics.density).toInt()
+
+internal fun NumberPicker.setDividerColor(color: Int) {
+    val pickerFields = NumberPicker::class.java.declaredFields
+    for (pf in pickerFields) {
+        if (pf.name == "mSelectionDivider") {
+            pf.isAccessible = true
+            try {
+                val colorDrawable = ColorDrawable(color)
+                pf.set(this, colorDrawable)
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace()
+            } catch (e: Resources.NotFoundException) {
+                e.printStackTrace()
+            } catch (e: IllegalAccessException) {
+                e.printStackTrace()
+            }
+            break
+        }
+    }
+}
+
+internal fun NumberPicker.fixInputFilter() {
+    val field = NumberPicker::class.java.getDeclaredField("mInputText")
+    field.isAccessible = true
+    (field.get(this) as EditText).filters = arrayOfNulls(0)
+}

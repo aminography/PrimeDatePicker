@@ -23,10 +23,7 @@ import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.Direction
-import com.aminography.primedatepicker.OnDayPickedListener
-import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.*
 import com.aminography.primedatepicker.tools.*
 import java.util.*
 import kotlin.collections.LinkedHashMap
@@ -91,6 +88,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     internal var onHeightDetectListener: OnHeightDetectListener? = null
     var onDayPickedListener: OnDayPickedListener? = null
+    var onMonthLabelClickListener: OnMonthLabelClickListener? = null
 
     // Control Variables ---------------------------------------------------------------------------
 
@@ -988,6 +986,10 @@ class PrimeMonthView @JvmOverloads constructor(
                         calendar.set(year, month, dayOfMonth)
                         onDayClicked(calendar)
                     }
+                } ?: isMonthTouched(event.x, event.y).takeIf { it }?.run {
+                    val calendar = CalendarFactory.newInstance(calendarType, locale)
+                    calendar.set(year, month, 1)
+                    onMonthLabelClickListener?.onMonthLabelClicked(calendar)
                 }
             }
         }
@@ -1065,11 +1067,19 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
+    private fun isMonthTouched(inputX: Float, inputY: Float): Boolean {
+        return (
+            inputX < paddingLeft ||
+                inputX > viewWidth - paddingRight ||
+                inputY < paddingTop ||
+                inputY > paddingTop + monthHeaderHeight + monthLabelTopPadding + monthLabelBottomPadding
+            ).not()
+    }
+
     private fun findDayByCoordinates(inputX: Float, inputY: Float): Int? {
         if (inputX < paddingLeft || inputX > viewWidth - paddingRight) return null
 
-        val y = inputY - dp(12f)
-        val row = ((y - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
+        val row = (((inputY - paddingTop) - (monthHeaderHeight + weekHeaderHeight)) / cellHeight).toInt()
         var column = ((inputX - paddingLeft) * columnCount / (viewWidth - (paddingLeft + paddingRight))).toInt()
 
         column = when (direction) {

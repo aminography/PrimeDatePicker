@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.calendarview.viewholder
 import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.OnDayPickedListener
+import com.aminography.primedatepicker.OnMonthLabelClickListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
@@ -16,10 +17,12 @@ class MonthViewHolder(
     private val callback: IMonthViewHolderCallback?
 ) : RecyclerView.ViewHolder(monthView),
     OnDayPickedListener,
+    OnMonthLabelClickListener,
     PrimeMonthView.OnHeightDetectListener {
 
     internal fun bindDataToView(dataHolder: MonthDataHolder) {
         monthView.onDayPickedListener = this@MonthViewHolder
+        monthView.onMonthLabelClickListener = this@MonthViewHolder
         monthView.onHeightDetectListener = this@MonthViewHolder
         callback?.apply {
             monthView.doNotInvalidate {
@@ -80,6 +83,10 @@ class MonthViewHolder(
 
     override fun onHeightDetect(height: Float) {
         callback?.onHeightDetect(height)
+    }
+
+    override fun onMonthLabelClicked(calendar: PrimeCalendar) {
+        callback?.onMonthLabelClicked(calendar)
     }
 
 }

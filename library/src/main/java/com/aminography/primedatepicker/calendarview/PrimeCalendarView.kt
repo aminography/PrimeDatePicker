@@ -16,10 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.Direction
-import com.aminography.primedatepicker.OnDayPickedListener
-import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.*
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
@@ -64,6 +61,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     // Listeners -----------------------------------------------------------------------------------
 
     var onDayPickedListener: OnDayPickedListener? = null
+    var onMonthLabelClickListener: OnMonthLabelClickListener? = null
 
     // Common Control Variables --------------------------------------------------------------------
 
@@ -822,6 +820,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             requestLayout()
             invalidate()
         }
+    }
+
+    override fun onMonthLabelClicked(calendar: PrimeCalendar) {
+        onMonthLabelClickListener?.onMonthLabelClicked(calendar)
     }
 
     private inner class OnScrollListener : RecyclerView.OnScrollListener() {

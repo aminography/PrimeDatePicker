@@ -83,4 +83,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
+    <com.aminography.primedatepicker.fragment.go.GotoView
+        android:id="@+id/gotoView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

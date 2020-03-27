@@ -1,11 +1,11 @@
-package com.aminography.primedatepicker.fragment.header.viewholder
+package com.aminography.primedatepicker.fragment.header.multiple.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.fragment.header.adapter.BaseAdapter
+import com.aminography.primedatepicker.fragment.base.BaseAdapter
 import kotlinx.android.synthetic.main.list_item_picked_day_empty.view.*
 
 /**
