@@ -8,7 +8,6 @@ import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.fragment.base.BaseAdapter
 import com.aminography.primedatepicker.fragment.header.multiple.dataholder.PickedDayDataHolder
 import kotlinx.android.synthetic.main.list_item_picked_day.view.*
-import java.util.*
 
 /**
  * @author aminography
@@ -30,12 +29,8 @@ class PickedDayViewHolder(
     override fun <DH> bindDataToView(dataHolder: DH) {
         if (dataHolder is PickedDayDataHolder) {
             with(itemView) {
-                dataHolder.calendar.run {
-                    shortDateString.split("/").run {
-                        twoLineTextView.firstLabelText = get(2)
-                        twoLineTextView.secondLabelText = String.format("%s '%s", getDisplayName(Calendar.MONTH, Calendar.LONG, locale), get(0).substring(2))
-                    }
-                }
+                twoLineTextView.firstLabelText = dataHolder.day
+                twoLineTextView.secondLabelText = String.format("%s '%s", dataHolder.month, dataHolder.year)
             }
         }
     }

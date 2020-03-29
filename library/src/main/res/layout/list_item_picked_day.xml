@@ -24,12 +24,12 @@
         android:paddingEnd="@dimen/material_size_8"
         android:paddingBottom="@dimen/material_size_4"
         app:firstLabelTextColor="@color/white"
-        app:firstLabelTextSize="@dimen/text_size_extra_large"
+        app:firstLabelTextSize="@dimen/text_size_header_multi_large"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:secondLabelTextColor="@color/white"
-        app:secondLabelTextSize="@dimen/text_size_small" />
+        app:secondLabelTextSize="@dimen/text_size_header_multi_small" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
