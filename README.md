@@ -555,6 +555,7 @@ Change Log
 - Building procedure is changed.
 - Picking multiple days has better UX.
 - Picking animation has improved.
+- Possibility to change start day of week.
 
 ### Version 1.1.0
 - Migrated to AndroidX
