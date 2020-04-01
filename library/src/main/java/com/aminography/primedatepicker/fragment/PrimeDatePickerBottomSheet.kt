@@ -69,6 +69,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     calendarView.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
                     calendarView.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
 
+                    arguments?.getInt("weekStartDay")?.let { calendarView.weekStartDay = it }
+
                     calendarView.pickType = internalPickType
                     calendarView.animateSelection = arguments?.getBoolean("animateSelection")
                         ?: true
@@ -282,6 +284,10 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         onDayPickCallback = callback
     }
 
+    fun removeDayPickCallback() {
+        onDayPickCallback = null
+    }
+
     private fun toast(textResource: Int) =
         Toast.makeText(requireActivity(), textResource, Toast.LENGTH_SHORT).show()
 
@@ -297,6 +303,11 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         init {
             bundle.putString("initialDateCalendar", DateUtils.storeCalendar(initialDateCalendar))
             bundle.putString("pickType", pickType.name)
+        }
+
+        fun weekStartDay(weekStartDay: Int): BaseRequestBuilder<T> {
+            bundle.putInt("weekStartDay", weekStartDay)
+            return this
         }
 
         fun minPossibleDate(minDate: PrimeCalendar?): BaseRequestBuilder<T> {
