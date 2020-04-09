@@ -552,7 +552,7 @@ If you want to change the texts of the date picker bottom sheet, define some str
 Change Log
 ----------
 ### Version 2.0.0
-- Building procedure is changed.
+- Builder mechanism has changed.
 - Picking multiple days has better UX.
 - Picking animation has improved.
 - Possibility to change start day of week.
