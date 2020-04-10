@@ -13,50 +13,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/todayButton"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
+    <ViewStub
+        android:id="@+id/actionViewStub"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/material_size_8"
-        android:layout_marginEnd="@dimen/material_size_8"
-        android:paddingLeft="@dimen/material_size_8"
-        android:paddingRight="@dimen/material_size_8"
-        android:text="@string/action_today"
-        android:textAllCaps="true"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/text_size_normal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/negativeButton"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/material_size_8"
-        android:paddingRight="@dimen/material_size_8"
-        android:text="@string/action_cancel"
-        android:textAllCaps="true"
-        android:textColor="@color/textColorRed"
-        android:textSize="@dimen/text_size_normal"
-        app:layout_constraintEnd_toStartOf="@id/positiveButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/positiveButton"
-        style="@style/Base.Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/material_size_8"
-        android:layout_marginEnd="@dimen/material_size_8"
-        android:paddingLeft="@dimen/material_size_8"
-        android:paddingRight="@dimen/material_size_8"
-        android:text="@string/action_select"
-        android:textAllCaps="true"
-        android:textColor="@color/textColorGreen"
-        android:textSize="@dimen/text_size_normal"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:inflatedId="@id/actionViewStub"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
@@ -66,13 +27,13 @@
         android:background="@color/colorPrimary"
         android:padding="@dimen/material_size_4"
         app:layout_constraintBottom_toTopOf="@id/calendarView"
-        app:layout_constraintTop_toBottomOf="@id/todayButton">
+        app:layout_constraintTop_toBottomOf="@id/actionViewStub">
 
         <ViewStub
-            android:id="@+id/viewStub"
+            android:id="@+id/headerViewStub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inflatedId="@id/viewStub" />
+            android:inflatedId="@id/headerViewStub" />
 
     </FrameLayout>
 
@@ -83,12 +44,39 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerLayout" />
 
-    <com.aminography.primedatepicker.fragment.go.GotoView
-        android:id="@+id/gotoView"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout" />
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout
+            android:id="@+id/circularRevealFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|center_horizontal"
+            android:visibility="invisible"
+            android:background="@color/colorAccent"
+            app:layout_behavior="com.google.android.material.transformation.FabTransformationSheetBehavior">
+
+            <ViewStub
+                android:id="@+id/gotoViewStub"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inflatedId="@id/gotoViewStub" />
+
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            app:backgroundTint="#00000000"
+            app:elevation="0dp"
+            app:fabCustomSize="8dp"
+            app:fabSize="auto" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

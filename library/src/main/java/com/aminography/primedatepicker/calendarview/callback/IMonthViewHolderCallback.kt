@@ -34,7 +34,7 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
 
     fun onHeightDetect(height: Float)
 
-    fun onMonthLabelClicked(calendar: PrimeCalendar)
+    fun onMonthLabelClicked(calendar: PrimeCalendar, touchedX: Int, touchedY: Int)
 
     // Common Attributes ---------------------------------------------------------------------------
 

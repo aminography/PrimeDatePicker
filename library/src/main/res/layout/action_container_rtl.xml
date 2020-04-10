@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/todayButton"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_size_8"
+        android:layout_marginEnd="@dimen/material_size_8"
+        android:paddingLeft="@dimen/material_size_8"
+        android:paddingRight="@dimen/material_size_8"
+        android:text="@string/action_today"
+        android:textAllCaps="true"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/negativeButton"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/material_size_8"
+        android:paddingRight="@dimen/material_size_8"
+        android:text="@string/action_cancel"
+        android:textAllCaps="true"
+        android:textColor="@color/textColorRed"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintStart_toEndOf="@id/positiveButton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/positiveButton"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_size_8"
+        android:layout_marginEnd="@dimen/material_size_8"
+        android:paddingLeft="@dimen/material_size_8"
+        android:paddingRight="@dimen/material_size_8"
+        android:text="@string/action_select"
+        android:textAllCaps="true"
+        android:textColor="@color/textColorGreen"
+        android:textSize="@dimen/text_size_normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

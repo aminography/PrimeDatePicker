@@ -822,8 +822,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
     }
 
-    override fun onMonthLabelClicked(calendar: PrimeCalendar) {
-        onMonthLabelClickListener?.onMonthLabelClicked(calendar)
+    override fun onMonthLabelClicked(calendar: PrimeCalendar, touchedX: Int, touchedY: Int) {
+        onMonthLabelClickListener?.onMonthLabelClicked(calendar, touchedX, touchedY)
     }
 
     private inner class OnScrollListener : RecyclerView.OnScrollListener() {

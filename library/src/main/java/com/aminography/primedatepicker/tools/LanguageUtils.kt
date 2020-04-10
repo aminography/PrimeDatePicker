@@ -11,7 +11,7 @@ import com.aminography.primedatepicker.Direction
  */
 object LanguageUtils {
 
-    internal fun direction(calendarType: CalendarType, language: String): Direction =
+    fun direction(calendarType: CalendarType, language: String): Direction =
         when (language) {
             PersianCalendar.DEFAULT_LOCALE, HijriCalendar.DEFAULT_LOCALE -> when (calendarType) {
                 CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR

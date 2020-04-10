@@ -8,7 +8,9 @@ import com.aminography.primecalendar.PrimeCalendar
 interface OnMonthLabelClickListener {
 
     fun onMonthLabelClicked(
-        calendar: PrimeCalendar
+        calendar: PrimeCalendar,
+        touchedX: Int,
+        touchedY: Int
     )
 
 }

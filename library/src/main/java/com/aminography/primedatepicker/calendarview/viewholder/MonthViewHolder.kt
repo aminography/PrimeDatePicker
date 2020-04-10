@@ -85,8 +85,8 @@ class MonthViewHolder(
         callback?.onHeightDetect(height)
     }
 
-    override fun onMonthLabelClicked(calendar: PrimeCalendar) {
-        callback?.onMonthLabelClicked(calendar)
+    override fun onMonthLabelClicked(calendar: PrimeCalendar, touchedX: Int, touchedY: Int) {
+        callback?.onMonthLabelClicked(calendar, touchedX, touchedY)
     }
 
 }

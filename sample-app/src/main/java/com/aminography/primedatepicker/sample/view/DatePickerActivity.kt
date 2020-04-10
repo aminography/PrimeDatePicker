@@ -7,10 +7,10 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.fragment.PrimeDatePickerBottomSheet
-import com.aminography.primedatepicker.fragment.callback.MultipleDaysPickCallback
-import com.aminography.primedatepicker.fragment.callback.RangeDaysPickCallback
-import com.aminography.primedatepicker.fragment.callback.SingleDayPickCallback
+import com.aminography.primedatepicker.picker.PrimeDatePickerBottomSheet
+import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
+import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
+import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
 import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
 import java.util.*
@@ -79,31 +79,31 @@ class DatePickerActivity : AppCompatActivity() {
 
             datePicker = when (pickType) {
                 PickType.SINGLE -> {
-                    PrimeDatePickerBottomSheet.with(today)
-                        .pickSingleDay()
+                    PrimeDatePickerBottomSheet.from(today)
+                        .pickSingleDay(singleDayPickCallback)
                         .minPossibleDate(minDateCalendar)
                         .maxPossibleDate(maxDateCalendar)
                         .typefacePath(typeface)
                         .animateSelection(true)
-                        .build(singleDayPickCallback)
+                        .build()
                 }
                 PickType.RANGE_START -> {
-                    PrimeDatePickerBottomSheet.with(today)
-                        .pickRangeDays()
+                    PrimeDatePickerBottomSheet.from(today)
+                        .pickRangeDays(rangeDaysPickCallback)
                         .minPossibleDate(minDateCalendar)
                         .maxPossibleDate(maxDateCalendar)
                         .typefacePath(typeface)
                         .animateSelection(true)
-                        .build(rangeDaysPickCallback)
+                        .build()
                 }
                 PickType.MULTIPLE -> {
-                    PrimeDatePickerBottomSheet.with(today)
-                        .pickMultipleDays()
+                    PrimeDatePickerBottomSheet.from(today)
+                        .pickMultipleDays(multipleDaysPickCallback)
                         .minPossibleDate(minDateCalendar)
                         .maxPossibleDate(maxDateCalendar)
                         .typefacePath(typeface)
                         .animateSelection(true)
-                        .build(multipleDaysPickCallback)
+                        .build()
                 }
                 else -> null
             }

@@ -989,7 +989,11 @@ class PrimeMonthView @JvmOverloads constructor(
                 } ?: isMonthTouched(event.x, event.y).takeIf { it }?.run {
                     val calendar = CalendarFactory.newInstance(calendarType, locale)
                     calendar.set(year, month, 1)
-                    onMonthLabelClickListener?.onMonthLabelClicked(calendar)
+                    onMonthLabelClickListener?.onMonthLabelClicked(
+                        calendar,
+                        event.x.toInt(),
+                        event.y.toInt()
+                    )
                 }
             }
         }

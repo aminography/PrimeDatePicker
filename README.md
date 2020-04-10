@@ -554,8 +554,10 @@ Change Log
 ### Version 2.0.0
 - Builder mechanism has changed.
 - Picking multiple days has better UX.
+- Adding Goto by tapping on Month-Year.
 - Picking animation has improved.
 - Possibility to change start day of week.
+- Adding RTL support in bottom sheet.
 
 ### Version 1.1.0
 - Migrated to AndroidX
