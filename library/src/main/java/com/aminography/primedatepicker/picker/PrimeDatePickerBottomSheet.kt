@@ -158,9 +158,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         with(rootView) {
             ActionView(actionViewStub, direction).also {
                 it.typeface = typeface
-                it.onTodayButtonClick = { handleOnPositiveButtonClick(calendarView) }
+                it.onTodayButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
+                it.onPositiveButtonClick = { handleOnPositiveButtonClick(calendarView) }
                 it.onNegativeButtonClick = { dismiss() }
-                it.onPositiveButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
             }
         }
     }

@@ -19,8 +19,8 @@ class ActionView(
         set(value) {
             field = value
             rootView.todayButton.typeface = value
-            rootView.negativeButton.typeface = value
             rootView.positiveButton.typeface = value
+            rootView.negativeButton.typeface = value
         }
 
     var onTodayButtonClick: (() -> Unit)? = null
@@ -31,18 +31,18 @@ class ActionView(
             }
         }
 
-    var onNegativeButtonClick: (() -> Unit)? = null
-        set(value) {
-            field = value
-            rootView.negativeButton.setOnClickListener {
-                value?.invoke()
-            }
-        }
-
     var onPositiveButtonClick: (() -> Unit)? = null
         set(value) {
             field = value
             rootView.positiveButton.setOnClickListener {
+                value?.invoke()
+            }
+        }
+
+    var onNegativeButtonClick: (() -> Unit)? = null
+        set(value) {
+            field = value
+            rootView.negativeButton.setOnClickListener {
                 value?.invoke()
             }
         }
