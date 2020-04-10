@@ -5,7 +5,9 @@ import android.view.ViewStub
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
+import com.aminography.primedatepicker.tools.forceLocaleStrings
 import kotlinx.android.synthetic.main.single_day_header.view.*
+import java.util.*
 
 /**
  * @author aminography
@@ -13,6 +15,18 @@ import kotlinx.android.synthetic.main.single_day_header.view.*
 class SingleHeaderView(
     viewStub: ViewStub
 ) : BaseLazyView(R.layout.single_day_header, viewStub) {
+
+    var locale: Locale? = null
+        set(value) {
+            field = value
+            value?.let {
+                val strings = rootView.context.forceLocaleStrings(
+                    it,
+                    R.string.prime_date_picker_selected_day
+                )
+                rootView.pickedTextView.firstLabelText = strings[0]
+            }
+        }
 
     var typeface: Typeface? = null
         set(value) {

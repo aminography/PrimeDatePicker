@@ -11,7 +11,9 @@ import com.aminography.primedatepicker.picker.header.BaseLazyView
 import com.aminography.primedatepicker.picker.header.multiple.adapter.PickedDaysListAdapter
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayDataHolder
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayEmptyDataHolder
+import com.aminography.primedatepicker.tools.forceLocaleStrings
 import kotlinx.android.synthetic.main.multiple_days_header.view.*
+import java.util.*
 
 /**
  * @author aminography
@@ -38,10 +40,23 @@ class MultipleHeaderView(
         }
     }
 
+    var locale: Locale? = null
+        set(value) {
+            field = value
+            value?.let {
+                val strings = rootView.context.forceLocaleStrings(
+                    it,
+                    R.string.no_day_is_selected
+                )
+                rootView.emptyStateTextView.text = strings[0]
+            }
+        }
+
     var typeface: Typeface? = null
         set(value) {
             field = value
-            multipleDaysAdapter.typeface = typeface
+            multipleDaysAdapter.typeface = value
+            rootView.emptyStateTextView.typeface = value
         }
 
     var pickedDays: List<PrimeCalendar>? = null

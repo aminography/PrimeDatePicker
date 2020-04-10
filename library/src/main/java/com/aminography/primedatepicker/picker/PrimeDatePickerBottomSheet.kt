@@ -47,6 +47,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     private lateinit var headerView: BaseLazyView
     private var gotoView: BaseLazyView? = null
     private var direction: Direction = Direction.LTR
+    private lateinit var locale: Locale
     private var typeface: Typeface? = null
 
     override fun onInitViews(rootView: View) {
@@ -58,6 +59,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
         arguments?.getString("pickType")?.let { internalPickType = PickType.valueOf(it) }
 
+        locale = initialDateCalendar!!.locale
         direction = LanguageUtils.direction(calendarType, initialDateCalendar!!.locale.language)
         typeface = arguments?.getString("typefacePath")?.let {
             Typeface.createFromAsset(activityContext.assets, it)
@@ -157,6 +159,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     private fun initActionView() {
         with(rootView) {
             ActionView(actionViewStub, direction).also {
+                it.locale = locale
                 it.typeface = typeface
                 it.onTodayButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
                 it.onPositiveButtonClick = { handleOnPositiveButtonClick(calendarView) }
@@ -178,6 +181,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     private fun initHeaderSingle(typeface: Typeface?) {
         with(rootView) {
             headerView = SingleHeaderView(headerViewStub).also {
+                it.locale = locale
                 it.typeface = typeface
                 it.pickedDay = calendarView.pickedSingleDayCalendar
                 it.onPickedDayClickListener = {
@@ -192,6 +196,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     private fun initHeaderRange(typeface: Typeface?) {
         with(rootView) {
             headerView = RangeHeaderView(headerViewStub, direction).also {
+                it.locale = locale
                 it.typeface = typeface
                 it.pickType = calendarView.pickType
                 it.pickedRangeStartDay = calendarView.pickedRangeStartCalendar
@@ -215,6 +220,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     private fun initHeaderMultiple(typeface: Typeface?) {
         with(rootView) {
             headerView = MultipleHeaderView(headerViewStub, direction).also {
+                it.locale = locale
                 it.typeface = typeface
                 it.onPickedDayClickListener = { day ->
                     calendarView.focusOnDay(day)

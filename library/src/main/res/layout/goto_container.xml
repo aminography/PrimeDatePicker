@@ -53,12 +53,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
         android:alpha="0.67"
-        android:text="@string/go_to"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_large"
         android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Go to …"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/goButton"
