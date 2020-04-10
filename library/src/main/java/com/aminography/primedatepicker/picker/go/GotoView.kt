@@ -14,8 +14,6 @@ import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
 import com.aminography.primedatepicker.tools.PersianUtils
-import com.aminography.primedatepicker.tools.fixInputFilter
-import com.aminography.primedatepicker.tools.setDividerColor
 import kotlinx.android.synthetic.main.goto_container.view.*
 
 

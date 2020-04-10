@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorAccent"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    tools:ignore="RtlHardcoded">
 
     <FrameLayout
         android:id="@+id/monthFrameLayout"
@@ -14,19 +16,18 @@
         android:layout_marginEnd="@dimen/material_size_24"
         android:layout_marginRight="@dimen/material_size_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/anchor"
+        app:layout_constraintLeft_toRightOf="@id/anchor"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/yearFrameLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/material_size_24"
         android:layout_marginLeft="@dimen/material_size_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/anchor"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/anchor"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -44,7 +45,7 @@
         android:layout_height="48dp"
         android:alpha="0.67"
         android:padding="14dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_close_white_24dp" />
 
@@ -57,7 +58,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_large"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
@@ -73,16 +74,16 @@
         app:cornerRadius="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_arrow_left_white_24dp"
-        app:tint="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="@id/goButton"
         app:layout_constraintEnd_toEndOf="@id/goButton"
         app:layout_constraintStart_toStartOf="@id/goButton"
-        app:layout_constraintTop_toTopOf="@id/goButton" />
+        app:layout_constraintTop_toTopOf="@id/goButton"
+        app:srcCompat="@drawable/ic_arrow_left_white_24dp"
+        app:tint="@color/colorAccent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

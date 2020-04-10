@@ -17,7 +17,7 @@
         android:textAllCaps="true"
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/text_size_normal"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -31,7 +31,7 @@
         android:textAllCaps="true"
         android:textColor="@color/textColorRed"
         android:textSize="@dimen/text_size_normal"
-        app:layout_constraintStart_toEndOf="@id/positiveButton"
+        app:layout_constraintLeft_toRightOf="@id/positiveButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -47,7 +47,7 @@
         android:textAllCaps="true"
         android:textColor="@color/textColorGreen"
         android:textSize="@dimen/text_size_normal"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
