@@ -24,6 +24,7 @@ import com.aminography.primedatepicker.picker.header.range.RangeHeaderView
 import com.aminography.primedatepicker.picker.header.single.SingleHeaderView
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.LanguageUtils
+import com.aminography.primedatepicker.tools.forceLocaleStrings
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 import java.util.*
 
@@ -103,6 +104,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         super.onResume()
         // To be sure of calendar view state restoration is done.
         with(rootView) {
+            fab.isExpanded = false
             if (calendarView.pickType != PickType.NOTHING) {
                 internalPickType = calendarView.pickType
                 when (internalPickType) {
@@ -122,7 +124,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         when (calendarView.pickType) {
             PickType.SINGLE -> {
                 if (calendarView.pickedSingleDayCalendar == null) {
-                    toast(R.string.no_day_is_selected)
+                    toast(requireContext().forceLocaleStrings(locale, R.string.no_day_is_selected)[0])
                 } else {
                     (onDayPickCallback as? SingleDayPickCallback)?.onSingleDayPicked(
                         calendarView.pickedSingleDayCalendar!!
@@ -132,7 +134,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
             }
             PickType.RANGE_START, PickType.RANGE_END -> {
                 if (calendarView.pickedRangeStartCalendar == null || calendarView.pickedRangeEndCalendar == null) {
-                    toast(R.string.no_range_is_selected)
+                    toast(requireContext().forceLocaleStrings(locale, R.string.no_range_is_selected)[0])
                 } else {
                     (onDayPickCallback as? RangeDaysPickCallback)?.onRangeDaysPicked(
                         calendarView.pickedRangeStartCalendar!!,
@@ -143,7 +145,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
             }
             PickType.MULTIPLE -> {
                 if (calendarView.pickedMultipleDaysList.isEmpty()) {
-                    toast(R.string.no_day_is_selected)
+                    toast(requireContext().forceLocaleStrings(locale, R.string.no_day_is_selected)[0])
                 } else {
                     (onDayPickCallback as? MultipleDaysPickCallback)?.onMultipleDaysPicked(
                         calendarView.pickedMultipleDaysList
@@ -317,8 +319,8 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         return this
     }
 
-    private fun toast(textResource: Int) =
-        Toast.makeText(requireActivity(), textResource, Toast.LENGTH_SHORT).show()
+    private fun toast(text: String) =
+        Toast.makeText(requireActivity(), text, Toast.LENGTH_SHORT).show()
 
     // Builder Constructions -----------------------------------------------------------------------
 

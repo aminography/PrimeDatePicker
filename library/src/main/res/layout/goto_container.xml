@@ -38,16 +38,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/closeImageView"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:alpha="0.67"
-        android:padding="14dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_close_white_24dp" />
-
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,6 +49,31 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Go to …"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/closeButton"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/material_size_16"
+        android:layout_marginEnd="@dimen/material_size_16"
+        android:layout_marginTop="@dimen/material_size_4"
+        android:textColor="@color/colorAccent"
+        app:backgroundTint="@color/transWhiteAA"
+        app:cornerRadius="48dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/closeButton"
+        app:layout_constraintEnd_toEndOf="@id/closeButton"
+        app:layout_constraintStart_toStartOf="@id/closeButton"
+        app:layout_constraintTop_toTopOf="@id/closeButton"
+        app:srcCompat="@drawable/ic_close_white_24dp"
+        app:tint="@color/colorAccent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/goButton"

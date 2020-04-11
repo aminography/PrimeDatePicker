@@ -116,7 +116,7 @@ class GotoView(
             adjustMinMaxMonth(new)
         }
 
-        rootView.closeImageView.setOnClickListener {
+        rootView.closeButton.setOnClickListener {
             onCloseClickListener?.invoke()
         }
     }

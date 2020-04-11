@@ -13,12 +13,23 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/topLineImageView"
+        android:layout_width="32dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shape_rounded_line" />
+
     <ViewStub
         android:id="@+id/actionViewStub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inflatedId="@id/actionViewStub"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/topLineImageView" />
 
     <FrameLayout
         android:id="@+id/headerLayout"
@@ -55,8 +66,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|center_horizontal"
-            android:visibility="invisible"
             android:background="@color/colorAccent"
+            android:visibility="invisible"
             app:layout_behavior="com.google.android.material.transformation.FabTransformationSheetBehavior">
 
             <ViewStub
