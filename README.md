@@ -103,7 +103,7 @@ datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 `PrimeDatePickerBottomSheet` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
 
 ```kotlin
-val calendar = PersianCalendar().also {  // shows persian calendar
+val calendar = PersianCalendar().also {  // shows a Persian calendar
     it.year = 1398                       // customizes starting year
     it.month = 7                         // customizes starting month
     it.firstDayOfWeek = Calendar.MONDAY  // sets first day of week to Monday
