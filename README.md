@@ -103,7 +103,7 @@ val datePicker = PrimeDatePickerBottomSheet.with(today)
 
 <br/>
 <hr/>
-<br/>
+
 Stand-Alone Views
 -----------------
 In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand-alone views in your project. 
