@@ -46,17 +46,15 @@ val singleDayPickCallback = SingleDayPickCallback { singleDay ->
     // TODO
 }
 
-val today = CivilCalendar().also {
-    it.firstDayOfWeek = Calendar.MONDAY
-}
+val today = CivilCalendar()
 
 val datePicker = PrimeDatePickerBottomSheet.with(today)
-                    .pickSingleDay()
-                    .minPossibleDate(minDateCalendar) // Optional
-                    .maxPossibleDate(maxDateCalendar) // Optional
-                    .typefacePath(typeface) // Optional
-                    .animateSelection(true) // Optional
-                    .build(singleDayPickCallback)
+                     .pickSingleDay(singleDayPickCallback)
+                     .minPossibleDate(minDateCalendar) // Optional
+                     .maxPossibleDate(maxDateCalendar) // Optional
+                     .typefacePath(typeface) // Optional
+                     .animateSelection(true) // Optional
+                     .build()
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
 ```
@@ -65,31 +63,42 @@ datePicker.show(supportFragmentManager, "SOME_TAG")
 
 > Java
 ```java
-PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.newInstance(
-        currentDateCalendar, // for example: new PersianCalendar()
-        pickType // for example: PickType.SINGLE
-);
-
-datePicker.setOnDateSetListener(new PrimeDatePickerBottomSheet.OnDayPickedListener() {
-
+SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
     @Override
-    public void onSingleDayPicked(@NotNull PrimeCalendar singleDay) {
+    public void onSingleDayPicked(PrimeCalendar singleDay) {
         // TODO
     }
+};
 
-    @Override
-    public void onRangeDaysPicked(@NotNull PrimeCalendar startDay, @NotNull PrimeCalendar endDay) {
-        // TODO
-    }
+PrimeCalendar today = new CivilCalendar();
 
-    @Override
-    public void onMultipleDaysPicked(@NotNull List<PrimeCalendar> multipleDays) {
-        // TODO
-    }
-});
+final PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(today)
+          .pickSingleDay(singleDayPickCallback)
+          .minPossibleDate(minDateCalendar) // Optional
+          .maxPossibleDate(maxDateCalendar) // Optional
+          .typefacePath(typeface) // Optional
+          .animateSelection(true) // Optional
+          .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 ```
+
+### Configurations Based on Input Calendar
+
+`PrimeDatePickerBottomSheet` reads some configurations from the input calendar and they are reflected to the date picker. For example:
+
+```kotlin
+val today = PersianCalendar().also {     // shows persian calendar
+    it.firstDayOfWeek = Calendar.MONDAY  // sets first day of week to Monday
+    it.locale = Locale.ENGLISH           // shows calendar in English locale and LTR direction
+}
+
+val datePicker = PrimeDatePickerBottomSheet.with(today)
+                    .pickSingleDay()
+                     ...
+                    .build(singleDayPickCallback)
+```
+
 
 <br/>
 

@@ -1,12 +1,18 @@
 package com.aminography.primedatepicker.sample;
 
 import android.app.Application;
+
 import androidx.appcompat.app.AppCompatDelegate;
 
 /**
  * Created by aminography on 7/14/2018.
  */
 public class MyApplication extends Application {
+
+    public static final String FONT_PATH_CIVIL = "fonts/Roboto-Regular.ttf";
+    public static final String FONT_PATH_PERSIAN = "fonts/IRANSans.ttf";
+    public static final String FONT_PATH_HIJRI = "fonts/Amiri-Regular.ttf";
+    public static final String FONT_PATH_JAPANESE = "fonts/Roboto-Regular.ttf";
 
     @Override
     public void onCreate() {
