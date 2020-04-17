@@ -101,8 +101,8 @@ val datePicker = PrimeDatePickerBottomSheet.with(today)
                     .build()
 ```
 
+<br/>
 <hr/>
-
 <br/>
 
 Stand-Alone Views
