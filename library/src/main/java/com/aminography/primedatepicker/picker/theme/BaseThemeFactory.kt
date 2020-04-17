@@ -68,4 +68,46 @@ abstract class BaseThemeFactory {
 
     abstract val flingOrientation: PrimeCalendarView.FlingOrientation
 
+    // ---------------------------------------------------------------------------------------------
+
+//    abstract val gotoBackgroundColor: Int
+//
+//    abstract val gotoTextColor: Int
+//
+//    abstract val gotoTextSize: Int
+//
+//    abstract fun monthLabelFormatter(calendar: PrimeCalendar): String
+//
+//    abstract fun weekLabelFormatter(calendar: PrimeCalendar): String
+//
+//    abstract val buttonBarTextSize: Int
+//
+//    abstract val buttonBarTodayTextColor: Int
+//
+//    abstract val buttonBarNegativeTextColor: Int
+//
+//    abstract val buttonBarPositiveTextColor: Int
+//
+//    abstract val selectionBarBackgroundColor: Int
+//
+//    abstract val selectionBarPrimaryTextColor: Int
+//
+//    abstract val selectionBarSecondaryTextColor: Int
+//
+//    abstract val selectionBarPrimaryTextSize: Int
+//
+//    abstract val selectionBarSecondaryTextSize: Int
+//
+//    abstract fun multipleDaysItemFirstLabelFormatter(calendar: PrimeCalendar): String
+//
+//    abstract fun multipleDaysItemSecondLabelFormatter(calendar: PrimeCalendar): String
+//
+//    abstract val multipleDaysItemFirstLabelTextColor: Int
+//
+//    abstract val multipleDaysItemSecondLabelTextColor: Int
+//
+//    abstract val multipleDaysItemFirstLabelTextSize: Int
+//
+//    abstract val multipleDaysItemSecondLabelTextSize: Int
+
 }
