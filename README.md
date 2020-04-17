@@ -6,10 +6,23 @@
 First, **`PrimeDatePicker`** is a tool which provides picking a single day, multiple days, and a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
 ![](static/prime_logo.png)
 
+<table>
 
-| Picking Multiple Days | Picking a Range of Days | Picking a Single Day |
-| --- | --- | --- |
-| ![](static/pick_multiple.gif) | ![](static/pick_range.gif) | ![](static/pick_single.gif) |
+  <tr>
+    <td><b>Picking Multiple Days</b><br/><i>Example for Civil</i></td>
+    <td><b>Picking a Range of Days</b><br/><i>Example for Persian</i></td>
+    <td><b>Picking a Single Day</b><br/><i>Example for Japanese</i></td>
+    <td><b>Goto View</b><br/><i>Example for Civil</i></td>
+  </tr>
+
+  <tr>
+    <td><img src="static/pick_multiple.gif"/></td>
+    <td><img src="static/pick_range.gif"/></td>
+    <td><img src="static/pick_single.gif"/></td>
+    <td><img src="static/goto.gif"/></td>
+  </tr>
+
+</table>
 
 <br/>
 
