@@ -59,7 +59,7 @@ val singleDayPickCallback = SingleDayPickCallback { singleDay ->
     // TODO
 }
 
-val today = CivilCalendar()
+val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
 val datePicker = PrimeDatePickerBottomSheet.with(today)
                      .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
@@ -83,7 +83,7 @@ SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
     }
 };
 
-PrimeCalendar today = new CivilCalendar();
+PrimeCalendar today = new CivilCalendar();  // Causes a Civil date picker, also today as the starting date
 
 PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(today)
     .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
@@ -103,12 +103,14 @@ datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 `PrimeDatePickerBottomSheet` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
 
 ```kotlin
-val today = PersianCalendar().also {     // shows persian calendar
+val calendar = PersianCalendar().also {  // shows persian calendar
+    it.year = 1398                       // customizes starting year
+    it.month = 7                         // customizes starting month
     it.firstDayOfWeek = Calendar.MONDAY  // sets first day of week to Monday
     it.locale = Locale.ENGLISH           // shows calendar in English locale and LTR direction
 }
 
-val datePicker = PrimeDatePickerBottomSheet.with(today)
+val datePicker = PrimeDatePickerBottomSheet.with(calendar)
                     .pickSingleDay(singleDayPickCallback)
                      ...
                     .build()
