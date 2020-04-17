@@ -35,6 +35,9 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
     override val showTwoWeeksInLandscape: Boolean
         get() = TODO("Not yet implemented")
 
+    override val animateSelection: Boolean
+        get() = TODO("Not yet implemented")
+
     override val animationDuration: Int
         get() = TODO("Not yet implemented")
 

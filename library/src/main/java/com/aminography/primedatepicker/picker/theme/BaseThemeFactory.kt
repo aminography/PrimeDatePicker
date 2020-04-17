@@ -42,6 +42,8 @@ abstract class BaseThemeFactory {
 
     abstract val showTwoWeeksInLandscape: Boolean
 
+    abstract val animateSelection: Boolean
+
     abstract val animationDuration: Int
 
     abstract val animationInterpolator: Interpolator
