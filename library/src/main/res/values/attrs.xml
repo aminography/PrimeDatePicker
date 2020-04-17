@@ -101,4 +101,21 @@
             <enum name="horizontal" value="0" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="TwoLineTextView">
+        <attr name="firstLabelText" format="string" />
+        <attr name="secondLabelText" format="string" />
+
+        <attr name="firstLabelTextColor" format="color" />
+        <attr name="secondLabelTextColor" format="color" />
+
+        <attr name="firstLabelTextSize" format="dimension" />
+        <attr name="secondLabelTextSize" format="dimension" />
+
+        <attr name="firstLabelTopPadding" format="dimension" />
+        <attr name="firstLabelBottomPadding" format="dimension" />
+        <attr name="secondLabelTopPadding" format="dimension" />
+        <attr name="secondLabelBottomPadding" format="dimension" />
+    </declare-styleable>
+
 </resources>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+        android:id="@+id/pickedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingStart="@dimen/material_size_8"
+        android:paddingTop="@dimen/material_size_4"
+        android:paddingEnd="@dimen/material_size_8"
+        android:paddingBottom="@dimen/material_size_4"
+        app:firstLabelBottomPadding="@dimen/material_size_4"
+        app:firstLabelText="@string/prime_date_picker_selected_day"
+        app:firstLabelTextColor="@color/transWhiteAA"
+        app:firstLabelTextSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:secondLabelTextColor="@color/white"
+        app:secondLabelTextSize="@dimen/text_size_normal"
+        app:secondLabelTopPadding="@dimen/material_size_2" />
+
+</FrameLayout>

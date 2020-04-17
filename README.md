@@ -6,10 +6,23 @@
 First, **`PrimeDatePicker`** is a tool which provides picking a single day, multiple days, and a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
 ![](static/prime_logo.png)
 
+<table>
 
-| Picking a Single Day | Picking a Range of Days | Fling Orientations |
-| --- | --- | --- |
-| ![](static/picking_single.gif) | ![](static/picking_range.gif) | ![](static/fling_orientations.gif) | 
+  <tr>
+    <td><b>Picking Multiple Days</b><br/><i>Example for Civil</i></td>
+    <td><b>Picking a Range of Days</b><br/><i>Example for Persian</i></td>
+    <td><b>Picking a Single Day</b><br/><i>Example for Japanese</i></td>
+    <td><b>Goto View</b><br/><i>Example for Civil</i></td>
+  </tr>
+
+  <tr>
+    <td><img src="static/pick_multiple.gif"/></td>
+    <td><img src="static/pick_range.gif"/></td>
+    <td><img src="static/pick_single.gif"/></td>
+    <td><img src="static/goto.gif"/></td>
+  </tr>
+
+</table>
 
 <br/>
 
@@ -29,8 +42,8 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:1.1.0'
-    implementation 'com.aminography:primecalendar:1.2.15'
+    implementation 'com.aminography:primedatepicker:2.0.0'
+    implementation 'com.aminography:primecalendar:1.2.17'
 }
 ```
 
@@ -38,36 +51,23 @@ dependencies {
 
 Usage
 -----------------
-To use `PrimeDatePickerBottomSheet`, simply use below snippet:
+To enjoy `PrimeDatePickerBottomSheet`, create an instance of it using builder pattern, like the following snippets:
 
 > Kotlin
 ```kotlin
-val datePicker = PrimeDatePickerBottomSheet.newInstance(
-            currentDateCalendar,
-            pickType,
-            pickedSingleDayCalendar, // can be null
-            pickedRangeStartCalendar, // can be null
-            pickedRangeEndCalendar, // can be null
-            pickedMultipleDaysList, // can be null
-            minDateCalendar, // can be null
-            maxDateCalendar, // can be null
-            typefacePath // can be null
-    )
+val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
+    // TODO
+}
 
-datePicker.setOnDateSetListener(object : PrimeDatePickerBottomSheet.OnDayPickedListener {
+val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
-    override fun onSingleDayPicked(singleDay: PrimeCalendar) {
-        // TODO
-    }
-
-    override fun onRangeDaysPicked(startDay: PrimeCalendar, endDay: PrimeCalendar) {
-        // TODO
-    }
-
-    override fun onMultipleDaysPicked(multipleDays: List<PrimeCalendar>) {
-        // TODO
-    }
-})
+val datePicker = PrimeDatePickerBottomSheet.with(today)
+        .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
+        .minPossibleDate(minDateCalendar)            // Optional
+        .maxPossibleDate(maxDateCalendar)            // Optional
+        .typefacePath(typeface)                      // Optional
+        .animateSelection(true)                      // Optional
+        .build()
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
 ```
@@ -76,38 +76,59 @@ datePicker.show(supportFragmentManager, "SOME_TAG")
 
 > Java
 ```java
-PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.newInstance(
-        currentDateCalendar, // for example: new PersianCalendar()
-        pickType // for example: PickType.SINGLE
-);
-
-datePicker.setOnDateSetListener(new PrimeDatePickerBottomSheet.OnDayPickedListener() {
-
+SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
     @Override
-    public void onSingleDayPicked(@NotNull PrimeCalendar singleDay) {
+    public void onSingleDayPicked(PrimeCalendar singleDay) {
         // TODO
     }
+};
 
-    @Override
-    public void onRangeDaysPicked(@NotNull PrimeCalendar startDay, @NotNull PrimeCalendar endDay) {
-        // TODO
-    }
+PrimeCalendar today = new CivilCalendar();  // Causes a Civil date picker, also today as the starting date
 
-    @Override
-    public void onMultipleDaysPicked(@NotNull List<PrimeCalendar> multipleDays) {
-        // TODO
-    }
-});
+PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(today)
+    .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
+    .minPossibleDate(minDateCalendar)      // Optional
+    .maxPossibleDate(maxDateCalendar)      // Optional
+    .typefacePath(typeface)                // Optional
+    .animateSelection(true)                // Optional
+    .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 ```
 
 <br/>
 
+### Configurations Based on Input Calendar
+
+`PrimeDatePickerBottomSheet` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
+
+```kotlin
+val calendar = PersianCalendar().also {  // shows a Persian calendar
+    it.year = 1398                       // customizes starting year
+    it.month = 7                         // customizes starting month
+    it.firstDayOfWeek = Calendar.MONDAY  // sets first day of week to Monday
+    it.locale = Locale.ENGLISH           // shows a Persian calendar, but in English language and LTR direction
+}
+
+val datePicker = PrimeDatePickerBottomSheet.with(calendar)
+                    .pickSingleDay(singleDayPickCallback)
+                     ...
+                    .build()
+```
+
+<br/>
+
+### Customizing Texts in Date Picker Bottom Sheet
+
+If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+
+<br/>
+<hr/>
+
 Stand-Alone Views
 -----------------
-In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand-alone views in your project. 
-They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml` files or instantiated programmatically.
+In addition to use **`PrimeDatePickerBottomSheet`** as a date picker tool, it is possible to employ stand-alone views in your project.
+They are **`PrimeMonthView`** & **`PrimeCalendarView`** which can be used in layout `xml` files or instantiated programmatically.
 For example:
 
 > xml
@@ -554,14 +575,16 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 <br/>
 
-Customizing Texts in Date Picker Bottom Sheet
--------------------------------------------
-If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
-
-<br/>
-
 Change Log
---------
+----------
+### Version 2.0.0
+- Builder mechanism has changed.
+- Picking multiple days has better UX.
+- Adding Goto by tapping on Month-Year.
+- Picking animation has improved.
+- Possibility to change start day of week.
+- Adding RTL support in bottom sheet.
+
 ### Version 1.1.0
 - Migrated to AndroidX
 

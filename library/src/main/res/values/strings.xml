@@ -1,15 +1,13 @@
 <resources>
-    <string name="app_name">PrimeDatePicker</string>
+    <string name="app_name" translatable="false">PrimeDatePicker</string>
 
     <string name="action_today">Today</string>
     <string name="action_cancel">Cancel</string>
-    <string name="action_close">Close</string>
     <string name="action_select">Select</string>
 
     <string name="prime_date_picker_selected_day">Selected Day</string>
     <string name="prime_date_picker_from">From</string>
     <string name="prime_date_picker_to">To</string>
-    <string name="no_day_is_selected">No day is selected!</string>
     <string name="no_range_is_selected">No range is selected!</string>
-
+    <string name="no_day_is_selected">No day is selected!</string>
 </resources>

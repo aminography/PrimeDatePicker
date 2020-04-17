@@ -4,22 +4,19 @@ import android.content.Context
 import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.AttributeSet
+import android.view.ViewGroup
+import android.view.animation.Interpolator
+import android.widget.FrameLayout
 import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.util.AttributeSet
-import android.view.ViewGroup
-import android.view.animation.Interpolator
-import android.widget.FrameLayout
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.Direction
-import com.aminography.primedatepicker.OnDayPickedListener
-import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.*
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
@@ -27,6 +24,7 @@ import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.tools.DateUtils
+import com.aminography.primedatepicker.tools.LanguageUtils
 import com.aminography.primedatepicker.tools.monthOffset
 import java.util.*
 
@@ -36,10 +34,10 @@ import java.util.*
  */
 @Suppress("PrivatePropertyName", "MemberVisibilityCanBePrivate", "UNNECESSARY_SAFE_CALL", "unused")
 class PrimeCalendarView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        @AttrRes defStyleAttr: Int = 0,
-        @Suppress("UNUSED_PARAMETER") @StyleRes defStyleRes: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    @AttrRes defStyleAttr: Int = 0,
+    @Suppress("UNUSED_PARAMETER") @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
     // Interior Variables --------------------------------------------------------------------------
@@ -63,6 +61,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     // Listeners -----------------------------------------------------------------------------------
 
     var onDayPickedListener: OnDayPickedListener? = null
+    var onMonthLabelClickListener: OnMonthLabelClickListener? = null
 
     // Common Control Variables --------------------------------------------------------------------
 
@@ -180,6 +179,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
+    override var toFocusDay: PrimeCalendar? = null
+
     // Control Variables ---------------------------------------------------------------------------
 
     var loadFactor: Int = 0
@@ -257,7 +258,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
-    /*internal*/ override var pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>? = null
+    override var pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>? = null
         set(value) {
             field = value
             if (invalidate) invalidate()
@@ -391,18 +392,17 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
+    override var weekStartDay: Int = -1
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
     var calendarType = CalendarType.CIVIL
         set(value) {
             val previous = calendarType
             field = value
-            direction = when (locale.language) {
-                "fa", "ar" -> when (value) {
-                    CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
-                }
-                else -> Direction.LTR
-            }
-
+            direction = LanguageUtils.direction(value, locale.language)
 
             if (invalidate) {
                 if (previous != value) {
@@ -417,13 +417,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
-            direction = when (value.language) {
-                "fa", "ar" -> when (calendarType) {
-                    CalendarType.CIVIL, CalendarType.JAPANESE -> Direction.LTR
-                    CalendarType.PERSIAN, CalendarType.HIJRI -> Direction.RTL
-                }
-                else -> Direction.LTR
-            }
+            direction = LanguageUtils.direction(calendarType, value.language)
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
@@ -458,16 +452,16 @@ class PrimeCalendarView @JvmOverloads constructor(
     private fun applyDividers() {
         when (flingOrientation) {
             FlingOrientation.VERTICAL -> adapter?.setDivider(
-                    color = dividerColor,
-                    thickness = dividerThickness,
-                    insetLeft = dividerInsetLeft,
-                    insetRight = dividerInsetRight
+                color = dividerColor,
+                thickness = dividerThickness,
+                insetLeft = dividerInsetLeft,
+                insetRight = dividerInsetRight
             )
             FlingOrientation.HORIZONTAL -> adapter?.setDivider(
-                    color = dividerColor,
-                    thickness = dividerThickness,
-                    insetTop = dividerInsetTop,
-                    insetBottom = dividerInsetBottom
+                color = dividerColor,
+                thickness = dividerThickness,
+                insetTop = dividerInsetTop,
+                insetBottom = dividerInsetBottom
             )
         }
     }
@@ -624,10 +618,28 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
     }
 
+    fun focusOnDay(calendar: PrimeCalendar) {
+        toFocusDay = calendar
+        findFirstVisibleItem()?.let { current ->
+            if (current.year == calendar.year && current.month == calendar.month) {
+                adapter?.notifyDataSetChanged()
+            } else {
+                goto(calendar, true)
+            }
+        } ?: goto(calendar, true)
+    }
+
+    fun goTo(calendar: PrimeCalendar, animate: Boolean = false): Boolean =
+        goto(calendar, animate)
+
+    fun goTo(year: Int, month: Int, animate: Boolean = false): Boolean =
+        goto(year, month, animate)
+
     fun goto(calendar: PrimeCalendar, animate: Boolean = false): Boolean {
         doNotInvalidate {
             locale = calendar.locale
             calendarType = calendar.calendarType
+            weekStartDay = calendar.firstDayOfWeek
         }
         return goto(calendar.year, calendar.month, animate)
     }
@@ -636,16 +648,20 @@ class PrimeCalendarView @JvmOverloads constructor(
         if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
             return false
         }
+        if (weekStartDay == -1) {
+            weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+        }
+
         dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)
         if (animate) {
             findFirstVisibleItem()?.let { current ->
                 val transitionList = CalendarViewUtils.createTransitionList(
-                        calendarType,
-                        current.year,
-                        current.month,
-                        year,
-                        month,
-                        maxTransitionLength
+                    calendarType,
+                    current.year,
+                    current.month,
+                    year,
+                    month,
+                    maxTransitionLength
                 )
 
                 val isForward = DateUtils.isBefore(current.year, current.month, year, month)
@@ -732,11 +748,13 @@ class PrimeCalendarView @JvmOverloads constructor(
         recyclerView.isVerticalFadingEdgeEnabled = verticalFadingEdgeEnabled
     }
 
-    override fun onDayPicked(pickType: PickType,
-                             singleDay: PrimeCalendar?,
-                             startDay: PrimeCalendar?,
-                             endDay: PrimeCalendar?,
-                             multipleDays: List<PrimeCalendar>?) {
+    override fun onDayPicked(
+        pickType: PickType,
+        singleDay: PrimeCalendar?,
+        startDay: PrimeCalendar?,
+        endDay: PrimeCalendar?,
+        multipleDays: List<PrimeCalendar>?
+    ) {
         var change = false
         doNotInvalidate {
             when (pickType) {
@@ -786,11 +804,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         pickedDaysChanged = pickedDaysChanged or change
         if (invalidate && pickedDaysChanged) {
             onDayPickedListener?.onDayPicked(
-                    pickType,
-                    pickedSingleDayCalendar,
-                    pickedRangeStartCalendar,
-                    pickedRangeEndCalendar,
-                    pickedMultipleDaysList
+                pickType,
+                pickedSingleDayCalendar,
+                pickedRangeStartCalendar,
+                pickedRangeEndCalendar,
+                pickedMultipleDaysList
             )
             pickedDaysChanged = false
         }
@@ -802,6 +820,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             requestLayout()
             invalidate()
         }
+    }
+
+    override fun onMonthLabelClicked(calendar: PrimeCalendar, touchedX: Int, touchedY: Int) {
+        onMonthLabelClickListener?.onMonthLabelClicked(calendar, touchedX, touchedY)
     }
 
     private inner class OnScrollListener : RecyclerView.OnScrollListener() {
@@ -858,13 +880,13 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                         if (offset < maxOffset) {
                             val moreData = CalendarViewUtils.extendMoreList(
-                                    calendarType,
-                                    dataHolder.year,
-                                    dataHolder.month,
-                                    minDateCalendar,
-                                    maxDateCalendar,
-                                    loadFactor,
-                                    true
+                                calendarType,
+                                dataHolder.year,
+                                dataHolder.month,
+                                minDateCalendar,
+                                maxDateCalendar,
+                                loadFactor,
+                                true
                             )
 
                             dataList?.apply {
@@ -885,13 +907,13 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                         if (offset > minOffset) {
                             val moreData = CalendarViewUtils.extendMoreList(
-                                    calendarType,
-                                    dataHolder.year,
-                                    dataHolder.month,
-                                    minDateCalendar,
-                                    maxDateCalendar,
-                                    loadFactor,
-                                    false
+                                calendarType,
+                                dataHolder.year,
+                                dataHolder.month,
+                                minDateCalendar,
+                                maxDateCalendar,
+                                loadFactor,
+                                false
                             )
 
                             dataList?.apply {

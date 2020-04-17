@@ -1,196 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:background="@color/colorPrimary">
 
-    <androidx.cardview.widget.CardView
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_bottom_sheet_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/topLineImageView"
+        android:layout_width="32dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shape_rounded_line" />
+
+    <ViewStub
+        android:id="@+id/actionViewStub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="-24dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/material_size_24"
-        app:cardElevation="@dimen/material_size_4">
+        android:inflatedId="@id/actionViewStub"
+        app:layout_constraintTop_toBottomOf="@id/topLineImageView" />
 
-        <LinearLayout
+    <FrameLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/material_size_4"
+        app:layout_constraintBottom_toTopOf="@id/calendarView"
+        app:layout_constraintTop_toBottomOf="@id/actionViewStub">
+
+        <ViewStub
+            android:id="@+id/headerViewStub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:inflatedId="@id/headerViewStub" />
 
-            <FrameLayout
+    </FrameLayout>
+
+    <com.aminography.primedatepicker.calendarview.PrimeCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout" />
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout
+            android:id="@+id/circularRevealFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/colorAccent"
+            android:visibility="invisible"
+            app:layout_behavior="com.google.android.material.transformation.FabTransformationSheetBehavior">
+
+            <ViewStub
+                android:id="@+id/gotoViewStub"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/material_size_8"
-                android:paddingRight="@dimen/material_size_8">
+                android:layout_height="match_parent"
+                android:inflatedId="@id/gotoViewStub" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|end"
-                    android:orientation="horizontal">
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/negativeButton"
-                        style="@style/Base.Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/material_size_8"
-                        android:paddingRight="@dimen/material_size_8"
-                        android:text="@string/action_cancel"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorRed"
-                        android:textSize="@dimen/text_size_normal" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            app:backgroundTint="#00000000"
+            app:elevation="0dp"
+            app:fabCustomSize="8dp"
+            app:fabSize="auto" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/positiveButton"
-                        style="@style/Base.Widget.AppCompat.Button.Borderless"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/material_size_8"
-                        android:paddingRight="@dimen/material_size_8"
-                        android:text="@string/action_select"
-                        android:textAllCaps="true"
-                        android:textColor="@color/textColorGreen"
-                        android:textSize="@dimen/text_size_normal" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-                </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/todayButton"
-                    style="@style/Base.Widget.AppCompat.Button.Borderless"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|start"
-                    android:paddingLeft="@dimen/material_size_8"
-                    android:paddingRight="@dimen/material_size_8"
-                    android:text="@string/action_today"
-                    android:textAllCaps="true"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/text_size_normal" />
-            </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary">
-
-                <View
-                    android:id="@+id/dividerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp" />
-
-                <LinearLayout
-                    android:id="@+id/singleLinearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:orientation="vertical"
-                    android:padding="3dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:alpha="0.65"
-                        android:gravity="center"
-                        android:text="@string/prime_date_picker_selected_day"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/pickedTextView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:includeFontPadding="false"
-                        android:paddingTop="@dimen/material_size_2"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_normal" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/rangeLinearLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="5dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/rangeStartLinearLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/range_background_selector"
-                        android:orientation="vertical"
-                        android:padding="3dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.65"
-                            android:gravity="center"
-                            android:text="@string/prime_date_picker_from"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/rangeStartTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:includeFontPadding="false"
-                            android:paddingTop="@dimen/material_size_2"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_normal" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/rangeEndLinearLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/range_background_selector"
-                        android:orientation="vertical"
-                        android:padding="3dp">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:alpha="0.65"
-                            android:gravity="center"
-                            android:text="@string/prime_date_picker_to"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_small" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/rangeEndTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:includeFontPadding="false"
-                            android:paddingTop="@dimen/material_size_2"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_size_normal" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <com.aminography.primedatepicker.calendarview.PrimeCalendarView
-                android:id="@+id/calendarView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/material_size_24" />
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

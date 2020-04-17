@@ -4,10 +4,10 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.InsetDrawable
+import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.ViewGroup
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.SkipDividerItemDecorator
@@ -19,7 +19,7 @@ import com.aminography.primedatepicker.tools.dp2px
  * @author aminography
  */
 class MonthListAdapter(
-        private val recyclerView: RecyclerView
+    private val recyclerView: RecyclerView
 ) : RecyclerView.Adapter<MonthViewHolder>() {
 
     var iMonthViewHolderCallback: IMonthViewHolderCallback? = null
@@ -41,11 +41,11 @@ class MonthListAdapter(
     }
 
     private fun setDivider(
-            dividerDrawable: Drawable?,
-            insetLeft: Int = 0,
-            insetTop: Int = 0,
-            insetRight: Int = 0,
-            insetBottom: Int = 0
+        dividerDrawable: Drawable?,
+        insetLeft: Int = 0,
+        insetTop: Int = 0,
+        insetRight: Int = 0,
+        insetBottom: Int = 0
     ) {
         val itemDecorationCount = recyclerView.itemDecorationCount
         if (itemDecorationCount > 0) {
@@ -61,12 +61,12 @@ class MonthListAdapter(
     }
 
     fun setDivider(
-            @ColorInt color: Int = Color.parseColor("#BDBDBD"),
-            thickness: Int = 1,
-            insetLeft: Int = 0,
-            insetTop: Int = 0,
-            insetRight: Int = 0,
-            insetBottom: Int = 0
+        @ColorInt color: Int = Color.parseColor("#BDBDBD"),
+        thickness: Int = 1,
+        insetLeft: Int = 0,
+        insetTop: Int = 0,
+        insetRight: Int = 0,
+        insetBottom: Int = 0
     ) {
         val dividerDrawable = GradientDrawable().apply {
             shape = GradientDrawable.RECTANGLE

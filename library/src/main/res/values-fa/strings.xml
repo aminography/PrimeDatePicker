@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_today">امروز</string>
+    <string name="action_cancel">بستن</string>
+    <string name="action_select">انتخاب</string>
+
+    <string name="prime_date_picker_selected_day">روز انتخاب شده</string>
+    <string name="prime_date_picker_from">از</string>
+    <string name="prime_date_picker_to">تا</string>
+    <string name="no_range_is_selected">بازه‌ای انتخاب نشده است!</string>
+    <string name="no_day_is_selected">روزی انتخاب نشده است!</string>
+</resources>

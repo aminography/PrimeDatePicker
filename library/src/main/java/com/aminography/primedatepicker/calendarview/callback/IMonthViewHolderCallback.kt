@@ -18,6 +18,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
 
     val pickType: PickType
 
+    val weekStartDay: Int
+
     val locale: Locale
 
     val pickedRangeStartCalendar: PrimeCalendar?
@@ -31,6 +33,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val typeface: Typeface?
 
     fun onHeightDetect(height: Float)
+
+    fun onMonthLabelClicked(calendar: PrimeCalendar, touchedX: Int, touchedY: Int)
 
     // Common Attributes ---------------------------------------------------------------------------
 
@@ -53,5 +57,6 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val animateSelection: Boolean
     val animationDuration: Int
     val animationInterpolator: Interpolator
+    val toFocusDay: PrimeCalendar?
 
 }
