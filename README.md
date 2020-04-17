@@ -83,9 +83,11 @@ final PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(to
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 ```
 
+<br/>
+
 ### Configurations Based on Input Calendar
 
-`PrimeDatePickerBottomSheet` reads some configurations from the input calendar and they are reflected to the date picker. For example:
+`PrimeDatePickerBottomSheet` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
 
 ```kotlin
 val today = PersianCalendar().also {     // shows persian calendar
