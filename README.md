@@ -61,8 +61,7 @@ val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
 
 val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
-val datePicker = 
-    PrimeDatePickerBottomSheet.with(today)
+val datePicker = PrimeDatePickerBottomSheet.with(today)
         .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
         .minPossibleDate(minDateCalendar)            // Optional
         .maxPossibleDate(maxDateCalendar)            // Optional
