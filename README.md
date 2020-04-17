@@ -72,13 +72,13 @@ SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
 
 PrimeCalendar today = new CivilCalendar();
 
-final PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(today)
-          .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
-          .minPossibleDate(minDateCalendar)      // Optional
-          .maxPossibleDate(maxDateCalendar)      // Optional
-          .typefacePath(typeface)                // Optional
-          .animateSelection(true)                // Optional
-          .build();
+PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(today)
+    .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
+    .minPossibleDate(minDateCalendar)      // Optional
+    .maxPossibleDate(maxDateCalendar)      // Optional
+    .typefacePath(typeface)                // Optional
+    .animateSelection(true)                // Optional
+    .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 ```
