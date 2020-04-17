@@ -41,15 +41,6 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
     override val animationInterpolator: Interpolator
         get() = TODO("Not yet implemented")
 
-    override val loadFactor: Int
-        get() = TODO("Not yet implemented")
-
-    override val maxTransitionLength: Int
-        get() = TODO("Not yet implemented")
-
-    override val transitionSpeedFactor: Float
-        get() = TODO("Not yet implemented")
-
     override val dividerThickness: Int
         get() = TODO("Not yet implemented")
 
@@ -63,6 +54,15 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
         get() = TODO("Not yet implemented")
 
     override val dividerInsetBottom: Int
+        get() = TODO("Not yet implemented")
+
+    override val loadFactor: Int
+        get() = TODO("Not yet implemented")
+
+    override val maxTransitionLength: Int
+        get() = TODO("Not yet implemented")
+
+    override val transitionSpeedFactor: Float
         get() = TODO("Not yet implemented")
 
     override val flingOrientation: PrimeCalendarView.FlingOrientation

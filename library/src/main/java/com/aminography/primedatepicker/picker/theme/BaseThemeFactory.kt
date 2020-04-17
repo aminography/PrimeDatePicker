@@ -46,12 +46,6 @@ abstract class BaseThemeFactory {
 
     abstract val animationInterpolator: Interpolator
 
-    abstract val loadFactor: Int
-
-    abstract val maxTransitionLength: Int
-
-    abstract val transitionSpeedFactor: Float
-
     abstract val dividerColor: Int
 
     abstract val dividerThickness: Int
@@ -63,6 +57,12 @@ abstract class BaseThemeFactory {
     abstract val dividerInsetTop: Int
 
     abstract val dividerInsetBottom: Int
+
+    abstract val loadFactor: Int
+
+    abstract val maxTransitionLength: Int
+
+    abstract val transitionSpeedFactor: Float
 
     abstract val flingOrientation: PrimeCalendarView.FlingOrientation
 
