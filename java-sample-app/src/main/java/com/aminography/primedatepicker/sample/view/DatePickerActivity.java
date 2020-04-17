@@ -132,6 +132,7 @@ public class DatePickerActivity extends AppCompatActivity {
                     datePicker.setDayPickCallback(singleDayPickCallback);
                     break;
                 case RANGE_START:
+                case RANGE_END:
                     datePicker.setDayPickCallback(rangeDaysPickCallback);
                     break;
                 case MULTIPLE:
