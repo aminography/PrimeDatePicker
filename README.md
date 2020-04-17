@@ -51,7 +51,7 @@ dependencies {
 
 Usage
 -----------------
-To use `PrimeDatePickerBottomSheet`, simply use below snippet:
+To use `PrimeDatePickerBottomSheet`, create an instance of it provided by builder pattern, like the following snippets:
 
 > Kotlin
 ```kotlin
