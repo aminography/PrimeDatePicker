@@ -8,6 +8,7 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
+import com.aminography.primedatepicker.picker.header.HeaderView
 import com.aminography.primedatepicker.picker.header.multiple.adapter.PickedDaysListAdapter
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayDataHolder
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayEmptyDataHolder
@@ -21,7 +22,7 @@ import java.util.*
 class MultipleHeaderView(
     viewStub: ViewStub,
     private val direction: Direction
-) : BaseLazyView(R.layout.multiple_days_header, viewStub) {
+) : BaseLazyView(R.layout.multiple_days_header, viewStub), HeaderView {
 
     private val multipleDaysAdapter: PickedDaysListAdapter by lazy {
         PickedDaysListAdapter().also {

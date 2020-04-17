@@ -471,18 +471,18 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
 
-    fun invalidateAfter(function: () -> Unit) {
+    fun invalidateAfter(block: (PrimeCalendarView) -> Unit) {
         val previous = invalidate
         invalidate = false
-        function.invoke()
+        block.invoke(this)
         invalidate = previous
         adapter?.notifyDataSetChanged()
     }
 
-    fun doNotInvalidate(function: () -> Unit) {
+    fun doNotInvalidate(block: (PrimeCalendarView) -> Unit) {
         val previous = invalidate
         invalidate = false
-        function.invoke()
+        block.invoke(this)
         invalidate = previous
     }
 

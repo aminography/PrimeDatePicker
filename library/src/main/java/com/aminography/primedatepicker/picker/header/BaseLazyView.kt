@@ -12,7 +12,7 @@ abstract class BaseLazyView(
     viewStub: ViewStub
 ) {
 
-    protected val rootView: View
+    val rootView: View
 
     init {
         viewStub.layoutResource = layoutResId

@@ -420,10 +420,10 @@ class PrimeMonthView @JvmOverloads constructor(
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
 
-    fun doNotInvalidate(function: () -> Unit) {
+    fun doNotInvalidate(block: (PrimeMonthView) -> Unit) {
         val previous = invalidate
         invalidate = false
-        function.invoke()
+        block.invoke(this)
         invalidate = previous
     }
 

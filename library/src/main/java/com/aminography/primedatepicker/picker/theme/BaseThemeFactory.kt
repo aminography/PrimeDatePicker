@@ -2,11 +2,12 @@ package com.aminography.primedatepicker.picker.theme
 
 import android.view.animation.Interpolator
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
+import java.io.Serializable
 
 /**
  * @author aminography
  */
-abstract class BaseThemeFactory {
+abstract class BaseThemeFactory : Serializable {
 
     abstract val backgroundColor: Int
 
@@ -70,7 +71,7 @@ abstract class BaseThemeFactory {
 
     // ---------------------------------------------------------------------------------------------
 
-//    abstract val gotoBackgroundColor: Int
+    abstract val gotoBackgroundColor: Int
 //
 //    abstract val gotoTextColor: Int
 //
@@ -80,15 +81,17 @@ abstract class BaseThemeFactory {
 //
 //    abstract fun weekLabelFormatter(calendar: PrimeCalendar): String
 //
+    abstract val buttonBarBackgroundColor: Int
+//
 //    abstract val buttonBarTextSize: Int
 //
-//    abstract val buttonBarTodayTextColor: Int
+    abstract val buttonBarTodayTextColor: Int
 //
 //    abstract val buttonBarNegativeTextColor: Int
 //
 //    abstract val buttonBarPositiveTextColor: Int
 //
-//    abstract val selectionBarBackgroundColor: Int
+    abstract val selectionBarBackgroundColor: Int
 //
 //    abstract val selectionBarPrimaryTextColor: Int
 //

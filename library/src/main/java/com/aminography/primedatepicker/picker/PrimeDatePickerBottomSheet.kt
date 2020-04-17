@@ -19,9 +19,12 @@ import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
 import com.aminography.primedatepicker.picker.go.GotoView
 import com.aminography.primedatepicker.picker.header.BaseLazyView
+import com.aminography.primedatepicker.picker.header.HeaderView
 import com.aminography.primedatepicker.picker.header.multiple.MultipleHeaderView
 import com.aminography.primedatepicker.picker.header.range.RangeHeaderView
 import com.aminography.primedatepicker.picker.header.single.SingleHeaderView
+import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
+import com.aminography.primedatepicker.picker.theme.applyTheme
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.LanguageUtils
 import com.aminography.primedatepicker.tools.forceLocaleStrings
@@ -45,11 +48,12 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     val pickType: PickType
         get() = internalPickType
 
-    private lateinit var headerView: BaseLazyView
+    private lateinit var headerView: HeaderView
     private var gotoView: BaseLazyView? = null
     private var direction: Direction = Direction.LTR
     private lateinit var locale: Locale
     private var typeface: Typeface? = null
+    private var theme: BaseThemeFactory? = null
 
     override fun onInitViews(rootView: View) {
         initialDateCalendar = DateUtils.restoreCalendar(
@@ -65,34 +69,40 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         typeface = arguments?.getString("typefacePath")?.let {
             Typeface.createFromAsset(activityContext.assets, it)
         }
+        theme = arguments?.getSerializable("themeFactory") as? BaseThemeFactory
 
         with(rootView) {
+            theme?.let {
+                cardBackgroundImageView.setColorFilter(it.buttonBarBackgroundColor)
+                circularRevealFrameLayout.setBackgroundColor(it.gotoBackgroundColor)
+            }
             typeface?.let { calendarView.typeface = it }
 
             calendarView.doNotInvalidate {
-                if (calendarView.pickType == PickType.NOTHING) {
-                    calendarView.calendarType = calendarType
+                if (it.pickType == PickType.NOTHING) {
+                    it.calendarType = calendarType
 
-                    calendarView.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
-                    calendarView.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
+                    it.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
+                    it.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
 
-                    arguments?.getInt("weekStartDay")?.let { calendarView.weekStartDay = it }
+                    arguments?.getInt("weekStartDay")?.let { day -> calendarView.weekStartDay = day }
 
-                    calendarView.pickType = internalPickType
-                    calendarView.animateSelection = arguments?.getBoolean("animateSelection")
-                        ?: true
+                    it.pickType = internalPickType
+                    it.animateSelection = arguments?.getBoolean("animateSelection") ?: true
 
-                    calendarView.pickedSingleDayCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedSingleDayCalendar"))
-                    calendarView.pickedRangeStartCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeStartCalendar"))
-                    calendarView.pickedRangeEndCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeEndCalendar"))
+                    it.pickedSingleDayCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedSingleDayCalendar"))
+                    it.pickedRangeStartCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeStartCalendar"))
+                    it.pickedRangeEndCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeEndCalendar"))
                     arguments?.getStringArrayList("pickedMultipleDaysList")?.run {
-                        calendarView.pickedMultipleDaysList = map { DateUtils.restoreCalendar(it)!! }
+                        it.pickedMultipleDaysList = map { list -> DateUtils.restoreCalendar(list)!! }
                     }
+
+                    it.applyTheme(theme)
                 }
             }
 
-            initHeaderView()
             initActionView()
+            initHeaderView()
 
             calendarView.onDayPickedListener = this@PrimeDatePickerBottomSheet
             calendarView.onMonthLabelClickListener = this@PrimeDatePickerBottomSheet
@@ -166,6 +176,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 it.onTodayButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
                 it.onPositiveButtonClick = { handleOnPositiveButtonClick(calendarView) }
                 it.onNegativeButtonClick = { dismiss() }
+                it.applyTheme(theme)
             }
         }
     }
@@ -178,6 +189,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
             PickType.NOTHING -> {
             }
         }
+        headerView.applyTheme(theme)
     }
 
     private fun initHeaderSingle(typeface: Typeface?) {
@@ -274,6 +286,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     it.typeface = typeface
                     it.minDateCalendar = calendarView.minDateCalendar
                     it.maxDateCalendar = calendarView.maxDateCalendar
+                    it.applyTheme(theme)
                 }
             }
             (gotoView as? GotoView)?.also {
@@ -359,6 +372,11 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
         fun animateSelection(animateSelection: Boolean): BaseRequestBuilder<T> {
             bundle.putBoolean("animateSelection", animateSelection)
+            return this
+        }
+
+        fun applyTheme(themeFactory: BaseThemeFactory): BaseRequestBuilder<T> {
+            bundle.putSerializable("themeFactory", themeFactory)
             return this
         }
 

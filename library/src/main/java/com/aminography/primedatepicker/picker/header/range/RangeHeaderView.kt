@@ -7,6 +7,7 @@ import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
+import com.aminography.primedatepicker.picker.header.HeaderView
 import com.aminography.primedatepicker.tools.forceLocaleStrings
 import kotlinx.android.synthetic.main.range_days_header.view.*
 import java.util.*
@@ -17,7 +18,7 @@ import java.util.*
 class RangeHeaderView(
     viewStub: ViewStub,
     direction: Direction
-) : BaseLazyView(if (direction == Direction.LTR) R.layout.range_days_header else R.layout.range_days_header_rtl, viewStub) {
+) : BaseLazyView(if (direction == Direction.LTR) R.layout.range_days_header else R.layout.range_days_header_rtl, viewStub), HeaderView {
 
     var locale: Locale? = null
         set(value) {

@@ -356,14 +356,14 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             animationDurationSeekBar.progress = 400
 
             calendarView.invalidateAfter {
-                calendarView.pickedSingleDayCalendar = null
-                calendarView.pickedRangeStartCalendar = null
-                calendarView.pickedRangeEndCalendar = null
-                calendarView.pickType = PickType.NOTHING
-                calendarView.minDateCalendar = null
-                calendarView.maxDateCalendar = null
-                calendarView.animateSelection = false
-                calendarView.animationDuration = 400
+                it.pickedSingleDayCalendar = null
+                it.pickedRangeStartCalendar = null
+                it.pickedRangeEndCalendar = null
+                it.pickType = PickType.NOTHING
+                it.minDateCalendar = null
+                it.maxDateCalendar = null
+                it.animateSelection = false
+                it.animationDuration = 400
             }
 
             initTypeface()

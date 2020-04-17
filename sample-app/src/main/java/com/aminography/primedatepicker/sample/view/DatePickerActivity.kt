@@ -11,6 +11,7 @@ import com.aminography.primedatepicker.picker.PrimeDatePickerBottomSheet
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
+import com.aminography.primedatepicker.picker.theme.DarkThemeFactory
 import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
 import java.util.*
@@ -42,6 +43,7 @@ class DatePickerActivity : AppCompatActivity() {
                         .maxPossibleDate(maxDateCalendar)
                         .typefacePath(typeface)
                         .animateSelection(true)
+                        .applyTheme(DarkThemeFactory())
                         .build()
                 }
                 PickType.RANGE_START -> {
@@ -51,6 +53,7 @@ class DatePickerActivity : AppCompatActivity() {
                         .maxPossibleDate(maxDateCalendar)
                         .typefacePath(typeface)
                         .animateSelection(true)
+                        .applyTheme(DarkThemeFactory())
                         .build()
                 }
                 PickType.MULTIPLE -> {
@@ -60,6 +63,7 @@ class DatePickerActivity : AppCompatActivity() {
                         .maxPossibleDate(maxDateCalendar)
                         .typefacePath(typeface)
                         .animateSelection(true)
+                        .applyTheme(DarkThemeFactory())
                         .build()
                 }
                 else -> null

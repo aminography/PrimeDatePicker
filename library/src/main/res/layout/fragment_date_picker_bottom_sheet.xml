@@ -6,12 +6,13 @@
     android:layout_height="wrap_content"
     tools:background="@color/colorPrimary">
 
-    <View
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/cardBackgroundImageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/shape_bottom_sheet_background"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/shape_bottom_sheet_background" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/topLineImageView"
@@ -35,8 +36,6 @@
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:padding="@dimen/material_size_4"
         app:layout_constraintBottom_toTopOf="@id/calendarView"
         app:layout_constraintTop_toBottomOf="@id/actionViewStub">
 
