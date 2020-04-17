@@ -96,11 +96,12 @@ val today = PersianCalendar().also {     // shows persian calendar
 }
 
 val datePicker = PrimeDatePickerBottomSheet.with(today)
-                    .pickSingleDay()
+                    .pickSingleDay(singleDayPickCallback)
                      ...
-                    .build(singleDayPickCallback)
+                    .build()
 ```
 
+<hr/>
 
 <br/>
 
