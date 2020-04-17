@@ -8,6 +8,8 @@ import com.aminography.primedatepicker.calendarview.PrimeCalendarView
  */
 abstract class BaseThemeFactory {
 
+    abstract val backgroundColor: Int
+
     abstract val monthLabelTextColor: Int
 
     abstract val weekLabelTextColor: Int
