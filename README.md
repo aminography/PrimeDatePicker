@@ -49,11 +49,11 @@ val singleDayPickCallback = SingleDayPickCallback { singleDay ->
 val today = CivilCalendar()
 
 val datePicker = PrimeDatePickerBottomSheet.with(today)
-                     .pickSingleDay(singleDayPickCallback)
-                     .minPossibleDate(minDateCalendar) // Optional
-                     .maxPossibleDate(maxDateCalendar) // Optional
-                     .typefacePath(typeface) // Optional
-                     .animateSelection(true) // Optional
+                     .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
+                     .minPossibleDate(minDateCalendar)      // Optional
+                     .maxPossibleDate(maxDateCalendar)      // Optional
+                     .typefacePath(typeface)                // Optional
+                     .animateSelection(true)                // Optional
                      .build()
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
@@ -73,11 +73,11 @@ SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
 PrimeCalendar today = new CivilCalendar();
 
 final PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(today)
-          .pickSingleDay(singleDayPickCallback)
-          .minPossibleDate(minDateCalendar) // Optional
-          .maxPossibleDate(maxDateCalendar) // Optional
-          .typefacePath(typeface) // Optional
-          .animateSelection(true) // Optional
+          .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
+          .minPossibleDate(minDateCalendar)      // Optional
+          .maxPossibleDate(maxDateCalendar)      // Optional
+          .typefacePath(typeface)                // Optional
+          .animateSelection(true)                // Optional
           .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
