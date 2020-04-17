@@ -107,7 +107,7 @@ val calendar = PersianCalendar().also {  // shows persian calendar
     it.year = 1398                       // customizes starting year
     it.month = 7                         // customizes starting month
     it.firstDayOfWeek = Calendar.MONDAY  // sets first day of week to Monday
-    it.locale = Locale.ENGLISH           // shows calendar in English locale and LTR direction
+    it.locale = Locale.ENGLISH           // shows a Persian calendar but in English language and LTR direction
 }
 
 val datePicker = PrimeDatePickerBottomSheet.with(calendar)
