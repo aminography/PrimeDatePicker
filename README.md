@@ -102,6 +102,12 @@ val datePicker = PrimeDatePickerBottomSheet.with(today)
 ```
 
 <br/>
+
+Customizing Texts in Date Picker Bottom Sheet
+-------------------------------------------
+If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+
+<br/>
 <hr/>
 
 Stand-Alone Views
@@ -551,12 +557,6 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
   </tr>
 
 </table>
-
-<br/>
-
-Customizing Texts in Date Picker Bottom Sheet
--------------------------------------------
-If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
 
 <br/>
 
