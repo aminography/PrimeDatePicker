@@ -55,19 +55,20 @@ To enjoy `PrimeDatePickerBottomSheet`, create an instance of it using builder pa
 
 > Kotlin
 ```kotlin
-val singleDayPickCallback = SingleDayPickCallback { singleDay ->
+val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
     // TODO
 }
 
 val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
-val datePicker = PrimeDatePickerBottomSheet.with(today)
-                     .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
-                     .minPossibleDate(minDateCalendar)      // Optional
-                     .maxPossibleDate(maxDateCalendar)      // Optional
-                     .typefacePath(typeface)                // Optional
-                     .animateSelection(true)                // Optional
-                     .build()
+val datePicker = 
+    PrimeDatePickerBottomSheet.with(today)
+        .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
+        .minPossibleDate(minDateCalendar)            // Optional
+        .maxPossibleDate(maxDateCalendar)            // Optional
+        .typefacePath(typeface)                      // Optional
+        .animateSelection(true)                      // Optional
+        .build()
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
 ```
