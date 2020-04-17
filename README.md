@@ -542,11 +542,15 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
   <tr>
     <td><b>monthView.goto(PersianCalendar())</b><br/><i>// or</i><br/><b>monthView.locale = Locale("fa")</b></td>
     <td><b>monthView.goto(PersianCalendar(Locale.ENGLISH))</b><br/><i>// or</i><br/><b>monthView.locale = Locale.ENGLISH</b></td>
+    <td><b>calendarView.goto(HijriCalendar())</b><br/><i>// or</i><br/><b>calendarView.locale = Locale("ar")</b></td>
+    <td><b>calendarView.goto(HijriCalendar(Locale.ENGLISH))</b><br/><i>// or</i><br/><b>calendarView.locale = Locale.ENGLISH</b></td>
   </tr>
 
   <tr>
     <td><img src="static/month_persian_fa.jpg"/></td>
     <td><img src="static/month_persian_en.jpg"/></td>
+    <td><img src="static/calendar_hijri_ar.jpg"/></td>
+    <td><img src="static/calendar_hijri_en.jpg"/></td>
   </tr>
 
 </table>
