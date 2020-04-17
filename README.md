@@ -113,7 +113,7 @@ If you want to change the texts of the date picker bottom sheet, define some str
 Stand-Alone Views
 -----------------
 In addition to use **`PrimeDatePickerBottomSheet`** as a date picker tool, it is possible to employ stand-alone views in your project.
-They are `PrimeMonthView` & `PrimeCalendarView` which can be used in layout `xml` files or instantiated programmatically.
+They are **`PrimeMonthView`** & **`PrimeCalendarView`** which can be used in layout `xml` files or instantiated programmatically.
 For example:
 
 > xml
