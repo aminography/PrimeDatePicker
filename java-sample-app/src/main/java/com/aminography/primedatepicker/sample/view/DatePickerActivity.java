@@ -23,11 +23,14 @@ import com.aminography.primedatepicker.picker.theme.BaseThemeFactory;
 import com.aminography.primedatepicker.picker.theme.DarkThemeFactory;
 import com.aminography.primedatepicker.sample.R;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import kotlin.jvm.functions.Function1;
 
 import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_CIVIL;
 import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_HIJRI;
@@ -84,6 +87,17 @@ public class DatePickerActivity extends AppCompatActivity {
                     @Override
                     public String getTypefacePath() {
                         return typeface;
+                    }
+
+                    @NotNull
+                    @Override
+                    public Function1<PrimeCalendar, String> getMonthLabelFormatter() {
+                        return new Function1<PrimeCalendar, String>() {
+                            @Override
+                            public String invoke(PrimeCalendar primeCalendar) {
+                                return String.format("%s * %s", primeCalendar.getMonthName(), primeCalendar.getYear());
+                            }
+                        };
                     }
                 };
 

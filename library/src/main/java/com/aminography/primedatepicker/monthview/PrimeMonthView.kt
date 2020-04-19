@@ -69,6 +69,8 @@ class PrimeMonthView @JvmOverloads constructor(
     private var todayDayOfMonth = -1
 
     private var daysInMonth = 0
+    private lateinit var monthLabel: String
+    private lateinit var weekLabels: Array<String>
 
     private var firstDayOfMonthDayOfWeek = 0
 
@@ -76,7 +78,6 @@ class PrimeMonthView @JvmOverloads constructor(
     private var rowCount = 6
     private var columnCount = 7
 
-    private var dayOfWeekLabelCalendar: PrimeCalendar? = null
     private var firstDayOfMonthCalendar: PrimeCalendar? = null
 
     private var animationProgress = 1.0f
@@ -399,6 +400,24 @@ class PrimeMonthView @JvmOverloads constructor(
             animator.interpolator = animationInterpolator
         }
 
+    var monthLabelFormatter: MonthLabelFormatter = DEFAULT_MONTH_LABEL_FORMATTER
+        set(value) {
+            field = value
+            if (invalidate) goto(year, month)
+        }
+
+    var weekLabelFormatter: WeekLabelFormatter = DEFAULT_WEEK_LABEL_FORMATTER
+        set(value) {
+            field = value
+            if (invalidate) goto(year, month)
+        }
+
+    var developerOptionsShowGuideLines: Boolean = false
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
     // ---------------------------------------------------------------------------------------------
 
     private var animator = ValueAnimator().apply {
@@ -570,8 +589,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         drawMonthLabel(canvas)
-        drawWeekLabels(canvas)
-        drawDayLabels(canvas)
+        calculateXPositions().let {
+            drawWeekLabels(canvas, it)
+            drawDayLabels(canvas, it)
+        }
     }
 
     fun goTo(calendar: PrimeCalendar) =
@@ -599,7 +620,6 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType, locale)
         firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType, locale).apply {
             firstDayOfWeek = weekStartDay
             set(year, month, 1)
@@ -608,6 +628,22 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         daysInMonth = DateUtils.getDaysInMonth(calendarType, year, month)
+
+        firstDayOfMonthCalendar?.let {
+            monthLabelFormatter(it)
+        }?.let {
+            monthLabel = when (direction) {
+                Direction.LTR -> it
+                Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(it)
+            }
+        }
+
+        CalendarFactory.newInstance(calendarType, locale).let {
+            weekLabels = Array(7) { dayOfWeek ->
+                it[Calendar.DAY_OF_WEEK] = dayOfWeek
+                weekLabelFormatter(it)
+            }
+        }
 
         updateToday()
         updateRowCount()
@@ -641,26 +677,20 @@ class PrimeMonthView @JvmOverloads constructor(
             (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f +
             monthLabelTopPadding
 
-        monthLabelPaint?.apply {
+        monthLabelPaint?.run {
             y -= ((descent() + ascent()) / 2)
         }
 
-        var monthAndYearString = "${firstDayOfMonthCalendar?.monthName} ${firstDayOfMonthCalendar?.year}"
-        monthAndYearString = when (direction) {
-            Direction.LTR -> monthAndYearString
-            Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
-        }
-
-        monthLabelPaint?.apply {
+        monthLabelPaint?.run {
             canvas.drawText(
-                monthAndYearString,
+                monthLabel,
                 x,
                 y,
                 this
             )
         }
 
-        if (SHOW_GUIDE_LINES) {
+        if (developerOptionsShowGuideLines) {
             Paint().apply {
                 isAntiAlias = true
                 color = Color.RED
@@ -700,43 +730,30 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawWeekLabels(canvas: Canvas) {
+    private fun drawWeekLabels(canvas: Canvas, xPositions: Array<Float>) {
         var y = paddingTop +
             monthHeaderHeight +
             (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f +
             weekLabelTopPadding
 
-        weekLabelPaint?.apply {
+        weekLabelPaint?.run {
             y -= ((descent() + ascent()) / 2)
-        }
-
-        val xPositionList = arrayListOf<Float>().apply {
-            for (i in 0 until columnCount) {
-                // RTLize for Persian and Hijri Calendars
-                add(when (direction) {
-                    Direction.LTR -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
-                    Direction.RTL -> (2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft
-                })
-            }
         }
 
         for (i in 0 until columnCount) {
             val dayOfWeek = (i + weekStartDay) % columnCount
-            val x = xPositionList[i]
-
-            dayOfWeekLabelCalendar?.set(Calendar.DAY_OF_WEEK, dayOfWeek % 7)
-            val weekDisplayName = dayOfWeekLabelCalendar?.weekDayNameShort ?: ""
+            val x = xPositions[i]
 
             weekLabelPaint?.apply {
                 canvas.drawText(
-                    weekDisplayName,
+                    weekLabels[dayOfWeek % 7],
                     x,
                     y,
                     this
                 )
             }
 
-            if (SHOW_GUIDE_LINES) {
+            if (developerOptionsShowGuideLines) {
                 Paint().apply {
                     isAntiAlias = true
                     color = Color.GRAY
@@ -763,7 +780,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        if (SHOW_GUIDE_LINES) {
+        if (developerOptionsShowGuideLines) {
             Paint().apply {
                 isAntiAlias = true
                 color = Color.GREEN
@@ -780,24 +797,14 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawDayLabels(canvas: Canvas) {
+    private fun drawDayLabels(canvas: Canvas, xPositions: Array<Float>) {
         var topY: Float = (paddingTop + monthHeaderHeight + weekHeaderHeight).toFloat()
         var offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
         val radius = min(cellWidth, cellHeight) / 2 - dp(2f)
 
-        val xPositionList = arrayListOf<Float>().apply {
-            for (i in 0 until columnCount) {
-                // RTLize for Persian and Hijri Calendars
-                add(when (direction) {
-                    Direction.LTR -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
-                    Direction.RTL -> ((2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft)
-                })
-            }
-        }
-
         for (dayOfMonth in 1..daysInMonth) {
             val y = topY + cellHeight / 2
-            val x = xPositionList[offset]
+            val x = xPositions[offset]
 
             val pickedDayState = MonthViewUtils.findDayState(
                 year,
@@ -817,7 +824,7 @@ class PrimeMonthView @JvmOverloads constructor(
             drawDayBackground(canvas, pickedDayState, x, y, radius, animate)
             drawDayLabel(canvas, dayOfMonth, pickedDayState, x, y)
 
-            if (SHOW_GUIDE_LINES) {
+            if (developerOptionsShowGuideLines) {
                 Paint().apply {
                     isAntiAlias = true
                     color = Color.GRAY
@@ -1099,6 +1106,16 @@ class PrimeMonthView @JvmOverloads constructor(
         else day
     }
 
+    private fun calculateXPositions(): Array<Float> {
+        return Array(columnCount) {
+            // RTLize for Persian and Hijri Calendars
+            when (direction) {
+                Direction.LTR -> (2 * it + 1) * (cellWidth / 2) + paddingLeft
+                Direction.RTL -> (2 * (columnCount - 1 - it) + 1) * (cellWidth / 2) + paddingLeft
+            }
+        }
+    }
+
     private fun ifInValidRange(dayOfMonth: Int, function: () -> Unit) {
         if (!DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar))
             function.invoke()
@@ -1342,9 +1359,15 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     companion object {
-        private const val SHOW_GUIDE_LINES = false
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
+
         val DEFAULT_INTERPOLATOR = OvershootInterpolator()
+
+        val DEFAULT_MONTH_LABEL_FORMATTER: MonthLabelFormatter =
+            { primeCalendar -> "${primeCalendar.monthName} ${primeCalendar.year}" }
+
+        val DEFAULT_WEEK_LABEL_FORMATTER: WeekLabelFormatter =
+            { primeCalendar -> primeCalendar.weekDayNameShort }
     }
 
 }

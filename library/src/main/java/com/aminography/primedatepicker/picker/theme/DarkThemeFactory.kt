@@ -41,6 +41,12 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
     override val buttonBarTodayTextColor: Int
         get() = Color.WHITE
 
+    override val buttonBarNegativeTextColor: Int
+        get() = getColor(R.color.textColorRed)
+
+    override val buttonBarPositiveTextColor: Int
+        get() = getColor(R.color.textColorGreen)
+
     override val gotoBackgroundColor: Int
         get() = Color.parseColor("#E57373")
 

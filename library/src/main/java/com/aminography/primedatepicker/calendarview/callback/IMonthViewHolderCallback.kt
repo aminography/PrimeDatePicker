@@ -5,6 +5,8 @@ import android.view.animation.Interpolator
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.monthview.MonthLabelFormatter
+import com.aminography.primedatepicker.monthview.WeekLabelFormatter
 import java.util.*
 
 /**
@@ -57,6 +59,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val animateSelection: Boolean
     val animationDuration: Int
     val animationInterpolator: Interpolator
+    val monthLabelFormatter: MonthLabelFormatter
+    val weekLabelFormatter: WeekLabelFormatter
     val toFocusDay: PrimeCalendar?
-
+    val developerOptionsShowGuideLines: Boolean
 }

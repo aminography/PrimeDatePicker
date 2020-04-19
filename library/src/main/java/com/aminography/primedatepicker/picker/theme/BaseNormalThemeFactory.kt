@@ -4,6 +4,8 @@ import android.view.animation.Interpolator
 import android.view.animation.OvershootInterpolator
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
+import com.aminography.primedatepicker.monthview.MonthLabelFormatter
+import com.aminography.primedatepicker.monthview.WeekLabelFormatter
 
 /**
  * @author aminography
@@ -75,5 +77,17 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
 
     override val typefacePath: String?
         get() = null
+
+    override val buttonBarTextSize: Int
+        get() = getDimension(R.dimen.defaultButtonTextSize)
+
+    override val monthLabelFormatter: MonthLabelFormatter
+        get() = { primeCalendar -> "${primeCalendar.monthName} ${primeCalendar.year}" }
+
+    override val weekLabelFormatter: WeekLabelFormatter
+        get() = { primeCalendar -> primeCalendar.weekDayNameShort }
+
+    override val developerOptionsShowGuideLines: Boolean
+        get() = false
 
 }

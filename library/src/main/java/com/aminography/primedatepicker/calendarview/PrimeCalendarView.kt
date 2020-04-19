@@ -22,7 +22,11 @@ import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCal
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
+import com.aminography.primedatepicker.monthview.MonthLabelFormatter
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
+import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_MONTH_LABEL_FORMATTER
+import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_WEEK_LABEL_FORMATTER
+import com.aminography.primedatepicker.monthview.WeekLabelFormatter
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.LanguageUtils
 import com.aminography.primedatepicker.tools.monthOffset
@@ -174,6 +178,18 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
     override var animationInterpolator: Interpolator = DEFAULT_INTERPOLATOR
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var monthLabelFormatter: MonthLabelFormatter = DEFAULT_MONTH_LABEL_FORMATTER
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var weekLabelFormatter: WeekLabelFormatter = DEFAULT_WEEK_LABEL_FORMATTER
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -434,6 +450,12 @@ class PrimeCalendarView @JvmOverloads constructor(
             applyDividers()
 
             if (invalidate) goto(calendar, false)
+        }
+
+    override var developerOptionsShowGuideLines: Boolean = false
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
         }
 
     // ---------------------------------------------------------------------------------------------

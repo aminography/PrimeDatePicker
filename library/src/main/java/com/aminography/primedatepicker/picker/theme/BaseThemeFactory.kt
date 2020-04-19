@@ -6,6 +6,8 @@ import android.view.animation.Interpolator
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
+import com.aminography.primedatepicker.monthview.MonthLabelFormatter
+import com.aminography.primedatepicker.monthview.WeekLabelFormatter
 import java.io.Serializable
 
 /**
@@ -104,27 +106,24 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val gotoBackgroundColor: Int
 
-    //
-//    abstract val gotoTextColor: Int
+    //    abstract val gotoTextColor: Int
 //
 //    abstract val gotoTextSize: Int
 //
-//    abstract fun monthLabelFormatter(calendar: PrimeCalendar): String
-//
-//    abstract fun weekLabelFormatter(calendar: PrimeCalendar): String
-//
+    abstract val monthLabelFormatter: MonthLabelFormatter
+
+    abstract val weekLabelFormatter: WeekLabelFormatter
+
     abstract val buttonBarBackgroundColor: Int
 
-    //
-//    abstract val buttonBarTextSize: Int
-//
+    abstract val buttonBarTextSize: Int
+
     abstract val buttonBarTodayTextColor: Int
 
-    //
-//    abstract val buttonBarNegativeTextColor: Int
-//
-//    abstract val buttonBarPositiveTextColor: Int
-//
+    abstract val buttonBarNegativeTextColor: Int
+
+    abstract val buttonBarPositiveTextColor: Int
+
     abstract val selectionBarBackgroundColor: Int
 //
 //    abstract val selectionBarPrimaryTextColor: Int
@@ -146,5 +145,7 @@ abstract class BaseThemeFactory : Serializable {
 //    abstract val multipleDaysItemFirstLabelTextSize: Int
 //
 //    abstract val multipleDaysItemSecondLabelTextSize: Int
+
+    abstract val developerOptionsShowGuideLines: Boolean
 
 }

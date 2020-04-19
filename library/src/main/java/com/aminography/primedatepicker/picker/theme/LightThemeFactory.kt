@@ -38,6 +38,12 @@ open class LightThemeFactory : BaseNormalThemeFactory() {
     override val buttonBarTodayTextColor: Int
         get() = TODO("Not yet implemented")
 
+    override val buttonBarNegativeTextColor: Int
+        get() = TODO("Not yet implemented")
+
+    override val buttonBarPositiveTextColor: Int
+        get() = TODO("Not yet implemented")
+
     override val gotoBackgroundColor: Int
         get() = TODO("Not yet implemented")
 

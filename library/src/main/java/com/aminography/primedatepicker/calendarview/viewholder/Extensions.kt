@@ -41,5 +41,8 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
         animateSelection = it.animateSelection
         animationDuration = it.animationDuration
         animationInterpolator = it.animationInterpolator
+        monthLabelFormatter = it.monthLabelFormatter
+        weekLabelFormatter = it.weekLabelFormatter
+        developerOptionsShowGuideLines = it.developerOptionsShowGuideLines
     }
 }

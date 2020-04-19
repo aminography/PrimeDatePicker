@@ -45,4 +45,8 @@
     <color name="defaultTwoLineTextColor">@color/white</color>
     <dimen name="defaultTwoLineTextSize">15sp</dimen>
 
+    <!-- Button Bar -->
+
+    <dimen name="defaultButtonTextSize">15sp</dimen>
+
 </resources>
