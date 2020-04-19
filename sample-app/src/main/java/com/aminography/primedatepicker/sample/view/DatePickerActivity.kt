@@ -33,6 +33,11 @@ class DatePickerActivity : AppCompatActivity() {
             val maxDateCalendar = getMaxDateCalendar(calendarType)
             val typeface = getTypeface(calendarType)
 
+            val theme = object : DarkThemeFactory() {
+                override val typefacePath: String?
+                    get() = typeface
+            }
+
             val today = CalendarFactory.newInstance(calendarType)
 
             datePicker = when (pickType) {
@@ -41,9 +46,7 @@ class DatePickerActivity : AppCompatActivity() {
                         .pickSingleDay(singleDayPickCallback)
                         .minPossibleDate(minDateCalendar)
                         .maxPossibleDate(maxDateCalendar)
-                        .typefacePath(typeface)
-                        .animateSelection(true)
-                        .applyTheme(DarkThemeFactory())
+                        .applyTheme(theme)
                         .build()
                 }
                 PickType.RANGE_START -> {
@@ -51,9 +54,7 @@ class DatePickerActivity : AppCompatActivity() {
                         .pickRangeDays(rangeDaysPickCallback)
                         .minPossibleDate(minDateCalendar)
                         .maxPossibleDate(maxDateCalendar)
-                        .typefacePath(typeface)
-                        .animateSelection(true)
-                        .applyTheme(DarkThemeFactory())
+                        .applyTheme(theme)
                         .build()
                 }
                 PickType.MULTIPLE -> {
@@ -61,9 +62,7 @@ class DatePickerActivity : AppCompatActivity() {
                         .pickMultipleDays(multipleDaysPickCallback)
                         .minPossibleDate(minDateCalendar)
                         .maxPossibleDate(maxDateCalendar)
-                        .typefacePath(typeface)
-                        .animateSelection(true)
-                        .applyTheme(DarkThemeFactory())
+                        .applyTheme(theme)
                         .build()
                 }
                 else -> null

@@ -19,7 +19,11 @@ import com.aminography.primedatepicker.picker.PrimeDatePickerBottomSheet;
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
+import com.aminography.primedatepicker.picker.theme.BaseThemeFactory;
+import com.aminography.primedatepicker.picker.theme.DarkThemeFactory;
 import com.aminography.primedatepicker.sample.R;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,7 +77,15 @@ public class DatePickerActivity extends AppCompatActivity {
                 PickType pickType = getPickType();
                 PrimeCalendar minDateCalendar = getMinDateCalendar(calendarType);
                 PrimeCalendar maxDateCalendar = getMaxDateCalendar(calendarType);
-                String typeface = getTypeface(calendarType);
+                final String typeface = getTypeface(calendarType);
+
+                BaseThemeFactory theme = new DarkThemeFactory() {
+                    @Nullable
+                    @Override
+                    public String getTypefacePath() {
+                        return typeface;
+                    }
+                };
 
                 PrimeCalendar today = CalendarFactory.newInstance(calendarType);
 
@@ -83,8 +95,7 @@ public class DatePickerActivity extends AppCompatActivity {
                             .pickSingleDay(singleDayPickCallback)
                             .minPossibleDate(minDateCalendar)
                             .maxPossibleDate(maxDateCalendar)
-                            .typefacePath(typeface)
-                            .animateSelection(true)
+                            .applyTheme(theme)
                             .build();
                         break;
                     case RANGE_START:
@@ -92,8 +103,7 @@ public class DatePickerActivity extends AppCompatActivity {
                             .pickRangeDays(rangeDaysPickCallback)
                             .minPossibleDate(minDateCalendar)
                             .maxPossibleDate(maxDateCalendar)
-                            .typefacePath(typeface)
-                            .animateSelection(true)
+                            .applyTheme(theme)
                             .build();
                         break;
                     case MULTIPLE:
@@ -101,8 +111,7 @@ public class DatePickerActivity extends AppCompatActivity {
                             .pickMultipleDays(multipleDaysPickCallback)
                             .minPossibleDate(minDateCalendar)
                             .maxPossibleDate(maxDateCalendar)
-                            .typefacePath(typeface)
-                            .animateSelection(true)
+                            .applyTheme(theme)
                             .build();
                         break;
                 }

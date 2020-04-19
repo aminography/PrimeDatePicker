@@ -1,6 +1,8 @@
 package com.aminography.primedatepicker.picker.theme
 
 import android.view.animation.Interpolator
+import android.view.animation.OvershootInterpolator
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 
 /**
@@ -9,66 +11,69 @@ import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 abstract class BaseNormalThemeFactory : BaseThemeFactory() {
 
     override val monthLabelTextSize: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultMonthLabelTextSize)
 
     override val weekLabelTextSize: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultWeekLabelTextSize)
 
     override val dayLabelTextSize: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultDayLabelTextSize)
 
     override val monthLabelTopPadding: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultMonthLabelTopPadding)
 
     override val monthLabelBottomPadding: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultMonthLabelBottomPadding)
 
     override val weekLabelTopPadding: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultWeekLabelTopPadding)
 
     override val weekLabelBottomPadding: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultWeekLabelBottomPadding)
 
     override val dayLabelVerticalPadding: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultDayLabelVerticalPadding)
 
     override val showTwoWeeksInLandscape: Boolean
-        get() = TODO("Not yet implemented")
+        get() = getBoolean(R.bool.defaultShowTwoWeeksInLandscape)
 
     override val animateSelection: Boolean
-        get() = TODO("Not yet implemented")
+        get() = getBoolean(R.bool.defaultAnimateSelection)
 
     override val animationDuration: Int
-        get() = TODO("Not yet implemented")
+        get() = getInteger(R.integer.defaultAnimationDuration)
 
     override val animationInterpolator: Interpolator
-        get() = TODO("Not yet implemented")
+        get() = OvershootInterpolator()
 
     override val dividerThickness: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultDividerThickness)
 
     override val dividerInsetLeft: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultDividerInsetLeft)
 
     override val dividerInsetRight: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultDividerInsetRight)
 
     override val dividerInsetTop: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultDividerInsetTop)
 
     override val dividerInsetBottom: Int
-        get() = TODO("Not yet implemented")
+        get() = getDimension(R.dimen.defaultDividerInsetBottom)
 
     override val loadFactor: Int
-        get() = TODO("Not yet implemented")
+        get() = getInteger(R.integer.defaultLoadFactor)
 
     override val maxTransitionLength: Int
-        get() = TODO("Not yet implemented")
+        get() = getInteger(R.integer.defaultMaxTransitionLength)
 
     override val transitionSpeedFactor: Float
-        get() = TODO("Not yet implemented")
+        get() = getFloat(R.string.defaultTransitionSpeedFactor)
 
     override val flingOrientation: PrimeCalendarView.FlingOrientation
-        get() = TODO("Not yet implemented")
+        get() = PrimeCalendarView.FlingOrientation.VERTICAL
+
+    override val typefacePath: String?
+        get() = null
 
 }

@@ -3,7 +3,7 @@ package com.aminography.primedatepicker.picker.theme
 /**
  * @author aminography
  */
-class LightThemeFactory : BaseNormalThemeFactory() {
+open class LightThemeFactory : BaseNormalThemeFactory() {
 
     override val backgroundColor: Int
         get() = TODO("Not yet implemented")

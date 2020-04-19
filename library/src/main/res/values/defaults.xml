@@ -23,7 +23,7 @@
 
     <bool name="defaultShowTwoWeeksInLandscape">true</bool>
 
-    <bool name="defaultAnimateSelection">false</bool>
+    <bool name="defaultAnimateSelection">true</bool>
     <integer name="defaultAnimationDuration">400</integer>
 
     <!-- PrimeCalendarView -->
@@ -36,7 +36,7 @@
     <dimen name="defaultDividerInsetTop">0dp</dimen>
     <dimen name="defaultDividerInsetBottom">0dp</dimen>
 
-    <string name="defaultTransitionSpeedFactor">1.0</string>
+    <string name="defaultTransitionSpeedFactor" translatable="false">1.0</string>
     <integer name="defaultLoadFactor">24</integer>
     <integer name="defaultMaxTransitionLength">2</integer>
 

@@ -1,6 +1,10 @@
 package com.aminography.primedatepicker.picker.theme
 
+import android.content.Context
+import android.view.animation.AnimationUtils
 import android.view.animation.Interpolator
+import androidx.annotation.*
+import androidx.core.content.ContextCompat
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import java.io.Serializable
 
@@ -8,6 +12,31 @@ import java.io.Serializable
  * @author aminography
  */
 abstract class BaseThemeFactory : Serializable {
+
+    internal lateinit var context: Context
+
+    protected fun getColor(@ColorRes colorResId: Int): Int =
+        ContextCompat.getColor(context, colorResId)
+
+    protected fun getDimension(@DimenRes dimenResId: Int): Int =
+        context.resources.getDimensionPixelSize(dimenResId)
+
+    protected fun getBoolean(@BoolRes boolResId: Int): Boolean =
+        context.resources.getBoolean(boolResId)
+
+    protected fun getInteger(@IntegerRes intResId: Int): Int =
+        context.resources.getInteger(intResId)
+
+    protected fun getFloat(@StringRes floatResId: Int): Float =
+        context.resources.getString(floatResId).toFloat()
+
+    protected fun getString(@StringRes stringResId: Int): String =
+        context.resources.getString(stringResId)
+
+    protected fun getInterpolator(@InterpolatorRes interpolatorResId: Int): Interpolator =
+        AnimationUtils.loadInterpolator(context, interpolatorResId)
+
+    // ---------------------------------------------------------------------------------------------
 
     abstract val backgroundColor: Int
 
@@ -69,10 +98,13 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val flingOrientation: PrimeCalendarView.FlingOrientation
 
+    abstract val typefacePath: String?
+
     // ---------------------------------------------------------------------------------------------
 
     abstract val gotoBackgroundColor: Int
-//
+
+    //
 //    abstract val gotoTextColor: Int
 //
 //    abstract val gotoTextSize: Int
@@ -82,11 +114,13 @@ abstract class BaseThemeFactory : Serializable {
 //    abstract fun weekLabelFormatter(calendar: PrimeCalendar): String
 //
     abstract val buttonBarBackgroundColor: Int
-//
+
+    //
 //    abstract val buttonBarTextSize: Int
 //
     abstract val buttonBarTodayTextColor: Int
-//
+
+    //
 //    abstract val buttonBarNegativeTextColor: Int
 //
 //    abstract val buttonBarPositiveTextColor: Int

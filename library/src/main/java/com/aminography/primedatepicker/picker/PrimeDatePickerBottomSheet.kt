@@ -66,10 +66,13 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
         locale = initialDateCalendar!!.locale
         direction = LanguageUtils.direction(calendarType, initialDateCalendar!!.locale.language)
-        typeface = arguments?.getString("typefacePath")?.let {
-            Typeface.createFromAsset(activityContext.assets, it)
-        }
+
         theme = arguments?.getSerializable("themeFactory") as? BaseThemeFactory
+        theme?.context = requireContext()
+
+        theme?.typefacePath?.let {
+            typeface = Typeface.createFromAsset(activityContext.assets, it)
+        }
 
         with(rootView) {
             theme?.let {
@@ -88,7 +91,6 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                     arguments?.getInt("weekStartDay")?.let { day -> calendarView.weekStartDay = day }
 
                     it.pickType = internalPickType
-                    it.animateSelection = arguments?.getBoolean("animateSelection") ?: true
 
                     it.pickedSingleDayCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedSingleDayCalendar"))
                     it.pickedRangeStartCalendar = DateUtils.restoreCalendar(arguments?.getString("pickedRangeStartCalendar"))
@@ -362,16 +364,6 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
         fun maxPossibleDate(maxDate: PrimeCalendar?): BaseRequestBuilder<T> {
             bundle.putString("maxDateCalendar", DateUtils.storeCalendar(maxDate))
-            return this
-        }
-
-        fun typefacePath(typefacePath: String): BaseRequestBuilder<T> {
-            bundle.putString("typefacePath", typefacePath)
-            return this
-        }
-
-        fun animateSelection(animateSelection: Boolean): BaseRequestBuilder<T> {
-            bundle.putBoolean("animateSelection", animateSelection)
             return this
         }
 
