@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.picker.theme
 import android.util.TypedValue
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.picker.action.ActionView
+import com.aminography.primedatepicker.picker.go.GotoNumberPicker
 import com.aminography.primedatepicker.picker.go.GotoView
 import com.aminography.primedatepicker.picker.header.BaseLazyView
 import com.aminography.primedatepicker.picker.header.HeaderView
@@ -39,6 +40,9 @@ internal fun GotoView.applyTheme(theme: BaseThemeFactory?) {
     theme?.let {
         with(rootView) {
             setBackgroundColor(it.gotoBackgroundColor)
+            GotoNumberPicker.labelTextSize = it.gotoTextSize
+            GotoNumberPicker.labelTextColor = it.gotoTextColor
+            GotoNumberPicker.dividerColor = it.gotoDividerColor
         }
     }
 }

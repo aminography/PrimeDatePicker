@@ -53,4 +53,10 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
     override val selectionBarBackgroundColor: Int
         get() = Color.parseColor("#37474f")
 
+    override val gotoTextColor: Int
+        get() = Color.WHITE
+
+    override val gotoDividerColor: Int
+        get() = Color.WHITE
+
 }

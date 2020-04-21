@@ -1,6 +1,5 @@
 package com.aminography.primedatepicker.picker.go
 
-import android.graphics.Color
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.ViewGroup
@@ -22,8 +21,8 @@ class GotoView(
     direction: Direction
 ) : BaseLazyView(if (direction == Direction.LTR) R.layout.goto_container else R.layout.goto_container_rtl, viewStub) {
 
-    private lateinit var monthNumberPicker: MyNumberPicker
-    private lateinit var yearNumberPicker: MyNumberPicker
+    private lateinit var monthNumberPicker: GotoNumberPicker
+    private lateinit var yearNumberPicker: GotoNumberPicker
 
     var calendar: PrimeCalendar? = null
         set(value) {
@@ -37,7 +36,7 @@ class GotoView(
     var typeface: Typeface? = null
         set(value) {
             field = value
-            MyNumberPicker.typeface = value
+            GotoNumberPicker.typeface = value
         }
 
     var onCloseClickListener: (() -> Unit)? = null
@@ -60,7 +59,7 @@ class GotoView(
             return clone.monthName
         }
 
-        monthNumberPicker = MyNumberPicker(rootView.context)
+        monthNumberPicker = GotoNumberPicker(rootView.context)
         rootView.monthFrameLayout.removeAllViews()
         rootView.monthFrameLayout.addView(monthNumberPicker)
         (monthNumberPicker.layoutParams as FrameLayout.LayoutParams).apply {
@@ -68,7 +67,7 @@ class GotoView(
             gravity = Gravity.CENTER
         }
 
-        monthNumberPicker.setDividerColor(Color.WHITE)
+        monthNumberPicker.applyDividerColor()
         monthNumberPicker.fixInputFilter()
         monthNumberPicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         monthNumberPicker.minValue = 0
@@ -76,7 +75,7 @@ class GotoView(
         monthNumberPicker.value = calendar.month
         monthNumberPicker.setFormatter { value -> monthName(value) }
 
-        yearNumberPicker = MyNumberPicker(rootView.context)
+        yearNumberPicker = GotoNumberPicker(rootView.context)
         rootView.yearFrameLayout.removeAllViews()
         rootView.yearFrameLayout.addView(yearNumberPicker)
         (yearNumberPicker.layoutParams as FrameLayout.LayoutParams).apply {
@@ -84,7 +83,7 @@ class GotoView(
             gravity = Gravity.CENTER
         }
 
-        yearNumberPicker.setDividerColor(Color.WHITE)
+        yearNumberPicker.applyDividerColor()
         yearNumberPicker.fixInputFilter()
         yearNumberPicker.minValue = minDateCalendar?.year ?: 0
         yearNumberPicker.maxValue = maxDateCalendar?.year ?: 10_000

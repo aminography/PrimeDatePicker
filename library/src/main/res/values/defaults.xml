@@ -49,4 +49,8 @@
 
     <dimen name="defaultButtonTextSize">15sp</dimen>
 
+    <!-- Goto View -->
+
+    <dimen name="defaultGotoTextSize">20sp</dimen>
+
 </resources>

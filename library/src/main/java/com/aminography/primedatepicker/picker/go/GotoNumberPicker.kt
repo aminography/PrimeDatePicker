@@ -2,7 +2,6 @@ package com.aminography.primedatepicker.picker.go
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -13,9 +12,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextView
-import com.aminography.primedatepicker.R
 
-internal class MyNumberPicker : NumberPicker {
+internal class GotoNumberPicker : NumberPicker {
 
     constructor(context: Context) : super(context)
 
@@ -40,30 +38,32 @@ internal class MyNumberPicker : NumberPicker {
 
     private fun updateView(view: View) {
         if (view is TextView) {
-            view.setTextSize(
-                TypedValue.COMPLEX_UNIT_PX,
-                resources.getDimension(R.dimen.defaultMonthLabelTextSize)
-            )
-            view.setTextColor(Color.WHITE)
+            labelTextSize?.let { view.setTextSize(TypedValue.COMPLEX_UNIT_PX, it.toFloat()) }
+            labelTextColor?.let { view.setTextColor(it) }
             typeface?.let { view.typeface = typeface }
         }
     }
 
     companion object {
+        internal var labelTextSize: Int? = null
+        internal var labelTextColor: Int? = null
+        internal var dividerColor: Int? = null
         internal var typeface: Typeface? = null
     }
 
 }
 
-internal fun NumberPicker.setDividerColor(color: Int) {
+internal fun NumberPicker.applyDividerColor() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
         val pickerFields = NumberPicker::class.java.declaredFields
         for (pf in pickerFields) {
             if (pf.name == "mSelectionDivider") {
                 pf.isAccessible = true
                 try {
-                    val colorDrawable = ColorDrawable(color)
-                    pf.set(this, colorDrawable)
+                    GotoNumberPicker.dividerColor?.let {
+                        val colorDrawable = ColorDrawable(it)
+                        pf.set(this, colorDrawable)
+                    }
                 } catch (e: IllegalArgumentException) {
                     e.printStackTrace()
                 } catch (e: Resources.NotFoundException) {

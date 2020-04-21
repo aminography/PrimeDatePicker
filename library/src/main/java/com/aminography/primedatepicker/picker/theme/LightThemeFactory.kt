@@ -47,6 +47,12 @@ open class LightThemeFactory : BaseNormalThemeFactory() {
     override val gotoBackgroundColor: Int
         get() = TODO("Not yet implemented")
 
+    override val gotoTextColor: Int
+        get() = TODO("Not yet implemented")
+
+    override val gotoDividerColor: Int
+        get() = TODO("Not yet implemented")
+
     override val selectionBarBackgroundColor: Int
         get() = TODO("Not yet implemented")
 

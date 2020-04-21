@@ -106,10 +106,12 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val gotoBackgroundColor: Int
 
-    //    abstract val gotoTextColor: Int
-//
-//    abstract val gotoTextSize: Int
-//
+    abstract val gotoTextColor: Int
+
+    abstract val gotoDividerColor: Int
+
+    abstract val gotoTextSize: Int
+
     abstract val monthLabelFormatter: MonthLabelFormatter
 
     abstract val weekLabelFormatter: WeekLabelFormatter

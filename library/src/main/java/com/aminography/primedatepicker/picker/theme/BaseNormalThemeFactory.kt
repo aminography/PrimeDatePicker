@@ -90,4 +90,7 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
     override val developerOptionsShowGuideLines: Boolean
         get() = false
 
+    override val gotoTextSize: Int
+        get() = getDimension(R.dimen.defaultGotoTextSize)
+
 }
