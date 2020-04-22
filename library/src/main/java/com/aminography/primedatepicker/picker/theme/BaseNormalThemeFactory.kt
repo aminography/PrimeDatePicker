@@ -103,8 +103,8 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
 
     override val multipleDaysItemSecondLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
-            primeCalendar.shortDateString.split("/").let {
-                String.format("%s '%s", primeCalendar.monthNameShort, it[0].substring(2))
+            primeCalendar.shortDateString.split("/")[0].substring(2).let {
+                String.format("%s '%s", primeCalendar.monthNameShort, it)
             }
         }
 
