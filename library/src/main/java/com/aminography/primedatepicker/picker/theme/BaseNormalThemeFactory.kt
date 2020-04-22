@@ -5,7 +5,6 @@ import android.view.animation.OvershootInterpolator
 import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
-import java.util.*
 
 /**
  * @author aminography
@@ -106,11 +105,7 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
         get() = { primeCalendar ->
             primeCalendar.shortDateString.split("/").let {
                 val year = it[0].substring(2)
-                val month = primeCalendar.getDisplayName(
-                    Calendar.MONTH,
-                    Calendar.SHORT,
-                    primeCalendar.locale
-                ) ?: ""
+                val month = primeCalendar.monthNameShort
                 String.format("%s '%s", month, year)
             }
         }
