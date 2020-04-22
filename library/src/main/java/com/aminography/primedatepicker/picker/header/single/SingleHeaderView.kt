@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.picker.header.single
 import android.graphics.Typeface
 import android.view.ViewStub
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
 import com.aminography.primedatepicker.picker.header.HeaderView
@@ -35,10 +36,12 @@ class SingleHeaderView(
             rootView.pickedTextView.typeface = value
         }
 
+    var labelFormatter: LabelFormatter? = null
+
     var pickedDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.pickedTextView.secondLabelText = value?.shortDateString ?: ""
+            rootView.pickedTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) } ?: ""
         }
 
     var onPickedDayClickListener: (() -> Unit)? = null

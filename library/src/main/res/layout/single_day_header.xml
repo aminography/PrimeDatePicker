@@ -15,16 +15,15 @@
         android:paddingTop="@dimen/material_size_4"
         android:paddingEnd="@dimen/material_size_8"
         android:paddingBottom="@dimen/material_size_4"
-        app:firstLabelBottomPadding="@dimen/material_size_4"
         app:firstLabelText="@string/prime_date_picker_selected_day"
         app:firstLabelTextColor="@color/transWhiteAA"
         app:firstLabelTextSize="@dimen/text_size_small"
+        app:gapBetweenLines="@dimen/defaultGapBetweenLines"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:secondLabelTextColor="@color/white"
-        app:secondLabelTextSize="@dimen/text_size_normal"
-        app:secondLabelTopPadding="@dimen/material_size_2" />
+        app:secondLabelTextSize="@dimen/text_size_normal" />
 
 </FrameLayout>

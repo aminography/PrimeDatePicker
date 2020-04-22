@@ -37,17 +37,16 @@
         android:paddingTop="@dimen/material_size_4"
         android:paddingEnd="@dimen/material_size_8"
         android:paddingBottom="@dimen/material_size_4"
-        app:firstLabelBottomPadding="@dimen/material_size_2"
         app:firstLabelText="@string/prime_date_picker_from"
         app:firstLabelTextColor="@color/transWhiteAA"
         app:firstLabelTextSize="@dimen/text_size_small"
+        app:gapBetweenLines="@dimen/defaultGapBetweenLines"
         app:layout_constraintBottom_toBottomOf="@id/rangeStartBackView"
         app:layout_constraintEnd_toEndOf="@id/rangeStartBackView"
         app:layout_constraintStart_toStartOf="@id/rangeStartBackView"
         app:layout_constraintTop_toTopOf="@id/rangeStartBackView"
         app:secondLabelTextColor="@color/white"
-        app:secondLabelTextSize="@dimen/text_size_normal"
-        app:secondLabelTopPadding="@dimen/material_size_2" />
+        app:secondLabelTextSize="@dimen/text_size_normal" />
 
     <com.aminography.primedatepicker.picker.header.TwoLineTextView
         android:id="@+id/rangeEndTextView"
@@ -58,16 +57,15 @@
         android:paddingTop="@dimen/material_size_4"
         android:paddingEnd="@dimen/material_size_8"
         android:paddingBottom="@dimen/material_size_4"
-        app:firstLabelBottomPadding="@dimen/material_size_2"
         app:firstLabelText="@string/prime_date_picker_to"
         app:firstLabelTextColor="@color/transWhiteAA"
         app:firstLabelTextSize="@dimen/text_size_small"
+        app:gapBetweenLines="@dimen/defaultGapBetweenLines"
         app:layout_constraintBottom_toBottomOf="@id/rangeEndBackView"
         app:layout_constraintEnd_toEndOf="@id/rangeEndBackView"
         app:layout_constraintStart_toStartOf="@id/rangeEndBackView"
         app:layout_constraintTop_toTopOf="@id/rangeEndBackView"
         app:secondLabelTextColor="@color/white"
-        app:secondLabelTextSize="@dimen/text_size_normal"
-        app:secondLabelTopPadding="@dimen/material_size_2" />
+        app:secondLabelTextSize="@dimen/text_size_normal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

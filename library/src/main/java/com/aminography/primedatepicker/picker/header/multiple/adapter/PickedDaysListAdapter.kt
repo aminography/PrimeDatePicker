@@ -19,11 +19,32 @@ import com.aminography.primedatepicker.picker.header.multiple.viewholder.PickedD
 class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, BaseAdapter.BaseViewHolder>() {
 
     var typeface: Typeface? = null
+    var firstLabelTextSize: Int = 0
+    var firstLabelTextColor: Int = 0
+    var secondLabelTextSize: Int = 0
+    var secondLabelTextColor: Int = 0
+    var gapBetweenLines: Int = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         return when (viewType) {
-            0 -> PickedDayEmptyViewHolder(parent.context, typeface).also { setupClickListener(it) }
-            1 -> PickedDayViewHolder(parent.context, typeface).also { setupClickListener(it) }
+            0 -> PickedDayEmptyViewHolder(
+                parent.context,
+                typeface,
+                firstLabelTextSize,
+                firstLabelTextColor,
+                secondLabelTextSize,
+                secondLabelTextColor,
+                gapBetweenLines
+            ).also { setupClickListener(it) }
+            1 -> PickedDayViewHolder(
+                parent.context,
+                typeface,
+                firstLabelTextSize,
+                firstLabelTextColor,
+                secondLabelTextSize,
+                secondLabelTextColor,
+                gapBetweenLines
+            ).also { setupClickListener(it) }
             else -> null!!
         }
     }

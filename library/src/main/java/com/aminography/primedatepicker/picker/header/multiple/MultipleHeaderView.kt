@@ -6,6 +6,7 @@ import android.view.ViewStub
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.Direction
+import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
 import com.aminography.primedatepicker.picker.header.HeaderView
@@ -60,11 +61,50 @@ class MultipleHeaderView(
             rootView.emptyStateTextView.typeface = value
         }
 
+    var firstLabelTextSize: Int = 0
+        set(value) {
+            field = value
+            multipleDaysAdapter.firstLabelTextSize = value
+        }
+
+    var firstLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            multipleDaysAdapter.firstLabelTextColor = value
+        }
+
+    var secondLabelTextSize: Int = 0
+        set(value) {
+            field = value
+            multipleDaysAdapter.secondLabelTextSize = value
+        }
+
+    var secondLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            multipleDaysAdapter.secondLabelTextColor = value
+        }
+
+    var gapBetweenLines: Int = 0
+        set(value) {
+            field = value
+            multipleDaysAdapter.gapBetweenLines = value
+        }
+
+    var firstLabelFormatter: LabelFormatter? = null
+
+    var secondLabelFormatter: LabelFormatter? = null
+
     var pickedDays: List<PrimeCalendar>? = null
         set(value) {
             field = value
             value?.map {
-                PickedDayDataHolder(it.shortDateString, it)
+                PickedDayDataHolder(
+                    it.shortDateString,
+                    it,
+                    firstLabelFormatter,
+                    secondLabelFormatter
+                )
             }?.also {
                 val count = multipleDaysAdapter.itemCount
 

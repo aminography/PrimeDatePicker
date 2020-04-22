@@ -112,10 +112,7 @@
         <attr name="firstLabelTextSize" format="dimension" />
         <attr name="secondLabelTextSize" format="dimension" />
 
-        <attr name="firstLabelTopPadding" format="dimension" />
-        <attr name="firstLabelBottomPadding" format="dimension" />
-        <attr name="secondLabelTopPadding" format="dimension" />
-        <attr name="secondLabelBottomPadding" format="dimension" />
+        <attr name="gapBetweenLines" format="dimension" />
     </declare-styleable>
 
 </resources>

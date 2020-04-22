@@ -15,13 +15,23 @@ import kotlinx.android.synthetic.main.list_item_picked_day.view.*
 @SuppressLint("InflateParams")
 class PickedDayViewHolder(
     context: Context,
-    typeface: Typeface?
+    typeface: Typeface?,
+    firstLabelTextSize: Int,
+    firstLabelTextColor: Int,
+    secondLabelTextSize: Int,
+    secondLabelTextColor: Int,
+    gapBetweenLines: Int
 ) : BaseAdapter.BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_picked_day, null)) {
 
     init {
         with(itemView) {
-            typeface?.run {
-                twoLineTextView.typeface = this
+            typeface?.let { twoLineTextView.typeface = it }
+            twoLineTextView.also {
+                it.firstLabelTextSize = firstLabelTextSize
+                it.firstLabelTextColor = firstLabelTextColor
+                it.secondLabelTextSize = secondLabelTextSize
+                it.secondLabelTextColor = secondLabelTextColor
+                it.gapBetweenLines = gapBetweenLines
             }
         }
     }
@@ -29,8 +39,10 @@ class PickedDayViewHolder(
     override fun <DH> bindDataToView(dataHolder: DH) {
         if (dataHolder is PickedDayDataHolder) {
             with(itemView) {
-                twoLineTextView.firstLabelText = dataHolder.day
-                twoLineTextView.secondLabelText = String.format("%s '%s", dataHolder.month, dataHolder.year)
+                twoLineTextView.also {
+                    it.firstLabelText = dataHolder.firstLabel
+                    it.secondLabelText = dataHolder.secondLabel
+                }
             }
         }
     }

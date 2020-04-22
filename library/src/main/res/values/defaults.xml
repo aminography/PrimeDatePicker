@@ -44,6 +44,7 @@
 
     <color name="defaultTwoLineTextColor">@color/white</color>
     <dimen name="defaultTwoLineTextSize">15sp</dimen>
+    <dimen name="defaultGapBetweenLines">6dp</dimen>
 
     <!-- Button Bar -->
 

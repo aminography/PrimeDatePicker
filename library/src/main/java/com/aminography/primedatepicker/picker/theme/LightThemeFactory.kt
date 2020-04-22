@@ -56,4 +56,21 @@ open class LightThemeFactory : BaseNormalThemeFactory() {
     override val selectionBarBackgroundColor: Int
         get() = TODO("Not yet implemented")
 
+    override val multipleDaysItemFirstLabelTextColor: Int
+        get() = TODO("Not yet implemented")
+
+    override val multipleDaysItemSecondLabelTextColor: Int
+        get() = TODO("Not yet implemented")
+
+    override val singleDayItemFirstLabelTextColor: Int
+        get() = TODO("Not yet implemented")
+
+    override val singleDayItemSecondLabelTextColor: Int
+        get() = TODO("Not yet implemented")
+
+    override val rangeDaysItemFirstLabelTextColor: Int
+        get() = TODO("Not yet implemented")
+
+    override val rangeDaysItemSecondLabelTextColor: Int
+        get() = TODO("Not yet implemented")
 }

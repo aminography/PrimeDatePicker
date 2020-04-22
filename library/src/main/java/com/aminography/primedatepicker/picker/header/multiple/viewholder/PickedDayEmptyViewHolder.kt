@@ -14,13 +14,23 @@ import kotlinx.android.synthetic.main.list_item_picked_day_empty.view.*
 @SuppressLint("InflateParams")
 class PickedDayEmptyViewHolder(
     context: Context,
-    typeface: Typeface?
+    typeface: Typeface?,
+    firstLabelTextSize: Int,
+    firstLabelTextColor: Int,
+    secondLabelTextSize: Int,
+    secondLabelTextColor: Int,
+    gapBetweenLines: Int
 ) : BaseAdapter.BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_picked_day_empty, null)) {
 
     init {
         with(itemView) {
-            typeface?.run {
-                twoLineTextView.typeface = this
+            typeface?.let { twoLineTextView.typeface = it }
+            twoLineTextView.also {
+                it.firstLabelTextSize = firstLabelTextSize
+                it.firstLabelTextColor = firstLabelTextColor
+                it.secondLabelTextSize = secondLabelTextSize
+                it.secondLabelTextColor = secondLabelTextColor
+                it.gapBetweenLines = gapBetweenLines
             }
         }
     }

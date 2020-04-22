@@ -5,9 +5,8 @@ import android.view.animation.AnimationUtils
 import android.view.animation.Interpolator
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
+import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
-import com.aminography.primedatepicker.monthview.MonthLabelFormatter
-import com.aminography.primedatepicker.monthview.WeekLabelFormatter
 import java.io.Serializable
 
 /**
@@ -38,15 +37,47 @@ abstract class BaseThemeFactory : Serializable {
     protected fun getInterpolator(@InterpolatorRes interpolatorResId: Int): Interpolator =
         AnimationUtils.loadInterpolator(context, interpolatorResId)
 
-    // ---------------------------------------------------------------------------------------------
+    // ------------------------------------------ General ------------------------------------------
+
+    abstract val typefacePath: String?
+
+    // --------------------------------------- Calendar View ---------------------------------------
 
     abstract val backgroundColor: Int
 
+    abstract val showTwoWeeksInLandscape: Boolean
+
+    // ------- Month Label
+
+    abstract val monthLabelTextSize: Int
+
     abstract val monthLabelTextColor: Int
+
+    abstract val monthLabelTopPadding: Int
+
+    abstract val monthLabelBottomPadding: Int
+
+    abstract val monthLabelFormatter: LabelFormatter
+
+    // ------- Week Label
+
+    abstract val weekLabelTextSize: Int
 
     abstract val weekLabelTextColor: Int
 
+    abstract val weekLabelTopPadding: Int
+
+    abstract val weekLabelBottomPadding: Int
+
+    abstract val weekLabelFormatter: LabelFormatter
+
+    // ------- Day Label
+
+    abstract val dayLabelTextSize: Int
+
     abstract val dayLabelTextColor: Int
+
+    abstract val dayLabelVerticalPadding: Int
 
     abstract val todayLabelTextColor: Int
 
@@ -56,29 +87,7 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val disabledDayLabelTextColor: Int
 
-    abstract val monthLabelTextSize: Int
-
-    abstract val weekLabelTextSize: Int
-
-    abstract val dayLabelTextSize: Int
-
-    abstract val monthLabelTopPadding: Int
-
-    abstract val monthLabelBottomPadding: Int
-
-    abstract val weekLabelTopPadding: Int
-
-    abstract val weekLabelBottomPadding: Int
-
-    abstract val dayLabelVerticalPadding: Int
-
-    abstract val showTwoWeeksInLandscape: Boolean
-
-    abstract val animateSelection: Boolean
-
-    abstract val animationDuration: Int
-
-    abstract val animationInterpolator: Interpolator
+    // ------- Divider
 
     abstract val dividerColor: Int
 
@@ -92,6 +101,16 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val dividerInsetBottom: Int
 
+    // ------- Animate
+
+    abstract val animateSelection: Boolean
+
+    abstract val animationDuration: Int
+
+    abstract val animationInterpolator: Interpolator
+
+    // ------- Transition
+
     abstract val loadFactor: Int
 
     abstract val maxTransitionLength: Int
@@ -100,21 +119,13 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val flingOrientation: PrimeCalendarView.FlingOrientation
 
-    abstract val typefacePath: String?
+    // ------- Developer Options
 
-    // ---------------------------------------------------------------------------------------------
+    abstract val developerOptionsShowGuideLines: Boolean
 
-    abstract val gotoBackgroundColor: Int
+    // ------------------------------------ Picker Bottom Sheet ------------------------------------
 
-    abstract val gotoTextColor: Int
-
-    abstract val gotoDividerColor: Int
-
-    abstract val gotoTextSize: Int
-
-    abstract val monthLabelFormatter: MonthLabelFormatter
-
-    abstract val weekLabelFormatter: WeekLabelFormatter
+    // ------- Button Bar
 
     abstract val buttonBarBackgroundColor: Int
 
@@ -126,28 +137,62 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val buttonBarPositiveTextColor: Int
 
-    abstract val selectionBarBackgroundColor: Int
-//
-//    abstract val selectionBarPrimaryTextColor: Int
-//
-//    abstract val selectionBarSecondaryTextColor: Int
-//
-//    abstract val selectionBarPrimaryTextSize: Int
-//
-//    abstract val selectionBarSecondaryTextSize: Int
-//
-//    abstract fun multipleDaysItemFirstLabelFormatter(calendar: PrimeCalendar): String
-//
-//    abstract fun multipleDaysItemSecondLabelFormatter(calendar: PrimeCalendar): String
-//
-//    abstract val multipleDaysItemFirstLabelTextColor: Int
-//
-//    abstract val multipleDaysItemSecondLabelTextColor: Int
-//
-//    abstract val multipleDaysItemFirstLabelTextSize: Int
-//
-//    abstract val multipleDaysItemSecondLabelTextSize: Int
+    // ------- Selection Bar - General
 
-    abstract val developerOptionsShowGuideLines: Boolean
+    abstract val selectionBarBackgroundColor: Int
+
+    // ------- Selection Bar - Single Day
+
+    abstract val singleDayItemFirstLabelTextSize: Int
+
+    abstract val singleDayItemFirstLabelTextColor: Int
+
+    abstract val singleDayItemSecondLabelTextSize: Int
+
+    abstract val singleDayItemSecondLabelTextColor: Int
+
+    abstract val singleDayItemGapBetweenLines: Int
+
+    abstract val singleDayLabelFormatter: LabelFormatter
+
+    // ------- Selection Bar - Range Days
+
+    abstract val rangeDaysItemFirstLabelTextSize: Int
+
+    abstract val rangeDaysItemFirstLabelTextColor: Int
+
+    abstract val rangeDaysItemSecondLabelTextSize: Int
+
+    abstract val rangeDaysItemSecondLabelTextColor: Int
+
+    abstract val rangeDaysItemGapBetweenLines: Int
+
+    abstract val rangeDaysLabelFormatter: LabelFormatter
+
+    // ------- Selection Bar - Multiple Days
+
+    abstract val multipleDaysItemFirstLabelTextSize: Int
+
+    abstract val multipleDaysItemFirstLabelTextColor: Int
+
+    abstract val multipleDaysItemSecondLabelTextSize: Int
+
+    abstract val multipleDaysItemSecondLabelTextColor: Int
+
+    abstract val multipleDaysItemGapBetweenLines: Int
+
+    abstract val multipleDaysItemFirstLabelFormatter: LabelFormatter
+
+    abstract val multipleDaysItemSecondLabelFormatter: LabelFormatter
+
+    // ------- Goto View
+
+    abstract val gotoBackgroundColor: Int
+
+    abstract val gotoTextColor: Int
+
+    abstract val gotoTextSize: Int
+
+    abstract val gotoDividerColor: Int
 
 }

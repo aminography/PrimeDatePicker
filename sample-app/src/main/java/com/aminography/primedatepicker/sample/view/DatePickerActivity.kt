@@ -36,6 +36,9 @@ class DatePickerActivity : AppCompatActivity() {
             val theme = object : DarkThemeFactory() {
                 override val typefacePath: String?
                     get() = typeface
+
+                override val developerOptionsShowGuideLines: Boolean
+                    get() = false
             }
 
             val today = CalendarFactory.newInstance(calendarType)

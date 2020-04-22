@@ -59,4 +59,22 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
     override val gotoDividerColor: Int
         get() = Color.WHITE
 
+    override val multipleDaysItemFirstLabelTextColor: Int
+        get() = Color.WHITE
+
+    override val multipleDaysItemSecondLabelTextColor: Int
+        get() = Color.WHITE
+
+    override val singleDayItemFirstLabelTextColor: Int
+        get() = getColor(R.color.transWhiteAA)
+
+    override val singleDayItemSecondLabelTextColor: Int
+        get() = Color.WHITE
+
+    override val rangeDaysItemFirstLabelTextColor: Int
+        get() = getColor(R.color.transWhiteAA)
+
+    override val rangeDaysItemSecondLabelTextColor: Int
+        get() = Color.WHITE
+
 }

@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.view.ViewStub
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.Direction
+import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
@@ -41,6 +42,8 @@ class RangeHeaderView(
             rootView.rangeEndTextView.typeface = value
         }
 
+    var labelFormatter: LabelFormatter? = null
+
     var pickType: PickType? = null
         set(value) {
             field = value
@@ -61,13 +64,13 @@ class RangeHeaderView(
     var pickedRangeStartDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.rangeStartTextView.secondLabelText = value?.shortDateString ?: ""
+            rootView.rangeStartTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) } ?: ""
         }
 
     var pickedRangeEndDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.rangeEndTextView.secondLabelText = value?.shortDateString ?: ""
+            rootView.rangeEndTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) } ?: ""
         }
 
     var onRangeStartClickListener: (() -> Unit)? = null

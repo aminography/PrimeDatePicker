@@ -400,13 +400,13 @@ class PrimeMonthView @JvmOverloads constructor(
             animator.interpolator = animationInterpolator
         }
 
-    var monthLabelFormatter: MonthLabelFormatter = DEFAULT_MONTH_LABEL_FORMATTER
+    var monthLabelFormatter: LabelFormatter = DEFAULT_MONTH_LABEL_FORMATTER
         set(value) {
             field = value
             if (invalidate) goto(year, month)
         }
 
-    var weekLabelFormatter: WeekLabelFormatter = DEFAULT_WEEK_LABEL_FORMATTER
+    var weekLabelFormatter: LabelFormatter = DEFAULT_WEEK_LABEL_FORMATTER
         set(value) {
             field = value
             if (invalidate) goto(year, month)
@@ -1363,10 +1363,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
         val DEFAULT_INTERPOLATOR = OvershootInterpolator()
 
-        val DEFAULT_MONTH_LABEL_FORMATTER: MonthLabelFormatter =
+        val DEFAULT_MONTH_LABEL_FORMATTER: LabelFormatter =
             { primeCalendar -> "${primeCalendar.monthName} ${primeCalendar.year}" }
 
-        val DEFAULT_WEEK_LABEL_FORMATTER: WeekLabelFormatter =
+        val DEFAULT_WEEK_LABEL_FORMATTER: LabelFormatter =
             { primeCalendar -> primeCalendar.weekDayNameShort }
     }
 

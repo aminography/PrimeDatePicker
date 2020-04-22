@@ -39,8 +39,6 @@ class TwoLineTextView @JvmOverloads constructor(
     private var secondLabelPaint: Paint? = null
 
     private var viewWidth = 0
-    private var firstLabelHeight = 0
-    private var secondLabelHeight = 0
 
     // Control Variables ---------------------------------------------------------------------------
 
@@ -100,37 +98,7 @@ class TwoLineTextView @JvmOverloads constructor(
             }
         }
 
-    var firstLabelTopPadding: Int = 0
-        set(value) {
-            field = value
-            if (invalidate) {
-                calculateSizes()
-                requestLayout()
-                invalidate()
-            }
-        }
-
-    var firstLabelBottomPadding: Int = 0
-        set(value) {
-            field = value
-            if (invalidate) {
-                calculateSizes()
-                requestLayout()
-                invalidate()
-            }
-        }
-
-    var secondLabelTopPadding: Int = 0
-        set(value) {
-            field = value
-            if (invalidate) {
-                calculateSizes()
-                requestLayout()
-                invalidate()
-            }
-        }
-
-    var secondLabelBottomPadding: Int = 0
+    var gapBetweenLines: Int = 0
         set(value) {
             field = value
             if (invalidate) {
@@ -175,10 +143,7 @@ class TwoLineTextView @JvmOverloads constructor(
                 firstLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_firstLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
                 secondLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_secondLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
 
-                firstLabelTopPadding = getDimensionPixelSize(R.styleable.TwoLineTextView_firstLabelTopPadding, 0)
-                firstLabelBottomPadding = getDimensionPixelSize(R.styleable.TwoLineTextView_firstLabelBottomPadding, 0)
-                secondLabelTopPadding = getDimensionPixelSize(R.styleable.TwoLineTextView_secondLabelTopPadding, 0)
-                secondLabelBottomPadding = getDimensionPixelSize(R.styleable.TwoLineTextView_secondLabelBottomPadding, 0)
+                gapBetweenLines = getDimensionPixelSize(R.styleable.TwoLineTextView_gapBetweenLines, 0)
             }
             recycle()
         }
@@ -193,9 +158,6 @@ class TwoLineTextView @JvmOverloads constructor(
     }
 
     private fun calculateSizes() {
-        firstLabelHeight = firstLabelTextSize + firstLabelTopPadding + firstLabelBottomPadding
-        secondLabelHeight = secondLabelTextSize + secondLabelTopPadding + secondLabelBottomPadding
-
         val firstLabelBounds = Rect()
         firstLabelPaint?.getTextBounds(firstLabelText, 0, firstLabelText.length, firstLabelBounds)
 
@@ -242,8 +204,9 @@ class TwoLineTextView @JvmOverloads constructor(
             viewWidth +
             paddingRight
         val height = paddingTop +
-            firstLabelHeight +
-            secondLabelHeight +
+            firstLabelTextSize +
+            gapBetweenLines +
+            secondLabelTextSize +
             paddingBottom
         setMeasuredDimension(width, height)
     }
@@ -255,9 +218,7 @@ class TwoLineTextView @JvmOverloads constructor(
 
     private fun drawFirstLabel(canvas: Canvas) {
         val x = paddingLeft + viewWidth / 2f
-        var y = paddingTop +
-            (firstLabelHeight - firstLabelTopPadding - firstLabelBottomPadding) / 2f +
-            firstLabelTopPadding
+        var y = paddingTop + firstLabelTextSize / 2f
 
         firstLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
@@ -275,10 +236,7 @@ class TwoLineTextView @JvmOverloads constructor(
 
     private fun drawSecondLabel(canvas: Canvas) {
         val x = paddingLeft + viewWidth / 2f
-        var y = paddingTop +
-            firstLabelHeight +
-            (secondLabelHeight - secondLabelTopPadding - secondLabelBottomPadding) / 2f +
-            secondLabelTopPadding
+        var y = paddingTop + firstLabelTextSize + gapBetweenLines + secondLabelTextSize / 2f
 
         secondLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
@@ -306,10 +264,7 @@ class TwoLineTextView @JvmOverloads constructor(
         savedState.secondLabelTextColor = secondLabelTextColor
         savedState.firstLabelTextSize = firstLabelTextSize
         savedState.secondLabelTextSize = secondLabelTextSize
-        savedState.firstLabelTopPadding = firstLabelTopPadding
-        savedState.firstLabelBottomPadding = firstLabelBottomPadding
-        savedState.secondLabelTopPadding = secondLabelTopPadding
-        savedState.secondLabelBottomPadding = secondLabelBottomPadding
+        savedState.gapBetweenLines = gapBetweenLines
 
         return savedState
     }
@@ -325,10 +280,7 @@ class TwoLineTextView @JvmOverloads constructor(
             secondLabelTextColor = savedState.secondLabelTextColor
             firstLabelTextSize = savedState.firstLabelTextSize
             secondLabelTextSize = savedState.secondLabelTextSize
-            firstLabelTopPadding = savedState.firstLabelTopPadding
-            firstLabelBottomPadding = savedState.firstLabelBottomPadding
-            secondLabelTopPadding = savedState.secondLabelTopPadding
-            secondLabelBottomPadding = savedState.secondLabelBottomPadding
+            gapBetweenLines = savedState.gapBetweenLines
         }
 
         applyTypeface()
@@ -343,10 +295,7 @@ class TwoLineTextView @JvmOverloads constructor(
         internal var secondLabelTextColor: Int = 0
         internal var firstLabelTextSize: Int = 0
         internal var secondLabelTextSize: Int = 0
-        internal var firstLabelTopPadding: Int = 0
-        internal var firstLabelBottomPadding: Int = 0
-        internal var secondLabelTopPadding: Int = 0
-        internal var secondLabelBottomPadding: Int = 0
+        internal var gapBetweenLines: Int = 0
 
         internal constructor(superState: Parcelable?) : super(superState)
 
@@ -357,10 +306,7 @@ class TwoLineTextView @JvmOverloads constructor(
             secondLabelTextColor = input.readInt()
             firstLabelTextSize = input.readInt()
             secondLabelTextSize = input.readInt()
-            firstLabelTopPadding = input.readInt()
-            firstLabelBottomPadding = input.readInt()
-            secondLabelTopPadding = input.readInt()
-            secondLabelBottomPadding = input.readInt()
+            gapBetweenLines = input.readInt()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
@@ -371,10 +317,7 @@ class TwoLineTextView @JvmOverloads constructor(
             out.writeInt(secondLabelTextColor)
             out.writeInt(firstLabelTextSize)
             out.writeInt(secondLabelTextSize)
-            out.writeInt(firstLabelTopPadding)
-            out.writeInt(firstLabelBottomPadding)
-            out.writeInt(secondLabelTopPadding)
-            out.writeInt(secondLabelBottomPadding)
+            out.writeInt(gapBetweenLines)
         }
 
         companion object {

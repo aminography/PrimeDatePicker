@@ -2,10 +2,10 @@ package com.aminography.primedatepicker.picker.theme
 
 import android.view.animation.Interpolator
 import android.view.animation.OvershootInterpolator
+import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
-import com.aminography.primedatepicker.monthview.MonthLabelFormatter
-import com.aminography.primedatepicker.monthview.WeekLabelFormatter
+import java.util.*
 
 /**
  * @author aminography
@@ -81,10 +81,10 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
     override val buttonBarTextSize: Int
         get() = getDimension(R.dimen.defaultButtonTextSize)
 
-    override val monthLabelFormatter: MonthLabelFormatter
+    override val monthLabelFormatter: LabelFormatter
         get() = { primeCalendar -> "${primeCalendar.monthName} ${primeCalendar.year}" }
 
-    override val weekLabelFormatter: WeekLabelFormatter
+    override val weekLabelFormatter: LabelFormatter
         get() = { primeCalendar -> primeCalendar.weekDayNameShort }
 
     override val developerOptionsShowGuideLines: Boolean
@@ -92,5 +92,54 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
 
     override val gotoTextSize: Int
         get() = getDimension(R.dimen.defaultGotoTextSize)
+
+    override val singleDayLabelFormatter: LabelFormatter
+        get() = { primeCalendar -> primeCalendar.shortDateString }
+
+    override val rangeDaysLabelFormatter: LabelFormatter
+        get() = { primeCalendar -> primeCalendar.shortDateString }
+
+    override val multipleDaysItemFirstLabelFormatter: LabelFormatter
+        get() = { primeCalendar -> primeCalendar.shortDateString.split("/")[2] }
+
+    override val multipleDaysItemSecondLabelFormatter: LabelFormatter
+        get() = { primeCalendar ->
+            primeCalendar.shortDateString.split("/").let {
+                val year = it[0].substring(2)
+                val month = primeCalendar.getDisplayName(
+                    Calendar.MONTH,
+                    Calendar.SHORT,
+                    primeCalendar.locale
+                ) ?: ""
+                String.format("%s '%s", month, year)
+            }
+        }
+
+    override val multipleDaysItemFirstLabelTextSize: Int
+        get() = getDimension(R.dimen.text_size_header_multi_large)
+
+    override val multipleDaysItemSecondLabelTextSize: Int
+        get() = getDimension(R.dimen.text_size_header_multi_small)
+
+    override val singleDayItemFirstLabelTextSize: Int
+        get() = getDimension(R.dimen.text_size_small)
+
+    override val singleDayItemSecondLabelTextSize: Int
+        get() = getDimension(R.dimen.text_size_normal)
+
+    override val rangeDaysItemFirstLabelTextSize: Int
+        get() = getDimension(R.dimen.text_size_small)
+
+    override val rangeDaysItemSecondLabelTextSize: Int
+        get() = getDimension(R.dimen.text_size_normal)
+
+    override val singleDayItemGapBetweenLines: Int
+        get() = getDimension(R.dimen.defaultGapBetweenLines)
+
+    override val rangeDaysItemGapBetweenLines: Int
+        get() = getDimension(R.dimen.defaultGapBetweenLines)
+
+    override val multipleDaysItemGapBetweenLines: Int
+        get() = 0
 
 }

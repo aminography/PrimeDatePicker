@@ -22,11 +22,9 @@ import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCal
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
-import com.aminography.primedatepicker.monthview.MonthLabelFormatter
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_MONTH_LABEL_FORMATTER
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_WEEK_LABEL_FORMATTER
-import com.aminography.primedatepicker.monthview.WeekLabelFormatter
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.LanguageUtils
 import com.aminography.primedatepicker.tools.monthOffset
@@ -183,13 +181,13 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
-    override var monthLabelFormatter: MonthLabelFormatter = DEFAULT_MONTH_LABEL_FORMATTER
+    override var monthLabelFormatter: LabelFormatter = DEFAULT_MONTH_LABEL_FORMATTER
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
-    override var weekLabelFormatter: WeekLabelFormatter = DEFAULT_WEEK_LABEL_FORMATTER
+    override var weekLabelFormatter: LabelFormatter = DEFAULT_WEEK_LABEL_FORMATTER
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -1028,7 +1026,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
-            locale = Locale(savedState.locale)
+            locale = Locale(savedState.locale ?: "en")
 
             layoutManager = createLayoutManager()
             recyclerView.layoutManager = layoutManager
@@ -1155,7 +1153,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedRangeStartCalendar = input.readString()
             pickedRangeEndCalendar = input.readString()
-            input.readStringList(pickedMultipleDaysList)
+            input.readStringList(pickedMultipleDaysList ?: mutableListOf())
 
             loadFactor = input.readInt()
             maxTransitionLength = input.readInt()
