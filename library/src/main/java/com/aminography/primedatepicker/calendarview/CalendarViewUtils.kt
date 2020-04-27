@@ -3,7 +3,7 @@ package com.aminography.primedatepicker.calendarview
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
-import com.aminography.primedatepicker.tools.monthOffset
+import com.aminography.primedatepicker.utils.monthOffset
 import kotlin.math.ceil
 import kotlin.math.floor
 
@@ -25,13 +25,13 @@ internal object CalendarViewUtils {
 
         return if (isForward) {
             val offset = (year * 12 + month) + 1
-            val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
+            val maxOffset = maxDateCalendar?.monthOffset ?: Int.MAX_VALUE
 
             val max = if (maxOffset < (offset + loadFactor - 1)) maxOffset else (offset + loadFactor - 1)
             createList(calendarType, offset, max)
         } else {
             val offset = (year * 12 + month) - 1
-            val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
+            val minOffset = minDateCalendar?.monthOffset ?: Int.MIN_VALUE
 
             val min = if (minOffset > (offset - loadFactor + 1)) minOffset else (offset - loadFactor + 1)
             createList(calendarType, min, offset)
@@ -49,8 +49,8 @@ internal object CalendarViewUtils {
 
         val centerOffset = year * 12 + month
 
-        val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
-        val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
+        val minOffset = minDateCalendar?.monthOffset ?: Int.MIN_VALUE
+        val maxOffset = maxDateCalendar?.monthOffset ?: Int.MAX_VALUE
 
         val min = if (minOffset > (centerOffset - loadFactor)) minOffset else (centerOffset - loadFactor)
         val max = if (maxOffset < (centerOffset + loadFactor)) maxOffset else (centerOffset + loadFactor)

@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.tools
+package com.aminography.primedatepicker.utils
 
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.civil.CivilCalendar
@@ -28,8 +28,8 @@ object DateUtils {
 
     fun isBetweenExclusive(year: Int, month: Int, dayOfMonth: Int, start: PrimeCalendar, end: PrimeCalendar): Boolean {
         val offset = year * 12 + month
-        val startOffset = start.monthOffset()
-        val endOffset = end.monthOffset()
+        val startOffset = start.monthOffset
+        val endOffset = end.monthOffset
 
         return if (offset == startOffset && (startOffset == endOffset)) {
             dayOfMonth > start.dayOfMonth && dayOfMonth < end.dayOfMonth
@@ -133,38 +133,5 @@ object DateUtils {
             CalendarType.JAPANESE -> JapaneseCalendar.DEFAULT_FIRST_DAY_OF_WEEK
         }
     }
-
-//    fun persianDateToCivilStandardString(context: Context, year: Int, monthOfYear: Int, dayOfMonth: Int): String {
-//        val civilDate = DateConverter.persianToCivil(context, PersianDate(context, year, monthOfYear, dayOfMonth))
-//        return StringBuilder()
-//                .append(String.format(Locale.getDefault(), "%04d", civilDate.getYear()))
-//                .append("-")
-//                .append(String.format(Locale.getDefault(), "%02d", civilDate.getMonth()))
-//                .append("-")
-//                .append(String.format(Locale.getDefault(), "%02d", civilDate.getDayOfMonth()))
-//                .toString()
-//    }
-//
-//    fun persianCalendarToStandardString(calendar: PersianCalendar): String {
-//        return StringBuilder()
-//                .append(String.format(Locale.getDefault(), "%04d", calendar.get(Calendar.YEAR)))
-//                .append("-")
-//                .append(String.format(Locale.getDefault(), "%02d", calendar.get(Calendar.MONTH) + 1))
-//                .append("-")
-//                .append(String.format(Locale.getDefault(), "%02d", calendar.get(Calendar.DAY_OF_MONTH)))
-//                .toString()
-//    }
-//
-//
-//    fun persianCalendarToCivilStandardString(context: Context, calendar: PersianCalendar): String {
-//        val civilDate = DateConverter.persianToCivil(context, PersianDate(context, calendar.year, calendar.month, calendar.dayOfMonth))
-//        return StringBuilder()
-//                .append(String.format(Locale.getDefault(), "%04d", civilDate.getYear()))
-//                .append("-")
-//                .append(String.format(Locale.getDefault(), "%02d", civilDate.getMonth()))
-//                .append("-")
-//                .append(String.format(Locale.getDefault(), "%02d", civilDate.getDayOfMonth()))
-//                .toString()
-//    }
 
 }

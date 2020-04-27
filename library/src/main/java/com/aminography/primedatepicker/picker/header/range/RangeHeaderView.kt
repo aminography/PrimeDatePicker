@@ -13,7 +13,8 @@ import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
 import com.aminography.primedatepicker.picker.header.HeaderView
-import com.aminography.primedatepicker.tools.forceLocaleStrings
+import com.aminography.primedatepicker.utils.forceLocaleStrings
+import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.range_days_header.view.*
 import java.util.*
 
@@ -71,15 +72,17 @@ class RangeHeaderView(
     var pickedRangeStartDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.rangeStartTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) }
-                ?: ""
+            rootView.rangeStartTextView.secondLabelText = value?.let {
+                labelFormatter?.invoke(it)?.localizeDigits(value.locale)
+            } ?: ""
         }
 
     var pickedRangeEndDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.rangeEndTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) }
-                ?: ""
+            rootView.rangeEndTextView.secondLabelText = value?.let {
+                labelFormatter?.invoke(it)?.localizeDigits(value.locale)
+            } ?: ""
         }
 
     var onRangeStartClickListener: (() -> Unit)? = null

@@ -14,9 +14,9 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.sample.*
-import com.aminography.primedatepicker.tools.dp2px
-import com.aminography.primedatepicker.tools.invisible
-import com.aminography.primedatepicker.tools.visible
+import com.aminography.primedatepicker.utils.dp2px
+import com.aminography.primedatepicker.utils.invisible
+import com.aminography.primedatepicker.utils.visible
 import kotlinx.android.synthetic.main.activity_month_view.*
 import kotlinx.android.synthetic.main.nav_drawer_month.view.*
 import java.util.*

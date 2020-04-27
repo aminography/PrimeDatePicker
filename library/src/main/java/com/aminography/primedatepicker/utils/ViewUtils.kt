@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.tools
+package com.aminography.primedatepicker.utils
 
 import android.view.View
 

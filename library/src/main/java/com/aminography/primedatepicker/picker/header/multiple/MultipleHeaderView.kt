@@ -12,9 +12,9 @@ import com.aminography.primedatepicker.picker.header.HeaderView
 import com.aminography.primedatepicker.picker.header.multiple.adapter.PickedDaysListAdapter
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayDataHolder
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayEmptyDataHolder
-import com.aminography.primedatepicker.tools.forceLocaleStrings
-import com.aminography.primedatepicker.tools.gone
-import com.aminography.primedatepicker.tools.visible
+import com.aminography.primedatepicker.utils.forceLocaleStrings
+import com.aminography.primedatepicker.utils.gone
+import com.aminography.primedatepicker.utils.visible
 import kotlinx.android.synthetic.main.multiple_days_header.view.*
 import java.util.*
 

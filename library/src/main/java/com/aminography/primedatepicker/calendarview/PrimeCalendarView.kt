@@ -25,9 +25,9 @@ import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyc
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_MONTH_LABEL_FORMATTER
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_WEEK_LABEL_FORMATTER
-import com.aminography.primedatepicker.tools.DateUtils
-import com.aminography.primedatepicker.tools.LanguageUtils
-import com.aminography.primedatepicker.tools.monthOffset
+import com.aminography.primedatepicker.utils.DateUtils
+import com.aminography.primedatepicker.utils.findDirection
+import com.aminography.primedatepicker.utils.monthOffset
 import java.util.*
 
 
@@ -339,7 +339,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
             if (invalidate) {
-                val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
+                val minOffset = value?.monthOffset ?: Int.MIN_VALUE
                 findFirstVisibleItem()?.also { current ->
                     if (current.offset < minOffset) {
                         value?.apply {
@@ -381,7 +381,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
             if (invalidate) {
-                val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
+                val maxOffset = value?.monthOffset ?: Int.MAX_VALUE
                 findLastVisibleItem()?.also { current ->
                     if (current.offset > maxOffset) {
                         value?.apply {
@@ -440,7 +440,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         set(value) {
             val previous = calendarType
             field = value
-            direction = LanguageUtils.direction(value, locale.language)
+            direction = value.findDirection(locale)
 
             if (invalidate) {
                 if (previous != value) {
@@ -455,7 +455,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
-            direction = LanguageUtils.direction(calendarType, value.language)
+            direction = value.findDirection(calendarType)
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
@@ -718,7 +718,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                     var isLastTransitionItemRemoved = false
                     if (isForward) {
                         maxDateCalendar?.let { max ->
-                            val maxOffset = max.monthOffset()
+                            val maxOffset = max.monthOffset
                             val targetOffset = year * 12 + month
                             if (maxOffset == targetOffset) {
                                 transitionList.removeAt(transitionList.size - 1)
@@ -925,7 +925,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         isInLoading = true
                         val dataHolder = adapter.itemAt(totalItemCount - 1)
                         val offset = dataHolder.offset
-                        val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
+                        val maxOffset = maxDateCalendar?.monthOffset ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
                             val moreData = CalendarViewUtils.extendMoreList(
@@ -952,7 +952,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         isInLoading = true
                         val dataHolder = adapter.itemAt(0)
                         val offset = dataHolder.offset
-                        val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
+                        val minOffset = minDateCalendar?.monthOffset ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
                             val moreData = CalendarViewUtils.extendMoreList(

@@ -7,12 +7,10 @@ import android.view.ViewStub
 import android.widget.FrameLayout
 import android.widget.NumberPicker
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primecalendar.hijri.HijriCalendar
-import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
-import com.aminography.primedatepicker.tools.PersianUtils
+import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.goto_container.view.*
 
 
@@ -53,6 +51,7 @@ class GotoView(
 
     private fun init(calendar: PrimeCalendar) {
         val clone = calendar.clone()
+        clone.locale
 
         fun monthName(month: Int): String {
             clone.month = month
@@ -89,13 +88,7 @@ class GotoView(
         yearNumberPicker.maxValue = maxDateCalendar?.year ?: 10_000
         yearNumberPicker.wrapSelectorWheel = false
         yearNumberPicker.value = calendar.year
-        yearNumberPicker.setFormatter(
-            when (calendar) {
-                is PersianCalendar -> NumberPicker.Formatter { value -> PersianUtils.convertLatinDigitsToPersian("$value") }
-                is HijriCalendar -> NumberPicker.Formatter { value -> PersianUtils.convertLatinDigitsToPersian("$value") }
-                else -> NumberPicker.Formatter { value -> "$value" }
-            }
-        )
+        yearNumberPicker.setFormatter { value -> value.localizeDigits(calendar.locale) }
 
         fun adjustMinMaxMonth(year: Int) {
             val minYear = minDateCalendar?.takeIf { it.year == year }?.year

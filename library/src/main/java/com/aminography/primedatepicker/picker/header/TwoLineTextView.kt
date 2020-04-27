@@ -15,7 +15,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.tools.dp2px
+import com.aminography.primedatepicker.utils.dp2px
 import kotlin.math.max
 
 

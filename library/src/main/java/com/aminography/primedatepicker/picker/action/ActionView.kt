@@ -5,7 +5,7 @@ import android.view.ViewStub
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
-import com.aminography.primedatepicker.tools.forceLocaleStrings
+import com.aminography.primedatepicker.utils.forceLocaleStrings
 import kotlinx.android.synthetic.main.action_container.view.*
 import java.util.*
 

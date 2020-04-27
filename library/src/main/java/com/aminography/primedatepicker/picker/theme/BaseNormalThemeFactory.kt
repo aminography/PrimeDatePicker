@@ -163,13 +163,17 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
         get() = 0
 
     override val multipleDaysItemFirstLabelFormatter: LabelFormatter
-        get() = { primeCalendar -> primeCalendar.shortDateString.split("/")[2] }
+        get() = { primeCalendar ->
+            String.format("%02d", primeCalendar.dayOfMonth)
+        }
 
     override val multipleDaysItemSecondLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
-            primeCalendar.shortDateString.split("/")[0].substring(2).let {
-                String.format("%s '%s", primeCalendar.monthNameShort, it)
-            }
+            String.format(
+                "%s '%s",
+                primeCalendar.monthNameShort,
+                "${primeCalendar.year}".substring(2)
+            )
         }
 
     // ------- Goto View

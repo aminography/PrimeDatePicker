@@ -24,7 +24,7 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.*
-import com.aminography.primedatepicker.tools.*
+import com.aminography.primedatepicker.utils.*
 import java.util.*
 import kotlin.collections.LinkedHashMap
 import kotlin.math.min
@@ -383,14 +383,14 @@ class PrimeMonthView @JvmOverloads constructor(
     var calendarType = CalendarType.CIVIL
         set(value) {
             field = value
-            direction = LanguageUtils.direction(value, locale.language)
+            direction = value.findDirection(locale)
             if (invalidate) goto(CalendarFactory.newInstance(value, locale))
         }
 
     var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
-            direction = LanguageUtils.direction(calendarType, value.language)
+            direction = value.findDirection(calendarType)
             if (invalidate) goto(CalendarFactory.newInstance(calendarType, value))
         }
 
@@ -490,7 +490,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun calculateSizes() {
-        if (context.isDisplayLandscape()) {
+        if (context.isDisplayLandscape) {
             if (showTwoWeeksInLandscape) {
                 maxRowCount = 3
                 rowCount = 3
@@ -631,17 +631,14 @@ class PrimeMonthView @JvmOverloads constructor(
 
         firstDayOfMonthCalendar?.let {
             monthLabelFormatter(it)
-        }?.let {
-            monthLabel = when (direction) {
-                Direction.LTR -> it
-                Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(it)
-            }
+        }?.also {
+            monthLabel = it.localizeDigits(locale)
         }
 
         CalendarFactory.newInstance(calendarType, locale).let {
             weekLabels = Array(7) { dayOfWeek ->
                 it[Calendar.DAY_OF_WEEK] = dayOfWeek
-                weekLabelFormatter(it)
+                weekLabelFormatter(it).localizeDigits(locale)
             }
         }
 
@@ -968,10 +965,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        val date = when (direction) {
-            Direction.LTR -> "$dayOfMonth"
-            Direction.RTL -> PersianUtils.convertLatinDigitsToPersian("$dayOfMonth")
-        }
+        val date = dayOfMonth.localizeDigits(locale)
 
         dayLabelPaint?.apply {
             canvas.drawText(

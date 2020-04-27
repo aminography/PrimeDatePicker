@@ -7,7 +7,8 @@ import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.header.BaseLazyView
 import com.aminography.primedatepicker.picker.header.HeaderView
-import com.aminography.primedatepicker.tools.forceLocaleStrings
+import com.aminography.primedatepicker.utils.forceLocaleStrings
+import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.single_day_header.view.*
 import java.util.*
 
@@ -41,7 +42,9 @@ class SingleHeaderView(
     var pickedDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.pickedTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) } ?: ""
+            rootView.pickedTextView.secondLabelText = value?.let {
+                labelFormatter?.invoke(it)?.localizeDigits(value.locale)
+            } ?: ""
         }
 
     var onPickedDayClickListener: (() -> Unit)? = null

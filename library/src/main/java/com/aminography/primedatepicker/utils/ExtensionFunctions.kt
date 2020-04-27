@@ -1,10 +1,9 @@
-package com.aminography.primedatepicker.tools
+package com.aminography.primedatepicker.utils
 
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Point
 import android.os.Build
-import android.view.Display
 import android.view.WindowManager
 import androidx.annotation.StringRes
 import com.aminography.primecalendar.PrimeCalendar
@@ -19,29 +18,26 @@ import java.util.*
  *
  * @return month offset of the current calendar.
  */
-fun PrimeCalendar.monthOffset(): Int =
-    year * 12 + month
+val PrimeCalendar.monthOffset: Int
+    get() = year * 12 + month
 
 /**
  * Checks the orientation of the screen.
  *
  * @return true if the orientation of the screen is landscape, false if the orientation is portrait.
  */
-fun Context.isDisplayLandscape(): Boolean =
-    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+val Context.isDisplayLandscape: Boolean
+    get() = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
 /**
  * Returns screen size of the device in pixels.
  *
  * @return screen size of the device as a [Point] object.
  */
-fun Context.screenSize(): Point {
-    val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    val display: Display? = windowManager.defaultDisplay
-    val point = Point()
-    display?.getSize(point)
-    return point
-}
+val Context.screenSize: Point
+    get() = Point().also {
+        (getSystemService(Context.WINDOW_SERVICE) as? WindowManager)?.defaultDisplay?.getSize(it)
+    }
 
 /**
  * Returns dimension value in pixels.

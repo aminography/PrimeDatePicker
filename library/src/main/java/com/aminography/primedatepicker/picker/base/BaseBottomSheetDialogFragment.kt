@@ -11,7 +11,7 @@ import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentManager
-import com.aminography.primedatepicker.tools.screenSize
+import com.aminography.primedatepicker.utils.screenSize
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -40,7 +40,7 @@ abstract class BaseBottomSheetDialogFragment(
         val behavior = params.behavior
         if (behavior is BottomSheetBehavior<*>) {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = activityContext.screenSize().y
+            behavior.peekHeight = activityContext.screenSize.y
         }
     }
 

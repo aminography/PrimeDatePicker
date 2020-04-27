@@ -26,9 +26,9 @@ import com.aminography.primedatepicker.picker.header.single.SingleHeaderView
 import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.aminography.primedatepicker.picker.theme.applyTheme
-import com.aminography.primedatepicker.tools.DateUtils
-import com.aminography.primedatepicker.tools.LanguageUtils
-import com.aminography.primedatepicker.tools.forceLocaleStrings
+import com.aminography.primedatepicker.utils.DateUtils
+import com.aminography.primedatepicker.utils.findDirection
+import com.aminography.primedatepicker.utils.forceLocaleStrings
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 import java.util.*
 
@@ -66,9 +66,11 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         arguments?.getString("pickType")?.let { internalPickType = PickType.valueOf(it) }
 
         locale = initialDateCalendar!!.locale
-        direction = LanguageUtils.direction(calendarType, initialDateCalendar!!.locale.language)
+        direction = calendarType.findDirection(initialDateCalendar!!.locale)
 
-        theme = arguments?.getSerializable("themeFactory") as? BaseThemeFactory ?: LightThemeFactory()
+        theme = arguments?.getSerializable("themeFactory") as? BaseThemeFactory
+            ?: LightThemeFactory()
+
         theme.context = requireContext()
 
         theme.typefacePath?.let {
