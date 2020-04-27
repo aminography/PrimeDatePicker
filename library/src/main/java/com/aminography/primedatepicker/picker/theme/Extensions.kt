@@ -101,7 +101,7 @@ internal fun GotoView.applyTheme(theme: BaseThemeFactory?) {
 internal fun PrimeCalendarView.applyTheme(theme: BaseThemeFactory?) {
     theme?.let {
         // ------- Color Customizations
-        setBackgroundColor(it.backgroundColor)
+        setBackgroundColor(it.elementBackgroundColor)
         monthLabelTextColor = it.monthLabelTextColor
         weekLabelTextColor = it.weekLabelTextColor
         dayLabelTextColor = it.dayLabelTextColor

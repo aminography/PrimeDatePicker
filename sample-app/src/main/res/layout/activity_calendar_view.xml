@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/material_size_16"
                 android:text="This is a showcase of stand alone PrimeCalendarView."
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
                 android:gravity="center"
                 android:padding="@dimen/material_size_16"
                 android:text="Text"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold"
                 android:visibility="invisible" />

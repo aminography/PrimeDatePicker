@@ -11,7 +11,9 @@ import com.aminography.primedatepicker.picker.PrimeDatePickerBottomSheet
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
+import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
 import com.aminography.primedatepicker.picker.theme.DarkThemeFactory
+import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
 import java.util.*
@@ -32,14 +34,7 @@ class DatePickerActivity : AppCompatActivity() {
             val minDateCalendar = getMinDateCalendar(calendarType)
             val maxDateCalendar = getMaxDateCalendar(calendarType)
             val typeface = getTypeface(calendarType)
-
-            val theme = object : DarkThemeFactory() {
-                override val typefacePath: String?
-                    get() = typeface
-
-                override val developerOptionsShowGuideLines: Boolean
-                    get() = false
-            }
+            val theme = getDefaultTheme(typeface)
 
             val today = CalendarFactory.newInstance(calendarType)
 
@@ -126,6 +121,20 @@ class DatePickerActivity : AppCompatActivity() {
             rangeRadioButton.isChecked -> PickType.RANGE_START
             multipleRadioButton.isChecked -> PickType.MULTIPLE
             else -> PickType.SINGLE
+        }
+    }
+
+    private fun getDefaultTheme(typeface: String): BaseThemeFactory {
+        return when {
+            lightThemeRadioButton.isChecked -> object : LightThemeFactory() {
+                override val typefacePath: String?
+                    get() = typeface
+            }
+            darkThemeRadioButton.isChecked -> object : DarkThemeFactory() {
+                override val typefacePath: String?
+                    get() = typeface
+            }
+            else -> null!!
         }
     }
 

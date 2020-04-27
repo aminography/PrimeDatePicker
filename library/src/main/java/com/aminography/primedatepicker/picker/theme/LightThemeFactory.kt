@@ -1,5 +1,7 @@
 package com.aminography.primedatepicker.picker.theme
 
+import com.aminography.primedatepicker.R
+
 /**
  * @author aminography
  */
@@ -7,93 +9,93 @@ open class LightThemeFactory : BaseNormalThemeFactory() {
 
     // --------------------------------------- Calendar View ---------------------------------------
 
-    override val backgroundColor: Int
-        get() = TODO("Not yet implemented")
+    override val elementBackgroundColor: Int
+        get() = getColor(R.color.lightElementBackgroundColor)
 
     // ------- Month Label
 
     override val monthLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightMonthLabelTextColor)
 
     // ------- Week Label
 
     override val weekLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightWeekLabelTextColor)
 
     // ------- Day Label
 
     override val dayLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightDayLabelTextColor)
 
     override val todayLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightTodayLabelTextColor)
 
     override val pickedDayLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightPickedDayLabelTextColor)
 
     override val pickedDayCircleColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightPickedDayCircleColor)
 
     override val disabledDayLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightDisabledDayLabelTextColor)
 
     // ------- Divider
 
     override val dividerColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightDividerColor)
 
     // ------------------------------------ Picker Bottom Sheet ------------------------------------
 
     override val buttonBarBackgroundColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightButtonBarBackgroundColor)
 
     override val buttonBarTodayTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightButtonBarTodayTextColor)
 
     override val buttonBarNegativeTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightButtonBarNegativeTextColor)
 
     override val buttonBarPositiveTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightButtonBarPositiveTextColor)
 
     // ------- Selection Bar - General
 
     override val selectionBarBackgroundColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightSelectionBarBackgroundColor)
 
     // ------- Selection Bar - Single Day
 
     override val singleDayItemFirstLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightSingleDayItemFirstLabelTextColor)
 
     override val singleDayItemSecondLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightSingleDayItemSecondLabelTextColor)
 
     // ------- Selection Bar - Range Days
 
-    override val multipleDaysItemFirstLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+    override val rangeDaysItemFirstLabelTextColor: Int
+        get() = getColor(R.color.lightRangeDaysItemFirstLabelTextColor)
 
-    override val multipleDaysItemSecondLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+    override val rangeDaysItemSecondLabelTextColor: Int
+        get() = getColor(R.color.lightRangeDaysItemSecondLabelTextColor)
 
     // ------- Selection Bar - Multiple Days
 
-    override val rangeDaysItemFirstLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+    override val multipleDaysItemFirstLabelTextColor: Int
+        get() = getColor(R.color.lightMultipleDaysItemFirstLabelTextColor)
 
-    override val rangeDaysItemSecondLabelTextColor: Int
-        get() = TODO("Not yet implemented")
+    override val multipleDaysItemSecondLabelTextColor: Int
+        get() = getColor(R.color.lightMultipleDaysItemSecondLabelTextColor)
 
     // ------- Goto View
 
     override val gotoBackgroundColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightGotoBackgroundColor)
 
     override val gotoTextColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightGotoTextColor)
 
     override val gotoDividerColor: Int
-        get() = TODO("Not yet implemented")
+        get() = getColor(R.color.lightGotoDividerColor)
 
 }

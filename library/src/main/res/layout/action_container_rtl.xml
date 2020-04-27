@@ -15,7 +15,7 @@
         android:paddingRight="@dimen/material_size_8"
         android:text="@string/action_today"
         android:textAllCaps="true"
-        android:textColor="@color/textColorPrimary"
+        android:textColor="@color/gray900"
         android:textSize="@dimen/text_size_normal"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
         android:paddingRight="@dimen/material_size_8"
         android:text="@string/action_cancel"
         android:textAllCaps="true"
-        android:textColor="@color/textColorRed"
+        android:textColor="@color/red400"
         android:textSize="@dimen/text_size_normal"
         app:layout_constraintLeft_toRightOf="@id/positiveButton"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
         android:paddingRight="@dimen/material_size_8"
         android:text="@string/action_select"
         android:textAllCaps="true"
-        android:textColor="@color/textColorGreen"
+        android:textColor="@color/green400"
         android:textSize="@dimen/text_size_normal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

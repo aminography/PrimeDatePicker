@@ -43,7 +43,7 @@ abstract class BaseThemeFactory : Serializable {
 
     // --------------------------------------- Calendar View ---------------------------------------
 
-    abstract val backgroundColor: Int
+    abstract val elementBackgroundColor: Int
 
     abstract val showTwoWeeksInLandscape: Boolean
 

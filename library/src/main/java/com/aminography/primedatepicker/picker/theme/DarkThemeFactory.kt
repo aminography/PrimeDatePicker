@@ -1,6 +1,5 @@
 package com.aminography.primedatepicker.picker.theme
 
-import android.graphics.Color
 import com.aminography.primedatepicker.R
 
 /**
@@ -10,93 +9,93 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
 
     // --------------------------------------- Calendar View ---------------------------------------
 
-    override val backgroundColor: Int
-        get() = Color.parseColor("#2A2B2F")
+    override val elementBackgroundColor: Int
+        get() = getColor(R.color.darkElementBackgroundColor)
 
     // ------- Month Label
 
     override val monthLabelTextColor: Int
-        get() = getColor(R.color.blueGray300)
+        get() = getColor(R.color.darkMonthLabelTextColor)
 
     // ------- Week Label
 
     override val weekLabelTextColor: Int
-        get() = Color.parseColor("#1565c0")
+        get() = getColor(R.color.darkWeekLabelTextColor)
 
     // ------- Day Label
 
     override val dayLabelTextColor: Int
-        get() = Color.WHITE
+        get() = getColor(R.color.darkDayLabelTextColor)
 
     override val todayLabelTextColor: Int
-        get() = Color.parseColor("#ef6c00")
+        get() = getColor(R.color.darkTodayLabelTextColor)
 
     override val pickedDayLabelTextColor: Int
-        get() = Color.WHITE
+        get() = getColor(R.color.darkPickedDayLabelTextColor)
 
     override val pickedDayCircleColor: Int
-        get() = Color.parseColor("#00796b")
+        get() = getColor(R.color.darkPickedDayCircleColor)
 
     override val disabledDayLabelTextColor: Int
-        get() = getColor(R.color.defaultDisabledDayLabelTextColor)
+        get() = getColor(R.color.darkDisabledDayLabelTextColor)
 
     // ------- Divider
 
     override val dividerColor: Int
-        get() = getColor(R.color.defaultDividerColor)
+        get() = getColor(R.color.darkDividerColor)
 
     // ------------------------------------ Picker Bottom Sheet ------------------------------------
 
     override val buttonBarBackgroundColor: Int
-        get() = Color.parseColor("#2A2B2F")
+        get() = getColor(R.color.darkButtonBarBackgroundColor)
 
     override val buttonBarTodayTextColor: Int
-        get() = Color.WHITE
+        get() = getColor(R.color.darkButtonBarTodayTextColor)
 
     override val buttonBarNegativeTextColor: Int
-        get() = getColor(R.color.textColorRed)
+        get() = getColor(R.color.darkButtonBarNegativeTextColor)
 
     override val buttonBarPositiveTextColor: Int
-        get() = getColor(R.color.textColorGreen)
+        get() = getColor(R.color.darkButtonBarPositiveTextColor)
 
     // ------- Selection Bar - General
 
     override val selectionBarBackgroundColor: Int
-        get() = Color.parseColor("#37474f")
+        get() = getColor(R.color.darkSelectionBarBackgroundColor)
 
     // ------- Selection Bar - Single Day
 
     override val singleDayItemFirstLabelTextColor: Int
-        get() = getColor(R.color.transWhiteAA)
+        get() = getColor(R.color.darkSingleDayItemFirstLabelTextColor)
 
     override val singleDayItemSecondLabelTextColor: Int
-        get() = Color.WHITE
+        get() = getColor(R.color.darkSingleDayItemSecondLabelTextColor)
 
     // ------- Selection Bar - Range Days
 
-    override val multipleDaysItemFirstLabelTextColor: Int
-        get() = Color.WHITE
+    override val rangeDaysItemFirstLabelTextColor: Int
+        get() = getColor(R.color.darkRangeDaysItemFirstLabelTextColor)
 
-    override val multipleDaysItemSecondLabelTextColor: Int
-        get() = Color.WHITE
+    override val rangeDaysItemSecondLabelTextColor: Int
+        get() = getColor(R.color.darkRangeDaysItemSecondLabelTextColor)
 
     // ------- Selection Bar - Multiple Days
 
-    override val rangeDaysItemFirstLabelTextColor: Int
-        get() = getColor(R.color.transWhiteAA)
+    override val multipleDaysItemFirstLabelTextColor: Int
+        get() = getColor(R.color.darkMultipleDaysItemFirstLabelTextColor)
 
-    override val rangeDaysItemSecondLabelTextColor: Int
-        get() = Color.WHITE
+    override val multipleDaysItemSecondLabelTextColor: Int
+        get() = getColor(R.color.darkMultipleDaysItemSecondLabelTextColor)
 
     // ------- Goto View
 
     override val gotoBackgroundColor: Int
-        get() = Color.parseColor("#E57373")
+        get() = getColor(R.color.darkGotoBackgroundColor)
 
     override val gotoTextColor: Int
-        get() = Color.WHITE
+        get() = getColor(R.color.darkGotoTextColor)
 
     override val gotoDividerColor: Int
-        get() = Color.WHITE
+        get() = getColor(R.color.darkGotoDividerColor)
 
 }
