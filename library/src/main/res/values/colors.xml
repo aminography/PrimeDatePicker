@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="deepDark">#2A2B2F</color>
-
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
-
-    <color name="whiteTransAA">#AAFFFFFF</color>
+    <color name="deepDark">#2A2B2F</color>
 </resources>

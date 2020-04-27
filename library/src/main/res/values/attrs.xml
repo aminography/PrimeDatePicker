@@ -117,6 +117,7 @@
         <attr name="firstLabelTextSize" format="dimension" />
         <attr name="secondLabelTextSize" format="dimension" />
 
+        <attr name="preferredMinWidth" format="dimension" />
         <attr name="gapBetweenLines" format="dimension" />
     </declare-styleable>
 

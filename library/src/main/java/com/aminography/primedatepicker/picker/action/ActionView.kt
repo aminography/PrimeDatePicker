@@ -27,18 +27,18 @@ class ActionView(
                     R.string.action_select,
                     R.string.action_cancel
                 )
-                rootView.todayButton.text = strings[0]
-                rootView.positiveButton.text = strings[1]
-                rootView.negativeButton.text = strings[2]
+                rootView.todayTwoLineTextView.firstLabelText = strings[0]
+                rootView.positiveTwoLineTextView.firstLabelText = strings[1]
+                rootView.negativeTwoLineTextView.firstLabelText = strings[2]
             }
         }
 
     var typeface: Typeface? = null
         set(value) {
             field = value
-            rootView.todayButton.typeface = value
-            rootView.positiveButton.typeface = value
-            rootView.negativeButton.typeface = value
+            rootView.todayTwoLineTextView.typeface = value
+            rootView.positiveTwoLineTextView.typeface = value
+            rootView.negativeTwoLineTextView.typeface = value
         }
 
     var onTodayButtonClick: (() -> Unit)? = null

@@ -42,7 +42,7 @@ class GotoView(
     var onGoClickListener: ((Int, Int) -> Unit)? = null
         set(value) {
             field = value
-            rootView.goButton.setOnClickListener {
+            rootView.goButtonImageView.setOnClickListener {
                 val month = monthNumberPicker.value
                 val year = yearNumberPicker.value
                 value?.invoke(year, month)
@@ -108,7 +108,7 @@ class GotoView(
             adjustMinMaxMonth(new)
         }
 
-        rootView.closeButton.setOnClickListener {
+        rootView.closeButtonImageView.setOnClickListener {
             onCloseClickListener?.invoke()
         }
     }

@@ -1,53 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:ignore="RtlHardcoded">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/todayButton"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/todayTwoLineTextView"
+        app:layout_constraintEnd_toEndOf="@id/todayTwoLineTextView"
+        app:layout_constraintStart_toStartOf="@id/todayTwoLineTextView"
+        app:layout_constraintTop_toTopOf="@id/todayTwoLineTextView" />
+
+    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+        android:id="@+id/todayTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/material_size_8"
-        android:layout_marginEnd="@dimen/material_size_8"
-        android:paddingLeft="@dimen/material_size_8"
-        android:paddingRight="@dimen/material_size_8"
-        android:text="@string/action_today"
-        android:textAllCaps="true"
-        android:textColor="@color/gray900"
-        android:textSize="@dimen/text_size_normal"
+        android:layout_marginLeft="@dimen/material_size_12"
+        android:paddingStart="@dimen/material_size_12"
+        android:paddingTop="@dimen/material_size_8"
+        android:paddingEnd="@dimen/material_size_12"
+        android:paddingBottom="@dimen/material_size_8"
+        app:firstLabelText="@string/action_today"
+        app:firstLabelTextColor="@color/gray900"
+        app:firstLabelTextSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:preferredMinWidth="@dimen/material_size_48"
+        app:secondLabelTextSize="0dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/negativeButton"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/negativeTwoLineTextView"
+        app:layout_constraintEnd_toEndOf="@id/negativeTwoLineTextView"
+        app:layout_constraintStart_toStartOf="@id/negativeTwoLineTextView"
+        app:layout_constraintTop_toTopOf="@id/negativeTwoLineTextView" />
+
+    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+        android:id="@+id/negativeTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/material_size_8"
-        android:paddingRight="@dimen/material_size_8"
-        android:text="@string/action_cancel"
-        android:textAllCaps="true"
-        android:textColor="@color/red400"
-        android:textSize="@dimen/text_size_normal"
-        app:layout_constraintRight_toLeftOf="@id/positiveButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:paddingStart="@dimen/material_size_12"
+        android:paddingTop="@dimen/material_size_8"
+        android:paddingEnd="@dimen/material_size_12"
+        android:paddingBottom="@dimen/material_size_8"
+        app:firstLabelText="@string/action_cancel"
+        app:firstLabelTextColor="@color/red400"
+        app:firstLabelTextSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/positiveTwoLineTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:preferredMinWidth="@dimen/material_size_48"
+        app:secondLabelTextSize="0dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/positiveButton"
         style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/positiveTwoLineTextView"
+        app:layout_constraintEnd_toEndOf="@id/positiveTwoLineTextView"
+        app:layout_constraintStart_toStartOf="@id/positiveTwoLineTextView"
+        app:layout_constraintTop_toTopOf="@id/positiveTwoLineTextView" />
+
+    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+        android:id="@+id/positiveTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/material_size_8"
-        android:layout_marginEnd="@dimen/material_size_8"
-        android:paddingLeft="@dimen/material_size_8"
-        android:paddingRight="@dimen/material_size_8"
-        android:text="@string/action_select"
-        android:textAllCaps="true"
-        android:textColor="@color/green400"
-        android:textSize="@dimen/text_size_normal"
+        android:layout_marginRight="@dimen/material_size_12"
+        android:paddingStart="@dimen/material_size_12"
+        android:paddingTop="@dimen/material_size_8"
+        android:paddingEnd="@dimen/material_size_12"
+        android:paddingBottom="@dimen/material_size_8"
+        app:firstLabelText="@string/action_select"
+        app:firstLabelTextColor="@color/green400"
+        app:firstLabelTextSize="@dimen/text_size_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:preferredMinWidth="@dimen/material_size_48"
+        app:secondLabelTextSize="0dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,12 @@
 <resources>
 
     <!-- Material Size -->
+    <dimen name="material_size_64">64dp</dimen>
     <dimen name="material_size_48">48dp</dimen>
     <dimen name="material_size_32">32dp</dimen>
     <dimen name="material_size_24">24dp</dimen>
     <dimen name="material_size_16">16dp</dimen>
+    <dimen name="material_size_12">12dp</dimen>
     <dimen name="material_size_8">8dp</dimen>
     <dimen name="material_size_4">4dp</dimen>
     <dimen name="material_size_2">2dp</dimen>

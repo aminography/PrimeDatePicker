@@ -98,6 +98,16 @@ class TwoLineTextView @JvmOverloads constructor(
             }
         }
 
+    var preferredMinWidth: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) {
+                calculateSizes()
+                requestLayout()
+                invalidate()
+            }
+        }
+
     var gapBetweenLines: Int = 0
         set(value) {
             field = value
@@ -143,6 +153,7 @@ class TwoLineTextView @JvmOverloads constructor(
                 firstLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_firstLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
                 secondLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_secondLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
 
+                preferredMinWidth = getDimensionPixelSize(R.styleable.TwoLineTextView_preferredMinWidth, 0)
                 gapBetweenLines = getDimensionPixelSize(R.styleable.TwoLineTextView_gapBetweenLines, 0)
             }
             recycle()
@@ -165,6 +176,7 @@ class TwoLineTextView @JvmOverloads constructor(
         secondLabelPaint?.getTextBounds(secondLabelText, 0, secondLabelText.length, secondLabelBounds)
 
         viewWidth = max(firstLabelBounds.width(), secondLabelBounds.width())
+        viewWidth = max(viewWidth, preferredMinWidth)
     }
 
     private fun initFirstLabelPaint() {
@@ -264,6 +276,7 @@ class TwoLineTextView @JvmOverloads constructor(
         savedState.secondLabelTextColor = secondLabelTextColor
         savedState.firstLabelTextSize = firstLabelTextSize
         savedState.secondLabelTextSize = secondLabelTextSize
+        savedState.preferredMinWidth = preferredMinWidth
         savedState.gapBetweenLines = gapBetweenLines
 
         return savedState
@@ -280,6 +293,7 @@ class TwoLineTextView @JvmOverloads constructor(
             secondLabelTextColor = savedState.secondLabelTextColor
             firstLabelTextSize = savedState.firstLabelTextSize
             secondLabelTextSize = savedState.secondLabelTextSize
+            preferredMinWidth = savedState.preferredMinWidth
             gapBetweenLines = savedState.gapBetweenLines
         }
 
@@ -295,6 +309,7 @@ class TwoLineTextView @JvmOverloads constructor(
         internal var secondLabelTextColor: Int = 0
         internal var firstLabelTextSize: Int = 0
         internal var secondLabelTextSize: Int = 0
+        internal var preferredMinWidth: Int = 0
         internal var gapBetweenLines: Int = 0
 
         internal constructor(superState: Parcelable?) : super(superState)
@@ -306,6 +321,7 @@ class TwoLineTextView @JvmOverloads constructor(
             secondLabelTextColor = input.readInt()
             firstLabelTextSize = input.readInt()
             secondLabelTextSize = input.readInt()
+            preferredMinWidth = input.readInt()
             gapBetweenLines = input.readInt()
         }
 
@@ -317,6 +333,7 @@ class TwoLineTextView @JvmOverloads constructor(
             out.writeInt(secondLabelTextColor)
             out.writeInt(firstLabelTextSize)
             out.writeInt(secondLabelTextSize)
+            out.writeInt(preferredMinWidth)
             out.writeInt(gapBetweenLines)
         }
 

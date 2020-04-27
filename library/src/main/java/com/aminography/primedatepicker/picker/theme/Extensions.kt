@@ -1,7 +1,6 @@
 package com.aminography.primedatepicker.picker.theme
 
 import android.content.res.ColorStateList
-import android.util.TypedValue
 import androidx.core.widget.ImageViewCompat
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.picker.action.ActionView
@@ -21,16 +20,15 @@ import kotlinx.android.synthetic.main.single_day_header.view.*
  * @author aminography
  */
 
-
 internal fun ActionView.applyTheme(theme: BaseThemeFactory) {
     with(rootView) {
-        todayButton.setTextColor(theme.buttonBarTodayTextColor)
-        negativeButton.setTextColor(theme.buttonBarNegativeTextColor)
-        positiveButton.setTextColor(theme.buttonBarPositiveTextColor)
+        todayTwoLineTextView.firstLabelTextColor = theme.buttonBarTodayTextColor
+        negativeTwoLineTextView.firstLabelTextColor = theme.buttonBarNegativeTextColor
+        positiveTwoLineTextView.firstLabelTextColor = theme.buttonBarPositiveTextColor
 
-        todayButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, theme.buttonBarTextSize.toFloat())
-        negativeButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, theme.buttonBarTextSize.toFloat())
-        positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, theme.buttonBarTextSize.toFloat())
+        todayTwoLineTextView.firstLabelTextSize = theme.buttonBarTextSize
+        negativeTwoLineTextView.firstLabelTextSize = theme.buttonBarTextSize
+        positiveTwoLineTextView.firstLabelTextSize = theme.buttonBarTextSize
     }
 }
 
@@ -85,8 +83,8 @@ internal fun HeaderView.applyTheme(theme: BaseThemeFactory) {
 internal fun GotoView.applyTheme(theme: BaseThemeFactory) {
     with(rootView) {
         setBackgroundColor(theme.gotoBackgroundColor)
-        ImageViewCompat.setImageTintList(goButtonImageView, ColorStateList.valueOf(theme.gotoBackgroundColor))
-        ImageViewCompat.setImageTintList(closeButtonImageView, ColorStateList.valueOf(theme.gotoBackgroundColor))
+        ImageViewCompat.setImageTintList(goIconImageView, ColorStateList.valueOf(theme.gotoBackgroundColor))
+        ImageViewCompat.setImageTintList(closeIconImageView, ColorStateList.valueOf(theme.gotoBackgroundColor))
 
         GotoNumberPicker.labelTextSize = theme.gotoTextSize
         GotoNumberPicker.labelTextColor = theme.gotoTextColor
