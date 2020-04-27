@@ -19,6 +19,7 @@ import com.aminography.primedatepicker.picker.header.multiple.viewholder.PickedD
 class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, BaseAdapter.BaseViewHolder>() {
 
     var typeface: Typeface? = null
+    var backgroundColor: Int = 0
     var firstLabelTextSize: Int = 0
     var firstLabelTextColor: Int = 0
     var secondLabelTextSize: Int = 0
@@ -39,6 +40,7 @@ class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, BaseAdapter.B
             1 -> PickedDayViewHolder(
                 inflater,
                 typeface,
+                backgroundColor,
                 firstLabelTextSize,
                 firstLabelTextColor,
                 secondLabelTextSize,

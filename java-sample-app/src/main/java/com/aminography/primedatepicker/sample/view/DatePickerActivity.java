@@ -21,16 +21,14 @@ import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
 import com.aminography.primedatepicker.picker.theme.BaseThemeFactory;
 import com.aminography.primedatepicker.picker.theme.DarkThemeFactory;
+import com.aminography.primedatepicker.picker.theme.LightThemeFactory;
 import com.aminography.primedatepicker.sample.R;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import kotlin.jvm.functions.Function1;
 
 import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_CIVIL;
 import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_HIJRI;
@@ -51,6 +49,9 @@ public class DatePickerActivity extends AppCompatActivity {
     private RadioButton rangeRadioButton;
     private RadioButton multipleRadioButton;
 
+    private RadioButton lightThemeRadioButton;
+    private RadioButton darkThemeRadioButton;
+
     private CheckBox minDateCheckBox;
     private CheckBox maxDateCheckBox;
 
@@ -68,6 +69,9 @@ public class DatePickerActivity extends AppCompatActivity {
         rangeRadioButton = findViewById(R.id.rangeRadioButton);
         multipleRadioButton = findViewById(R.id.multipleRadioButton);
 
+        lightThemeRadioButton = findViewById(R.id.lightThemeRadioButton);
+        darkThemeRadioButton = findViewById(R.id.darkThemeRadioButton);
+
         minDateCheckBox = findViewById(R.id.minDateCheckBox);
         maxDateCheckBox = findViewById(R.id.maxDateCheckBox);
 
@@ -81,25 +85,7 @@ public class DatePickerActivity extends AppCompatActivity {
                 PrimeCalendar minDateCalendar = getMinDateCalendar(calendarType);
                 PrimeCalendar maxDateCalendar = getMaxDateCalendar(calendarType);
                 final String typeface = getTypeface(calendarType);
-
-                BaseThemeFactory theme = new DarkThemeFactory() {
-                    @Nullable
-                    @Override
-                    public String getTypefacePath() {
-                        return typeface;
-                    }
-
-                    @NotNull
-                    @Override
-                    public Function1<PrimeCalendar, String> getMonthLabelFormatter() {
-                        return new Function1<PrimeCalendar, String>() {
-                            @Override
-                            public String invoke(PrimeCalendar primeCalendar) {
-                                return String.format("%s * %s", primeCalendar.getMonthName(), primeCalendar.getYear());
-                            }
-                        };
-                    }
-                };
+                BaseThemeFactory theme = getDefaultTheme(typeface);
 
                 PrimeCalendar today = CalendarFactory.newInstance(calendarType);
 
@@ -214,6 +200,26 @@ public class DatePickerActivity extends AppCompatActivity {
             return PickType.MULTIPLE;
         } else {
             return PickType.SINGLE;
+        }
+    }
+
+    private BaseThemeFactory getDefaultTheme(final String typeface) {
+        if (lightThemeRadioButton.isChecked()) {
+            return new LightThemeFactory() {
+                @Nullable
+                @Override
+                public String getTypefacePath() {
+                    return typeface;
+                }
+            };
+        } else {
+            return new DarkThemeFactory() {
+                @Nullable
+                @Override
+                public String getTypefacePath() {
+                    return typeface;
+                }
+            };
         }
     }
 

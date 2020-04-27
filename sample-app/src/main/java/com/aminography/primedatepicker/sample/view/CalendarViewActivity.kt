@@ -16,6 +16,8 @@ import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.sample.*
+import com.aminography.primedatepicker.tools.invisible
+import com.aminography.primedatepicker.tools.visible
 import kotlinx.android.synthetic.main.activity_calendar_view.*
 import kotlinx.android.synthetic.main.nav_drawer_calendar.view.*
 import java.util.*
@@ -335,7 +337,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun restoreDefaults() {
-        pickedTextView.visibility = View.INVISIBLE
+        pickedTextView.invisible()
         pickedTextView.text = ""
         with(navigationLayout) {
             minDateCheckBox.isChecked = false
@@ -387,14 +389,14 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
             when (pickType) {
                 PickType.SINGLE -> {
                     calendarView.pickedSingleDayCalendar?.apply {
-                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.visible()
                         pickedTextView.text = "Single Day: $longDateString"
                     }
                 }
                 PickType.RANGE_START, PickType.RANGE_END -> {
                     calendarView.pickedRangeStartCalendar?.let { start ->
                         endRangeRadioButton.isEnabled = true
-                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.visible()
                         var text = "Start Range Day: ${start.longDateString}"
                         calendarView.pickedRangeEndCalendar?.let { end ->
                             text += "\n"
@@ -405,12 +407,12 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                 }
                 PickType.MULTIPLE -> {
                     calendarView.pickedMultipleDaysList.apply {
-                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.visible()
                         pickedTextView.text = "Multiple Days: ${joinToString(" -\n") { it.longDateString }}"
                     }
                 }
                 PickType.NOTHING -> {
-                    pickedTextView.visibility = View.INVISIBLE
+                    pickedTextView.invisible()
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.aminography.primedatepicker.picker.header.multiple
 
 import android.graphics.Typeface
-import android.view.View
 import android.view.ViewStub
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aminography.primecalendar.PrimeCalendar
@@ -14,6 +13,8 @@ import com.aminography.primedatepicker.picker.header.multiple.adapter.PickedDays
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayDataHolder
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayEmptyDataHolder
 import com.aminography.primedatepicker.tools.forceLocaleStrings
+import com.aminography.primedatepicker.tools.gone
+import com.aminography.primedatepicker.tools.visible
 import kotlinx.android.synthetic.main.multiple_days_header.view.*
 import java.util.*
 
@@ -59,6 +60,12 @@ class MultipleHeaderView(
             field = value
             multipleDaysAdapter.typeface = value
             rootView.emptyStateTextView.typeface = value
+        }
+
+    var itemBackgroundColor: Int = 0
+        set(value) {
+            field = value
+            multipleDaysAdapter.backgroundColor = value
         }
 
     var firstLabelTextSize: Int = 0
@@ -109,10 +116,10 @@ class MultipleHeaderView(
                 val count = multipleDaysAdapter.itemCount
 
                 if (it.isEmpty()) {
-                    rootView.emptyStateTextView.visibility = View.VISIBLE
+                    rootView.emptyStateTextView.visible()
                     arrayListOf(PickedDayEmptyDataHolder())
                 } else {
-                    rootView.emptyStateTextView.visibility = View.GONE
+                    rootView.emptyStateTextView.gone()
                     it
                 }.let { list ->
                     multipleDaysAdapter.submitList(list)

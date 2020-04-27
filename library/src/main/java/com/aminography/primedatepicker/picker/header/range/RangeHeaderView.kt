@@ -1,7 +1,11 @@
 package com.aminography.primedatepicker.picker.header.range
 
+import android.animation.ObjectAnimator
+import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.view.ViewStub
+import android.view.animation.OvershootInterpolator
+import androidx.core.widget.ImageViewCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.LabelFormatter
@@ -18,7 +22,7 @@ import java.util.*
  */
 class RangeHeaderView(
     viewStub: ViewStub,
-    direction: Direction
+    private val direction: Direction
 ) : BaseLazyView(if (direction == Direction.LTR) R.layout.range_days_header else R.layout.range_days_header_rtl, viewStub), HeaderView {
 
     var locale: Locale? = null
@@ -44,18 +48,21 @@ class RangeHeaderView(
 
     var labelFormatter: LabelFormatter? = null
 
+    var itemBackgroundColor: Int = 0
+        set(value) {
+            field = value
+            ImageViewCompat.setImageTintList(
+                rootView.backImageView,
+                ColorStateList.valueOf(value)
+            )
+        }
+
     var pickType: PickType? = null
         set(value) {
             field = value
             when (value) {
-                PickType.RANGE_START -> {
-                    rootView.rangeStartBackView.isSelected = true
-                    rootView.rangeEndBackView.isSelected = false
-                }
-                PickType.RANGE_END -> {
-                    rootView.rangeStartBackView.isSelected = false
-                    rootView.rangeEndBackView.isSelected = true
-                }
+                PickType.RANGE_START -> animateBackground(true)
+                PickType.RANGE_END -> animateBackground(false)
                 else -> {
                 }
             }
@@ -64,21 +71,22 @@ class RangeHeaderView(
     var pickedRangeStartDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.rangeStartTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) } ?: ""
+            rootView.rangeStartTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) }
+                ?: ""
         }
 
     var pickedRangeEndDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.rangeEndTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) } ?: ""
+            rootView.rangeEndTextView.secondLabelText = value?.let { labelFormatter?.invoke(it) }
+                ?: ""
         }
 
     var onRangeStartClickListener: (() -> Unit)? = null
         set(value) {
             field = value
             rootView.rangeStartBackView.setOnClickListener {
-                rootView.rangeStartBackView.isSelected = true
-                rootView.rangeEndBackView.isSelected = false
+                animateBackground(true)
                 value?.invoke()
             }
         }
@@ -87,10 +95,24 @@ class RangeHeaderView(
         set(value) {
             field = value
             rootView.rangeEndBackView.setOnClickListener {
-                rootView.rangeStartBackView.isSelected = false
-                rootView.rangeEndBackView.isSelected = true
+                animateBackground(false)
                 value?.invoke()
             }
         }
+
+    private fun animateBackground(isStart: Boolean) {
+        ObjectAnimator.ofFloat(
+            rootView.backImageView,
+            "translationX",
+            if (isStart) 0f
+            else rootView.backImageView.width.toFloat().let {
+                if (direction == Direction.LTR) it else -it
+            }
+        ).apply {
+            interpolator = OvershootInterpolator()
+            duration = 300
+            start()
+        }
+    }
 
 }

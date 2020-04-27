@@ -165,6 +165,8 @@ abstract class BaseThemeFactory : Serializable {
 
     // ------- Selection Bar - Range Days
 
+    abstract val rangeDaysItemBackgroundColor: Int
+
     abstract val rangeDaysItemFirstLabelTextSize: Int
 
     abstract val rangeDaysItemFirstLabelTextColor: Int
@@ -178,6 +180,8 @@ abstract class BaseThemeFactory : Serializable {
     abstract val rangeDaysLabelFormatter: LabelFormatter
 
     // ------- Selection Bar - Multiple Days
+
+    abstract val multipleDaysItemBackgroundColor: Int
 
     abstract val multipleDaysItemFirstLabelTextSize: Int
 

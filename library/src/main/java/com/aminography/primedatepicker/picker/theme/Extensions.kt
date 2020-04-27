@@ -55,6 +55,7 @@ internal fun HeaderView.applyTheme(theme: BaseThemeFactory?) {
             }
             is RangeHeaderView -> {
                 labelFormatter = theme.rangeDaysLabelFormatter
+                itemBackgroundColor = theme.rangeDaysItemBackgroundColor
 
                 with((this as BaseLazyView).rootView) {
                     rangeStartTextView.firstLabelTextSize = theme.rangeDaysItemFirstLabelTextSize
@@ -74,6 +75,7 @@ internal fun HeaderView.applyTheme(theme: BaseThemeFactory?) {
                 firstLabelFormatter = theme.multipleDaysItemFirstLabelFormatter
                 secondLabelFormatter = theme.multipleDaysItemSecondLabelFormatter
 
+                itemBackgroundColor = theme.multipleDaysItemBackgroundColor
                 firstLabelTextSize = theme.multipleDaysItemFirstLabelTextSize
                 firstLabelTextColor = theme.multipleDaysItemFirstLabelTextColor
                 secondLabelTextSize = theme.multipleDaysItemSecondLabelTextSize

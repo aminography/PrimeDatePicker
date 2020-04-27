@@ -67,8 +67,10 @@
     <color name="lightSelectionBarBackgroundColor">@color/blueGray500</color>
     <color name="lightSingleDayItemFirstLabelTextColor">@color/whiteTrAA</color>
     <color name="lightSingleDayItemSecondLabelTextColor">@color/white</color>
+    <color name="lightRangeDaysItemBackgroundColor">@color/blueGray300</color>
     <color name="lightRangeDaysItemFirstLabelTextColor">@color/whiteTrAA</color>
     <color name="lightRangeDaysItemSecondLabelTextColor">@color/white</color>
+    <color name="lightMultipleDaysItemBackgroundColor">@color/blueGray300</color>
     <color name="lightMultipleDaysItemFirstLabelTextColor">@color/white</color>
     <color name="lightMultipleDaysItemSecondLabelTextColor">@color/white</color>
     <color name="lightGotoBackgroundColor">@color/red300</color>
@@ -93,8 +95,10 @@
     <color name="darkSelectionBarBackgroundColor">@color/blueGray800</color>
     <color name="darkSingleDayItemFirstLabelTextColor">@color/whiteTrAA</color>
     <color name="darkSingleDayItemSecondLabelTextColor">@color/white</color>
+    <color name="darkRangeDaysItemBackgroundColor">@color/blueGray600</color>
     <color name="darkRangeDaysItemFirstLabelTextColor">@color/whiteTrAA</color>
     <color name="darkRangeDaysItemSecondLabelTextColor">@color/white</color>
+    <color name="darkMultipleDaysItemBackgroundColor">@color/blueGray600</color>
     <color name="darkMultipleDaysItemFirstLabelTextColor">@color/white</color>
     <color name="darkMultipleDaysItemSecondLabelTextColor">@color/white</color>
     <color name="darkGotoBackgroundColor">@color/blue900</color>

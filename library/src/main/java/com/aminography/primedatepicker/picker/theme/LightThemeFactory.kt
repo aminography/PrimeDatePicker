@@ -73,6 +73,9 @@ open class LightThemeFactory : BaseNormalThemeFactory() {
 
     // ------- Selection Bar - Range Days
 
+    override val rangeDaysItemBackgroundColor: Int
+        get() = getColor(R.color.lightRangeDaysItemBackgroundColor)
+
     override val rangeDaysItemFirstLabelTextColor: Int
         get() = getColor(R.color.lightRangeDaysItemFirstLabelTextColor)
 
@@ -80,6 +83,9 @@ open class LightThemeFactory : BaseNormalThemeFactory() {
         get() = getColor(R.color.lightRangeDaysItemSecondLabelTextColor)
 
     // ------- Selection Bar - Multiple Days
+
+    override val multipleDaysItemBackgroundColor: Int
+        get() = getColor(R.color.lightMultipleDaysItemBackgroundColor)
 
     override val multipleDaysItemFirstLabelTextColor: Int
         get() = getColor(R.color.lightMultipleDaysItemFirstLabelTextColor)

@@ -73,6 +73,9 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
 
     // ------- Selection Bar - Range Days
 
+    override val rangeDaysItemBackgroundColor: Int
+        get() = getColor(R.color.darkRangeDaysItemBackgroundColor)
+
     override val rangeDaysItemFirstLabelTextColor: Int
         get() = getColor(R.color.darkRangeDaysItemFirstLabelTextColor)
 
@@ -80,6 +83,9 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
         get() = getColor(R.color.darkRangeDaysItemSecondLabelTextColor)
 
     // ------- Selection Bar - Multiple Days
+
+    override val multipleDaysItemBackgroundColor: Int
+        get() = getColor(R.color.darkMultipleDaysItemBackgroundColor)
 
     override val multipleDaysItemFirstLabelTextColor: Int
         get() = getColor(R.color.darkMultipleDaysItemFirstLabelTextColor)

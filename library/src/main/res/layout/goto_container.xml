@@ -12,6 +12,7 @@
         android:id="@+id/monthFrameLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/material_size_24"
         android:layout_marginLeft="@dimen/material_size_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
