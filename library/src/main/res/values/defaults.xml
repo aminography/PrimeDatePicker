@@ -58,7 +58,7 @@
     <color name="lightTodayLabelTextColor">@color/green400</color>
     <color name="lightPickedDayLabelTextColor">@color/white</color>
     <color name="lightPickedDayCircleColor">@color/red300</color>
-    <color name="lightDisabledDayLabelTextColor">@color/gray600</color>
+    <color name="lightDisabledDayLabelTextColor">@color/gray400</color>
     <color name="lightDividerColor">@color/gray400</color>
     <color name="lightButtonBarBackgroundColor">@color/white</color>
     <color name="lightButtonBarTodayTextColor">@color/gray900</color>
