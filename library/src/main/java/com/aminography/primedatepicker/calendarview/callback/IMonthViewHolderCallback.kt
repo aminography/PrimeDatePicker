@@ -54,6 +54,12 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val weekLabelTopPadding: Int
     val weekLabelBottomPadding: Int
     val dayLabelVerticalPadding: Int
+
+    val elementPaddingLeft: Int
+    val elementPaddingRight: Int
+    val elementPaddingTop: Int
+    val elementPaddingBottom: Int
+
     val showTwoWeeksInLandscape: Boolean
     val animateSelection: Boolean
     val animationDuration: Int

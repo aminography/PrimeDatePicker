@@ -129,6 +129,12 @@ internal fun PrimeCalendarView.applyTheme(theme: BaseThemeFactory?) {
         dividerInsetRight = it.dividerInsetRight
         dividerInsetTop = it.dividerInsetTop
         dividerInsetBottom = it.dividerInsetBottom
+
+        elementPaddingLeft = it.elementPaddingLeft
+        elementPaddingRight = it.elementPaddingRight
+        elementPaddingTop = it.elementPaddingTop
+        elementPaddingBottom = it.elementPaddingBottom
+
         loadFactor = it.loadFactor
         maxTransitionLength = it.maxTransitionLength
         transitionSpeedFactor = it.transitionSpeedFactor

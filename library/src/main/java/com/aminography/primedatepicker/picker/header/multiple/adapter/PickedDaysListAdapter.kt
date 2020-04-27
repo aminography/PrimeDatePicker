@@ -2,9 +2,9 @@ package com.aminography.primedatepicker.picker.header.multiple.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
-import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.aminography.primedatepicker.picker.base.BaseAdapter
+import com.aminography.primedatepicker.picker.base.adapter.BaseAdapter
+import com.aminography.primedatepicker.picker.base.adapter.ItemViewInflater
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.BasePickedDayDataHolder
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayDataHolder
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayEmptyDataHolder
@@ -25,32 +25,32 @@ class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, BaseAdapter.B
     var secondLabelTextColor: Int = 0
     var gapBetweenLines: Int = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+    override fun createViewHolder(inflater: ItemViewInflater, viewType: Int): BaseViewHolder {
         return when (viewType) {
             0 -> PickedDayEmptyViewHolder(
-                parent.context,
+                inflater,
                 typeface,
                 firstLabelTextSize,
                 firstLabelTextColor,
                 secondLabelTextSize,
                 secondLabelTextColor,
                 gapBetweenLines
-            ).also { setupClickListener(it) }
+            )
             1 -> PickedDayViewHolder(
-                parent.context,
+                inflater,
                 typeface,
                 firstLabelTextSize,
                 firstLabelTextColor,
                 secondLabelTextSize,
                 secondLabelTextColor,
                 gapBetweenLines
-            ).also { setupClickListener(it) }
+            )
             else -> null!!
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (getItem(position)) {
+        return when (itemAt(position)) {
             is PickedDayEmptyDataHolder -> 0
             is PickedDayDataHolder -> 1
             else -> -1

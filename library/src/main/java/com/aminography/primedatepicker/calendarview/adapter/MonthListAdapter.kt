@@ -13,7 +13,6 @@ import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.SkipDividerItemDecorator
 import com.aminography.primedatepicker.calendarview.viewholder.MonthViewHolder
 import com.aminography.primedatepicker.monthview.PrimeMonthView
-import com.aminography.primedatepicker.tools.dp2px
 
 /**
  * @author aminography
@@ -26,12 +25,11 @@ class MonthListAdapter(
     private var dataList = mutableListOf<MonthDataHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MonthViewHolder {
-        val monthView = PrimeMonthView(recyclerView.context).apply {
+        return PrimeMonthView(recyclerView.context).apply {
             layoutParams = parent.layoutParams
-            val padding = recyclerView.context.dp2px(16f)
-            setPadding(padding, padding, padding, padding) // Default padding
+        }.let {
+            MonthViewHolder(it, iMonthViewHolderCallback)
         }
-        return MonthViewHolder(monthView, iMonthViewHolderCallback)
     }
 
     override fun onBindViewHolder(viewHolder: MonthViewHolder, position: Int) {
@@ -78,7 +76,7 @@ class MonthListAdapter(
 
     override fun getItemCount(): Int = dataList.size
 
-    fun getItem(position: Int): MonthDataHolder = dataList[position]
+    fun itemAt(position: Int): MonthDataHolder = dataList[position]
 
     fun replaceDataList(list: List<MonthDataHolder>) {
         dataList = list as MutableList<MonthDataHolder>

@@ -37,6 +37,14 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
         weekLabelTopPadding = it.weekLabelTopPadding
         weekLabelBottomPadding = it.weekLabelBottomPadding
         dayLabelVerticalPadding = it.dayLabelVerticalPadding
+
+        setPadding(
+            it.elementPaddingLeft,
+            it.elementPaddingTop,
+            it.elementPaddingRight,
+            it.elementPaddingBottom
+        )
+
         showTwoWeeksInLandscape = it.showTwoWeeksInLandscape
         animateSelection = it.animateSelection
         animationDuration = it.animationDuration

@@ -47,6 +47,14 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val showTwoWeeksInLandscape: Boolean
 
+    abstract val elementPaddingLeft: Int
+
+    abstract val elementPaddingRight: Int
+
+    abstract val elementPaddingTop: Int
+
+    abstract val elementPaddingBottom: Int
+
     // ------- Month Label
 
     abstract val monthLabelTextSize: Int
@@ -101,7 +109,7 @@ abstract class BaseThemeFactory : Serializable {
 
     abstract val dividerInsetBottom: Int
 
-    // ------- Animate
+    // ------- Animation
 
     abstract val animateSelection: Boolean
 

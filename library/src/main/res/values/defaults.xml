@@ -36,6 +36,11 @@
     <dimen name="defaultDividerInsetTop">0dp</dimen>
     <dimen name="defaultDividerInsetBottom">0dp</dimen>
 
+    <dimen name="defaultElementPaddingLeft">16dp</dimen>
+    <dimen name="defaultElementPaddingRight">16dp</dimen>
+    <dimen name="defaultElementPaddingTop">16dp</dimen>
+    <dimen name="defaultElementPaddingBottom">16dp</dimen>
+
     <string name="defaultTransitionSpeedFactor" translatable="false">1.0</string>
     <integer name="defaultLoadFactor">24</integer>
     <integer name="defaultMaxTransitionLength">2</integer>

@@ -8,14 +8,22 @@ import com.aminography.primedatepicker.R
  */
 open class DarkThemeFactory : BaseNormalThemeFactory() {
 
+    // --------------------------------------- Calendar View ---------------------------------------
+
     override val backgroundColor: Int
         get() = Color.parseColor("#2A2B2F")
+
+    // ------- Month Label
 
     override val monthLabelTextColor: Int
         get() = getColor(R.color.blueGray300)
 
+    // ------- Week Label
+
     override val weekLabelTextColor: Int
         get() = Color.parseColor("#1565c0")
+
+    // ------- Day Label
 
     override val dayLabelTextColor: Int
         get() = Color.WHITE
@@ -32,8 +40,12 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
     override val disabledDayLabelTextColor: Int
         get() = getColor(R.color.defaultDisabledDayLabelTextColor)
 
+    // ------- Divider
+
     override val dividerColor: Int
         get() = getColor(R.color.defaultDividerColor)
+
+    // ------------------------------------ Picker Bottom Sheet ------------------------------------
 
     override val buttonBarBackgroundColor: Int
         get() = Color.parseColor("#2A2B2F")
@@ -47,23 +59,12 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
     override val buttonBarPositiveTextColor: Int
         get() = getColor(R.color.textColorGreen)
 
-    override val gotoBackgroundColor: Int
-        get() = Color.parseColor("#E57373")
+    // ------- Selection Bar - General
 
     override val selectionBarBackgroundColor: Int
         get() = Color.parseColor("#37474f")
 
-    override val gotoTextColor: Int
-        get() = Color.WHITE
-
-    override val gotoDividerColor: Int
-        get() = Color.WHITE
-
-    override val multipleDaysItemFirstLabelTextColor: Int
-        get() = Color.WHITE
-
-    override val multipleDaysItemSecondLabelTextColor: Int
-        get() = Color.WHITE
+    // ------- Selection Bar - Single Day
 
     override val singleDayItemFirstLabelTextColor: Int
         get() = getColor(R.color.transWhiteAA)
@@ -71,10 +72,31 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
     override val singleDayItemSecondLabelTextColor: Int
         get() = Color.WHITE
 
+    // ------- Selection Bar - Range Days
+
+    override val multipleDaysItemFirstLabelTextColor: Int
+        get() = Color.WHITE
+
+    override val multipleDaysItemSecondLabelTextColor: Int
+        get() = Color.WHITE
+
+    // ------- Selection Bar - Multiple Days
+
     override val rangeDaysItemFirstLabelTextColor: Int
         get() = getColor(R.color.transWhiteAA)
 
     override val rangeDaysItemSecondLabelTextColor: Int
+        get() = Color.WHITE
+
+    // ------- Goto View
+
+    override val gotoBackgroundColor: Int
+        get() = Color.parseColor("#E57373")
+
+    override val gotoTextColor: Int
+        get() = Color.WHITE
+
+    override val gotoDividerColor: Int
         get() = Color.WHITE
 
 }

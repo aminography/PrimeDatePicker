@@ -243,6 +243,30 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) applyDividers()
         }
 
+    override var elementPaddingLeft: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var elementPaddingRight: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var elementPaddingTop: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var elementPaddingBottom: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
     // Programmatically Control Variables ----------------------------------------------------------
 
     override var typeface: Typeface? = null
@@ -539,6 +563,11 @@ class PrimeCalendarView @JvmOverloads constructor(
                 dividerInsetTop = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetTop, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetTop))
                 dividerInsetBottom = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetBottom, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetBottom))
 
+                elementPaddingLeft = getDimensionPixelSize(R.styleable.PrimeCalendarView_elementPaddingLeft, resources.getDimensionPixelSize(R.dimen.defaultElementPaddingLeft))
+                elementPaddingRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_elementPaddingRight, resources.getDimensionPixelSize(R.dimen.defaultElementPaddingRight))
+                elementPaddingTop = getDimensionPixelSize(R.styleable.PrimeCalendarView_elementPaddingTop, resources.getDimensionPixelSize(R.dimen.defaultElementPaddingTop))
+                elementPaddingBottom = getDimensionPixelSize(R.styleable.PrimeCalendarView_elementPaddingBottom, resources.getDimensionPixelSize(R.dimen.defaultElementPaddingBottom))
+
                 // Common Attributes ---------------------------------------------------------------
 
                 monthLabelTextColor = getColor(R.styleable.PrimeCalendarView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
@@ -740,7 +769,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             position = layoutManager.findFirstVisibleItemPosition()
         }
         if (position != RecyclerView.NO_POSITION) {
-            return adapter.getItem(position)
+            return adapter.itemAt(position)
         }
         return null
     }
@@ -751,7 +780,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             position = layoutManager.findLastVisibleItemPosition()
         }
         if (position != RecyclerView.NO_POSITION) {
-            return adapter.getItem(position)
+            return adapter.itemAt(position)
         }
         return null
     }
@@ -836,7 +865,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     override fun onHeightDetect(height: Float) {
         if (detectedItemHeight == 0f && height > 0f) {
-            detectedItemHeight = height
+            detectedItemHeight = height + paddingTop + paddingBottom
             requestLayout()
             invalidate()
         }
@@ -894,7 +923,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                     if (!isInLoading && (visibleItemCount + lastVisibleItemPosition > totalItemCount)) {
                         isInLoading = true
-                        val dataHolder = adapter.getItem(totalItemCount - 1)
+                        val dataHolder = adapter.itemAt(totalItemCount - 1)
                         val offset = dataHolder.offset
                         val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
 
@@ -921,7 +950,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                     if (!isInLoading && firstVisibleItemPosition == 0) {
                         isInLoading = true
-                        val dataHolder = adapter.getItem(0)
+                        val dataHolder = adapter.itemAt(0)
                         val offset = dataHolder.offset
                         val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
 
@@ -992,6 +1021,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.dividerInsetTop = dividerInsetTop
         savedState.dividerInsetBottom = dividerInsetBottom
 
+        savedState.elementPaddingLeft = elementPaddingLeft
+        savedState.elementPaddingRight = elementPaddingRight
+        savedState.elementPaddingTop = elementPaddingTop
+        savedState.elementPaddingBottom = elementPaddingBottom
+
         // Common Attributes -----------------------------------------------------------------------
 
         savedState.monthLabelTextColor = monthLabelTextColor
@@ -1058,6 +1092,11 @@ class PrimeCalendarView @JvmOverloads constructor(
             dividerInsetTop = savedState.dividerInsetTop
             dividerInsetBottom = savedState.dividerInsetBottom
 
+            elementPaddingLeft = savedState.elementPaddingLeft
+            elementPaddingRight = savedState.elementPaddingRight
+            elementPaddingTop = savedState.elementPaddingTop
+            elementPaddingBottom = savedState.elementPaddingBottom
+
             // Common Attributes -------------------------------------------------------------------
 
             monthLabelTextColor = savedState.monthLabelTextColor
@@ -1114,6 +1153,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var dividerInsetTop: Int = 0
         internal var dividerInsetBottom: Int = 0
 
+        internal var elementPaddingLeft: Int = 0
+        internal var elementPaddingRight: Int = 0
+        internal var elementPaddingTop: Int = 0
+        internal var elementPaddingBottom: Int = 0
+
         // Common Attributes -----------------------------------------------------------------------
 
         internal var monthLabelTextColor: Int = 0
@@ -1165,6 +1209,11 @@ class PrimeCalendarView @JvmOverloads constructor(
             dividerInsetTop = input.readInt()
             dividerInsetBottom = input.readInt()
 
+            elementPaddingLeft = input.readInt()
+            elementPaddingRight = input.readInt()
+            elementPaddingTop = input.readInt()
+            elementPaddingBottom = input.readInt()
+
             // Common Attributes -------------------------------------------------------------------
 
             monthLabelTextColor = input.readInt()
@@ -1215,6 +1264,11 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(dividerInsetRight)
             out.writeInt(dividerInsetTop)
             out.writeInt(dividerInsetBottom)
+
+            out.writeInt(elementPaddingLeft)
+            out.writeInt(elementPaddingRight)
+            out.writeInt(elementPaddingTop)
+            out.writeInt(elementPaddingBottom)
 
             // Common Attributes -------------------------------------------------------------------
 

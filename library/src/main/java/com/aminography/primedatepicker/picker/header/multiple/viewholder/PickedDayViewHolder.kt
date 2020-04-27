@@ -1,11 +1,10 @@
 package com.aminography.primedatepicker.picker.header.multiple.viewholder
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Typeface
-import android.view.LayoutInflater
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.picker.base.BaseAdapter
+import com.aminography.primedatepicker.picker.base.adapter.BaseAdapter
+import com.aminography.primedatepicker.picker.base.adapter.ItemViewInflater
 import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayDataHolder
 import kotlinx.android.synthetic.main.list_item_picked_day.view.*
 
@@ -14,14 +13,14 @@ import kotlinx.android.synthetic.main.list_item_picked_day.view.*
  */
 @SuppressLint("InflateParams")
 class PickedDayViewHolder(
-    context: Context,
+    inflater: ItemViewInflater,
     typeface: Typeface?,
     firstLabelTextSize: Int,
     firstLabelTextColor: Int,
     secondLabelTextSize: Int,
     secondLabelTextColor: Int,
     gapBetweenLines: Int
-) : BaseAdapter.BaseViewHolder(LayoutInflater.from(context).inflate(R.layout.list_item_picked_day, null)) {
+) : BaseAdapter.BaseViewHolder(inflater(R.layout.list_item_picked_day)) {
 
     init {
         with(itemView) {

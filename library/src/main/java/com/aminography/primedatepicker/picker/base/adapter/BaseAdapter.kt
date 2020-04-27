@@ -1,6 +1,8 @@
-package com.aminography.primedatepicker.picker.base
+package com.aminography.primedatepicker.picker.base.adapter
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -22,17 +24,30 @@ abstract class BaseAdapter<DH, VH : BaseAdapter.BaseViewHolder> : RecyclerView.A
 
     private var onItemClickListener: OnListItemClickListener? = null
 
+    private lateinit var inflater: ItemViewInflater
+
+    override fun getItemCount(): Int = differ.currentList.size
+
     override fun onBindViewHolder(viewHolder: VH, position: Int) {
-        if (position < differ.currentList.size) {
+        if (position in 0 until itemCount) {
             differ.currentList[position].apply {
                 viewHolder.bindDataToView(this)
             }
         }
     }
 
-    override fun getItemCount(): Int = differ.currentList.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        setupInflater(parent)
+        return createViewHolder(inflater, viewType).also { setupClickListener(it) }
+    }
 
-    fun getItem(position: Int): DH = differ.currentList[position]
+    protected abstract fun createViewHolder(
+        inflater: ItemViewInflater,
+        viewType: Int
+    ): VH
+
+
+    fun itemAt(position: Int): DH = differ.currentList[position]
 
     fun submitList(list: List<DH>) {
         differ.submitList(list)
@@ -42,11 +57,19 @@ abstract class BaseAdapter<DH, VH : BaseAdapter.BaseViewHolder> : RecyclerView.A
         onItemClickListener = listener
     }
 
-    protected fun setupClickListener(viewHolder: VH) {
-        viewHolder.itemView.setOnClickListener {
-            onItemClickListener?.apply {
+    private fun setupInflater(parent: ViewGroup) {
+        if (!::inflater.isInitialized) {
+            inflater = { layoutResId ->
+                LayoutInflater.from(parent.context).inflate(layoutResId, parent, false)
+            }
+        }
+    }
+
+    private fun setupClickListener(viewHolder: VH) {
+        onItemClickListener?.apply {
+            viewHolder.itemView.setOnClickListener {
                 val position = viewHolder.adapterPosition
-                if (position in 0 until differ.currentList.size) {
+                if (position in 0 until itemCount) {
                     onItemClicked(differ.currentList[position])
                 }
             }
