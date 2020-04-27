@@ -22,127 +22,119 @@ import kotlinx.android.synthetic.main.single_day_header.view.*
  */
 
 
-internal fun ActionView.applyTheme(theme: BaseThemeFactory?) {
-    theme?.let {
-        with(rootView) {
-            todayButton.setTextColor(it.buttonBarTodayTextColor)
-            negativeButton.setTextColor(it.buttonBarNegativeTextColor)
-            positiveButton.setTextColor(it.buttonBarPositiveTextColor)
+internal fun ActionView.applyTheme(theme: BaseThemeFactory) {
+    with(rootView) {
+        todayButton.setTextColor(theme.buttonBarTodayTextColor)
+        negativeButton.setTextColor(theme.buttonBarNegativeTextColor)
+        positiveButton.setTextColor(theme.buttonBarPositiveTextColor)
 
-            todayButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, it.buttonBarTextSize.toFloat())
-            negativeButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, it.buttonBarTextSize.toFloat())
-            positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, it.buttonBarTextSize.toFloat())
+        todayButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, theme.buttonBarTextSize.toFloat())
+        negativeButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, theme.buttonBarTextSize.toFloat())
+        positiveButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, theme.buttonBarTextSize.toFloat())
+    }
+}
+
+internal fun HeaderView.applyTheme(theme: BaseThemeFactory) {
+    with((this as BaseLazyView).rootView) {
+        setBackgroundColor(theme.selectionBarBackgroundColor)
+    }
+    when (this) {
+        is SingleHeaderView -> {
+            labelFormatter = theme.singleDayLabelFormatter
+
+            with((this as BaseLazyView).rootView) {
+                pickedTextView.firstLabelTextSize = theme.singleDayItemFirstLabelTextSize
+                pickedTextView.firstLabelTextColor = theme.singleDayItemFirstLabelTextColor
+                pickedTextView.secondLabelTextSize = theme.singleDayItemSecondLabelTextSize
+                pickedTextView.secondLabelTextColor = theme.singleDayItemSecondLabelTextColor
+                pickedTextView.gapBetweenLines = theme.singleDayItemGapBetweenLines
+            }
+        }
+        is RangeHeaderView -> {
+            labelFormatter = theme.rangeDaysLabelFormatter
+            itemBackgroundColor = theme.rangeDaysItemBackgroundColor
+
+            with((this as BaseLazyView).rootView) {
+                rangeStartTextView.firstLabelTextSize = theme.rangeDaysItemFirstLabelTextSize
+                rangeStartTextView.firstLabelTextColor = theme.rangeDaysItemFirstLabelTextColor
+                rangeStartTextView.secondLabelTextSize = theme.rangeDaysItemSecondLabelTextSize
+                rangeStartTextView.secondLabelTextColor = theme.rangeDaysItemSecondLabelTextColor
+                rangeStartTextView.gapBetweenLines = theme.rangeDaysItemGapBetweenLines
+
+                rangeEndTextView.firstLabelTextSize = theme.rangeDaysItemFirstLabelTextSize
+                rangeEndTextView.firstLabelTextColor = theme.rangeDaysItemFirstLabelTextColor
+                rangeEndTextView.secondLabelTextSize = theme.rangeDaysItemSecondLabelTextSize
+                rangeEndTextView.secondLabelTextColor = theme.rangeDaysItemSecondLabelTextColor
+                rangeEndTextView.gapBetweenLines = theme.rangeDaysItemGapBetweenLines
+            }
+        }
+        is MultipleHeaderView -> {
+            firstLabelFormatter = theme.multipleDaysItemFirstLabelFormatter
+            secondLabelFormatter = theme.multipleDaysItemSecondLabelFormatter
+
+            itemBackgroundColor = theme.multipleDaysItemBackgroundColor
+            firstLabelTextSize = theme.multipleDaysItemFirstLabelTextSize
+            firstLabelTextColor = theme.multipleDaysItemFirstLabelTextColor
+            secondLabelTextSize = theme.multipleDaysItemSecondLabelTextSize
+            secondLabelTextColor = theme.multipleDaysItemSecondLabelTextColor
+            gapBetweenLines = theme.multipleDaysItemGapBetweenLines
         }
     }
 }
 
-internal fun HeaderView.applyTheme(theme: BaseThemeFactory?) {
-    theme?.let {
-        with((this as BaseLazyView).rootView) {
-            setBackgroundColor(it.selectionBarBackgroundColor)
-        }
-        when (this) {
-            is SingleHeaderView -> {
-                labelFormatter = theme.singleDayLabelFormatter
+internal fun GotoView.applyTheme(theme: BaseThemeFactory) {
+    with(rootView) {
+        setBackgroundColor(theme.gotoBackgroundColor)
+        ImageViewCompat.setImageTintList(goButtonImageView, ColorStateList.valueOf(theme.gotoBackgroundColor))
+        ImageViewCompat.setImageTintList(closeButtonImageView, ColorStateList.valueOf(theme.gotoBackgroundColor))
 
-                with((this as BaseLazyView).rootView) {
-                    pickedTextView.firstLabelTextSize = theme.singleDayItemFirstLabelTextSize
-                    pickedTextView.firstLabelTextColor = theme.singleDayItemFirstLabelTextColor
-                    pickedTextView.secondLabelTextSize = theme.singleDayItemSecondLabelTextSize
-                    pickedTextView.secondLabelTextColor = theme.singleDayItemSecondLabelTextColor
-                    pickedTextView.gapBetweenLines = theme.singleDayItemGapBetweenLines
-                }
-            }
-            is RangeHeaderView -> {
-                labelFormatter = theme.rangeDaysLabelFormatter
-                itemBackgroundColor = theme.rangeDaysItemBackgroundColor
-
-                with((this as BaseLazyView).rootView) {
-                    rangeStartTextView.firstLabelTextSize = theme.rangeDaysItemFirstLabelTextSize
-                    rangeStartTextView.firstLabelTextColor = theme.rangeDaysItemFirstLabelTextColor
-                    rangeStartTextView.secondLabelTextSize = theme.rangeDaysItemSecondLabelTextSize
-                    rangeStartTextView.secondLabelTextColor = theme.rangeDaysItemSecondLabelTextColor
-                    rangeStartTextView.gapBetweenLines = theme.rangeDaysItemGapBetweenLines
-
-                    rangeEndTextView.firstLabelTextSize = theme.rangeDaysItemFirstLabelTextSize
-                    rangeEndTextView.firstLabelTextColor = theme.rangeDaysItemFirstLabelTextColor
-                    rangeEndTextView.secondLabelTextSize = theme.rangeDaysItemSecondLabelTextSize
-                    rangeEndTextView.secondLabelTextColor = theme.rangeDaysItemSecondLabelTextColor
-                    rangeEndTextView.gapBetweenLines = theme.rangeDaysItemGapBetweenLines
-                }
-            }
-            is MultipleHeaderView -> {
-                firstLabelFormatter = theme.multipleDaysItemFirstLabelFormatter
-                secondLabelFormatter = theme.multipleDaysItemSecondLabelFormatter
-
-                itemBackgroundColor = theme.multipleDaysItemBackgroundColor
-                firstLabelTextSize = theme.multipleDaysItemFirstLabelTextSize
-                firstLabelTextColor = theme.multipleDaysItemFirstLabelTextColor
-                secondLabelTextSize = theme.multipleDaysItemSecondLabelTextSize
-                secondLabelTextColor = theme.multipleDaysItemSecondLabelTextColor
-                gapBetweenLines = theme.multipleDaysItemGapBetweenLines
-            }
-        }
+        GotoNumberPicker.labelTextSize = theme.gotoTextSize
+        GotoNumberPicker.labelTextColor = theme.gotoTextColor
+        GotoNumberPicker.dividerColor = theme.gotoDividerColor
     }
 }
 
-internal fun GotoView.applyTheme(theme: BaseThemeFactory?) {
-    theme?.let {
-        with(rootView) {
-            setBackgroundColor(it.gotoBackgroundColor)
-            ImageViewCompat.setImageTintList(goButtonImageView, ColorStateList.valueOf(it.gotoBackgroundColor))
-            ImageViewCompat.setImageTintList(closeButtonImageView, ColorStateList.valueOf(it.gotoBackgroundColor))
+internal fun PrimeCalendarView.applyTheme(theme: BaseThemeFactory) {
+    // ------- Color Customizations
+    setBackgroundColor(theme.elementBackgroundColor)
+    monthLabelTextColor = theme.monthLabelTextColor
+    weekLabelTextColor = theme.weekLabelTextColor
+    dayLabelTextColor = theme.dayLabelTextColor
+    todayLabelTextColor = theme.todayLabelTextColor
+    pickedDayLabelTextColor = theme.pickedDayLabelTextColor
+    pickedDayCircleColor = theme.pickedDayCircleColor
+    disabledDayLabelTextColor = theme.disabledDayLabelTextColor
+    dividerColor = theme.dividerColor
 
-            GotoNumberPicker.labelTextSize = it.gotoTextSize
-            GotoNumberPicker.labelTextColor = it.gotoTextColor
-            GotoNumberPicker.dividerColor = it.gotoDividerColor
-        }
-    }
-}
+    // ------- Size & Behaviour Customizations
+    monthLabelTextSize = theme.monthLabelTextSize
+    weekLabelTextSize = theme.weekLabelTextSize
+    dayLabelTextSize = theme.dayLabelTextSize
+    monthLabelTopPadding = theme.monthLabelTopPadding
+    monthLabelBottomPadding = theme.monthLabelBottomPadding
+    weekLabelTopPadding = theme.weekLabelTopPadding
+    weekLabelBottomPadding = theme.weekLabelBottomPadding
+    dayLabelVerticalPadding = theme.dayLabelVerticalPadding
+    showTwoWeeksInLandscape = theme.showTwoWeeksInLandscape
+    animateSelection = theme.animateSelection
+    animationDuration = theme.animationDuration
+    animationInterpolator = theme.animationInterpolator
+    dividerThickness = theme.dividerThickness
+    dividerInsetLeft = theme.dividerInsetLeft
+    dividerInsetRight = theme.dividerInsetRight
+    dividerInsetTop = theme.dividerInsetTop
+    dividerInsetBottom = theme.dividerInsetBottom
 
-internal fun PrimeCalendarView.applyTheme(theme: BaseThemeFactory?) {
-    theme?.let {
-        // ------- Color Customizations
-        setBackgroundColor(it.elementBackgroundColor)
-        monthLabelTextColor = it.monthLabelTextColor
-        weekLabelTextColor = it.weekLabelTextColor
-        dayLabelTextColor = it.dayLabelTextColor
-        todayLabelTextColor = it.todayLabelTextColor
-        pickedDayLabelTextColor = it.pickedDayLabelTextColor
-        pickedDayCircleColor = it.pickedDayCircleColor
-        disabledDayLabelTextColor = it.disabledDayLabelTextColor
-        dividerColor = it.dividerColor
+    elementPaddingLeft = theme.elementPaddingLeft
+    elementPaddingRight = theme.elementPaddingRight
+    elementPaddingTop = theme.elementPaddingTop
+    elementPaddingBottom = theme.elementPaddingBottom
 
-        // ------- Size & Behaviour Customizations
-        monthLabelTextSize = it.monthLabelTextSize
-        weekLabelTextSize = it.weekLabelTextSize
-        dayLabelTextSize = it.dayLabelTextSize
-        monthLabelTopPadding = it.monthLabelTopPadding
-        monthLabelBottomPadding = it.monthLabelBottomPadding
-        weekLabelTopPadding = it.weekLabelTopPadding
-        weekLabelBottomPadding = it.weekLabelBottomPadding
-        dayLabelVerticalPadding = it.dayLabelVerticalPadding
-        showTwoWeeksInLandscape = it.showTwoWeeksInLandscape
-        animateSelection = it.animateSelection
-        animationDuration = it.animationDuration
-        animationInterpolator = it.animationInterpolator
-        dividerThickness = it.dividerThickness
-        dividerInsetLeft = it.dividerInsetLeft
-        dividerInsetRight = it.dividerInsetRight
-        dividerInsetTop = it.dividerInsetTop
-        dividerInsetBottom = it.dividerInsetBottom
-
-        elementPaddingLeft = it.elementPaddingLeft
-        elementPaddingRight = it.elementPaddingRight
-        elementPaddingTop = it.elementPaddingTop
-        elementPaddingBottom = it.elementPaddingBottom
-
-        loadFactor = it.loadFactor
-        maxTransitionLength = it.maxTransitionLength
-        transitionSpeedFactor = it.transitionSpeedFactor
-        flingOrientation = it.flingOrientation
-        monthLabelFormatter = it.monthLabelFormatter
-        weekLabelFormatter = it.weekLabelFormatter
-        developerOptionsShowGuideLines = it.developerOptionsShowGuideLines
-    }
+    loadFactor = theme.loadFactor
+    maxTransitionLength = theme.maxTransitionLength
+    transitionSpeedFactor = theme.transitionSpeedFactor
+    flingOrientation = theme.flingOrientation
+    monthLabelFormatter = theme.monthLabelFormatter
+    weekLabelFormatter = theme.weekLabelFormatter
+    developerOptionsShowGuideLines = theme.developerOptionsShowGuideLines
 }

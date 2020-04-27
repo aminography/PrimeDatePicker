@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/blueGray500</color>
-    <color name="colorPrimaryDark">@color/blueGray600</color>
-    <color name="colorAccent">@color/red300</color>
-
-    <color name="baseDark">#2A2B2F</color>
+    <color name="deepDark">#2A2B2F</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
 
-    <color name="whiteTr33">#33FFFFFF</color>
-    <color name="whiteTrAA">#AAFFFFFF</color>
-
+    <color name="whiteTransAA">#AAFFFFFF</color>
 </resources>

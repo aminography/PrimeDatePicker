@@ -65,10 +65,10 @@
     <color name="lightButtonBarNegativeTextColor">@color/red400</color>
     <color name="lightButtonBarPositiveTextColor">@color/green400</color>
     <color name="lightSelectionBarBackgroundColor">@color/blueGray500</color>
-    <color name="lightSingleDayItemFirstLabelTextColor">@color/whiteTrAA</color>
+    <color name="lightSingleDayItemFirstLabelTextColor">@color/whiteTransAA</color>
     <color name="lightSingleDayItemSecondLabelTextColor">@color/white</color>
     <color name="lightRangeDaysItemBackgroundColor">@color/blueGray300</color>
-    <color name="lightRangeDaysItemFirstLabelTextColor">@color/whiteTrAA</color>
+    <color name="lightRangeDaysItemFirstLabelTextColor">@color/whiteTransAA</color>
     <color name="lightRangeDaysItemSecondLabelTextColor">@color/white</color>
     <color name="lightMultipleDaysItemBackgroundColor">@color/blueGray300</color>
     <color name="lightMultipleDaysItemFirstLabelTextColor">@color/white</color>
@@ -79,7 +79,7 @@
 
     <!-- Dark Theme -->
 
-    <color name="darkElementBackgroundColor">@color/baseDark</color>
+    <color name="darkElementBackgroundColor">@color/deepDark</color>
     <color name="darkMonthLabelTextColor">@color/blueGray300</color>
     <color name="darkWeekLabelTextColor">@color/blue800</color>
     <color name="darkDayLabelTextColor">@color/white</color>
@@ -88,15 +88,15 @@
     <color name="darkPickedDayCircleColor">@color/teal700</color>
     <color name="darkDisabledDayLabelTextColor">@color/gray600</color>
     <color name="darkDividerColor">@color/gray400</color>
-    <color name="darkButtonBarBackgroundColor">@color/baseDark</color>
+    <color name="darkButtonBarBackgroundColor">@color/deepDark</color>
     <color name="darkButtonBarTodayTextColor">@color/white</color>
     <color name="darkButtonBarNegativeTextColor">@color/red400</color>
     <color name="darkButtonBarPositiveTextColor">@color/green400</color>
     <color name="darkSelectionBarBackgroundColor">@color/blueGray800</color>
-    <color name="darkSingleDayItemFirstLabelTextColor">@color/whiteTrAA</color>
+    <color name="darkSingleDayItemFirstLabelTextColor">@color/whiteTransAA</color>
     <color name="darkSingleDayItemSecondLabelTextColor">@color/white</color>
     <color name="darkRangeDaysItemBackgroundColor">@color/blueGray600</color>
-    <color name="darkRangeDaysItemFirstLabelTextColor">@color/whiteTrAA</color>
+    <color name="darkRangeDaysItemFirstLabelTextColor">@color/whiteTransAA</color>
     <color name="darkRangeDaysItemSecondLabelTextColor">@color/white</color>
     <color name="darkMultipleDaysItemBackgroundColor">@color/blueGray600</color>
     <color name="darkMultipleDaysItemFirstLabelTextColor">@color/white</color>

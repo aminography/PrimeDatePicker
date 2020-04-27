@@ -24,6 +24,7 @@ import com.aminography.primedatepicker.picker.header.multiple.MultipleHeaderView
 import com.aminography.primedatepicker.picker.header.range.RangeHeaderView
 import com.aminography.primedatepicker.picker.header.single.SingleHeaderView
 import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
+import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.aminography.primedatepicker.picker.theme.applyTheme
 import com.aminography.primedatepicker.tools.DateUtils
 import com.aminography.primedatepicker.tools.LanguageUtils
@@ -53,7 +54,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     private var direction: Direction = Direction.LTR
     private lateinit var locale: Locale
     private var typeface: Typeface? = null
-    private var theme: BaseThemeFactory? = null
+    private lateinit var theme: BaseThemeFactory
 
     override fun onInitViews(rootView: View) {
         initialDateCalendar = DateUtils.restoreCalendar(
@@ -67,15 +68,15 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         locale = initialDateCalendar!!.locale
         direction = LanguageUtils.direction(calendarType, initialDateCalendar!!.locale.language)
 
-        theme = arguments?.getSerializable("themeFactory") as? BaseThemeFactory
-        theme?.context = requireContext()
+        theme = arguments?.getSerializable("themeFactory") as? BaseThemeFactory ?: LightThemeFactory()
+        theme.context = requireContext()
 
-        theme?.typefacePath?.let {
+        theme.typefacePath?.let {
             typeface = Typeface.createFromAsset(activityContext.assets, it)
         }
 
         with(rootView) {
-            theme?.let {
+            theme.let {
                 cardBackgroundImageView.setColorFilter(it.buttonBarBackgroundColor)
                 circularRevealFrameLayout.setBackgroundColor(it.gotoBackgroundColor)
             }
@@ -317,6 +318,9 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         onDismissListener?.onDismiss(dialog)
+        onCancelListener = null
+        onDismissListener = null
+        onDayPickCallback = null
     }
 
     fun setOnCancelListener(listener: DialogInterface.OnCancelListener?): PrimeDatePickerBottomSheet {

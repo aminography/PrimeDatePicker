@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
     android:padding="@dimen/material_size_4">
 
     <com.aminography.primedatepicker.picker.header.TwoLineTextView
@@ -16,7 +15,7 @@
         android:paddingEnd="@dimen/material_size_8"
         android:paddingBottom="@dimen/material_size_4"
         app:firstLabelText="@string/prime_date_picker_selected_day"
-        app:firstLabelTextColor="@color/whiteTrAA"
+        app:firstLabelTextColor="@color/white"
         app:firstLabelTextSize="@dimen/text_size_small"
         app:gapBetweenLines="@dimen/defaultGapBetweenLines"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:background="@color/colorPrimary">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/cardBackgroundImageView"
@@ -65,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/colorAccent"
+            android:background="@color/red300"
             android:visibility="invisible"
             app:layout_behavior="com.google.android.material.transformation.FabTransformationSheetBehavior">
 
@@ -85,7 +84,8 @@
             app:backgroundTint="#00000000"
             app:elevation="0dp"
             app:fabCustomSize="8dp"
-            app:fabSize="auto" />
+            app:fabSize="auto"
+            tools:ignore="RtlHardcoded" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

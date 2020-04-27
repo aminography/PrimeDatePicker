@@ -59,8 +59,8 @@
         android:layout_marginStart="@dimen/material_size_16"
         android:layout_marginTop="@dimen/material_size_4"
         android:layout_marginEnd="@dimen/material_size_16"
-        android:textColor="@color/colorAccent"
-        app:backgroundTint="@color/whiteTrAA"
+        android:textColor="@color/red300"
+        app:backgroundTint="@color/whiteTransAA"
         app:cornerRadius="48dp"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintRight_toRightOf="parent"
@@ -75,7 +75,7 @@
         app:layout_constraintStart_toStartOf="@id/closeButton"
         app:layout_constraintTop_toTopOf="@id/closeButton"
         app:srcCompat="@drawable/ic_close_white_24dp"
-        app:tint="@color/colorAccent" />
+        app:tint="@color/red300" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/goButton"
@@ -85,8 +85,8 @@
         android:layout_marginStart="@dimen/material_size_16"
         android:layout_marginEnd="@dimen/material_size_16"
         android:layout_marginBottom="@dimen/material_size_4"
-        android:textColor="@color/colorAccent"
-        app:backgroundTint="@color/whiteTrAA"
+        android:textColor="@color/red300"
+        app:backgroundTint="@color/whiteTransAA"
         app:cornerRadius="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
@@ -101,6 +101,6 @@
         app:layout_constraintStart_toStartOf="@id/goButton"
         app:layout_constraintTop_toTopOf="@id/goButton"
         app:srcCompat="@drawable/ic_arrow_right_white_24dp"
-        app:tint="@color/colorAccent" />
+        app:tint="@color/red300" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

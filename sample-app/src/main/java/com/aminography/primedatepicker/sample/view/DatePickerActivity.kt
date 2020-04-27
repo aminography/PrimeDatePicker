@@ -130,11 +130,10 @@ class DatePickerActivity : AppCompatActivity() {
                 override val typefacePath: String?
                     get() = typeface
             }
-            darkThemeRadioButton.isChecked -> object : DarkThemeFactory() {
+            else -> object : DarkThemeFactory() {
                 override val typefacePath: String?
                     get() = typeface
             }
-            else -> null!!
         }
     }
 
