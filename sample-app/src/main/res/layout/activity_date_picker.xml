@@ -146,6 +146,54 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
+                android:text="Locale"
+                android:textColor="@color/gray600"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/calendarDefaultLocaleRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:paddingLeft="16dp"
+                    android:text="Calendar Default"
+                    android:textColor="@color/gray900"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/englishLocaleRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:text="English"
+                    android:textColor="@color/gray900"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RadioGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/colorDivider" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
                 android:text="Theme"
                 android:textColor="@color/gray600"
                 android:textSize="@dimen/text_size_normal"

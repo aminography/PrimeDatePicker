@@ -21,6 +21,9 @@ import kotlinx.android.synthetic.main.activity_month_view.*
 import kotlinx.android.synthetic.main.nav_drawer_month.view.*
 import java.util.*
 
+/**
+ * @author aminography
+ */
 @SuppressLint("SetTextI18n")
 class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 

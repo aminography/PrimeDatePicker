@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aminography.primedatepicker.sample.R
 import kotlinx.android.synthetic.main.activity_main.*
 
-
+/**
+ * @author aminography
+ */
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

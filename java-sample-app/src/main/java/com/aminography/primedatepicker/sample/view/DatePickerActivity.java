@@ -29,12 +29,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_CIVIL;
 import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_HIJRI;
 import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_JAPANESE;
 import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_PERSIAN;
 
+/**
+ * @author aminography
+ */
 public class DatePickerActivity extends AppCompatActivity {
 
     private static final String PICKER_TAG = "PrimeDatePickerBottomSheet";
@@ -48,6 +52,9 @@ public class DatePickerActivity extends AppCompatActivity {
     private RadioButton singleRadioButton;
     private RadioButton rangeRadioButton;
     private RadioButton multipleRadioButton;
+
+    private RadioButton calendarDefaultLocaleRadioButton;
+    private RadioButton englishLocaleRadioButton;
 
     private RadioButton lightThemeRadioButton;
     private RadioButton darkThemeRadioButton;
@@ -69,6 +76,9 @@ public class DatePickerActivity extends AppCompatActivity {
         rangeRadioButton = findViewById(R.id.rangeRadioButton);
         multipleRadioButton = findViewById(R.id.multipleRadioButton);
 
+        calendarDefaultLocaleRadioButton = findViewById(R.id.calendarDefaultLocaleRadioButton);
+        englishLocaleRadioButton = findViewById(R.id.englishLocaleRadioButton);
+
         lightThemeRadioButton = findViewById(R.id.lightThemeRadioButton);
         darkThemeRadioButton = findViewById(R.id.darkThemeRadioButton);
 
@@ -81,13 +91,14 @@ public class DatePickerActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 CalendarType calendarType = getCalendarType();
+                Locale locale = getLocale(calendarType);
                 PickType pickType = getPickType();
                 PrimeCalendar minDateCalendar = getMinDateCalendar(calendarType);
                 PrimeCalendar maxDateCalendar = getMaxDateCalendar(calendarType);
                 final String typeface = getTypeface(calendarType);
                 BaseThemeFactory theme = getDefaultTheme(typeface);
 
-                PrimeCalendar today = CalendarFactory.newInstance(calendarType);
+                PrimeCalendar today = CalendarFactory.newInstance(calendarType, locale);
 
                 switch (pickType) {
                     case SINGLE:
@@ -200,6 +211,14 @@ public class DatePickerActivity extends AppCompatActivity {
             return PickType.MULTIPLE;
         } else {
             return PickType.SINGLE;
+        }
+    }
+
+    private Locale getLocale(CalendarType calendarType) {
+        if (calendarDefaultLocaleRadioButton.isChecked()) {
+            return CalendarFactory.newInstance(calendarType).getLocale();
+        } else {
+            return Locale.ENGLISH;
         }
     }
 

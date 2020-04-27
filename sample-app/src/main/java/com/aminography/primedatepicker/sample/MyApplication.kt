@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 
 /**
- * Created by aminography on 7/14/2018.
+ * @author aminography
  */
 @Suppress("unused")
 class MyApplication : Application() {

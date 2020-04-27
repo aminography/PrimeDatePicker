@@ -18,7 +18,9 @@ import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
 import java.util.*
 
-
+/**
+ * @author aminography
+ */
 class DatePickerActivity : AppCompatActivity() {
 
     private var datePicker: PrimeDatePickerBottomSheet? = null
@@ -30,13 +32,14 @@ class DatePickerActivity : AppCompatActivity() {
         showDatePickerButton.setOnClickListener {
 
             val calendarType = getCalendarType()
+            val locale = getLocale(calendarType)
             val pickType = getPickType()
             val minDateCalendar = getMinDateCalendar(calendarType)
             val maxDateCalendar = getMaxDateCalendar(calendarType)
             val typeface = getTypeface(calendarType)
             val theme = getDefaultTheme(typeface)
 
-            val today = CalendarFactory.newInstance(calendarType)
+            val today = CalendarFactory.newInstance(calendarType, locale)
 
             datePicker = when (pickType) {
                 PickType.SINGLE -> {
@@ -121,6 +124,13 @@ class DatePickerActivity : AppCompatActivity() {
             rangeRadioButton.isChecked -> PickType.RANGE_START
             multipleRadioButton.isChecked -> PickType.MULTIPLE
             else -> PickType.SINGLE
+        }
+    }
+
+    private fun getLocale(calendarType: CalendarType): Locale {
+        return when {
+            calendarDefaultLocaleRadioButton.isChecked -> CalendarFactory.newInstance(calendarType).locale
+            else -> Locale.ENGLISH
         }
     }
 

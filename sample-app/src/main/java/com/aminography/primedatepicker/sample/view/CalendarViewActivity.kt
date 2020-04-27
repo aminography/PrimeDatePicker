@@ -22,6 +22,9 @@ import kotlinx.android.synthetic.main.activity_calendar_view.*
 import kotlinx.android.synthetic.main.nav_drawer_calendar.view.*
 import java.util.*
 
+/**
+ * @author aminography
+ */
 @SuppressLint("SetTextI18n")
 class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
