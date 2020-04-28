@@ -62,8 +62,8 @@ class RangeHeaderView(
         set(value) {
             field = value
             when (value) {
-                PickType.RANGE_START -> animateBackground(true)
-                PickType.RANGE_END -> animateBackground(false)
+                PickType.RANGE_START -> animateBackground(true, 0)
+                PickType.RANGE_END -> animateBackground(false, 0)
                 else -> {
                 }
             }
@@ -103,18 +103,20 @@ class RangeHeaderView(
             }
         }
 
-    private fun animateBackground(isStart: Boolean) {
-        ObjectAnimator.ofFloat(
-            rootView.backImageView,
-            "translationX",
-            if (isStart) 0f
-            else rootView.backImageView.width.toFloat().let {
-                if (direction == Direction.LTR) it else -it
+    private fun animateBackground(isStart: Boolean, duration: Long = 300) {
+        rootView.backImageView.post {
+            ObjectAnimator.ofFloat(
+                rootView.backImageView,
+                "translationX",
+                if (isStart) 0f
+                else rootView.backImageView.width.toFloat().let {
+                    if (direction == Direction.LTR) it else -it
+                }
+            ).also {
+                it.interpolator = OvershootInterpolator()
+                it.duration = duration
+                it.start()
             }
-        ).apply {
-            interpolator = OvershootInterpolator()
-            duration = 300
-            start()
         }
     }
 
