@@ -85,7 +85,7 @@ SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
 
 PrimeCalendar today = new CivilCalendar();  // Causes a Civil date picker, also today as the starting date
 
-PrimeDatePickerBottomSheet datePicker = PrimeDatePicker.Companion.bottomSheetWith(today) // or dialogWith(today)
+PrimeDatePicker datePicker = PrimeDatePicker.Companion.bottomSheetWith(today) // or dialogWith(today)
     .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
     .minPossibleDate(minDateCalendar)      // Optional
     .maxPossibleDate(maxDateCalendar)      // Optional
@@ -100,7 +100,7 @@ datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 
 ### Configurations Based on Input Calendar
 
-`PrimeDatePickerBottomSheet` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
+`PrimeDatePicker` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
 
 ```kotlin
 // shows a Persian calendar, but in English language which leads to LTR direction
@@ -127,7 +127,7 @@ If you want to change the texts of the date picker bottom sheet, define some str
 
 Stand-Alone Views
 -----------------
-In addition to use **`PrimeDatePickerBottomSheet`** as a date picker tool, it is possible to employ stand-alone views in your project.
+In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand-alone views in your project.
 They are **`PrimeMonthView`** & **`PrimeCalendarView`** which can be used in layout `xml` files or instantiated programmatically.
 For example:
 
@@ -532,7 +532,7 @@ monthView.onDayPickedListener = object : OnDayPickedListener {
 
 Locale
 -------------------------------------------
-`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) have been implemented with localization capabilities. 
+`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePicker`) have been implemented with localization capabilities.
 By choosing locale for the `PrimeCalendar` instance which is passed to `goto` method, or by setting it directly to the views, you can  localize names, digits, and layout direction.
 
 #### Localization example for `PrimeMonthView` using `PersianCalendar`:
