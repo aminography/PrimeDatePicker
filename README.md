@@ -59,14 +59,15 @@ val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
     // TODO
 }
 
+val themeFactory = DarkThemeFactory()
+
 val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
 val datePicker = PrimeDatePicker.bottomSheetWith(today) // or dialogWith(today)
         .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
         .minPossibleDate(minDateCalendar)            // Optional
         .maxPossibleDate(maxDateCalendar)            // Optional
-        .typefacePath(typeface)                      // Optional
-        .animateSelection(true)                      // Optional
+        .applyTheme(themeFactory)                    // Optional
         .build()
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
@@ -83,14 +84,15 @@ SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
     }
 };
 
+BaseThemeFactory themeFactory = new LightThemeFactory();
+
 PrimeCalendar today = new CivilCalendar();  // Causes a Civil date picker, also today as the starting date
 
-PrimeDatePicker datePicker = PrimeDatePicker.Companion.bottomSheetWith(today) // or dialogWith(today)
+PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today) // or bottomSheetWith(today)
     .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
     .minPossibleDate(minDateCalendar)      // Optional
     .maxPossibleDate(maxDateCalendar)      // Optional
-    .typefacePath(typeface)                // Optional
-    .animateSelection(true)                // Optional
+    .applyTheme(themeFactory)              // Optional
     .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
