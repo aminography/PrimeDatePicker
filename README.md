@@ -42,7 +42,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:2.0.0'
+    implementation 'com.aminography:primedatepicker:3.0.0'
     implementation 'com.aminography:primecalendar:1.2.18'
 }
 ```
@@ -579,7 +579,7 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
-### Version 2.1.0
+### Version 3.0.0
 - Builder mechanism has changed a bit.
 - Adding full customization ability using a user configurable theme factory.
 - Ability to show the date picker as a dialog using `PrimeDatePicker.dialogWith` method as well as `PrimeDatePicker.bottomSheetWith` to show a bottom sheet.

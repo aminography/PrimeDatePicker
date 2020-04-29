@@ -420,7 +420,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // ---------------------------------------------------------------------------------------------
 
-    private var animator = ValueAnimator().apply {
+    private val animator = ValueAnimator().apply {
         setValues(progressProperty)
         duration = animationDuration.toLong()
         interpolator = animationInterpolator
@@ -1046,7 +1046,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun checkAnimatedInvalidation() {
         if (animateSelection) {
-            invalidate()
+//            invalidate()
             animator.start()
         } else {
             invalidate()
