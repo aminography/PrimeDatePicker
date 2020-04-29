@@ -11,7 +11,7 @@ interface OnDayPickedListener {
      * Called when one day is clicked by the user.
      *
      * @param pickType
-     *        Specifies type of the picked day based on [PickType] which is set to the [com.aminography.primedatepicker.monthview.PrimeMonthView] or [com.aminography.primedatepicker.calendarview.PrimeCalendarView].
+     *        Specifies type of the picked day based on [PickType] which is set to the [PrimeMonthView] or [PrimeCalendarView].
      * @param singleDay
      *        Specifies the picked day if the [pickType] is [PickType.SINGLE].
      * @param startDay

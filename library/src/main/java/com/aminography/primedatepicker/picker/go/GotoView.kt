@@ -13,7 +13,9 @@ import com.aminography.primedatepicker.picker.header.BaseLazyView
 import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.goto_container.view.*
 
-
+/**
+ * @author aminography
+ */
 class GotoView(
     viewStub: ViewStub,
     direction: Direction

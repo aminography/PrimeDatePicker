@@ -13,6 +13,9 @@ import android.widget.EditText
 import android.widget.NumberPicker
 import android.widget.TextView
 
+/**
+ * @author aminography
+ */
 internal class GotoNumberPicker : NumberPicker {
 
     constructor(context: Context) : super(context)

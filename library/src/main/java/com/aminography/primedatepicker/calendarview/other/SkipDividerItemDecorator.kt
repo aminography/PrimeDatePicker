@@ -11,7 +11,7 @@ import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import kotlin.math.roundToInt
 
 /**
- * Created by aminography on 9/4/2018.
+ * @author aminography
  */
 internal class SkipDividerItemDecorator(
     private val divider: Drawable? = null

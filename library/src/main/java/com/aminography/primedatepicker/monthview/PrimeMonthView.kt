@@ -803,7 +803,7 @@ class PrimeMonthView @JvmOverloads constructor(
             val y = topY + cellHeight / 2
             val x = xPositions[offset]
 
-            val pickedDayState = MonthViewUtils.findDayState(
+            val pickedDayState = findDayState(
                 year,
                 month,
                 dayOfMonth,

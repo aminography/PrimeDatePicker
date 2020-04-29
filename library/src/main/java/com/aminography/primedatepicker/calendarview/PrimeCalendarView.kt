@@ -701,10 +701,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
         }
 
-        dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)
+        dataList = createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)
         if (animate) {
             findFirstVisibleItem()?.let { current ->
-                val transitionList = CalendarViewUtils.createTransitionList(
+                val transitionList = createTransitionList(
                     calendarType,
                     current.year,
                     current.month,
@@ -928,7 +928,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         val maxOffset = maxDateCalendar?.monthOffset ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(
+                            val moreData = extendMoreList(
                                 calendarType,
                                 dataHolder.year,
                                 dataHolder.month,
@@ -955,7 +955,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         val minOffset = minDateCalendar?.monthOffset ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(
+                            val moreData = extendMoreList(
                                 calendarType,
                                 dataHolder.year,
                                 dataHolder.month,
