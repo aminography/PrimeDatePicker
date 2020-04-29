@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.picker
 import android.content.DialogInterface
 import androidx.fragment.app.FragmentManager
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.picker.builder.RequestBuilder
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
@@ -24,6 +25,8 @@ interface PrimeDatePicker {
     fun setOnDismissListener(listener: DialogInterface.OnDismissListener?)
 
     fun setDayPickCallback(callback: BaseDayPickCallback?)
+
+    fun setOnDayPickedListener(listener: OnDayPickedListener?)
 
     companion object {
 

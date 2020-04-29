@@ -48,6 +48,7 @@ internal class PrimeDatePickerImpl(
     private var onCancelListener: DialogInterface.OnCancelListener? = null
     private var onDismissListener: DialogInterface.OnDismissListener? = null
     private var onDayPickCallback: BaseDayPickCallback? = null
+    private var onDayPickedListener: OnDayPickedListener? = null
 
     private var calendarType: CalendarType = CalendarType.CIVIL
 
@@ -286,6 +287,7 @@ internal class PrimeDatePickerImpl(
             PickType.NOTHING -> {
             }
         }
+        onDayPickedListener?.onDayPicked(pickType, singleDay, startDay, endDay, multipleDays)
     }
 
     override fun onMonthLabelClicked(calendar: PrimeCalendar, touchedX: Int, touchedY: Int) {
@@ -335,6 +337,7 @@ internal class PrimeDatePickerImpl(
         onCancelListener = null
         onDismissListener = null
         onDayPickCallback = null
+        onDayPickedListener = null
     }
 
     override fun show(manager: FragmentManager, tag: String?) {
@@ -351,6 +354,10 @@ internal class PrimeDatePickerImpl(
 
     override fun setDayPickCallback(callback: BaseDayPickCallback?) {
         onDayPickCallback = callback
+    }
+
+    override fun setOnDayPickedListener(listener: OnDayPickedListener?) {
+        onDayPickedListener = listener
     }
 
     private fun toast(text: String) =
