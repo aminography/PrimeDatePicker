@@ -14,6 +14,7 @@ import java.io.Serializable
  */
 abstract class BaseThemeFactory : Serializable {
 
+    @Transient
     internal lateinit var context: Context
 
     protected fun getColor(@ColorRes colorResId: Int): Int =
