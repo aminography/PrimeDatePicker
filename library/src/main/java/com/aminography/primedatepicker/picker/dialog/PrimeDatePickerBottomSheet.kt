@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.picker.dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import com.aminography.primedatepicker.OnDayPickedListener
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.PrimeDatePicker
@@ -58,6 +59,10 @@ internal class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
 
     override fun setDayPickCallback(callback: BaseDayPickCallback?) {
         primeDatePicker.setDayPickCallback(callback)
+    }
+
+    override fun setOnDayPickedListener(listener: OnDayPickedListener?) {
+        primeDatePicker.setOnDayPickedListener(listener)
     }
 
 }
