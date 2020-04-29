@@ -35,12 +35,6 @@
     <integer name="defaultLoadFactor">24</integer>
     <integer name="defaultMaxTransitionLength">2</integer>
 
-    <!-- TwoLineTextView -->
-
-    <color name="defaultTwoLineTextColor">@color/white</color>
-    <dimen name="defaultTwoLineTextSize">15sp</dimen>
-    <dimen name="defaultGapBetweenLines">6dp</dimen>
-
     <!-- Button Bar -->
 
     <dimen name="defaultButtonTextSize">15sp</dimen>
@@ -104,5 +98,11 @@
     <color name="darkGotoBackgroundColor">@color/teal700</color>
     <color name="darkGotoTextColor">@color/white</color>
     <color name="darkGotoDividerColor">@color/white</color>
+
+    <!-- TwoLineTextView -->
+
+    <color name="defaultTwoLineTextColor">@color/white</color>
+    <dimen name="defaultTwoLineTextSize">15sp</dimen>
+    <dimen name="defaultGapBetweenLines">6dp</dimen>
 
 </resources>

@@ -7,7 +7,7 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.picker.PrimeDatePickerBottomSheet
+import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
@@ -23,7 +23,7 @@ import java.util.*
  */
 class DatePickerActivity : AppCompatActivity() {
 
-    private var datePicker: PrimeDatePickerBottomSheet? = null
+    private var datePicker: PrimeDatePicker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,32 +41,29 @@ class DatePickerActivity : AppCompatActivity() {
 
             val today = CalendarFactory.newInstance(calendarType, locale)
 
-            datePicker = when (pickType) {
-                PickType.SINGLE -> {
-                    PrimeDatePickerBottomSheet.from(today)
-                        .pickSingleDay(singleDayPickCallback)
-                        .minPossibleDate(minDateCalendar)
-                        .maxPossibleDate(maxDateCalendar)
-                        .applyTheme(theme)
-                        .build()
+            datePicker = if (isBottomSheet()) {
+                PrimeDatePicker.bottomSheetWith(today)
+            } else {
+                PrimeDatePicker.dialogWith(today)
+            }.let {
+                when (pickType) {
+                    PickType.SINGLE -> {
+                        it.pickSingleDay(singleDayPickCallback)
+                    }
+                    PickType.RANGE_START -> {
+                        it.pickRangeDays(rangeDaysPickCallback)
+                    }
+                    PickType.MULTIPLE -> {
+                        it.pickMultipleDays(multipleDaysPickCallback)
+
+                    }
+                    else -> null
                 }
-                PickType.RANGE_START -> {
-                    PrimeDatePickerBottomSheet.from(today)
-                        .pickRangeDays(rangeDaysPickCallback)
-                        .minPossibleDate(minDateCalendar)
-                        .maxPossibleDate(maxDateCalendar)
-                        .applyTheme(theme)
-                        .build()
-                }
-                PickType.MULTIPLE -> {
-                    PrimeDatePickerBottomSheet.from(today)
-                        .pickMultipleDays(multipleDaysPickCallback)
-                        .minPossibleDate(minDateCalendar)
-                        .maxPossibleDate(maxDateCalendar)
-                        .applyTheme(theme)
-                        .build()
-                }
-                else -> null
+            }?.let {
+                it.minPossibleDate(minDateCalendar)
+                it.maxPossibleDate(maxDateCalendar)
+                it.applyTheme(theme)
+                it.build()
             }
 
             datePicker?.show(supportFragmentManager, PICKER_TAG)
@@ -80,7 +77,7 @@ class DatePickerActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        datePicker = supportFragmentManager.findFragmentByTag(PICKER_TAG) as? PrimeDatePickerBottomSheet
+        datePicker = supportFragmentManager.findFragmentByTag(PICKER_TAG) as? PrimeDatePicker
         when (datePicker?.pickType) {
             PickType.SINGLE -> {
                 datePicker?.setDayPickCallback(singleDayPickCallback)
@@ -167,6 +164,10 @@ class DatePickerActivity : AppCompatActivity() {
             maxDateCalendar = null
         }
         return maxDateCalendar
+    }
+
+    private fun isBottomSheet(): Boolean {
+        return bottomSheetRadioButton.isChecked
     }
 
     private fun getTypeface(calendarType: CalendarType): String {

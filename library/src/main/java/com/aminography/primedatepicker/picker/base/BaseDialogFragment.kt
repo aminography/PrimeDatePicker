@@ -4,41 +4,34 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.DialogInterface
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.LayoutRes
-import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.aminography.primedatepicker.utils.screenSize
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 /**
  * @author aminography
  */
-abstract class BaseBottomSheetDialogFragment(
+abstract class BaseDialogFragment(
     @LayoutRes private val layoutResId: Int
-) : BottomSheetDialogFragment() {
+) : DialogFragment() {
 
     protected lateinit var rootView: View
 
     @SuppressLint("RestrictedApi")
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
+        dialog.window?.requestFeature(Window.FEATURE_NO_TITLE)
         rootView = View.inflate(context, layoutResId, null)
         dialog.setContentView(rootView)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         onInitViews(rootView)
-
-        val parentView = rootView.parent as View
-        parentView.setBackgroundColor(Color.TRANSPARENT)
-
-        val params = parentView.layoutParams as CoordinatorLayout.LayoutParams
-        val behavior = params.behavior
-        if (behavior is BottomSheetBehavior<*>) {
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = requireContext().screenSize.y
-        }
+        initWindow()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +40,13 @@ abstract class BaseBottomSheetDialogFragment(
     }
 
     abstract fun onInitViews(rootView: View)
+
+    private fun initWindow() {
+        val size = requireContext().screenSize
+        with(rootView) {
+            layoutParams.width = (size.x * 0.90).toInt()
+        }
+    }
 
     override fun show(manager: FragmentManager, tag: String?) {
         if (!isShowing) manager.let {

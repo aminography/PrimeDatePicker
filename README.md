@@ -51,7 +51,7 @@ dependencies {
 
 Usage
 -----------------
-To enjoy `PrimeDatePickerBottomSheet`, create an instance of it using builder pattern, like the following snippets:
+To enjoy `PrimeDatePicker`, create an instance of it using builder pattern, like the following snippets:
 
 > Kotlin
 ```kotlin
@@ -61,7 +61,7 @@ val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
 
 val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
-val datePicker = PrimeDatePickerBottomSheet.with(today)
+val datePicker = PrimeDatePicker.bottomSheetWith(today) // or dialogWith(today)
         .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
         .minPossibleDate(minDateCalendar)            // Optional
         .maxPossibleDate(maxDateCalendar)            // Optional
@@ -85,7 +85,7 @@ SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
 
 PrimeCalendar today = new CivilCalendar();  // Causes a Civil date picker, also today as the starting date
 
-PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(today)
+PrimeDatePickerBottomSheet datePicker = PrimeDatePicker.Companion.bottomSheetWith(today) // or dialogWith(today)
     .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
     .minPossibleDate(minDateCalendar)      // Optional
     .maxPossibleDate(maxDateCalendar)      // Optional
@@ -103,14 +103,14 @@ datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 `PrimeDatePickerBottomSheet` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
 
 ```kotlin
-val calendar = PersianCalendar().also {  // shows a Persian calendar
+// shows a Persian calendar, but in English language which leads to LTR direction
+val calendar = PersianCalendar(Locale.ENGLISH).also {
     it.year = 1398                       // customizes starting year
     it.month = 7                         // customizes starting month
     it.firstDayOfWeek = Calendar.MONDAY  // sets first day of week to Monday
-    it.locale = Locale.ENGLISH           // shows a Persian calendar, but in English language and LTR direction
 }
 
-val datePicker = PrimeDatePickerBottomSheet.with(calendar)
+val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
                     .pickSingleDay(singleDayPickCallback)
                      ...
                     .build()
@@ -577,6 +577,11 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
+### Version 2.1.0
+- Builder mechanism has changed a bit.
+- Adding full customization ability using a user configurable theme factory.
+- Ability to show the date picker as a dialog using `PrimeDatePicker.dialogWith` method as well as `PrimeDatePicker.bottomSheetWith` to show a bottom sheet.
+
 ### Version 2.0.0
 - Builder mechanism has changed.
 - Picking multiple days has better UX.

@@ -48,6 +48,12 @@ val Context.screenSize: Point
 fun Context.dp2px(dp: Float): Int =
     (dp * resources.displayMetrics.density).toInt()
 
+/**
+ * Returns a list of strings containing string values in target locale.
+ *
+ * @param locale the locale that you want to get string values in it
+ * @return list of string values
+ */
 @Suppress("DEPRECATION")
 fun Context.forceLocaleStrings(locale: Locale, @StringRes vararg resourceIds: Int): List<String> {
     var result: List<String>

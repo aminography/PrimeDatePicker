@@ -1,18 +1,19 @@
 package com.aminography.primedatepicker.picker
 
+import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentManager
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.*
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.picker.action.ActionView
-import com.aminography.primedatepicker.picker.base.BaseBottomSheetDialogFragment
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
@@ -32,10 +33,17 @@ import com.aminography.primedatepicker.utils.forceLocaleStrings
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 import java.util.*
 
+/**
+ * `PrimeDatePickerBottomSheet` contains the logic of picking days in a bottom sheet view.
+ *
+ * @author aminography
+ */
 @Suppress("unused")
-class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
-    R.layout.fragment_date_picker_bottom_sheet
-), OnDayPickedListener, OnMonthLabelClickListener {
+internal class PrimeDatePickerImpl(
+    private val onDismiss: () -> Unit
+) : PrimeDatePicker, OnDayPickedListener, OnMonthLabelClickListener {
+
+    private lateinit var context: Context
 
     private var onCancelListener: DialogInterface.OnCancelListener? = null
     private var onDismissListener: DialogInterface.OnDismissListener? = null
@@ -46,9 +54,10 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     private var internalPickType: PickType = PickType.NOTHING
     private var initialDateCalendar: PrimeCalendar? = null
 
-    val pickType: PickType
+    override val pickType: PickType
         get() = internalPickType
 
+    private lateinit var rootView: View
     private lateinit var headerView: HeaderView
     private var gotoView: BaseLazyView? = null
     private var direction: Direction = Direction.LTR
@@ -56,7 +65,13 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     private var typeface: Typeface? = null
     private lateinit var theme: BaseThemeFactory
 
-    override fun onInitViews(rootView: View) {
+    internal fun onCreate(context: Context) {
+        this.context = context
+    }
+
+    internal fun onInitViews(rootView: View, arguments: Bundle?) {
+        this.rootView = rootView
+
         initialDateCalendar = DateUtils.restoreCalendar(
             arguments?.getString("initialDateCalendar")
         )?.also {
@@ -71,10 +86,10 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         theme = arguments?.getSerializable("themeFactory") as? BaseThemeFactory
             ?: LightThemeFactory()
 
-        theme.context = requireContext()
+        theme.context = context
 
         theme.typefacePath?.let {
-            typeface = Typeface.createFromAsset(activityContext.assets, it)
+            typeface = Typeface.createFromAsset(context.assets, it)
         }
 
         with(rootView) {
@@ -109,14 +124,13 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
             initActionView()
             initHeaderView()
 
-            calendarView.onDayPickedListener = this@PrimeDatePickerBottomSheet
-            calendarView.onMonthLabelClickListener = this@PrimeDatePickerBottomSheet
+            calendarView.onDayPickedListener = this@PrimeDatePickerImpl
+            calendarView.onMonthLabelClickListener = this@PrimeDatePickerImpl
             calendarView.goto(initialDateCalendar!!)
         }
     }
 
-    override fun onResume() {
-        super.onResume()
+    internal fun onResume() {
         // To be sure of calendar view state restoration is done.
         with(rootView) {
             fab.isExpanded = false
@@ -139,33 +153,33 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         when (calendarView.pickType) {
             PickType.SINGLE -> {
                 if (calendarView.pickedSingleDayCalendar == null) {
-                    toast(requireContext().forceLocaleStrings(locale, R.string.no_day_is_selected)[0])
+                    toast(context.forceLocaleStrings(locale, R.string.no_day_is_selected)[0])
                 } else {
                     (onDayPickCallback as? SingleDayPickCallback)?.onSingleDayPicked(
                         calendarView.pickedSingleDayCalendar!!
                     )
-                    dismiss()
+                    onDismiss()
                 }
             }
             PickType.RANGE_START, PickType.RANGE_END -> {
                 if (calendarView.pickedRangeStartCalendar == null || calendarView.pickedRangeEndCalendar == null) {
-                    toast(requireContext().forceLocaleStrings(locale, R.string.no_range_is_selected)[0])
+                    toast(context.forceLocaleStrings(locale, R.string.no_range_is_selected)[0])
                 } else {
                     (onDayPickCallback as? RangeDaysPickCallback)?.onRangeDaysPicked(
                         calendarView.pickedRangeStartCalendar!!,
                         calendarView.pickedRangeEndCalendar!!
                     )
-                    dismiss()
+                    onDismiss()
                 }
             }
             PickType.MULTIPLE -> {
                 if (calendarView.pickedMultipleDaysList.isEmpty()) {
-                    toast(requireContext().forceLocaleStrings(locale, R.string.no_day_is_selected)[0])
+                    toast(context.forceLocaleStrings(locale, R.string.no_day_is_selected)[0])
                 } else {
                     (onDayPickCallback as? MultipleDaysPickCallback)?.onMultipleDaysPicked(
                         calendarView.pickedMultipleDaysList
                     )
-                    dismiss()
+                    onDismiss()
                 }
             }
             PickType.NOTHING -> {
@@ -180,7 +194,7 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
                 it.typeface = typeface
                 it.onTodayButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
                 it.onPositiveButtonClick = { handleOnPositiveButtonClick(calendarView) }
-                it.onNegativeButtonClick = { dismiss() }
+                it.onNegativeButtonClick = { onDismiss() }
                 it.applyTheme(theme)
             }
         }
@@ -312,145 +326,34 @@ class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
         }
     }
 
-    override fun onCancel(dialog: DialogInterface) {
-        super.onCancel(dialog)
+    internal fun onCancel(dialog: DialogInterface) {
         onCancelListener?.onCancel(dialog)
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    internal fun onDismiss(dialog: DialogInterface) {
         onDismissListener?.onDismiss(dialog)
         onCancelListener = null
         onDismissListener = null
         onDayPickCallback = null
     }
 
-    fun setOnCancelListener(listener: DialogInterface.OnCancelListener?): PrimeDatePickerBottomSheet {
+    override fun show(manager: FragmentManager, tag: String?) {
+        // do nothing!
+    }
+
+    override fun setOnCancelListener(listener: DialogInterface.OnCancelListener?) {
         onCancelListener = listener
-        return this
     }
 
-    fun setOnDismissListener(listener: DialogInterface.OnDismissListener?): PrimeDatePickerBottomSheet {
+    override fun setOnDismissListener(listener: DialogInterface.OnDismissListener?) {
         onDismissListener = listener
-        return this
     }
 
-    fun setDayPickCallback(callback: BaseDayPickCallback?): PrimeDatePickerBottomSheet {
+    override fun setDayPickCallback(callback: BaseDayPickCallback?) {
         onDayPickCallback = callback
-        return this
     }
 
     private fun toast(text: String) =
-        Toast.makeText(requireActivity(), text, Toast.LENGTH_SHORT).show()
-
-    // Builder Constructions -----------------------------------------------------------------------
-
-    abstract class BaseRequestBuilder<T : BaseDayPickCallback> internal constructor(
-        pickType: PickType,
-        initialDateCalendar: PrimeCalendar,
-        private val callback: T?
-    ) {
-
-        protected val bundle = Bundle()
-
-        init {
-            bundle.putString("initialDateCalendar", DateUtils.storeCalendar(initialDateCalendar))
-            bundle.putString("pickType", pickType.name)
-        }
-
-        fun weekStartDay(weekStartDay: Int): BaseRequestBuilder<T> {
-            bundle.putInt("weekStartDay", weekStartDay)
-            return this
-        }
-
-        fun minPossibleDate(minDate: PrimeCalendar?): BaseRequestBuilder<T> {
-            bundle.putString("minDateCalendar", DateUtils.storeCalendar(minDate))
-            return this
-        }
-
-        fun maxPossibleDate(maxDate: PrimeCalendar?): BaseRequestBuilder<T> {
-            bundle.putString("maxDateCalendar", DateUtils.storeCalendar(maxDate))
-            return this
-        }
-
-        fun applyTheme(themeFactory: BaseThemeFactory): BaseRequestBuilder<T> {
-            bundle.putSerializable("themeFactory", themeFactory)
-            return this
-        }
-
-        fun build(): PrimeDatePickerBottomSheet {
-            return PrimeDatePickerBottomSheet().also {
-                it.arguments = bundle
-                it.setDayPickCallback(callback)
-            }
-        }
-    }
-
-    class SingleDayRequestBuilder internal constructor(
-        initialDateCalendar: PrimeCalendar,
-        callback: SingleDayPickCallback?
-    ) : BaseRequestBuilder<SingleDayPickCallback>(PickType.SINGLE, initialDateCalendar, callback) {
-
-        fun initiallyPickedSingleDay(singleDay: PrimeCalendar): SingleDayRequestBuilder {
-            bundle.putString("pickedSingleDayCalendar", DateUtils.storeCalendar(singleDay))
-            return this
-        }
-    }
-
-    class RangeDaysRequestBuilder internal constructor(
-        initialDateCalendar: PrimeCalendar,
-        callback: RangeDaysPickCallback?
-    ) : BaseRequestBuilder<RangeDaysPickCallback>(PickType.RANGE_START, initialDateCalendar, callback) {
-
-        fun initiallyPickedRangeDays(startDay: PrimeCalendar, endDay: PrimeCalendar): RangeDaysRequestBuilder {
-            bundle.putString("pickedRangeStartCalendar", DateUtils.storeCalendar(startDay))
-            bundle.putString("pickedRangeEndCalendar", DateUtils.storeCalendar(endDay))
-            return this
-        }
-    }
-
-    class MultipleDaysRequestBuilder internal constructor(
-        initialDateCalendar: PrimeCalendar,
-        callback: MultipleDaysPickCallback?
-    ) : BaseRequestBuilder<MultipleDaysPickCallback>(PickType.MULTIPLE, initialDateCalendar, callback) {
-
-        fun initiallyPickedMultipleDays(multipleDays: List<PrimeCalendar>): MultipleDaysRequestBuilder {
-            bundle.putStringArrayList("pickedMultipleDaysList", multipleDays.map {
-                DateUtils.storeCalendar(it)!!
-            } as ArrayList<String>)
-            return this
-        }
-
-//        fun maxPickedDays(maxPickedDays: Int): MultipleDaysRequestBuilder {
-//            bundle.putInt("maxPickedDays", maxPickedDays)
-//            return this
-//        }
-    }
-
-    class RequestBuilder(
-        private val initialDateCalendar: PrimeCalendar
-    ) {
-
-        @JvmOverloads
-        fun pickSingleDay(callback: SingleDayPickCallback? = null): SingleDayRequestBuilder {
-            return SingleDayRequestBuilder(initialDateCalendar, callback)
-        }
-
-        @JvmOverloads
-        fun pickRangeDays(callback: RangeDaysPickCallback? = null): RangeDaysRequestBuilder {
-            return RangeDaysRequestBuilder(initialDateCalendar, callback)
-        }
-
-        @JvmOverloads
-        fun pickMultipleDays(callback: MultipleDaysPickCallback? = null): MultipleDaysRequestBuilder {
-            return MultipleDaysRequestBuilder(initialDateCalendar, callback)
-        }
-    }
-
-    companion object {
-
-        @JvmStatic
-        fun from(initialDate: PrimeCalendar): RequestBuilder = RequestBuilder(initialDate)
-    }
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 
 }

@@ -15,7 +15,7 @@ import com.aminography.primecalendar.PrimeCalendar;
 import com.aminography.primecalendar.common.CalendarFactory;
 import com.aminography.primecalendar.common.CalendarType;
 import com.aminography.primedatepicker.PickType;
-import com.aminography.primedatepicker.picker.PrimeDatePickerBottomSheet;
+import com.aminography.primedatepicker.picker.PrimeDatePicker;
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
@@ -42,7 +42,7 @@ import static com.aminography.primedatepicker.sample.MyApplication.FONT_PATH_PER
 public class DatePickerActivity extends AppCompatActivity {
 
     private static final String PICKER_TAG = "PrimeDatePickerBottomSheet";
-    private PrimeDatePickerBottomSheet datePicker = null;
+    private PrimeDatePicker datePicker = null;
 
     private RadioButton civilRadioButton;
     private RadioButton persianRadioButton;
@@ -58,6 +58,9 @@ public class DatePickerActivity extends AppCompatActivity {
 
     private RadioButton lightThemeRadioButton;
     private RadioButton darkThemeRadioButton;
+
+    private RadioButton bottomSheetRadioButton;
+    private RadioButton dialogRadioButton;
 
     private CheckBox minDateCheckBox;
     private CheckBox maxDateCheckBox;
@@ -82,6 +85,9 @@ public class DatePickerActivity extends AppCompatActivity {
         lightThemeRadioButton = findViewById(R.id.lightThemeRadioButton);
         darkThemeRadioButton = findViewById(R.id.darkThemeRadioButton);
 
+        bottomSheetRadioButton = findViewById(R.id.bottomSheetRadioButton);
+        dialogRadioButton = findViewById(R.id.dialogRadioButton);
+
         minDateCheckBox = findViewById(R.id.minDateCheckBox);
         maxDateCheckBox = findViewById(R.id.maxDateCheckBox);
 
@@ -102,28 +108,55 @@ public class DatePickerActivity extends AppCompatActivity {
 
                 switch (pickType) {
                     case SINGLE:
-                        datePicker = PrimeDatePickerBottomSheet.from(today)
-                            .pickSingleDay(singleDayPickCallback)
-                            .minPossibleDate(minDateCalendar)
-                            .maxPossibleDate(maxDateCalendar)
-                            .applyTheme(theme)
-                            .build();
+                        if (isBottomSheet()) {
+                            datePicker = PrimeDatePicker.Companion.bottomSheetWith(today)
+                                .pickSingleDay(singleDayPickCallback)
+                                .minPossibleDate(minDateCalendar)
+                                .maxPossibleDate(maxDateCalendar)
+                                .applyTheme(theme)
+                                .build();
+                        } else {
+                            datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                                .pickSingleDay(singleDayPickCallback)
+                                .minPossibleDate(minDateCalendar)
+                                .maxPossibleDate(maxDateCalendar)
+                                .applyTheme(theme)
+                                .build();
+                        }
                         break;
                     case RANGE_START:
-                        datePicker = PrimeDatePickerBottomSheet.from(today)
-                            .pickRangeDays(rangeDaysPickCallback)
-                            .minPossibleDate(minDateCalendar)
-                            .maxPossibleDate(maxDateCalendar)
-                            .applyTheme(theme)
-                            .build();
+                        if (isBottomSheet()) {
+                            datePicker = PrimeDatePicker.Companion.bottomSheetWith(today)
+                                .pickRangeDays(rangeDaysPickCallback)
+                                .minPossibleDate(minDateCalendar)
+                                .maxPossibleDate(maxDateCalendar)
+                                .applyTheme(theme)
+                                .build();
+                        } else {
+                            datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                                .pickRangeDays(rangeDaysPickCallback)
+                                .minPossibleDate(minDateCalendar)
+                                .maxPossibleDate(maxDateCalendar)
+                                .applyTheme(theme)
+                                .build();
+                        }
                         break;
                     case MULTIPLE:
-                        datePicker = PrimeDatePickerBottomSheet.from(today)
-                            .pickMultipleDays(multipleDaysPickCallback)
-                            .minPossibleDate(minDateCalendar)
-                            .maxPossibleDate(maxDateCalendar)
-                            .applyTheme(theme)
-                            .build();
+                        if (isBottomSheet()) {
+                            datePicker = PrimeDatePicker.Companion.bottomSheetWith(today)
+                                .pickMultipleDays(multipleDaysPickCallback)
+                                .minPossibleDate(minDateCalendar)
+                                .maxPossibleDate(maxDateCalendar)
+                                .applyTheme(theme)
+                                .build();
+                        } else {
+                            datePicker = PrimeDatePicker.Companion.dialogWith(today)
+                                .pickMultipleDays(multipleDaysPickCallback)
+                                .minPossibleDate(minDateCalendar)
+                                .maxPossibleDate(maxDateCalendar)
+                                .applyTheme(theme)
+                                .build();
+                        }
                         break;
                 }
 
@@ -145,7 +178,7 @@ public class DatePickerActivity extends AppCompatActivity {
         super.onResume();
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(PICKER_TAG);
         if (fragment != null) {
-            datePicker = (PrimeDatePickerBottomSheet) fragment;
+            datePicker = (PrimeDatePicker) fragment;
 
             switch (datePicker.getPickType()) {
                 case SINGLE:
@@ -258,6 +291,10 @@ public class DatePickerActivity extends AppCompatActivity {
             maxDateCalendar.add(Calendar.MONTH, +5);
         }
         return maxDateCalendar;
+    }
+
+    private boolean isBottomSheet() {
+        return bottomSheetRadioButton.isChecked();
     }
 
     private String getTypeface(CalendarType calendarType) {
