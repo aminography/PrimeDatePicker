@@ -420,6 +420,22 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // ---------------------------------------------------------------------------------------------
 
+    internal var disabledDaysSet: MutableSet<String>? = null
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
+    var disabledDaysList: List<PrimeCalendar> = arrayListOf()
+        set(value) {
+            field = value
+            mutableSetOf<String>().apply {
+                addAll(value.map { DateUtils.dateString(it) ?: "" })
+            }.also { disabledDaysSet = it }
+        }
+
+    // ---------------------------------------------------------------------------------------------
+
     private val animator = ValueAnimator().apply {
         setValues(progressProperty)
         duration = animationDuration.toLong()
@@ -803,7 +819,7 @@ class PrimeMonthView @JvmOverloads constructor(
             val y = topY + cellHeight / 2
             val x = xPositions[offset]
 
-            val pickedDayState = findDayState(
+            val pickedDayState = findPickedDayState(
                 year,
                 month,
                 dayOfMonth,
@@ -931,7 +947,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, pickedDayState: PickedDayState, x: Float, y: Float) {
         dayLabelPaint?.apply {
-            color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar)) {
+            color = if (isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet)) {
                 disabledDayLabelTextColor
             } else if (pickType != PickType.NOTHING) {
                 when (pickedDayState) {
@@ -1111,7 +1127,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun ifInValidRange(dayOfMonth: Int, function: () -> Unit) {
-        if (!DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar))
+        if (!isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet))
             function.invoke()
     }
 
@@ -1151,6 +1167,10 @@ class PrimeMonthView @JvmOverloads constructor(
         savedState.pickedMultipleDaysList = pickedMultipleDaysMap?.values?.map {
             DateUtils.storeCalendar(it)!!
         } ?: arrayListOf()
+
+        savedState.disabledDaysList = disabledDaysList.map {
+            DateUtils.storeCalendar(it)!!
+        }
 
         savedState.monthLabelTextColor = monthLabelTextColor
         savedState.weekLabelTextColor = weekLabelTextColor
@@ -1202,6 +1222,10 @@ class PrimeMonthView @JvmOverloads constructor(
                 }?.also { putAll(it) }
             }.also { pickedMultipleDaysMap = it }
 
+            savedState.disabledDaysList?.map {
+                DateUtils.restoreCalendar(it)!!
+            }?.also { disabledDaysList = it }
+
             monthLabelTextColor = savedState.monthLabelTextColor
             weekLabelTextColor = savedState.weekLabelTextColor
             dayLabelTextColor = savedState.dayLabelTextColor
@@ -1246,6 +1270,8 @@ class PrimeMonthView @JvmOverloads constructor(
         internal var pickedRangeEndCalendar: String? = null
         internal var pickedMultipleDaysList: List<String>? = null
 
+        internal var disabledDaysList: List<String>? = null
+
         internal var monthLabelTextColor: Int = 0
         internal var weekLabelTextColor: Int = 0
         internal var dayLabelTextColor: Int = 0
@@ -1282,7 +1308,9 @@ class PrimeMonthView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedRangeStartCalendar = input.readString()
             pickedRangeEndCalendar = input.readString()
-            pickedMultipleDaysList?.let { input.readStringList(it) }
+            input.readStringList(pickedMultipleDaysList ?: mutableListOf())
+
+            disabledDaysList?.let { input.readStringList(it) }
 
             monthLabelTextColor = input.readInt()
             weekLabelTextColor = input.readInt()
@@ -1321,6 +1349,8 @@ class PrimeMonthView @JvmOverloads constructor(
             out.writeString(pickedRangeStartCalendar)
             out.writeString(pickedRangeEndCalendar)
             out.writeStringList(pickedMultipleDaysList)
+
+            out.writeStringList(disabledDaysList)
 
             out.writeInt(monthLabelTextColor)
             out.writeInt(weekLabelTextColor)

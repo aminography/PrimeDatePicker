@@ -107,6 +107,10 @@ internal class PrimeDatePickerImpl(
                     it.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
                     it.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
 
+                    arguments?.getStringArrayList("disabledDaysList")?.run {
+                        it.disabledDaysList = map { list -> DateUtils.restoreCalendar(list)!! }
+                    }
+
                     arguments?.getInt("weekStartDay")?.let { day -> calendarView.weekStartDay = day }
 
                     it.pickType = internalPickType

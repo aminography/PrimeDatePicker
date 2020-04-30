@@ -10,7 +10,7 @@ import com.aminography.primedatepicker.utils.DateUtils
  * @author aminography
  */
 
-internal fun findDayState(
+internal fun findPickedDayState(
     year: Int,
     month: Int,
     dayOfMonth: Int,
@@ -20,7 +20,6 @@ internal fun findDayState(
     pickedRangeEndCalendar: PrimeCalendar?,
     pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>?
 ): PrimeMonthView.PickedDayState {
-
     when (pickType) {
         PickType.SINGLE -> {
             pickedSingleDayCalendar?.let { single ->
@@ -65,3 +64,15 @@ internal fun findDayState(
     }
     return NOTHING
 }
+
+internal fun isDayDisabled(
+    year: Int,
+    month: Int,
+    dayOfMonth: Int,
+    minDateCalendar: PrimeCalendar?,
+    maxDateCalendar: PrimeCalendar?,
+    disabledDaysSet: MutableSet<String>? = null
+): Boolean =
+    disabledDaysSet?.contains(
+        DateUtils.dateString(year, month, dayOfMonth)
+    ) == true || DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar)

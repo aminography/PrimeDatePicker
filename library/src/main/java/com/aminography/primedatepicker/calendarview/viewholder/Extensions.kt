@@ -9,6 +9,7 @@ import com.aminography.primedatepicker.monthview.PrimeMonthView
 
 internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
     callback?.let {
+        pickType = it.pickType
         typeface = it.typeface
         minDateCalendar = it.minDateCalendar
         maxDateCalendar = it.maxDateCalendar
@@ -16,7 +17,7 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
         pickedRangeStartCalendar = it.pickedRangeStartCalendar
         pickedRangeEndCalendar = it.pickedRangeEndCalendar
         pickedMultipleDaysMap = it.pickedMultipleDaysMap
-        pickType = it.pickType
+        disabledDaysSet = it.disabledDaysSet
         weekStartDay = it.weekStartDay
         locale = it.locale
 

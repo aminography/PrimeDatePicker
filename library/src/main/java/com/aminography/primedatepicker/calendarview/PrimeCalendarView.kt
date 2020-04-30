@@ -299,7 +299,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>? = null
         set(value) {
             field = value
-            if (invalidate) invalidate()
+            if (invalidate) adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
 
@@ -478,6 +478,22 @@ class PrimeCalendarView @JvmOverloads constructor(
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    // ---------------------------------------------------------------------------------------------
+
+    override var disabledDaysSet: MutableSet<String>? = null
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    var disabledDaysList: List<PrimeCalendar> = arrayListOf()
+        set(value) {
+            field = value
+            mutableSetOf<String>().apply {
+                addAll(value.map { DateUtils.dateString(it) ?: "" })
+            }.also { disabledDaysSet = it }
         }
 
     // ---------------------------------------------------------------------------------------------
@@ -1011,6 +1027,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             DateUtils.storeCalendar(it)!!
         } ?: arrayListOf()
 
+        savedState.disabledDaysList = disabledDaysList.map {
+            DateUtils.storeCalendar(it)!!
+        }
+
         savedState.loadFactor = loadFactor
         savedState.maxTransitionLength = maxTransitionLength
         savedState.transitionSpeedFactor = transitionSpeedFactor
@@ -1082,6 +1102,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }?.also { putAll(it) }
             }.also { pickedMultipleDaysMap = it }
 
+            savedState.disabledDaysList?.map {
+                DateUtils.restoreCalendar(it)!!
+            }?.also { disabledDaysList = it }
+
             loadFactor = savedState.loadFactor
             maxTransitionLength = savedState.maxTransitionLength
             transitionSpeedFactor = savedState.transitionSpeedFactor
@@ -1143,6 +1167,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var pickedRangeEndCalendar: String? = null
         internal var pickedMultipleDaysList: List<String>? = null
 
+        internal var disabledDaysList: List<String>? = null
+
         internal var loadFactor: Int = 0
         internal var maxTransitionLength: Int = 0
         internal var transitionSpeedFactor: Float = 0f
@@ -1199,6 +1225,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             pickedRangeEndCalendar = input.readString()
             input.readStringList(pickedMultipleDaysList ?: mutableListOf())
 
+            disabledDaysList?.let { input.readStringList(it) }
+
             loadFactor = input.readInt()
             maxTransitionLength = input.readInt()
             transitionSpeedFactor = input.readFloat()
@@ -1254,6 +1282,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeString(pickedRangeStartCalendar)
             out.writeString(pickedRangeEndCalendar)
             out.writeStringList(pickedMultipleDaysList)
+
+            out.writeStringList(disabledDaysList)
 
             out.writeInt(loadFactor)
             out.writeInt(maxTransitionLength)

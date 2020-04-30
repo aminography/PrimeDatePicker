@@ -8,6 +8,7 @@ import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
 import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
 import com.aminography.primedatepicker.utils.DateUtils
+import java.util.*
 
 /**
  * @author aminography
@@ -38,6 +39,13 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, P : BaseDayPickCallback> 
 
     fun maxPossibleDate(maxDate: PrimeCalendar?): BaseRequestBuilder<T, P> {
         bundle.putString("maxDateCalendar", DateUtils.storeCalendar(maxDate))
+        return this
+    }
+
+    fun disabledDays(disabledDays: List<PrimeCalendar>): BaseRequestBuilder<T, P> {
+        bundle.putStringArrayList("disabledDaysList", disabledDays.map {
+            DateUtils.storeCalendar(it)!!
+        } as ArrayList<String>)
         return this
     }
 
