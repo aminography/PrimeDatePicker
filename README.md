@@ -583,6 +583,7 @@ Change Log
 - Builder mechanism has changed a bit.
 - Adding full customization ability using a user configurable theme factory.
 - Ability to show the date picker as a dialog using `PrimeDatePicker.dialogWith` method as well as `PrimeDatePicker.bottomSheetWith` to show a bottom sheet.
+- Ability to specify a list of disabled days.
 
 ### Version 2.0.0
 - Builder mechanism has changed.
