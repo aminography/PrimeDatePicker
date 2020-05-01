@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker;
+package com.aminography.primedatepicker.common;
 
 import com.aminography.primecalendar.PrimeCalendar;
 

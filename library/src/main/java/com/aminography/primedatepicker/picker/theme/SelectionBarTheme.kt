@@ -1,6 +1,6 @@
 package com.aminography.primedatepicker.picker.theme
 
-import com.aminography.primedatepicker.LabelFormatter
+import com.aminography.primedatepicker.common.LabelFormatter
 
 /**
  * @author aminography
@@ -58,5 +58,4 @@ interface SelectionBarTheme {
     val selectionBarMultipleDaysItemTopLabelFormatter: LabelFormatter
 
     val selectionBarMultipleDaysItemBottomLabelFormatter: LabelFormatter
-    
 }

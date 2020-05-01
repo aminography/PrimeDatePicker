@@ -14,5 +14,4 @@ interface ActionBarTheme {
     val actionBarNegativeTextColor: Int
 
     val actionBarPositiveTextColor: Int
-    
 }

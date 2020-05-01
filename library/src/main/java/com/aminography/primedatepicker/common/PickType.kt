@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker
+package com.aminography.primedatepicker.common
 
 /**
  * @author aminography

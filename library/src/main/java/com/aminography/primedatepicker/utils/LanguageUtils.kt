@@ -3,7 +3,7 @@ package com.aminography.primedatepicker.utils
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.hijri.HijriCalendar
 import com.aminography.primecalendar.persian.PersianCalendar
-import com.aminography.primedatepicker.Direction
+import com.aminography.primedatepicker.common.Direction
 import java.util.*
 
 

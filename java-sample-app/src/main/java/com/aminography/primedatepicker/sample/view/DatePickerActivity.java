@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.aminography.primecalendar.PrimeCalendar;
 import com.aminography.primecalendar.common.CalendarFactory;
 import com.aminography.primecalendar.common.CalendarType;
-import com.aminography.primedatepicker.PickType;
+import com.aminography.primedatepicker.common.PickType;
 import com.aminography.primedatepicker.picker.PrimeDatePicker;
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback;

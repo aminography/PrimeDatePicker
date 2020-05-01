@@ -2,7 +2,7 @@ package com.aminography.primedatepicker.picker.action
 
 import android.graphics.Typeface
 import android.view.ViewStub
-import com.aminography.primedatepicker.Direction
+import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.base.BaseLazyView
 import com.aminography.primedatepicker.utils.forceLocaleStrings

@@ -12,5 +12,4 @@ interface GotoViewTheme {
     val gotoViewTextSize: Int
 
     val gotoViewDividerColor: Int
-    
 }

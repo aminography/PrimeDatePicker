@@ -1,7 +1,7 @@
 package com.aminography.primedatepicker.monthview
 
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.monthview.PrimeMonthView.PickedDayState.*
 import com.aminography.primedatepicker.utils.DateUtils
 

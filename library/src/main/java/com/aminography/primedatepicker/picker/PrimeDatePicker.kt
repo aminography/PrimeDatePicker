@@ -3,8 +3,8 @@ package com.aminography.primedatepicker.picker
 import android.content.DialogInterface
 import androidx.fragment.app.FragmentManager
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primedatepicker.OnDayPickedListener
-import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.common.OnDayPickedListener
+import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.picker.builder.RequestBuilder
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
 import com.aminography.primedatepicker.picker.dialog.PrimeDatePickerBottomSheet

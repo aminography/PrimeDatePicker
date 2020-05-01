@@ -2,7 +2,7 @@ package com.aminography.primedatepicker.picker.theme
 
 import android.view.animation.Interpolator
 import android.view.animation.OvershootInterpolator
-import com.aminography.primedatepicker.LabelFormatter
+import com.aminography.primedatepicker.common.LabelFormatter
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 

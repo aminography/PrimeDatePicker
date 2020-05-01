@@ -1,7 +1,7 @@
 package com.aminography.primedatepicker.picker.theme
 
 import android.view.animation.Interpolator
-import com.aminography.primedatepicker.LabelFormatter
+import com.aminography.primedatepicker.common.LabelFormatter
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 
 /**
@@ -96,5 +96,4 @@ interface CalendarViewTheme {
     // ------- Developer Options
 
     val developerOptionsShowGuideLines: Boolean
-
 }

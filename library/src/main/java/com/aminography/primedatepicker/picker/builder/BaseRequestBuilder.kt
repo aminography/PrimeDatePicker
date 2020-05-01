@@ -3,7 +3,7 @@ package com.aminography.primedatepicker.picker.builder
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
 import com.aminography.primedatepicker.picker.theme.ThemeFactory

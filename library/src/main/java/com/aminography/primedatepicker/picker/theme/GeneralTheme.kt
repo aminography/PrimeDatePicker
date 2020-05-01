@@ -6,5 +6,4 @@ package com.aminography.primedatepicker.picker.theme
 interface GeneralTheme {
 
     val typefacePath: String?
-
 }

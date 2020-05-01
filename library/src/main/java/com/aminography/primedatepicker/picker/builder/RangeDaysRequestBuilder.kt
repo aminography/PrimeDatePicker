@@ -1,7 +1,7 @@
 package com.aminography.primedatepicker.picker.builder
 
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
 import com.aminography.primedatepicker.utils.DateUtils
