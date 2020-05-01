@@ -14,10 +14,10 @@ import kotlinx.android.synthetic.main.list_item_picked_day_empty.view.*
 internal class PickedDayEmptyViewHolder(
     inflater: ItemViewInflater,
     typeface: Typeface?,
-    firstLabelTextSize: Int,
-    firstLabelTextColor: Int,
-    secondLabelTextSize: Int,
-    secondLabelTextColor: Int,
+    topLabelTextSize: Int,
+    topLabelTextColor: Int,
+    bottomLabelTextSize: Int,
+    bottomLabelTextColor: Int,
     gapBetweenLines: Int
 ) : BaseAdapter.BaseViewHolder(inflater(R.layout.list_item_picked_day_empty)) {
 
@@ -25,10 +25,10 @@ internal class PickedDayEmptyViewHolder(
         with(itemView) {
             typeface?.let { twoLineTextView.typeface = it }
             twoLineTextView.also {
-                it.firstLabelTextSize = firstLabelTextSize
-                it.firstLabelTextColor = firstLabelTextColor
-                it.secondLabelTextSize = secondLabelTextSize
-                it.secondLabelTextColor = secondLabelTextColor
+                it.topLabelTextSize = topLabelTextSize
+                it.topLabelTextColor = topLabelTextColor
+                it.bottomLabelTextSize = bottomLabelTextSize
+                it.bottomLabelTextColor = bottomLabelTextColor
                 it.gapBetweenLines = gapBetweenLines
             }
         }

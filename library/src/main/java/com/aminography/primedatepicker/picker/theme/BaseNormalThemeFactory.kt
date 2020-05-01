@@ -125,10 +125,10 @@ abstract class BaseNormalThemeFactory : ThemeFactory() {
 
     // ------- Selection Bar - Single Day
 
-    override val selectionBarSingleDayItemFirstLabelTextSize: Int
+    override val selectionBarSingleDayItemTopLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_small)
 
-    override val selectionBarSingleDayItemSecondLabelTextSize: Int
+    override val selectionBarSingleDayItemBottomLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_normal)
 
     override val selectionBarSingleDayItemGapBetweenLines: Int
@@ -139,10 +139,10 @@ abstract class BaseNormalThemeFactory : ThemeFactory() {
 
     // ------- Selection Bar - Range Days
 
-    override val selectionBarRangeDaysItemFirstLabelTextSize: Int
+    override val selectionBarRangeDaysItemTopLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_small)
 
-    override val selectionBarRangeDaysItemSecondLabelTextSize: Int
+    override val selectionBarRangeDaysItemBottomLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_normal)
 
     override val selectionBarRangeDaysItemGapBetweenLines: Int
@@ -153,21 +153,21 @@ abstract class BaseNormalThemeFactory : ThemeFactory() {
 
     // ------- Selection Bar - Multiple Days
 
-    override val selectionBarMultipleDaysItemFirstLabelTextSize: Int
+    override val selectionBarMultipleDaysItemTopLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_header_multi_large)
 
-    override val selectionBarMultipleDaysItemSecondLabelTextSize: Int
+    override val selectionBarMultipleDaysItemBottomLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_header_multi_small)
 
     override val selectionBarMultipleDaysItemGapBetweenLines: Int
         get() = 0
 
-    override val selectionBarMultipleDaysItemFirstLabelFormatter: LabelFormatter
+    override val selectionBarMultipleDaysItemTopLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
             String.format("%02d", primeCalendar.dayOfMonth)
         }
 
-    override val selectionBarMultipleDaysItemSecondLabelFormatter: LabelFormatter
+    override val selectionBarMultipleDaysItemBottomLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
             String.format(
                 "%s '%s",

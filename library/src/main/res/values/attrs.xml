@@ -108,14 +108,14 @@
     </declare-styleable>
 
     <declare-styleable name="TwoLineTextView">
-        <attr name="firstLabelText" format="string" />
-        <attr name="secondLabelText" format="string" />
+        <attr name="topLabelText" format="string" />
+        <attr name="bottomLabelText" format="string" />
 
-        <attr name="firstLabelTextColor" format="color" />
-        <attr name="secondLabelTextColor" format="color" />
+        <attr name="topLabelTextColor" format="color" />
+        <attr name="bottomLabelTextColor" format="color" />
 
-        <attr name="firstLabelTextSize" format="dimension" />
-        <attr name="secondLabelTextSize" format="dimension" />
+        <attr name="topLabelTextSize" format="dimension" />
+        <attr name="bottomLabelTextSize" format="dimension" />
 
         <attr name="preferredMinWidth" format="dimension" />
         <attr name="gapBetweenLines" format="dimension" />

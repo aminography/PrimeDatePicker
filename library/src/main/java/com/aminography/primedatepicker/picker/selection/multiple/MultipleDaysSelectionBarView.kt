@@ -69,28 +69,28 @@ internal class MultipleDaysSelectionBarView(
             multipleDaysAdapter.backgroundColor = value
         }
 
-    var firstLabelTextSize: Int = 0
+    var topLabelTextSize: Int = 0
         set(value) {
             field = value
-            multipleDaysAdapter.firstLabelTextSize = value
+            multipleDaysAdapter.topLabelTextSize = value
         }
 
-    var firstLabelTextColor: Int = 0
+    var topLabelTextColor: Int = 0
         set(value) {
             field = value
-            multipleDaysAdapter.firstLabelTextColor = value
+            multipleDaysAdapter.topLabelTextColor = value
         }
 
-    var secondLabelTextSize: Int = 0
+    var bottomLabelTextSize: Int = 0
         set(value) {
             field = value
-            multipleDaysAdapter.secondLabelTextSize = value
+            multipleDaysAdapter.bottomLabelTextSize = value
         }
 
-    var secondLabelTextColor: Int = 0
+    var bottomLabelTextColor: Int = 0
         set(value) {
             field = value
-            multipleDaysAdapter.secondLabelTextColor = value
+            multipleDaysAdapter.bottomLabelTextColor = value
         }
 
     var gapBetweenLines: Int = 0
@@ -99,9 +99,9 @@ internal class MultipleDaysSelectionBarView(
             multipleDaysAdapter.gapBetweenLines = value
         }
 
-    var firstLabelFormatter: LabelFormatter? = null
+    var topLabelFormatter: LabelFormatter? = null
 
-    var secondLabelFormatter: LabelFormatter? = null
+    var bottomLabelFormatter: LabelFormatter? = null
 
     var pickedDays: List<PrimeCalendar>? = null
         set(value) {
@@ -110,8 +110,8 @@ internal class MultipleDaysSelectionBarView(
                 PickedDayDataHolder(
                     it.shortDateString,
                     it,
-                    firstLabelFormatter,
-                    secondLabelFormatter
+                    topLabelFormatter,
+                    bottomLabelFormatter
                 )
             }?.also {
                 val count = multipleDaysAdapter.itemCount

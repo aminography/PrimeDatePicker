@@ -152,13 +152,13 @@ abstract class ThemeFactory : Serializable {
 
     // ------- Selection Bar - Single Day
 
-    abstract val selectionBarSingleDayItemFirstLabelTextSize: Int
+    abstract val selectionBarSingleDayItemTopLabelTextSize: Int
 
-    abstract val selectionBarSingleDayItemFirstLabelTextColor: Int
+    abstract val selectionBarSingleDayItemTopLabelTextColor: Int
 
-    abstract val selectionBarSingleDayItemSecondLabelTextSize: Int
+    abstract val selectionBarSingleDayItemBottomLabelTextSize: Int
 
-    abstract val selectionBarSingleDayItemSecondLabelTextColor: Int
+    abstract val selectionBarSingleDayItemBottomLabelTextColor: Int
 
     abstract val selectionBarSingleDayItemGapBetweenLines: Int
 
@@ -168,13 +168,13 @@ abstract class ThemeFactory : Serializable {
 
     abstract val selectionBarRangeDaysItemBackgroundColor: Int
 
-    abstract val selectionBarRangeDaysItemFirstLabelTextSize: Int
+    abstract val selectionBarRangeDaysItemTopLabelTextSize: Int
 
-    abstract val selectionBarRangeDaysItemFirstLabelTextColor: Int
+    abstract val selectionBarRangeDaysItemTopLabelTextColor: Int
 
-    abstract val selectionBarRangeDaysItemSecondLabelTextSize: Int
+    abstract val selectionBarRangeDaysItemBottomLabelTextSize: Int
 
-    abstract val selectionBarRangeDaysItemSecondLabelTextColor: Int
+    abstract val selectionBarRangeDaysItemBottomLabelTextColor: Int
 
     abstract val selectionBarRangeDaysItemGapBetweenLines: Int
 
@@ -184,19 +184,19 @@ abstract class ThemeFactory : Serializable {
 
     abstract val selectionBarMultipleDaysItemBackgroundColor: Int
 
-    abstract val selectionBarMultipleDaysItemFirstLabelTextSize: Int
+    abstract val selectionBarMultipleDaysItemTopLabelTextSize: Int
 
-    abstract val selectionBarMultipleDaysItemFirstLabelTextColor: Int
+    abstract val selectionBarMultipleDaysItemTopLabelTextColor: Int
 
-    abstract val selectionBarMultipleDaysItemSecondLabelTextSize: Int
+    abstract val selectionBarMultipleDaysItemBottomLabelTextSize: Int
 
-    abstract val selectionBarMultipleDaysItemSecondLabelTextColor: Int
+    abstract val selectionBarMultipleDaysItemBottomLabelTextColor: Int
 
     abstract val selectionBarMultipleDaysItemGapBetweenLines: Int
 
-    abstract val selectionBarMultipleDaysItemFirstLabelFormatter: LabelFormatter
+    abstract val selectionBarMultipleDaysItemTopLabelFormatter: LabelFormatter
 
-    abstract val selectionBarMultipleDaysItemSecondLabelFormatter: LabelFormatter
+    abstract val selectionBarMultipleDaysItemBottomLabelFormatter: LabelFormatter
 
     // ------- Goto View
 

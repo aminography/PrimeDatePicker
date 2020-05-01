@@ -54,19 +54,25 @@
     <color name="lightPickedDayCircleColor">@color/red300</color>
     <color name="lightDisabledDayLabelTextColor">@color/gray400</color>
     <color name="lightDividerColor">@color/gray400</color>
+
     <color name="lightButtonBarBackgroundColor">@color/white</color>
     <color name="lightButtonBarTodayTextColor">@color/gray900</color>
     <color name="lightButtonBarNegativeTextColor">@color/red400</color>
     <color name="lightButtonBarPositiveTextColor">@color/green400</color>
+
     <color name="lightSelectionBarBackgroundColor">@color/blueGray500</color>
-    <color name="lightSingleDayItemFirstLabelTextColor">@color/blueGray50</color>
-    <color name="lightSingleDayItemSecondLabelTextColor">@color/white</color>
-    <color name="lightRangeDaysItemBackgroundColor">@color/blueGray300</color>
-    <color name="lightRangeDaysItemFirstLabelTextColor">@color/blueGray50</color>
-    <color name="lightRangeDaysItemSecondLabelTextColor">@color/white</color>
-    <color name="lightMultipleDaysItemBackgroundColor">@color/blueGray300</color>
-    <color name="lightMultipleDaysItemFirstLabelTextColor">@color/white</color>
-    <color name="lightMultipleDaysItemSecondLabelTextColor">@color/white</color>
+
+    <color name="lightSelectionBarSingleDayItemTopLabelTextColor">@color/blueGray50</color>
+    <color name="lightSelectionBarSingleDayItemBottomLabelTextColor">@color/white</color>
+
+    <color name="lightSelectionBarRangeDaysItemBackgroundColor">@color/blueGray300</color>
+    <color name="lightSelectionBarRangeDaysItemTopLabelTextColor">@color/blueGray50</color>
+    <color name="lightSelectionBarRangeDaysItemBottomLabelTextColor">@color/white</color>
+
+    <color name="lightSelectionBarMultipleDaysItemBackgroundColor">@color/blueGray300</color>
+    <color name="lightSelectionBarMultipleDaysItemTopLabelTextColor">@color/white</color>
+    <color name="lightSelectionBarMultipleDaysItemBottomLabelTextColor">@color/white</color>
+
     <color name="lightGotoBackgroundColor">@color/red300</color>
     <color name="lightGotoTextColor">@color/white</color>
     <color name="lightGotoDividerColor">@color/white</color>
@@ -82,22 +88,28 @@
     <color name="darkPickedDayCircleColor">@color/teal700</color>
     <color name="darkDisabledDayLabelTextColor">@color/gray600</color>
     <color name="darkDividerColor">@color/gray400</color>
+
     <color name="darkButtonBarBackgroundColor">@color/deepDark</color>
     <color name="darkButtonBarTodayTextColor">@color/white</color>
     <color name="darkButtonBarNegativeTextColor">@color/red400</color>
     <color name="darkButtonBarPositiveTextColor">@color/green400</color>
+
     <color name="darkSelectionBarBackgroundColor">@color/blueGray800</color>
-    <color name="darkSingleDayItemFirstLabelTextColor">@color/blueGray200</color>
-    <color name="darkSingleDayItemSecondLabelTextColor">@color/white</color>
-    <color name="darkRangeDaysItemBackgroundColor">@color/blueGray600</color>
-    <color name="darkRangeDaysItemFirstLabelTextColor">@color/blueGray200</color>
-    <color name="darkRangeDaysItemSecondLabelTextColor">@color/white</color>
-    <color name="darkMultipleDaysItemBackgroundColor">@color/blueGray600</color>
-    <color name="darkMultipleDaysItemFirstLabelTextColor">@color/white</color>
-    <color name="darkMultipleDaysItemSecondLabelTextColor">@color/white</color>
-    <color name="darkGotoBackgroundColor">@color/teal700</color>
-    <color name="darkGotoTextColor">@color/white</color>
-    <color name="darkGotoDividerColor">@color/white</color>
+
+    <color name="darkSelectionBarSingleDayItemTopLabelTextColor">@color/blueGray200</color>
+    <color name="darkSelectionBarSingleDayItemBottomLabelTextColor">@color/white</color>
+
+    <color name="darkSelectionBarRangeDaysItemBackgroundColor">@color/blueGray600</color>
+    <color name="darkSelectionBarRangeDaysItemTopLabelTextColor">@color/blueGray200</color>
+    <color name="darkSelectionBarRangeDaysItemBottomLabelTextColor">@color/white</color>
+
+    <color name="darkSelectionBarMultipleDaysItemBackgroundColor">@color/blueGray600</color>
+    <color name="darkSelectionBarMultipleDaysItemTopLabelTextColor">@color/white</color>
+    <color name="darkSelectionBarMultipleDaysItemBottomLabelTextColor">@color/white</color>
+
+    <color name="darkGotoViewBackgroundColor">@color/teal700</color>
+    <color name="darkGotoViewTextColor">@color/white</color>
+    <color name="darkGotoViewDividerColor">@color/white</color>
 
     <!-- TwoLineTextView -->
 

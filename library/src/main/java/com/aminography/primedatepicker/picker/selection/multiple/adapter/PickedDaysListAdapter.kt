@@ -20,10 +20,10 @@ internal class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, Base
 
     var typeface: Typeface? = null
     var backgroundColor: Int = 0
-    var firstLabelTextSize: Int = 0
-    var firstLabelTextColor: Int = 0
-    var secondLabelTextSize: Int = 0
-    var secondLabelTextColor: Int = 0
+    var topLabelTextSize: Int = 0
+    var topLabelTextColor: Int = 0
+    var bottomLabelTextSize: Int = 0
+    var bottomLabelTextColor: Int = 0
     var gapBetweenLines: Int = 0
 
     override fun createViewHolder(inflater: ItemViewInflater, viewType: Int): BaseViewHolder {
@@ -31,20 +31,20 @@ internal class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, Base
             0 -> PickedDayEmptyViewHolder(
                 inflater,
                 typeface,
-                firstLabelTextSize,
-                firstLabelTextColor,
-                secondLabelTextSize,
-                secondLabelTextColor,
+                topLabelTextSize,
+                topLabelTextColor,
+                bottomLabelTextSize,
+                bottomLabelTextColor,
                 gapBetweenLines
             )
             1 -> PickedDayViewHolder(
                 inflater,
                 typeface,
                 backgroundColor,
-                firstLabelTextSize,
-                firstLabelTextColor,
-                secondLabelTextSize,
-                secondLabelTextColor,
+                topLabelTextSize,
+                topLabelTextColor,
+                bottomLabelTextSize,
+                bottomLabelTextColor,
                 gapBetweenLines
             )
             else -> null!!

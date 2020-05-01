@@ -22,13 +22,13 @@ import kotlinx.android.synthetic.main.single_day_header.view.*
 
 internal fun ActionBarView.applyTheme(theme: ThemeFactory) {
     with(rootView) {
-        todayTwoLineTextView.firstLabelTextColor = theme.actionBarTodayTextColor
-        negativeTwoLineTextView.firstLabelTextColor = theme.actionBarNegativeTextColor
-        positiveTwoLineTextView.firstLabelTextColor = theme.actionBarPositiveTextColor
+        todayTwoLineTextView.topLabelTextColor = theme.actionBarTodayTextColor
+        negativeTwoLineTextView.topLabelTextColor = theme.actionBarNegativeTextColor
+        positiveTwoLineTextView.topLabelTextColor = theme.actionBarPositiveTextColor
 
-        todayTwoLineTextView.firstLabelTextSize = theme.actionBarTextSize
-        negativeTwoLineTextView.firstLabelTextSize = theme.actionBarTextSize
-        positiveTwoLineTextView.firstLabelTextSize = theme.actionBarTextSize
+        todayTwoLineTextView.topLabelTextSize = theme.actionBarTextSize
+        negativeTwoLineTextView.topLabelTextSize = theme.actionBarTextSize
+        positiveTwoLineTextView.topLabelTextSize = theme.actionBarTextSize
     }
 }
 
@@ -41,10 +41,10 @@ internal fun SelectionBarView.applyTheme(theme: ThemeFactory) {
             labelFormatter = theme.selectionBarSingleDayLabelFormatter
 
             with((this as BaseLazyView).rootView) {
-                pickedTextView.firstLabelTextSize = theme.selectionBarSingleDayItemFirstLabelTextSize
-                pickedTextView.firstLabelTextColor = theme.selectionBarSingleDayItemFirstLabelTextColor
-                pickedTextView.secondLabelTextSize = theme.selectionBarSingleDayItemSecondLabelTextSize
-                pickedTextView.secondLabelTextColor = theme.selectionBarSingleDayItemSecondLabelTextColor
+                pickedTextView.topLabelTextSize = theme.selectionBarSingleDayItemTopLabelTextSize
+                pickedTextView.topLabelTextColor = theme.selectionBarSingleDayItemTopLabelTextColor
+                pickedTextView.bottomLabelTextSize = theme.selectionBarSingleDayItemBottomLabelTextSize
+                pickedTextView.bottomLabelTextColor = theme.selectionBarSingleDayItemBottomLabelTextColor
                 pickedTextView.gapBetweenLines = theme.selectionBarSingleDayItemGapBetweenLines
             }
         }
@@ -53,28 +53,28 @@ internal fun SelectionBarView.applyTheme(theme: ThemeFactory) {
             itemBackgroundColor = theme.selectionBarRangeDaysItemBackgroundColor
 
             with((this as BaseLazyView).rootView) {
-                rangeStartTextView.firstLabelTextSize = theme.selectionBarRangeDaysItemFirstLabelTextSize
-                rangeStartTextView.firstLabelTextColor = theme.selectionBarRangeDaysItemFirstLabelTextColor
-                rangeStartTextView.secondLabelTextSize = theme.selectionBarRangeDaysItemSecondLabelTextSize
-                rangeStartTextView.secondLabelTextColor = theme.selectionBarRangeDaysItemSecondLabelTextColor
+                rangeStartTextView.topLabelTextSize = theme.selectionBarRangeDaysItemTopLabelTextSize
+                rangeStartTextView.topLabelTextColor = theme.selectionBarRangeDaysItemTopLabelTextColor
+                rangeStartTextView.bottomLabelTextSize = theme.selectionBarRangeDaysItemBottomLabelTextSize
+                rangeStartTextView.bottomLabelTextColor = theme.selectionBarRangeDaysItemBottomLabelTextColor
                 rangeStartTextView.gapBetweenLines = theme.selectionBarRangeDaysItemGapBetweenLines
 
-                rangeEndTextView.firstLabelTextSize = theme.selectionBarRangeDaysItemFirstLabelTextSize
-                rangeEndTextView.firstLabelTextColor = theme.selectionBarRangeDaysItemFirstLabelTextColor
-                rangeEndTextView.secondLabelTextSize = theme.selectionBarRangeDaysItemSecondLabelTextSize
-                rangeEndTextView.secondLabelTextColor = theme.selectionBarRangeDaysItemSecondLabelTextColor
+                rangeEndTextView.topLabelTextSize = theme.selectionBarRangeDaysItemTopLabelTextSize
+                rangeEndTextView.topLabelTextColor = theme.selectionBarRangeDaysItemTopLabelTextColor
+                rangeEndTextView.bottomLabelTextSize = theme.selectionBarRangeDaysItemBottomLabelTextSize
+                rangeEndTextView.bottomLabelTextColor = theme.selectionBarRangeDaysItemBottomLabelTextColor
                 rangeEndTextView.gapBetweenLines = theme.selectionBarRangeDaysItemGapBetweenLines
             }
         }
         is MultipleDaysSelectionBarView -> {
-            firstLabelFormatter = theme.selectionBarMultipleDaysItemFirstLabelFormatter
-            secondLabelFormatter = theme.selectionBarMultipleDaysItemSecondLabelFormatter
+            topLabelFormatter = theme.selectionBarMultipleDaysItemTopLabelFormatter
+            bottomLabelFormatter = theme.selectionBarMultipleDaysItemBottomLabelFormatter
 
             itemBackgroundColor = theme.selectionBarMultipleDaysItemBackgroundColor
-            firstLabelTextSize = theme.selectionBarMultipleDaysItemFirstLabelTextSize
-            firstLabelTextColor = theme.selectionBarMultipleDaysItemFirstLabelTextColor
-            secondLabelTextSize = theme.selectionBarMultipleDaysItemSecondLabelTextSize
-            secondLabelTextColor = theme.selectionBarMultipleDaysItemSecondLabelTextColor
+            topLabelTextSize = theme.selectionBarMultipleDaysItemTopLabelTextSize
+            topLabelTextColor = theme.selectionBarMultipleDaysItemTopLabelTextColor
+            bottomLabelTextSize = theme.selectionBarMultipleDaysItemBottomLabelTextSize
+            bottomLabelTextColor = theme.selectionBarMultipleDaysItemBottomLabelTextColor
             gapBetweenLines = theme.selectionBarMultipleDaysItemGapBetweenLines
         }
     }

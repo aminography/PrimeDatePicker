@@ -10,11 +10,11 @@ import com.aminography.primedatepicker.utils.localizeDigits
 internal data class PickedDayDataHolder(
     override val id: String,
     val calendar: PrimeCalendar,
-    private val firstLabelFormatter: LabelFormatter?,
-    private val secondLabelFormatter: LabelFormatter?
+    private val topLabelFormatter: LabelFormatter?,
+    private val bottomLabelFormatter: LabelFormatter?
 ) : BasePickedDayDataHolder(id) {
 
-    val firstLabel: String = firstLabelFormatter?.invoke(calendar)?.localizeDigits(calendar.locale) ?: ""
-    val secondLabel: String = secondLabelFormatter?.invoke(calendar)?.localizeDigits(calendar.locale) ?: ""
+    val topLabel: String = topLabelFormatter?.invoke(calendar)?.localizeDigits(calendar.locale) ?: ""
+    val bottomLabel: String = bottomLabelFormatter?.invoke(calendar)?.localizeDigits(calendar.locale) ?: ""
 
 }

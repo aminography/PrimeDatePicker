@@ -18,10 +18,10 @@ internal class PickedDayViewHolder(
     inflater: ItemViewInflater,
     typeface: Typeface?,
     backgroundColor: Int,
-    firstLabelTextSize: Int,
-    firstLabelTextColor: Int,
-    secondLabelTextSize: Int,
-    secondLabelTextColor: Int,
+    topLabelTextSize: Int,
+    topLabelTextColor: Int,
+    bottomLabelTextSize: Int,
+    bottomLabelTextColor: Int,
     gapBetweenLines: Int
 ) : BaseAdapter.BaseViewHolder(inflater(R.layout.list_item_picked_day)) {
 
@@ -33,10 +33,10 @@ internal class PickedDayViewHolder(
                 ColorStateList.valueOf(backgroundColor)
             )
             twoLineTextView.also {
-                it.firstLabelTextSize = firstLabelTextSize
-                it.firstLabelTextColor = firstLabelTextColor
-                it.secondLabelTextSize = secondLabelTextSize
-                it.secondLabelTextColor = secondLabelTextColor
+                it.topLabelTextSize = topLabelTextSize
+                it.topLabelTextColor = topLabelTextColor
+                it.bottomLabelTextSize = bottomLabelTextSize
+                it.bottomLabelTextColor = bottomLabelTextColor
                 it.gapBetweenLines = gapBetweenLines
             }
         }
@@ -46,8 +46,8 @@ internal class PickedDayViewHolder(
         if (dataHolder is PickedDayDataHolder) {
             with(itemView) {
                 twoLineTextView.also {
-                    it.firstLabelText = dataHolder.firstLabel
-                    it.secondLabelText = dataHolder.secondLabel
+                    it.topLabelText = dataHolder.topLabel
+                    it.bottomLabelText = dataHolder.bottomLabel
                 }
             }
         }

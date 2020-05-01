@@ -27,9 +27,9 @@ internal class ActionBarView(
                     R.string.action_select,
                     R.string.action_cancel
                 )
-                rootView.todayTwoLineTextView.firstLabelText = strings[0]
-                rootView.positiveTwoLineTextView.firstLabelText = strings[1]
-                rootView.negativeTwoLineTextView.firstLabelText = strings[2]
+                rootView.todayTwoLineTextView.topLabelText = strings[0]
+                rootView.positiveTwoLineTextView.topLabelText = strings[1]
+                rootView.negativeTwoLineTextView.topLabelText = strings[2]
             }
         }
 

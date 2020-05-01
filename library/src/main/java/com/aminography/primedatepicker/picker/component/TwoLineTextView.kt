@@ -35,14 +35,14 @@ internal class TwoLineTextView @JvmOverloads constructor(
     private val dp = context.dp2px(1f)
     private fun dp(value: Float) = dp.times(value).toInt()
 
-    private var firstLabelPaint: Paint? = null
-    private var secondLabelPaint: Paint? = null
+    private var topLabelPaint: Paint? = null
+    private var bottomLabelPaint: Paint? = null
 
     private var viewWidth = 0
 
     // Control Variables ---------------------------------------------------------------------------
 
-    var firstLabelText: String = ""
+    var topLabelText: String = ""
         set(value) {
             field = value
             if (invalidate) {
@@ -52,7 +52,7 @@ internal class TwoLineTextView @JvmOverloads constructor(
             }
         }
 
-    var secondLabelText: String = ""
+    var bottomLabelText: String = ""
         set(value) {
             field = value
             if (invalidate) {
@@ -62,24 +62,24 @@ internal class TwoLineTextView @JvmOverloads constructor(
             }
         }
 
-    var firstLabelTextColor: Int = 0
+    var topLabelTextColor: Int = 0
         set(value) {
             field = value
-            firstLabelPaint?.color = value
+            topLabelPaint?.color = value
             if (invalidate) invalidate()
         }
 
-    var secondLabelTextColor: Int = 0
+    var bottomLabelTextColor: Int = 0
         set(value) {
             field = value
-            secondLabelPaint?.color = value
+            bottomLabelPaint?.color = value
             if (invalidate) invalidate()
         }
 
-    var firstLabelTextSize: Int = 0
+    var topLabelTextSize: Int = 0
         set(value) {
             field = value
-            firstLabelPaint?.textSize = value.toFloat()
+            topLabelPaint?.textSize = value.toFloat()
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
@@ -87,10 +87,10 @@ internal class TwoLineTextView @JvmOverloads constructor(
             }
         }
 
-    var secondLabelTextSize: Int = 0
+    var bottomLabelTextSize: Int = 0
         set(value) {
             field = value
-            secondLabelPaint?.textSize = value.toFloat()
+            bottomLabelPaint?.textSize = value.toFloat()
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
@@ -144,14 +144,14 @@ internal class TwoLineTextView @JvmOverloads constructor(
         context.obtainStyledAttributes(attrs, R.styleable.TwoLineTextView, defStyleAttr, defStyleRes).apply {
             doNotInvalidate {
 
-                firstLabelText = getString(R.styleable.TwoLineTextView_firstLabelText) ?: ""
-                secondLabelText = getString(R.styleable.TwoLineTextView_secondLabelText) ?: ""
+                topLabelText = getString(R.styleable.TwoLineTextView_topLabelText) ?: ""
+                bottomLabelText = getString(R.styleable.TwoLineTextView_bottomLabelText) ?: ""
 
-                firstLabelTextColor = getColor(R.styleable.TwoLineTextView_firstLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
-                secondLabelTextColor = getColor(R.styleable.TwoLineTextView_secondLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
+                topLabelTextColor = getColor(R.styleable.TwoLineTextView_topLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
+                bottomLabelTextColor = getColor(R.styleable.TwoLineTextView_bottomLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
 
-                firstLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_firstLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
-                secondLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_secondLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
+                topLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_topLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
+                bottomLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_bottomLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
 
                 preferredMinWidth = getDimensionPixelSize(R.styleable.TwoLineTextView_preferredMinWidth, 0)
                 gapBetweenLines = getDimensionPixelSize(R.styleable.TwoLineTextView_gapBetweenLines, 0)
@@ -169,20 +169,20 @@ internal class TwoLineTextView @JvmOverloads constructor(
     }
 
     private fun calculateSizes() {
-        val firstLabelBounds = Rect()
-        firstLabelPaint?.getTextBounds(firstLabelText, 0, firstLabelText.length, firstLabelBounds)
+        val topLabelBounds = Rect()
+        topLabelPaint?.getTextBounds(topLabelText, 0, topLabelText.length, topLabelBounds)
 
-        val secondLabelBounds = Rect()
-        secondLabelPaint?.getTextBounds(secondLabelText, 0, secondLabelText.length, secondLabelBounds)
+        val bottomLabelBounds = Rect()
+        bottomLabelPaint?.getTextBounds(bottomLabelText, 0, bottomLabelText.length, bottomLabelBounds)
 
-        viewWidth = max(firstLabelBounds.width(), secondLabelBounds.width())
+        viewWidth = max(topLabelBounds.width(), bottomLabelBounds.width())
         viewWidth = max(viewWidth, preferredMinWidth)
     }
 
-    private fun initFirstLabelPaint() {
-        firstLabelPaint = Paint().apply {
-            textSize = firstLabelTextSize.toFloat()
-            color = firstLabelTextColor
+    private fun initTopLabelPaint() {
+        topLabelPaint = Paint().apply {
+            textSize = topLabelTextSize.toFloat()
+            color = topLabelTextColor
             style = Style.FILL
             textAlign = Align.CENTER
             isAntiAlias = true
@@ -190,10 +190,10 @@ internal class TwoLineTextView @JvmOverloads constructor(
         }
     }
 
-    private fun initSecondLabelPaint() {
-        secondLabelPaint = Paint().apply {
-            textSize = secondLabelTextSize.toFloat()
-            color = secondLabelTextColor
+    private fun initBottomLabelPaint() {
+        bottomLabelPaint = Paint().apply {
+            textSize = bottomLabelTextSize.toFloat()
+            color = bottomLabelTextColor
             style = Style.FILL
             textAlign = Align.CENTER
             isAntiAlias = true
@@ -202,13 +202,13 @@ internal class TwoLineTextView @JvmOverloads constructor(
     }
 
     private fun initPaints() {
-        initFirstLabelPaint()
-        initSecondLabelPaint()
+        initTopLabelPaint()
+        initBottomLabelPaint()
     }
 
     private fun applyTypeface() {
-        firstLabelPaint?.typeface = typeface
-        secondLabelPaint?.typeface = typeface
+        topLabelPaint?.typeface = typeface
+        bottomLabelPaint?.typeface = typeface
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -216,29 +216,29 @@ internal class TwoLineTextView @JvmOverloads constructor(
             viewWidth +
             paddingRight
         val height = paddingTop +
-            firstLabelTextSize +
+            topLabelTextSize +
             gapBetweenLines +
-            secondLabelTextSize +
+            bottomLabelTextSize +
             paddingBottom
         setMeasuredDimension(width, height)
     }
 
     override fun onDraw(canvas: Canvas) {
-        drawFirstLabel(canvas)
-        drawSecondLabel(canvas)
+        drawTopLabel(canvas)
+        drawBottomLabel(canvas)
     }
 
-    private fun drawFirstLabel(canvas: Canvas) {
+    private fun drawTopLabel(canvas: Canvas) {
         val x = paddingLeft + viewWidth / 2f
-        var y = paddingTop + firstLabelTextSize / 2f
+        var y = paddingTop + topLabelTextSize / 2f
 
-        firstLabelPaint?.apply {
+        topLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
         }
 
-        firstLabelPaint?.apply {
+        topLabelPaint?.apply {
             canvas.drawText(
-                firstLabelText,
+                topLabelText,
                 x,
                 y,
                 this
@@ -246,17 +246,17 @@ internal class TwoLineTextView @JvmOverloads constructor(
         }
     }
 
-    private fun drawSecondLabel(canvas: Canvas) {
+    private fun drawBottomLabel(canvas: Canvas) {
         val x = paddingLeft + viewWidth / 2f
-        var y = paddingTop + firstLabelTextSize + gapBetweenLines + secondLabelTextSize / 2f
+        var y = paddingTop + topLabelTextSize + gapBetweenLines + bottomLabelTextSize / 2f
 
-        secondLabelPaint?.apply {
+        bottomLabelPaint?.apply {
             y -= ((descent() + ascent()) / 2)
         }
 
-        secondLabelPaint?.apply {
+        bottomLabelPaint?.apply {
             canvas.drawText(
-                secondLabelText,
+                bottomLabelText,
                 x,
                 y,
                 this
@@ -270,12 +270,12 @@ internal class TwoLineTextView @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
 
-        savedState.firstLabelText = firstLabelText
-        savedState.secondLabelText = secondLabelText
-        savedState.firstLabelTextColor = firstLabelTextColor
-        savedState.secondLabelTextColor = secondLabelTextColor
-        savedState.firstLabelTextSize = firstLabelTextSize
-        savedState.secondLabelTextSize = secondLabelTextSize
+        savedState.topLabelText = topLabelText
+        savedState.bottomLabelText = bottomLabelText
+        savedState.topLabelTextColor = topLabelTextColor
+        savedState.bottomLabelTextColor = bottomLabelTextColor
+        savedState.topLabelTextSize = topLabelTextSize
+        savedState.bottomLabelTextSize = bottomLabelTextSize
         savedState.preferredMinWidth = preferredMinWidth
         savedState.gapBetweenLines = gapBetweenLines
 
@@ -287,12 +287,12 @@ internal class TwoLineTextView @JvmOverloads constructor(
         super.onRestoreInstanceState(savedState.superState)
 
         doNotInvalidate {
-            firstLabelText = savedState.firstLabelText
-            secondLabelText = savedState.secondLabelText
-            firstLabelTextColor = savedState.firstLabelTextColor
-            secondLabelTextColor = savedState.secondLabelTextColor
-            firstLabelTextSize = savedState.firstLabelTextSize
-            secondLabelTextSize = savedState.secondLabelTextSize
+            topLabelText = savedState.topLabelText
+            bottomLabelText = savedState.bottomLabelText
+            topLabelTextColor = savedState.topLabelTextColor
+            bottomLabelTextColor = savedState.bottomLabelTextColor
+            topLabelTextSize = savedState.topLabelTextSize
+            bottomLabelTextSize = savedState.bottomLabelTextSize
             preferredMinWidth = savedState.preferredMinWidth
             gapBetweenLines = savedState.gapBetweenLines
         }
@@ -303,36 +303,36 @@ internal class TwoLineTextView @JvmOverloads constructor(
 
     private class SavedState : BaseSavedState {
 
-        internal var firstLabelText: String = ""
-        internal var secondLabelText: String = ""
-        internal var firstLabelTextColor: Int = 0
-        internal var secondLabelTextColor: Int = 0
-        internal var firstLabelTextSize: Int = 0
-        internal var secondLabelTextSize: Int = 0
+        internal var topLabelText: String = ""
+        internal var bottomLabelText: String = ""
+        internal var topLabelTextColor: Int = 0
+        internal var bottomLabelTextColor: Int = 0
+        internal var topLabelTextSize: Int = 0
+        internal var bottomLabelTextSize: Int = 0
         internal var preferredMinWidth: Int = 0
         internal var gapBetweenLines: Int = 0
 
         internal constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
-            firstLabelText = input.readString() ?: ""
-            secondLabelText = input.readString() ?: ""
-            firstLabelTextColor = input.readInt()
-            secondLabelTextColor = input.readInt()
-            firstLabelTextSize = input.readInt()
-            secondLabelTextSize = input.readInt()
+            topLabelText = input.readString() ?: ""
+            bottomLabelText = input.readString() ?: ""
+            topLabelTextColor = input.readInt()
+            bottomLabelTextColor = input.readInt()
+            topLabelTextSize = input.readInt()
+            bottomLabelTextSize = input.readInt()
             preferredMinWidth = input.readInt()
             gapBetweenLines = input.readInt()
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
-            out.writeString(firstLabelText)
-            out.writeString(secondLabelText)
-            out.writeInt(firstLabelTextColor)
-            out.writeInt(secondLabelTextColor)
-            out.writeInt(firstLabelTextSize)
-            out.writeInt(secondLabelTextSize)
+            out.writeString(topLabelText)
+            out.writeString(bottomLabelText)
+            out.writeInt(topLabelTextColor)
+            out.writeInt(bottomLabelTextColor)
+            out.writeInt(topLabelTextSize)
+            out.writeInt(bottomLabelTextSize)
             out.writeInt(preferredMinWidth)
             out.writeInt(gapBetweenLines)
         }

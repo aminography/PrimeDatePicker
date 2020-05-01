@@ -27,7 +27,7 @@ internal class SingleDaySelectionBarView(
                     it,
                     R.string.prime_date_picker_selected_day
                 )
-                rootView.pickedTextView.firstLabelText = strings[0]
+                rootView.pickedTextView.topLabelText = strings[0]
             }
         }
 
@@ -42,7 +42,7 @@ internal class SingleDaySelectionBarView(
     var pickedDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.pickedTextView.secondLabelText = value?.let {
+            rootView.pickedTextView.bottomLabelText = value?.let {
                 labelFormatter?.invoke(it)?.localizeDigits(value.locale)
             } ?: ""
         }

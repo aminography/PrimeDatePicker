@@ -35,8 +35,8 @@ internal class RangeDaysSelectionBarView(
                     R.string.prime_date_picker_from,
                     R.string.prime_date_picker_to
                 )
-                rootView.rangeStartTextView.firstLabelText = strings[0]
-                rootView.rangeEndTextView.firstLabelText = strings[1]
+                rootView.rangeStartTextView.topLabelText = strings[0]
+                rootView.rangeEndTextView.topLabelText = strings[1]
             }
         }
 
@@ -72,7 +72,7 @@ internal class RangeDaysSelectionBarView(
     var pickedRangeStartDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.rangeStartTextView.secondLabelText = value?.let {
+            rootView.rangeStartTextView.bottomLabelText = value?.let {
                 labelFormatter?.invoke(it)?.localizeDigits(value.locale)
             } ?: ""
         }
@@ -80,7 +80,7 @@ internal class RangeDaysSelectionBarView(
     var pickedRangeEndDay: PrimeCalendar? = null
         set(value) {
             field = value
-            rootView.rangeEndTextView.secondLabelText = value?.let {
+            rootView.rangeEndTextView.bottomLabelText = value?.let {
                 labelFormatter?.invoke(it)?.localizeDigits(value.locale)
             } ?: ""
         }
