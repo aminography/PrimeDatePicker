@@ -1027,9 +1027,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             DateUtils.storeCalendar(it)!!
         } ?: arrayListOf()
 
-        savedState.disabledDaysList = disabledDaysList.map {
-            DateUtils.storeCalendar(it)!!
-        }
+        disabledDaysSet?.let { savedState.disabledDaysList = it.toList() }
 
         savedState.loadFactor = loadFactor
         savedState.maxTransitionLength = maxTransitionLength
@@ -1102,9 +1100,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }?.also { putAll(it) }
             }.also { pickedMultipleDaysMap = it }
 
-            savedState.disabledDaysList?.map {
-                DateUtils.restoreCalendar(it)!!
-            }?.also { disabledDaysList = it }
+            savedState.disabledDaysList?.toMutableSet()?.let { disabledDaysSet = it }
 
             loadFactor = savedState.loadFactor
             maxTransitionLength = savedState.maxTransitionLength

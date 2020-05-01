@@ -1168,9 +1168,7 @@ class PrimeMonthView @JvmOverloads constructor(
             DateUtils.storeCalendar(it)!!
         } ?: arrayListOf()
 
-        savedState.disabledDaysList = disabledDaysList.map {
-            DateUtils.storeCalendar(it)!!
-        }
+        disabledDaysSet?.let { savedState.disabledDaysList = it.toList() }
 
         savedState.monthLabelTextColor = monthLabelTextColor
         savedState.weekLabelTextColor = weekLabelTextColor
@@ -1222,9 +1220,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 }?.also { putAll(it) }
             }.also { pickedMultipleDaysMap = it }
 
-            savedState.disabledDaysList?.map {
-                DateUtils.restoreCalendar(it)!!
-            }?.also { disabledDaysList = it }
+            savedState.disabledDaysList?.toMutableSet()?.let { disabledDaysSet = it }
 
             monthLabelTextColor = savedState.monthLabelTextColor
             weekLabelTextColor = savedState.weekLabelTextColor

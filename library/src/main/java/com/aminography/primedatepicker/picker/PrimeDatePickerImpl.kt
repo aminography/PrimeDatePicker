@@ -213,12 +213,12 @@ internal class PrimeDatePickerImpl(
             PickType.NOTHING -> {
             }
         }
-        headerView.applyTheme(theme)
     }
 
     private fun initHeaderSingle(typeface: Typeface?) {
         with(rootView) {
             headerView = SingleHeaderView(headerViewStub).also {
+                it.applyTheme(theme)
                 it.locale = locale
                 it.typeface = typeface
                 it.pickedDay = calendarView.pickedSingleDayCalendar
@@ -234,6 +234,7 @@ internal class PrimeDatePickerImpl(
     private fun initHeaderRange(typeface: Typeface?) {
         with(rootView) {
             headerView = RangeHeaderView(headerViewStub, direction).also {
+                it.applyTheme(theme)
                 it.locale = locale
                 it.typeface = typeface
                 it.pickType = calendarView.pickType
@@ -258,6 +259,7 @@ internal class PrimeDatePickerImpl(
     private fun initHeaderMultiple(typeface: Typeface?) {
         with(rootView) {
             headerView = MultipleHeaderView(headerViewStub, direction).also {
+                it.applyTheme(theme)
                 it.locale = locale
                 it.typeface = typeface
                 it.onPickedDayClickListener = { day ->

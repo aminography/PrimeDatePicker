@@ -23,9 +23,4 @@ class MultipleDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
         return this
     }
 
-//    fun maxPickedDays(maxPickedDays: Int): MultipleDaysRequestBuilder {
-//        bundle.putInt("maxPickedDays", maxPickedDays)
-//        return this
-//    }
-
 }

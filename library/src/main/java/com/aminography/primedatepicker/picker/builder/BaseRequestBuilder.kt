@@ -13,11 +13,11 @@ import java.util.*
 /**
  * @author aminography
  */
-abstract class BaseRequestBuilder<T : PrimeDatePicker, P : BaseDayPickCallback> internal constructor(
+abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> internal constructor(
     private val clazz: Class<T>,
     pickType: PickType,
     initialDateCalendar: PrimeCalendar,
-    private val callback: P?
+    private val callback: C?
 ) {
 
     protected val bundle = Bundle()
@@ -27,29 +27,29 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, P : BaseDayPickCallback> 
         bundle.putString("pickType", pickType.name)
     }
 
-    fun weekStartDay(weekStartDay: Int): BaseRequestBuilder<T, P> {
+    fun weekStartDay(weekStartDay: Int): BaseRequestBuilder<T, C> {
         bundle.putInt("weekStartDay", weekStartDay)
         return this
     }
 
-    fun minPossibleDate(minDate: PrimeCalendar?): BaseRequestBuilder<T, P> {
+    fun minPossibleDate(minDate: PrimeCalendar?): BaseRequestBuilder<T, C> {
         bundle.putString("minDateCalendar", DateUtils.storeCalendar(minDate))
         return this
     }
 
-    fun maxPossibleDate(maxDate: PrimeCalendar?): BaseRequestBuilder<T, P> {
+    fun maxPossibleDate(maxDate: PrimeCalendar?): BaseRequestBuilder<T, C> {
         bundle.putString("maxDateCalendar", DateUtils.storeCalendar(maxDate))
         return this
     }
 
-    fun disabledDays(disabledDays: List<PrimeCalendar>): BaseRequestBuilder<T, P> {
+    fun disabledDays(disabledDays: List<PrimeCalendar>): BaseRequestBuilder<T, C> {
         bundle.putStringArrayList("disabledDaysList", disabledDays.map {
             DateUtils.storeCalendar(it)!!
         } as ArrayList<String>)
         return this
     }
 
-    fun applyTheme(themeFactory: BaseThemeFactory): BaseRequestBuilder<T, P> {
+    fun applyTheme(themeFactory: BaseThemeFactory): BaseRequestBuilder<T, C> {
         bundle.putSerializable("themeFactory", themeFactory)
         return this
     }

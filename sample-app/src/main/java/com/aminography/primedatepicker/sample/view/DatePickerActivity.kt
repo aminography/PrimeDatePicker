@@ -55,7 +55,6 @@ class DatePickerActivity : AppCompatActivity() {
                     }
                     PickType.MULTIPLE -> {
                         it.pickMultipleDays(multipleDaysPickCallback)
-
                     }
                     else -> null
                 }
