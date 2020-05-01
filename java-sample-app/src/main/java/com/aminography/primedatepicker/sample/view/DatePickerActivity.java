@@ -19,9 +19,9 @@ import com.aminography.primedatepicker.picker.PrimeDatePicker;
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
-import com.aminography.primedatepicker.picker.theme.BaseThemeFactory;
 import com.aminography.primedatepicker.picker.theme.DarkThemeFactory;
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory;
+import com.aminography.primedatepicker.picker.theme.ThemeFactory;
 import com.aminography.primedatepicker.sample.R;
 
 import org.jetbrains.annotations.Nullable;
@@ -102,7 +102,7 @@ public class DatePickerActivity extends AppCompatActivity {
                 PrimeCalendar minDateCalendar = getMinDateCalendar(calendarType);
                 PrimeCalendar maxDateCalendar = getMaxDateCalendar(calendarType);
                 final String typeface = getTypeface(calendarType);
-                BaseThemeFactory theme = getDefaultTheme(typeface);
+                ThemeFactory theme = getDefaultTheme(typeface);
 
                 PrimeCalendar today = CalendarFactory.newInstance(calendarType, locale);
 
@@ -255,7 +255,7 @@ public class DatePickerActivity extends AppCompatActivity {
         }
     }
 
-    private BaseThemeFactory getDefaultTheme(final String typeface) {
+    private ThemeFactory getDefaultTheme(final String typeface) {
         if (lightThemeRadioButton.isChecked()) {
             return new LightThemeFactory() {
                 @Nullable

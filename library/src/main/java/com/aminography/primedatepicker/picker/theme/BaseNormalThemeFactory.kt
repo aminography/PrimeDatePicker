@@ -9,7 +9,7 @@ import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 /**
  * @author aminography
  */
-abstract class BaseNormalThemeFactory : BaseThemeFactory() {
+abstract class BaseNormalThemeFactory : ThemeFactory() {
 
     // ------------------------------------------ General ------------------------------------------
 

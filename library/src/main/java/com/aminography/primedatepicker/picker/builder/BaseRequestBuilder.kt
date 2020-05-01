@@ -6,7 +6,7 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
-import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
+import com.aminography.primedatepicker.picker.theme.ThemeFactory
 import com.aminography.primedatepicker.utils.DateUtils
 import java.util.*
 
@@ -49,8 +49,26 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
         return this
     }
 
-    fun applyTheme(themeFactory: BaseThemeFactory): BaseRequestBuilder<T, C> {
+    fun applyTheme(themeFactory: ThemeFactory): BaseRequestBuilder<T, C> {
         bundle.putSerializable("themeFactory", themeFactory)
+        return this
+    }
+
+    @Deprecated(
+        level = DeprecationLevel.ERROR,
+        message = "This method is removed and should not be used anymore.",
+        replaceWith = ReplaceWith("applyTheme, try to override the typeface path on an instance of ThemeFactory.")
+    )
+    fun typefacePath(typefacePath: String): BaseRequestBuilder<T, C> {
+        return this
+    }
+
+    @Deprecated(
+        level = DeprecationLevel.ERROR,
+        message = "This method is removed and should not be used anymore.",
+        replaceWith = ReplaceWith("applyTheme, try to override the animate selection on an instance of ThemeFactory.")
+    )
+    fun animateSelection(animateSelection: Boolean): BaseRequestBuilder<T, C> {
         return this
     }
 

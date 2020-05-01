@@ -12,7 +12,7 @@ import java.io.Serializable
 /**
  * @author aminography
  */
-abstract class BaseThemeFactory : Serializable {
+abstract class ThemeFactory : Serializable {
 
     @Transient
     internal lateinit var context: Context

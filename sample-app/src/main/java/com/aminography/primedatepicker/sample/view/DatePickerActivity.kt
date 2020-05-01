@@ -11,9 +11,9 @@ import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
-import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
 import com.aminography.primedatepicker.picker.theme.DarkThemeFactory
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
+import com.aminography.primedatepicker.picker.theme.ThemeFactory
 import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
 import java.util.*
@@ -130,7 +130,7 @@ class DatePickerActivity : AppCompatActivity() {
         }
     }
 
-    private fun getDefaultTheme(typeface: String): BaseThemeFactory {
+    private fun getDefaultTheme(typeface: String): ThemeFactory {
         return when {
             lightThemeRadioButton.isChecked -> object : LightThemeFactory() {
                 override val typefacePath: String?

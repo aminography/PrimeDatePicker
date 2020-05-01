@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.single_day_header.view.*
  * @author aminography
  */
 
-internal fun ActionBarView.applyTheme(theme: BaseThemeFactory) {
+internal fun ActionBarView.applyTheme(theme: ThemeFactory) {
     with(rootView) {
         todayTwoLineTextView.firstLabelTextColor = theme.actionBarTodayTextColor
         negativeTwoLineTextView.firstLabelTextColor = theme.actionBarNegativeTextColor
@@ -32,7 +32,7 @@ internal fun ActionBarView.applyTheme(theme: BaseThemeFactory) {
     }
 }
 
-internal fun SelectionBarView.applyTheme(theme: BaseThemeFactory) {
+internal fun SelectionBarView.applyTheme(theme: ThemeFactory) {
     with((this as BaseLazyView).rootView) {
         setBackgroundColor(theme.selectionBarBackgroundColor)
     }
@@ -80,7 +80,7 @@ internal fun SelectionBarView.applyTheme(theme: BaseThemeFactory) {
     }
 }
 
-internal fun GotoView.applyTheme(theme: BaseThemeFactory) {
+internal fun GotoView.applyTheme(theme: ThemeFactory) {
     with(rootView) {
         setBackgroundColor(theme.gotoViewBackgroundColor)
         ImageViewCompat.setImageTintList(goIconImageView, ColorStateList.valueOf(theme.gotoViewBackgroundColor))
@@ -92,7 +92,7 @@ internal fun GotoView.applyTheme(theme: BaseThemeFactory) {
     }
 }
 
-internal fun PrimeCalendarView.applyTheme(theme: BaseThemeFactory) {
+internal fun PrimeCalendarView.applyTheme(theme: ThemeFactory) {
     // ------- Color Customizations
     setBackgroundColor(theme.elementBackgroundColor)
     monthLabelTextColor = theme.monthLabelTextColor

@@ -24,8 +24,8 @@ import com.aminography.primedatepicker.picker.selection.SelectionBarView
 import com.aminography.primedatepicker.picker.selection.multiple.MultipleDaysSelectionBarView
 import com.aminography.primedatepicker.picker.selection.range.RangeDaysSelectionBarView
 import com.aminography.primedatepicker.picker.selection.single.SingleDaySelectionBarView
-import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
+import com.aminography.primedatepicker.picker.theme.ThemeFactory
 import com.aminography.primedatepicker.picker.theme.applyTheme
 import com.aminography.primedatepicker.utils.DateUtils
 import com.aminography.primedatepicker.utils.findDirection
@@ -64,7 +64,7 @@ internal class PrimeDatePickerImpl(
     private var direction: Direction = Direction.LTR
     private lateinit var locale: Locale
     private var typeface: Typeface? = null
-    private lateinit var theme: BaseThemeFactory
+    private lateinit var themeFactory: ThemeFactory
 
     internal fun onCreate(context: Context) {
         this.context = context
@@ -84,17 +84,17 @@ internal class PrimeDatePickerImpl(
         locale = initialDateCalendar!!.locale
         direction = calendarType.findDirection(initialDateCalendar!!.locale)
 
-        theme = arguments?.getSerializable("themeFactory") as? BaseThemeFactory
+        themeFactory = arguments?.getSerializable("themeFactory") as? ThemeFactory
             ?: LightThemeFactory()
 
-        theme.context = context
+        themeFactory.context = context
 
-        theme.typefacePath?.let {
+        themeFactory.typefacePath?.let {
             typeface = Typeface.createFromAsset(context.assets, it)
         }
 
         with(rootView) {
-            theme.let {
+            themeFactory.let {
                 cardBackgroundImageView.setColorFilter(it.actionBarBackgroundColor)
                 circularRevealFrameLayout.setBackgroundColor(it.gotoViewBackgroundColor)
             }
@@ -122,7 +122,7 @@ internal class PrimeDatePickerImpl(
                         it.pickedMultipleDaysList = map { list -> DateUtils.restoreCalendar(list)!! }
                     }
 
-                    it.applyTheme(theme)
+                    it.applyTheme(themeFactory)
                 }
             }
 
@@ -200,7 +200,7 @@ internal class PrimeDatePickerImpl(
                 it.onTodayButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
                 it.onPositiveButtonClick = { handleOnPositiveButtonClick(calendarView) }
                 it.onNegativeButtonClick = { onDismiss() }
-                it.applyTheme(theme)
+                it.applyTheme(themeFactory)
             }
         }
     }
@@ -218,7 +218,7 @@ internal class PrimeDatePickerImpl(
     private fun initHeaderSingle(typeface: Typeface?) {
         with(rootView) {
             selectionBarView = SingleDaySelectionBarView(headerViewStub).also {
-                it.applyTheme(theme)
+                it.applyTheme(themeFactory)
                 it.locale = locale
                 it.typeface = typeface
                 it.pickedDay = calendarView.pickedSingleDayCalendar
@@ -234,7 +234,7 @@ internal class PrimeDatePickerImpl(
     private fun initHeaderRange(typeface: Typeface?) {
         with(rootView) {
             selectionBarView = RangeDaysSelectionBarView(headerViewStub, direction).also {
-                it.applyTheme(theme)
+                it.applyTheme(themeFactory)
                 it.locale = locale
                 it.typeface = typeface
                 it.pickType = calendarView.pickType
@@ -259,7 +259,7 @@ internal class PrimeDatePickerImpl(
     private fun initHeaderMultiple(typeface: Typeface?) {
         with(rootView) {
             selectionBarView = MultipleDaysSelectionBarView(headerViewStub, direction).also {
-                it.applyTheme(theme)
+                it.applyTheme(themeFactory)
                 it.locale = locale
                 it.typeface = typeface
                 it.onPickedDayClickListener = { day ->
@@ -313,7 +313,7 @@ internal class PrimeDatePickerImpl(
                     it.typeface = typeface
                     it.minDateCalendar = calendarView.minDateCalendar
                     it.maxDateCalendar = calendarView.maxDateCalendar
-                    it.applyTheme(theme)
+                    it.applyTheme(themeFactory)
                 }
             }
             (gotoView as? GotoView)?.also {
