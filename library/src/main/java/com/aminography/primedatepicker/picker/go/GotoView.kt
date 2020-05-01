@@ -9,20 +9,21 @@ import android.widget.NumberPicker
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.picker.header.BaseLazyView
+import com.aminography.primedatepicker.picker.base.BaseLazyView
+import com.aminography.primedatepicker.picker.component.ColoredNumberPicker
 import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.goto_container.view.*
 
 /**
  * @author aminography
  */
-class GotoView(
+internal class GotoView(
     viewStub: ViewStub,
     direction: Direction
 ) : BaseLazyView(if (direction == Direction.LTR) R.layout.goto_container else R.layout.goto_container_rtl, viewStub) {
 
-    private lateinit var monthNumberPicker: GotoNumberPicker
-    private lateinit var yearNumberPicker: GotoNumberPicker
+    private lateinit var monthNumberPicker: ColoredNumberPicker
+    private lateinit var yearNumberPicker: ColoredNumberPicker
 
     var calendar: PrimeCalendar? = null
         set(value) {
@@ -36,7 +37,7 @@ class GotoView(
     var typeface: Typeface? = null
         set(value) {
             field = value
-            GotoNumberPicker.typeface = value
+            ColoredNumberPicker.typeface = value
         }
 
     var onCloseClickListener: (() -> Unit)? = null
@@ -60,7 +61,7 @@ class GotoView(
             return clone.monthName
         }
 
-        monthNumberPicker = GotoNumberPicker(rootView.context)
+        monthNumberPicker = ColoredNumberPicker(rootView.context)
         rootView.monthFrameLayout.removeAllViews()
         rootView.monthFrameLayout.addView(monthNumberPicker)
         (monthNumberPicker.layoutParams as FrameLayout.LayoutParams).apply {
@@ -76,7 +77,7 @@ class GotoView(
         monthNumberPicker.value = calendar.month
         monthNumberPicker.setFormatter { value -> monthName(value) }
 
-        yearNumberPicker = GotoNumberPicker(rootView.context)
+        yearNumberPicker = ColoredNumberPicker(rootView.context)
         rootView.yearFrameLayout.removeAllViews()
         rootView.yearFrameLayout.addView(yearNumberPicker)
         (yearNumberPicker.layoutParams as FrameLayout.LayoutParams).apply {

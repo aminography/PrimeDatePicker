@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.picker.header.multiple.dataholder
+package com.aminography.primedatepicker.picker.selection.multiple.dataholder
 
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.LabelFormatter
@@ -7,7 +7,7 @@ import com.aminography.primedatepicker.utils.localizeDigits
 /**
  * @author aminography
  */
-data class PickedDayDataHolder(
+internal data class PickedDayDataHolder(
     override val id: String,
     val calendar: PrimeCalendar,
     private val firstLabelFormatter: LabelFormatter?,

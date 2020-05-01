@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.picker.go
+package com.aminography.primedatepicker.picker.component
 
 import android.content.Context
 import android.content.res.Resources
@@ -16,7 +16,7 @@ import android.widget.TextView
 /**
  * @author aminography
  */
-internal class GotoNumberPicker : NumberPicker {
+internal class ColoredNumberPicker : NumberPicker {
 
     constructor(context: Context) : super(context)
 
@@ -47,6 +47,38 @@ internal class GotoNumberPicker : NumberPicker {
         }
     }
 
+    fun applyDividerColor() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            val pickerFields = NumberPicker::class.java.declaredFields
+            for (pf in pickerFields) {
+                if (pf.name == "mSelectionDivider") {
+                    pf.isAccessible = true
+                    try {
+                        ColoredNumberPicker.dividerColor?.let {
+                            val colorDrawable = ColorDrawable(it)
+                            pf.set(this, colorDrawable)
+                        }
+                    } catch (e: IllegalArgumentException) {
+                        e.printStackTrace()
+                    } catch (e: Resources.NotFoundException) {
+                        e.printStackTrace()
+                    } catch (e: IllegalAccessException) {
+                        e.printStackTrace()
+                    }
+                    break
+                }
+            }
+        } else {
+            // TODO
+        }
+    }
+
+    fun fixInputFilter() {
+        val field = NumberPicker::class.java.getDeclaredField("mInputText")
+        field.isAccessible = true
+        (field.get(this) as EditText).filters = arrayOfNulls(0)
+    }
+
     companion object {
         internal var labelTextSize: Int? = null
         internal var labelTextColor: Int? = null
@@ -54,36 +86,4 @@ internal class GotoNumberPicker : NumberPicker {
         internal var typeface: Typeface? = null
     }
 
-}
-
-internal fun NumberPicker.applyDividerColor() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-        val pickerFields = NumberPicker::class.java.declaredFields
-        for (pf in pickerFields) {
-            if (pf.name == "mSelectionDivider") {
-                pf.isAccessible = true
-                try {
-                    GotoNumberPicker.dividerColor?.let {
-                        val colorDrawable = ColorDrawable(it)
-                        pf.set(this, colorDrawable)
-                    }
-                } catch (e: IllegalArgumentException) {
-                    e.printStackTrace()
-                } catch (e: Resources.NotFoundException) {
-                    e.printStackTrace()
-                } catch (e: IllegalAccessException) {
-                    e.printStackTrace()
-                }
-                break
-            }
-        }
-    } else {
-        // TODO
-    }
-}
-
-internal fun NumberPicker.fixInputFilter() {
-    val field = NumberPicker::class.java.getDeclaredField("mInputText")
-    field.isAccessible = true
-    (field.get(this) as EditText).filters = arrayOfNulls(0)
 }

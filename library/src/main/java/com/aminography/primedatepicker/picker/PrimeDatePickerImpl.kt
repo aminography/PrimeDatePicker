@@ -13,17 +13,17 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.*
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
-import com.aminography.primedatepicker.picker.action.ActionView
+import com.aminography.primedatepicker.picker.action.ActionBarView
+import com.aminography.primedatepicker.picker.base.BaseLazyView
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
 import com.aminography.primedatepicker.picker.go.GotoView
-import com.aminography.primedatepicker.picker.header.BaseLazyView
-import com.aminography.primedatepicker.picker.header.HeaderView
-import com.aminography.primedatepicker.picker.header.multiple.MultipleHeaderView
-import com.aminography.primedatepicker.picker.header.range.RangeHeaderView
-import com.aminography.primedatepicker.picker.header.single.SingleHeaderView
+import com.aminography.primedatepicker.picker.selection.SelectionBarView
+import com.aminography.primedatepicker.picker.selection.multiple.MultipleDaysSelectionBarView
+import com.aminography.primedatepicker.picker.selection.range.RangeDaysSelectionBarView
+import com.aminography.primedatepicker.picker.selection.single.SingleDaySelectionBarView
 import com.aminography.primedatepicker.picker.theme.BaseThemeFactory
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.aminography.primedatepicker.picker.theme.applyTheme
@@ -59,7 +59,7 @@ internal class PrimeDatePickerImpl(
         get() = internalPickType
 
     private lateinit var rootView: View
-    private lateinit var headerView: HeaderView
+    private lateinit var selectionBarView: SelectionBarView
     private var gotoView: BaseLazyView? = null
     private var direction: Direction = Direction.LTR
     private lateinit var locale: Locale
@@ -95,8 +95,8 @@ internal class PrimeDatePickerImpl(
 
         with(rootView) {
             theme.let {
-                cardBackgroundImageView.setColorFilter(it.buttonBarBackgroundColor)
-                circularRevealFrameLayout.setBackgroundColor(it.gotoBackgroundColor)
+                cardBackgroundImageView.setColorFilter(it.actionBarBackgroundColor)
+                circularRevealFrameLayout.setBackgroundColor(it.gotoViewBackgroundColor)
             }
             typeface?.let { calendarView.typeface = it }
 
@@ -143,7 +143,7 @@ internal class PrimeDatePickerImpl(
                 internalPickType = calendarView.pickType
                 when (internalPickType) {
                     PickType.RANGE_START, PickType.RANGE_END -> {
-                        (headerView as RangeHeaderView).run {
+                        (selectionBarView as RangeDaysSelectionBarView).run {
                             pickType = internalPickType
                         }
                     }
@@ -194,7 +194,7 @@ internal class PrimeDatePickerImpl(
 
     private fun initActionView() {
         with(rootView) {
-            ActionView(actionViewStub, direction).also {
+            ActionBarView(actionViewStub, direction).also {
                 it.locale = locale
                 it.typeface = typeface
                 it.onTodayButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
@@ -217,7 +217,7 @@ internal class PrimeDatePickerImpl(
 
     private fun initHeaderSingle(typeface: Typeface?) {
         with(rootView) {
-            headerView = SingleHeaderView(headerViewStub).also {
+            selectionBarView = SingleDaySelectionBarView(headerViewStub).also {
                 it.applyTheme(theme)
                 it.locale = locale
                 it.typeface = typeface
@@ -233,7 +233,7 @@ internal class PrimeDatePickerImpl(
 
     private fun initHeaderRange(typeface: Typeface?) {
         with(rootView) {
-            headerView = RangeHeaderView(headerViewStub, direction).also {
+            selectionBarView = RangeDaysSelectionBarView(headerViewStub, direction).also {
                 it.applyTheme(theme)
                 it.locale = locale
                 it.typeface = typeface
@@ -258,7 +258,7 @@ internal class PrimeDatePickerImpl(
 
     private fun initHeaderMultiple(typeface: Typeface?) {
         with(rootView) {
-            headerView = MultipleHeaderView(headerViewStub, direction).also {
+            selectionBarView = MultipleDaysSelectionBarView(headerViewStub, direction).also {
                 it.applyTheme(theme)
                 it.locale = locale
                 it.typeface = typeface
@@ -275,20 +275,20 @@ internal class PrimeDatePickerImpl(
         singleDay: PrimeCalendar?,
         startDay: PrimeCalendar?,
         endDay: PrimeCalendar?,
-        multipleDays: List<PrimeCalendar>?
+        multipleDays: List<PrimeCalendar>
     ) {
         when (pickType) {
             PickType.SINGLE -> {
-                (headerView as SingleHeaderView).pickedDay = singleDay
+                (selectionBarView as SingleDaySelectionBarView).pickedDay = singleDay
             }
             PickType.RANGE_START, PickType.RANGE_END -> {
-                (headerView as RangeHeaderView).run {
+                (selectionBarView as RangeDaysSelectionBarView).run {
                     pickedRangeStartDay = startDay
                     pickedRangeEndDay = endDay
                 }
             }
             PickType.MULTIPLE -> {
-                (headerView as MultipleHeaderView).pickedDays = multipleDays
+                (selectionBarView as MultipleDaysSelectionBarView).pickedDays = multipleDays
             }
             PickType.NOTHING -> {
             }

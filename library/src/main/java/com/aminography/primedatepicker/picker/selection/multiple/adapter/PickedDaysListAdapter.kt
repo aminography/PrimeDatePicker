@@ -1,22 +1,22 @@
-package com.aminography.primedatepicker.picker.header.multiple.adapter
+package com.aminography.primedatepicker.picker.selection.multiple.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Typeface
 import androidx.recyclerview.widget.DiffUtil
 import com.aminography.primedatepicker.picker.base.adapter.BaseAdapter
 import com.aminography.primedatepicker.picker.base.adapter.ItemViewInflater
-import com.aminography.primedatepicker.picker.header.multiple.dataholder.BasePickedDayDataHolder
-import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayDataHolder
-import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayEmptyDataHolder
-import com.aminography.primedatepicker.picker.header.multiple.viewholder.PickedDayEmptyViewHolder
-import com.aminography.primedatepicker.picker.header.multiple.viewholder.PickedDayViewHolder
+import com.aminography.primedatepicker.picker.selection.multiple.dataholder.BasePickedDayDataHolder
+import com.aminography.primedatepicker.picker.selection.multiple.dataholder.PickedDayDataHolder
+import com.aminography.primedatepicker.picker.selection.multiple.dataholder.PickedDayEmptyDataHolder
+import com.aminography.primedatepicker.picker.selection.multiple.viewholder.PickedDayEmptyViewHolder
+import com.aminography.primedatepicker.picker.selection.multiple.viewholder.PickedDayViewHolder
 
 /**
  * A concrete instance of adapter for list of the venue recommendations
  *
  * @author aminography
  */
-class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, BaseAdapter.BaseViewHolder>() {
+internal class PickedDaysListAdapter : BaseAdapter<BasePickedDayDataHolder, BaseAdapter.BaseViewHolder>() {
 
     var typeface: Typeface? = null
     var backgroundColor: Int = 0

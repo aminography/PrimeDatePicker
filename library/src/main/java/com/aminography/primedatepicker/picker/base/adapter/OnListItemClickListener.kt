@@ -1,12 +1,11 @@
-package com.aminography.primedatepicker.picker.header.multiple
+package com.aminography.primedatepicker.picker.base.adapter
 
 /**
  * An interface to implement on item click listener for the [androidx.recyclerview.widget.RecyclerView]
  *
  * @author aminography
  */
-interface OnListItemClickListener {
+internal interface OnListItemClickListener {
 
     fun <DH> onItemClicked(dataHolder: DH)
-
 }

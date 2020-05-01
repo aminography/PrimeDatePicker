@@ -120,54 +120,54 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
 
     // ------- Button Bar
 
-    override val buttonBarTextSize: Int
+    override val actionBarTextSize: Int
         get() = getDimension(R.dimen.defaultButtonTextSize)
 
     // ------- Selection Bar - Single Day
 
-    override val singleDayItemFirstLabelTextSize: Int
+    override val selectionBarSingleDayItemFirstLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_small)
 
-    override val singleDayItemSecondLabelTextSize: Int
+    override val selectionBarSingleDayItemSecondLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_normal)
 
-    override val singleDayItemGapBetweenLines: Int
+    override val selectionBarSingleDayItemGapBetweenLines: Int
         get() = getDimension(R.dimen.defaultGapBetweenLines)
 
-    override val singleDayLabelFormatter: LabelFormatter
+    override val selectionBarSingleDayLabelFormatter: LabelFormatter
         get() = { primeCalendar -> primeCalendar.shortDateString }
 
     // ------- Selection Bar - Range Days
 
-    override val rangeDaysItemFirstLabelTextSize: Int
+    override val selectionBarRangeDaysItemFirstLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_small)
 
-    override val rangeDaysItemSecondLabelTextSize: Int
+    override val selectionBarRangeDaysItemSecondLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_normal)
 
-    override val rangeDaysItemGapBetweenLines: Int
+    override val selectionBarRangeDaysItemGapBetweenLines: Int
         get() = getDimension(R.dimen.defaultGapBetweenLines)
 
-    override val rangeDaysLabelFormatter: LabelFormatter
+    override val selectionBarRangeDaysLabelFormatter: LabelFormatter
         get() = { primeCalendar -> primeCalendar.shortDateString }
 
     // ------- Selection Bar - Multiple Days
 
-    override val multipleDaysItemFirstLabelTextSize: Int
+    override val selectionBarMultipleDaysItemFirstLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_header_multi_large)
 
-    override val multipleDaysItemSecondLabelTextSize: Int
+    override val selectionBarMultipleDaysItemSecondLabelTextSize: Int
         get() = getDimension(R.dimen.text_size_header_multi_small)
 
-    override val multipleDaysItemGapBetweenLines: Int
+    override val selectionBarMultipleDaysItemGapBetweenLines: Int
         get() = 0
 
-    override val multipleDaysItemFirstLabelFormatter: LabelFormatter
+    override val selectionBarMultipleDaysItemFirstLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
             String.format("%02d", primeCalendar.dayOfMonth)
         }
 
-    override val multipleDaysItemSecondLabelFormatter: LabelFormatter
+    override val selectionBarMultipleDaysItemSecondLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
             String.format(
                 "%s '%s",
@@ -178,7 +178,7 @@ abstract class BaseNormalThemeFactory : BaseThemeFactory() {
 
     // ------- Goto View
 
-    override val gotoTextSize: Int
+    override val gotoViewTextSize: Int
         get() = getDimension(R.dimen.defaultGotoTextSize)
 
 }

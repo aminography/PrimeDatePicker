@@ -17,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 /**
  * @author aminography
  */
-abstract class BaseBottomSheetDialogFragment(
+internal abstract class BaseBottomSheetDialogFragment(
     @LayoutRes private val layoutResId: Int
 ) : BottomSheetDialogFragment() {
 

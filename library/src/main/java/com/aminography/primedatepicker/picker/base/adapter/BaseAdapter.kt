@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.aminography.primedatepicker.picker.header.multiple.OnListItemClickListener
 
 /**
  * A class contains base functionalities of a [RecyclerView.Adapter] to make adapter classes cleaner.
@@ -14,7 +13,7 @@ import com.aminography.primedatepicker.picker.header.multiple.OnListItemClickLis
  *
  * @author aminography
  */
-abstract class BaseAdapter<DH, VH : BaseAdapter.BaseViewHolder> : RecyclerView.Adapter<VH>() {
+internal abstract class BaseAdapter<DH, VH : BaseAdapter.BaseViewHolder> : RecyclerView.Adapter<VH>() {
 
     protected abstract val diffUtilCallback: DiffUtil.ItemCallback<DH>
 

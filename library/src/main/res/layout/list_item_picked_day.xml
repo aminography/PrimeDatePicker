@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/shape_round_rectangle_8" />
 
-    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLineTextView
         android:id="@+id/twoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

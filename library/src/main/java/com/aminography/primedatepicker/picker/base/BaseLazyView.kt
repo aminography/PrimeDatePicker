@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.picker.header
+package com.aminography.primedatepicker.picker.base
 
 import android.view.View
 import android.view.ViewStub
@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 /**
  * @author aminography
  */
-abstract class BaseLazyView(
+internal abstract class BaseLazyView(
     @LayoutRes private val layoutResId: Int,
     viewStub: ViewStub
 ) {

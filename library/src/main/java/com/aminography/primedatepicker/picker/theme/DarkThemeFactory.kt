@@ -46,16 +46,16 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
 
     // ------------------------------------ Picker Bottom Sheet ------------------------------------
 
-    override val buttonBarBackgroundColor: Int
+    override val actionBarBackgroundColor: Int
         get() = getColor(R.color.darkButtonBarBackgroundColor)
 
-    override val buttonBarTodayTextColor: Int
+    override val actionBarTodayTextColor: Int
         get() = getColor(R.color.darkButtonBarTodayTextColor)
 
-    override val buttonBarNegativeTextColor: Int
+    override val actionBarNegativeTextColor: Int
         get() = getColor(R.color.darkButtonBarNegativeTextColor)
 
-    override val buttonBarPositiveTextColor: Int
+    override val actionBarPositiveTextColor: Int
         get() = getColor(R.color.darkButtonBarPositiveTextColor)
 
     // ------- Selection Bar - General
@@ -65,43 +65,43 @@ open class DarkThemeFactory : BaseNormalThemeFactory() {
 
     // ------- Selection Bar - Single Day
 
-    override val singleDayItemFirstLabelTextColor: Int
+    override val selectionBarSingleDayItemFirstLabelTextColor: Int
         get() = getColor(R.color.darkSingleDayItemFirstLabelTextColor)
 
-    override val singleDayItemSecondLabelTextColor: Int
+    override val selectionBarSingleDayItemSecondLabelTextColor: Int
         get() = getColor(R.color.darkSingleDayItemSecondLabelTextColor)
 
     // ------- Selection Bar - Range Days
 
-    override val rangeDaysItemBackgroundColor: Int
+    override val selectionBarRangeDaysItemBackgroundColor: Int
         get() = getColor(R.color.darkRangeDaysItemBackgroundColor)
 
-    override val rangeDaysItemFirstLabelTextColor: Int
+    override val selectionBarRangeDaysItemFirstLabelTextColor: Int
         get() = getColor(R.color.darkRangeDaysItemFirstLabelTextColor)
 
-    override val rangeDaysItemSecondLabelTextColor: Int
+    override val selectionBarRangeDaysItemSecondLabelTextColor: Int
         get() = getColor(R.color.darkRangeDaysItemSecondLabelTextColor)
 
     // ------- Selection Bar - Multiple Days
 
-    override val multipleDaysItemBackgroundColor: Int
+    override val selectionBarMultipleDaysItemBackgroundColor: Int
         get() = getColor(R.color.darkMultipleDaysItemBackgroundColor)
 
-    override val multipleDaysItemFirstLabelTextColor: Int
+    override val selectionBarMultipleDaysItemFirstLabelTextColor: Int
         get() = getColor(R.color.darkMultipleDaysItemFirstLabelTextColor)
 
-    override val multipleDaysItemSecondLabelTextColor: Int
+    override val selectionBarMultipleDaysItemSecondLabelTextColor: Int
         get() = getColor(R.color.darkMultipleDaysItemSecondLabelTextColor)
 
     // ------- Goto View
 
-    override val gotoBackgroundColor: Int
+    override val gotoViewBackgroundColor: Int
         get() = getColor(R.color.darkGotoBackgroundColor)
 
-    override val gotoTextColor: Int
+    override val gotoViewTextColor: Int
         get() = getColor(R.color.darkGotoTextColor)
 
-    override val gotoDividerColor: Int
+    override val gotoViewDividerColor: Int
         get() = getColor(R.color.darkGotoDividerColor)
 
 }

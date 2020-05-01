@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.picker.header
+package com.aminography.primedatepicker.picker.component
 
 import android.content.Context
 import android.graphics.Canvas
@@ -23,7 +23,7 @@ import kotlin.math.max
  * @author aminography
  */
 @Suppress("ConstantConditionIf", "MemberVisibilityCanBePrivate", "unused")
-class TwoLineTextView @JvmOverloads constructor(
+internal class TwoLineTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,

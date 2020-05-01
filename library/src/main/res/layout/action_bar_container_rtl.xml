@@ -16,11 +16,11 @@
         app:layout_constraintStart_toStartOf="@id/todayTwoLineTextView"
         app:layout_constraintTop_toTopOf="@id/todayTwoLineTextView" />
 
-    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLineTextView
         android:id="@+id/todayTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/material_size_12"
+        android:layout_marginRight="@dimen/material_size_12"
         android:paddingStart="@dimen/material_size_12"
         android:paddingTop="@dimen/material_size_8"
         android:paddingEnd="@dimen/material_size_12"
@@ -29,7 +29,7 @@
         app:firstLabelTextColor="@color/gray900"
         app:firstLabelTextSize="@dimen/text_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:preferredMinWidth="@dimen/material_size_48"
         app:secondLabelTextSize="0dp" />
@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="@id/negativeTwoLineTextView"
         app:layout_constraintTop_toTopOf="@id/negativeTwoLineTextView" />
 
-    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLineTextView
         android:id="@+id/negativeTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         app:firstLabelTextColor="@color/red400"
         app:firstLabelTextSize="@dimen/text_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/positiveTwoLineTextView"
+        app:layout_constraintLeft_toRightOf="@id/positiveTwoLineTextView"
         app:layout_constraintTop_toTopOf="parent"
         app:preferredMinWidth="@dimen/material_size_48"
         app:secondLabelTextSize="0dp" />
@@ -71,11 +71,11 @@
         app:layout_constraintStart_toStartOf="@id/positiveTwoLineTextView"
         app:layout_constraintTop_toTopOf="@id/positiveTwoLineTextView" />
 
-    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLineTextView
         android:id="@+id/positiveTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/material_size_12"
+        android:layout_marginLeft="@dimen/material_size_12"
         android:paddingStart="@dimen/material_size_12"
         android:paddingTop="@dimen/material_size_8"
         android:paddingEnd="@dimen/material_size_12"
@@ -84,7 +84,7 @@
         app:firstLabelTextColor="@color/green400"
         app:firstLabelTextSize="@dimen/text_size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:preferredMinWidth="@dimen/material_size_48"
         app:secondLabelTextSize="0dp" />

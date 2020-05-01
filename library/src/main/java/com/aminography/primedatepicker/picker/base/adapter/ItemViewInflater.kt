@@ -6,4 +6,4 @@ import android.view.View
  * @author aminography
  */
 
-typealias ItemViewInflater = (Int) -> View
+internal typealias ItemViewInflater = (Int) -> View

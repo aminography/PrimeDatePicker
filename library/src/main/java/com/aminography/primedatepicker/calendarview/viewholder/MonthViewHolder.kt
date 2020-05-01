@@ -45,7 +45,7 @@ class MonthViewHolder(
         singleDay: PrimeCalendar?,
         startDay: PrimeCalendar?,
         endDay: PrimeCalendar?,
-        multipleDays: List<PrimeCalendar>?
+        multipleDays: List<PrimeCalendar>
     ) {
         callback?.onDayPicked(pickType, singleDay, startDay, endDay, multipleDays)
     }

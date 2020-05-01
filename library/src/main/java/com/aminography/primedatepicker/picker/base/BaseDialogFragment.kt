@@ -17,7 +17,7 @@ import com.aminography.primedatepicker.utils.screenSize
 /**
  * @author aminography
  */
-abstract class BaseDialogFragment(
+internal abstract class BaseDialogFragment(
     @LayoutRes private val layoutResId: Int
 ) : DialogFragment() {
 

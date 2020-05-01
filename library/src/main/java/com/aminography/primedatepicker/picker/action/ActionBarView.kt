@@ -4,18 +4,18 @@ import android.graphics.Typeface
 import android.view.ViewStub
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.picker.header.BaseLazyView
+import com.aminography.primedatepicker.picker.base.BaseLazyView
 import com.aminography.primedatepicker.utils.forceLocaleStrings
-import kotlinx.android.synthetic.main.action_container.view.*
+import kotlinx.android.synthetic.main.action_bar_container.view.*
 import java.util.*
 
 /**
  * @author aminography
  */
-class ActionView(
+internal class ActionBarView(
     viewStub: ViewStub,
     direction: Direction
-) : BaseLazyView(if (direction == Direction.LTR) R.layout.action_container else R.layout.action_container_rtl, viewStub) {
+) : BaseLazyView(if (direction == Direction.LTR) R.layout.action_bar_container else R.layout.action_bar_container_rtl, viewStub) {
 
     var locale: Locale? = null
         set(value) {

@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.picker.header.multiple
+package com.aminography.primedatepicker.picker.selection.multiple
 
 import android.graphics.Typeface
 import android.view.ViewStub
@@ -7,11 +7,12 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.picker.header.BaseLazyView
-import com.aminography.primedatepicker.picker.header.HeaderView
-import com.aminography.primedatepicker.picker.header.multiple.adapter.PickedDaysListAdapter
-import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayDataHolder
-import com.aminography.primedatepicker.picker.header.multiple.dataholder.PickedDayEmptyDataHolder
+import com.aminography.primedatepicker.picker.base.BaseLazyView
+import com.aminography.primedatepicker.picker.base.adapter.OnListItemClickListener
+import com.aminography.primedatepicker.picker.selection.SelectionBarView
+import com.aminography.primedatepicker.picker.selection.multiple.adapter.PickedDaysListAdapter
+import com.aminography.primedatepicker.picker.selection.multiple.dataholder.PickedDayDataHolder
+import com.aminography.primedatepicker.picker.selection.multiple.dataholder.PickedDayEmptyDataHolder
 import com.aminography.primedatepicker.utils.forceLocaleStrings
 import com.aminography.primedatepicker.utils.gone
 import com.aminography.primedatepicker.utils.visible
@@ -21,10 +22,10 @@ import java.util.*
 /**
  * @author aminography
  */
-class MultipleHeaderView(
+internal class MultipleDaysSelectionBarView(
     viewStub: ViewStub,
     private val direction: Direction
-) : BaseLazyView(R.layout.multiple_days_header, viewStub), HeaderView {
+) : BaseLazyView(R.layout.multiple_days_header, viewStub), SelectionBarView {
 
     private val multipleDaysAdapter: PickedDaysListAdapter by lazy {
         PickedDaysListAdapter().also {

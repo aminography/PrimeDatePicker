@@ -1,4 +1,4 @@
-package com.aminography.primedatepicker.picker.header.range
+package com.aminography.primedatepicker.picker.selection.range
 
 import android.animation.ObjectAnimator
 import android.content.res.ColorStateList
@@ -11,8 +11,8 @@ import com.aminography.primedatepicker.Direction
 import com.aminography.primedatepicker.LabelFormatter
 import com.aminography.primedatepicker.PickType
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.picker.header.BaseLazyView
-import com.aminography.primedatepicker.picker.header.HeaderView
+import com.aminography.primedatepicker.picker.base.BaseLazyView
+import com.aminography.primedatepicker.picker.selection.SelectionBarView
 import com.aminography.primedatepicker.utils.forceLocaleStrings
 import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.range_days_header.view.*
@@ -21,10 +21,10 @@ import java.util.*
 /**
  * @author aminography
  */
-class RangeHeaderView(
+internal class RangeDaysSelectionBarView(
     viewStub: ViewStub,
     private val direction: Direction
-) : BaseLazyView(if (direction == Direction.LTR) R.layout.range_days_header else R.layout.range_days_header_rtl, viewStub), HeaderView {
+) : BaseLazyView(if (direction == Direction.LTR) R.layout.range_days_header else R.layout.range_days_header_rtl, viewStub), SelectionBarView {
 
     var locale: Locale? = null
         set(value) {
