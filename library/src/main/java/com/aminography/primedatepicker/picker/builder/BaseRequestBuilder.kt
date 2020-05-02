@@ -23,8 +23,8 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
     protected val bundle = Bundle()
 
     init {
-        bundle.putString("initialDateCalendar", DateUtils.storeCalendar(initialDateCalendar))
         bundle.putString("pickType", pickType.name)
+        bundle.putString("initialDateCalendar", DateUtils.storeCalendar(initialDateCalendar))
     }
 
     fun weekStartDay(weekStartDay: Int): BaseRequestBuilder<T, C> {
@@ -32,12 +32,12 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
         return this
     }
 
-    fun minPossibleDate(minDate: PrimeCalendar?): BaseRequestBuilder<T, C> {
+    fun minPossibleDate(minDate: PrimeCalendar): BaseRequestBuilder<T, C> {
         bundle.putString("minDateCalendar", DateUtils.storeCalendar(minDate))
         return this
     }
 
-    fun maxPossibleDate(maxDate: PrimeCalendar?): BaseRequestBuilder<T, C> {
+    fun maxPossibleDate(maxDate: PrimeCalendar): BaseRequestBuilder<T, C> {
         bundle.putString("maxDateCalendar", DateUtils.storeCalendar(maxDate))
         return this
     }
@@ -53,6 +53,19 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
         bundle.putSerializable("themeFactory", themeFactory)
         return this
     }
+
+    fun build(): T = build(clazz)
+
+    private fun <T : PrimeDatePicker> build(clazz: Class<T>): T {
+        return clazz.getDeclaredConstructor().newInstance().also {
+            it.setDayPickCallback(callback)
+            if (it is DialogFragment) {
+                it.arguments = bundle
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
 
     @Deprecated(
         level = DeprecationLevel.ERROR,
@@ -70,17 +83,6 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
     )
     fun animateSelection(animateSelection: Boolean): BaseRequestBuilder<T, C> {
         return this
-    }
-
-    fun build(): T = build(clazz)
-
-    private fun <T : PrimeDatePicker> build(clazz: Class<T>): T {
-        return clazz.getDeclaredConstructor().newInstance().also {
-            it.setDayPickCallback(callback)
-            if (it is DialogFragment) {
-                it.arguments = bundle
-            }
-        }
     }
 
 }

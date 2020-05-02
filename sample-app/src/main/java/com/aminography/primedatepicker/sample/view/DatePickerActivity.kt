@@ -59,8 +59,8 @@ class DatePickerActivity : AppCompatActivity() {
                     else -> null
                 }
             }?.let {
-                it.minPossibleDate(minDateCalendar)
-                it.maxPossibleDate(maxDateCalendar)
+                minDateCalendar?.let { minDate -> it.minPossibleDate(minDate) }
+                maxDateCalendar?.let { maxDate -> it.maxPossibleDate(maxDate) }
                 it.applyTheme(theme)
                 it.build()
             }
