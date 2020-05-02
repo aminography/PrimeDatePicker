@@ -1,11 +1,12 @@
 package com.aminography.primedatepicker.picker.theme
 
 import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.picker.theme.base.NormalThemeFactory
 
 /**
  * @author aminography
  */
-open class DarkThemeFactory : BaseNormalThemeFactory() {
+open class DarkThemeFactory : NormalThemeFactory() {
 
     // --------------------------------------- Calendar View ---------------------------------------
 

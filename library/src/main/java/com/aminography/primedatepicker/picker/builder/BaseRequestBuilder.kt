@@ -6,7 +6,7 @@ import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
-import com.aminography.primedatepicker.picker.theme.ThemeFactory
+import com.aminography.primedatepicker.picker.theme.base.ThemeFactory
 import com.aminography.primedatepicker.utils.DateUtils
 import java.util.*
 
@@ -72,7 +72,7 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
         message = "This method is removed and should not be used anymore.",
         replaceWith = ReplaceWith("applyTheme, try to override the typeface path on an instance of ThemeFactory.")
     )
-    fun typefacePath(typefacePath: String): BaseRequestBuilder<T, C> {
+    fun typefacePath(@Suppress("UNUSED_PARAMETER") typefacePath: String): BaseRequestBuilder<T, C> {
         return this
     }
 
@@ -81,7 +81,7 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
         message = "This method is removed and should not be used anymore.",
         replaceWith = ReplaceWith("applyTheme, try to override the animate selection on an instance of ThemeFactory.")
     )
-    fun animateSelection(animateSelection: Boolean): BaseRequestBuilder<T, C> {
+    fun animateSelection(@Suppress("UNUSED_PARAMETER") animateSelection: Boolean): BaseRequestBuilder<T, C> {
         return this
     }
 

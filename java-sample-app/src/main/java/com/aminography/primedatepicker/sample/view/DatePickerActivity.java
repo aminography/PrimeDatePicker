@@ -21,7 +21,7 @@ import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback;
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback;
 import com.aminography.primedatepicker.picker.theme.DarkThemeFactory;
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory;
-import com.aminography.primedatepicker.picker.theme.ThemeFactory;
+import com.aminography.primedatepicker.picker.theme.base.ThemeFactory;
 import com.aminography.primedatepicker.sample.R;
 
 import org.jetbrains.annotations.Nullable;

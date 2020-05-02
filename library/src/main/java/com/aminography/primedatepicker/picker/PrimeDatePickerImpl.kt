@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentManager
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.*
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.common.OnDayPickedListener
@@ -29,8 +29,8 @@ import com.aminography.primedatepicker.picker.selection.multiple.MultipleDaysSel
 import com.aminography.primedatepicker.picker.selection.range.RangeDaysSelectionBarView
 import com.aminography.primedatepicker.picker.selection.single.SingleDaySelectionBarView
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
-import com.aminography.primedatepicker.picker.theme.ThemeFactory
-import com.aminography.primedatepicker.picker.theme.applyTheme
+import com.aminography.primedatepicker.picker.theme.base.ThemeFactory
+import com.aminography.primedatepicker.picker.theme.base.applyTheme
 import com.aminography.primedatepicker.utils.DateUtils
 import com.aminography.primedatepicker.utils.findDirection
 import com.aminography.primedatepicker.utils.forceLocaleStrings
