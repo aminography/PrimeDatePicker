@@ -366,7 +366,7 @@ internal class PrimeDatePickerImpl(
         onDayPickCallback = callback
     }
 
-    override fun setOnDayPickedListener(listener: OnDayPickedListener?) {
+    override fun setOnEachDayPickedListener(listener: OnDayPickedListener?) {
         onDayPickedListener = listener
     }
 

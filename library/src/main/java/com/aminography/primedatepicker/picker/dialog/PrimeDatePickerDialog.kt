@@ -3,9 +3,9 @@ package com.aminography.primedatepicker.picker.dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.OnDayPickedListener
 import com.aminography.primedatepicker.common.PickType
-import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.PrimeDatePickerImpl
 import com.aminography.primedatepicker.picker.base.BaseDialogFragment
@@ -61,8 +61,8 @@ internal class PrimeDatePickerDialog : BaseDialogFragment(
         primeDatePicker.setDayPickCallback(callback)
     }
 
-    override fun setOnDayPickedListener(listener: OnDayPickedListener?) {
-        primeDatePicker.setOnDayPickedListener(listener)
+    override fun setOnEachDayPickedListener(listener: OnDayPickedListener?) {
+        primeDatePicker.setOnEachDayPickedListener(listener)
     }
 
 }
