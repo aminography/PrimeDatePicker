@@ -3,7 +3,7 @@ package com.aminography.primedatepicker.picker.theme
 /**
  * @author aminography
  */
-interface GotoViewTheme {
+interface GotoViewTheme : GeneralTheme {
 
     val gotoViewBackgroundColor: Int
 

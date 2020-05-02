@@ -1,13 +1,13 @@
 package com.aminography.primedatepicker.picker.theme
 
 import android.view.animation.Interpolator
-import com.aminography.primedatepicker.common.LabelFormatter
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
+import com.aminography.primedatepicker.common.LabelFormatter
 
 /**
  * @author aminography
  */
-interface CalendarViewTheme {
+interface CalendarViewTheme : GeneralTheme {
 
     val elementBackgroundColor: Int
 

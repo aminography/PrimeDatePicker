@@ -5,7 +5,7 @@ import com.aminography.primedatepicker.common.LabelFormatter
 /**
  * @author aminography
  */
-interface SelectionBarTheme {
+interface SelectionBarTheme : GeneralTheme {
 
     // ------- General
 

@@ -3,7 +3,7 @@ package com.aminography.primedatepicker.picker.theme
 /**
  * @author aminography
  */
-interface ActionBarTheme {
+interface ActionBarTheme: GeneralTheme {
 
     val actionBarBackgroundColor: Int
 
