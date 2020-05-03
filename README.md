@@ -34,11 +34,12 @@ The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com
 
 Main Features
 -------------
-- Endless scrolling
-- Customizable views & theme
+- Endless Scrolling
+- Customizable Views & Theme
 - Fluent UI
-- Various calendar types
-- Various pick strategies
+- RTL Support
+- Various Calendar Types
+- Various Date Picking sStrategies
 - Showing Dialog & BottomSheet
 
 <br/>
