@@ -30,6 +30,7 @@ Core Logic
 ----------
 The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com/aminography/PrimeCalendar).
 
+<br/>
 
 Main Features
 -------------
