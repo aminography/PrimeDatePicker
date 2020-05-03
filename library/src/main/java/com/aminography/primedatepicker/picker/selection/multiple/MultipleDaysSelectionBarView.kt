@@ -1,14 +1,11 @@
 package com.aminography.primedatepicker.picker.selection.multiple
 
 import android.content.Context
-import android.graphics.Rect
 import android.graphics.Typeface
-import android.view.View
 import android.view.ViewStub
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.Direction
@@ -24,6 +21,7 @@ import com.aminography.primedatepicker.utils.gone
 import com.aminography.primedatepicker.utils.visible
 import kotlinx.android.synthetic.main.selection_bar_multiple_days_container.view.*
 import java.util.*
+
 
 /**
  * @author aminography
@@ -157,15 +155,6 @@ internal class MultipleDaysSelectionBarView(
         init {
             ContextCompat.getDrawable(context, R.drawable.shape_rectangle_4)?.let {
                 setDrawable(it)
-            }
-        }
-
-        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-            val position = parent.getChildAdapterPosition(view)
-            if (position == state.itemCount - 1) {
-                outRect.setEmpty()
-            } else {
-                super.getItemOffsets(outRect, view, parent, state)
             }
         }
     }
