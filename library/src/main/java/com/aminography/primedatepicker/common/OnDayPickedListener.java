@@ -3,6 +3,8 @@ package com.aminography.primedatepicker.common;
 import androidx.annotation.Nullable;
 
 import com.aminography.primecalendar.PrimeCalendar;
+import com.aminography.primedatepicker.calendarview.PrimeCalendarView;
+import com.aminography.primedatepicker.monthview.PrimeMonthView;
 
 import java.util.List;
 
@@ -13,13 +15,18 @@ import java.util.List;
 public interface OnDayPickedListener {
 
     /**
-     * Called when one day is clicked by the user.
+     * Called when one day is picked by the user.
      *
-     * @param pickType     Specifies type of the picked day based on [PickType] which is set to the [PrimeMonthView] or [PrimeCalendarView].
-     * @param singleDay    Specifies the picked day if the [pickType] is [PickType.SINGLE].
-     * @param startDay     Specifies the start day of picked range if the [pickType] is [PickType.RANGE_START].
-     * @param endDay       Specifies the end day of picked range if the [pickType] is [PickType.RANGE_END].
-     * @param multipleDays Specifies the list of picked days if the [pickType] is [PickType.MULTIPLE].
+     * @param pickType     Specifies type of the picked day based on {@param PickType} which is
+     *                     set to the {@link PrimeMonthView} or {@link PrimeCalendarView}.
+     * @param singleDay    Specifies the picked day if the {@param PickType}
+     *                     is {@link PickType#SINGLE}.
+     * @param startDay     Specifies the start day of picked range if the {@param PickType}
+     *                     is {@link PickType#RANGE_START}.
+     * @param endDay       Specifies the end day of picked range if the {@param PickType}
+     *                     is {@link PickType#RANGE_END}.
+     * @param multipleDays Specifies the list of picked days if the {@param PickType}
+     *                     is {@link PickType#MULTIPLE}.
      */
     void onDayPicked(
         PickType pickType,

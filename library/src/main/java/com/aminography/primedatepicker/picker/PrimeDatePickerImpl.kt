@@ -81,6 +81,7 @@ internal class PrimeDatePickerImpl(
             arguments?.getString("initialDateCalendar")
         )?.also {
             calendarType = it.calendarType
+            arguments?.getInt("firstDayOfWeek")?.let { day -> it.firstDayOfWeek = day }
         }
 
         arguments?.getString("pickType")?.let { internalPickType = PickType.valueOf(it) }
@@ -114,8 +115,6 @@ internal class PrimeDatePickerImpl(
                     arguments?.getStringArrayList("disabledDaysList")?.run {
                         it.disabledDaysList = map { list -> DateUtils.restoreCalendar(list)!! }
                     }
-
-                    arguments?.getInt("weekStartDay")?.let { day -> calendarView.weekStartDay = day }
 
                     it.pickType = internalPickType
 

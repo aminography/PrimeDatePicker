@@ -18,7 +18,7 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
         pickedRangeEndCalendar = it.pickedRangeEndCalendar
         pickedMultipleDaysMap = it.pickedMultipleDaysMap
         disabledDaysSet = it.disabledDaysSet
-        weekStartDay = it.weekStartDay
+        firstDayOfWeek = it.firstDayOfWeek
         locale = it.locale
 
         // ------- Common Attributes

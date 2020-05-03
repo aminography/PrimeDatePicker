@@ -23,7 +23,7 @@ import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.*
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.*
 import com.aminography.primedatepicker.utils.*
 import java.util.*
@@ -447,7 +447,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    internal var weekStartDay = -1
+    internal var firstDayOfWeek = -1
         set(value) {
             field = value
             if (invalidate) invalidate()
@@ -622,7 +622,7 @@ class PrimeMonthView @JvmOverloads constructor(
         doNotInvalidate {
             locale = calendar.locale
             calendarType = calendar.calendarType
-            weekStartDay = calendar.firstDayOfWeek
+            firstDayOfWeek = calendar.firstDayOfWeek
         }
         goto(calendar.year, calendar.month)
     }
@@ -631,14 +631,14 @@ class PrimeMonthView @JvmOverloads constructor(
         this.year = year
         this.month = month
 
-        if (weekStartDay == -1) {
+        if (firstDayOfWeek == -1) {
             doNotInvalidate {
-                weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+                firstDayOfWeek = DateUtils.defaultWeekStartDay(calendarType)
             }
         }
 
         firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType, locale).apply {
-            firstDayOfWeek = weekStartDay
+            firstDayOfWeek = firstDayOfWeek
             set(year, month, 1)
         }.also {
             firstDayOfMonthDayOfWeek = it[Calendar.DAY_OF_WEEK]
@@ -681,8 +681,8 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun adjustDayOfWeekOffset(dayOfWeek: Int): Int {
-        val day = if (dayOfWeek < weekStartDay) dayOfWeek + 7 else dayOfWeek
-        return (day - weekStartDay) % 7
+        val day = if (dayOfWeek < firstDayOfWeek) dayOfWeek + 7 else dayOfWeek
+        return (day - firstDayOfWeek) % 7
     }
 
     private fun drawMonthLabel(canvas: Canvas) {
@@ -755,7 +755,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
         for (i in 0 until columnCount) {
-            val dayOfWeek = (i + weekStartDay) % columnCount
+            val dayOfWeek = (i + firstDayOfWeek) % columnCount
             val x = xPositions[i]
 
             weekLabelPaint?.apply {
@@ -1152,7 +1152,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val savedState = SavedState(superState)
 
         savedState.calendarType = calendarType.ordinal
-        savedState.weekStartDay = weekStartDay
+        savedState.firstDayOfWeek = firstDayOfWeek
         savedState.locale = locale.language
 
         savedState.year = year
@@ -1200,7 +1200,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
-            weekStartDay = savedState.weekStartDay
+            firstDayOfWeek = savedState.firstDayOfWeek
             savedState.locale?.let { locale = Locale(it) }
 
             year = savedState.year
@@ -1253,7 +1253,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private class SavedState : BaseSavedState {
 
         internal var calendarType: Int = 0
-        internal var weekStartDay: Int = 0
+        internal var firstDayOfWeek: Int = 0
         internal var locale: String? = null
         internal var year: Int = 0
         internal var month: Int = 0
@@ -1293,7 +1293,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         private constructor(input: Parcel) : super(input) {
             calendarType = input.readInt()
-            weekStartDay = input.readInt()
+            firstDayOfWeek = input.readInt()
             locale = input.readString()
             year = input.readInt()
             month = input.readInt()
@@ -1333,7 +1333,7 @@ class PrimeMonthView @JvmOverloads constructor(
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
             out.writeInt(calendarType)
-            out.writeInt(weekStartDay)
+            out.writeInt(firstDayOfWeek)
             out.writeString(locale)
             out.writeInt(year)
             out.writeInt(month)

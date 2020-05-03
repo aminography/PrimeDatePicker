@@ -19,7 +19,7 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
 
     val pickType: PickType
 
-    val weekStartDay: Int
+    val firstDayOfWeek: Int
 
     val locale: Locale
 

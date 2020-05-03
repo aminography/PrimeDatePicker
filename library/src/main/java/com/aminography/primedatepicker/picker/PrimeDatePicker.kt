@@ -70,7 +70,7 @@ interface PrimeDatePicker {
          *
          * @param initialDate The [PrimeCalendar] to use as the starting date. Also, some other
          * configurations to be reflected to the date picker are retrieved from it. Such as:
-         * language locale, view direction and firstDayOfWeek.
+         * language locale, view direction, and firstDayOfWeek.
          */
         @Suppress("UNCHECKED_CAST")
         fun dialogWith(initialDate: PrimeCalendar): RequestBuilder<PrimeDatePicker> =
@@ -85,7 +85,7 @@ interface PrimeDatePicker {
          *
          * @param initialDate The [PrimeCalendar] to use as the starting date. Also, some other
          * configurations to be reflected to the date picker are retrieved from it. Such as:
-         * language locale, view direction and firstDayOfWeek.
+         * language locale, view direction, and firstDayOfWeek.
          */
         @Suppress("UNCHECKED_CAST")
         fun bottomSheetWith(initialDate: PrimeCalendar): RequestBuilder<PrimeDatePicker> =

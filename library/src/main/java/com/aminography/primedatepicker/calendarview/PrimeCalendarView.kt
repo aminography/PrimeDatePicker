@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.*
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
@@ -431,7 +431,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
-    override var weekStartDay: Int = -1
+    override var firstDayOfWeek: Int = -1
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -705,7 +705,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         doNotInvalidate {
             locale = calendar.locale
             calendarType = calendar.calendarType
-            weekStartDay = calendar.firstDayOfWeek
+            firstDayOfWeek = calendar.firstDayOfWeek
         }
         return goto(calendar.year, calendar.month, animate)
     }
@@ -714,8 +714,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
             return false
         }
-        if (weekStartDay == -1) {
-            weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+        if (firstDayOfWeek == -1) {
+            firstDayOfWeek = DateUtils.defaultWeekStartDay(calendarType)
         }
 
         dataList = createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)

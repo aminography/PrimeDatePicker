@@ -55,6 +55,7 @@ To enjoy `PrimeDatePicker`, create an instance of it using builder pattern, like
 
 > Kotlin
 ```kotlin
+
 val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
     // TODO
 }
@@ -67,6 +68,8 @@ val datePicker = PrimeDatePicker.bottomSheetWith(today) // or dialogWith(today)
         .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
         .minPossibleDate(minDateCalendar)            // Optional
         .maxPossibleDate(maxDateCalendar)            // Optional
+        .disabledDays(disabledDaysList)              // Optional
+        .firstDayOfWeek(Calendar.MONDAY)             // Optional
         .applyTheme(themeFactory)                    // Optional
         .build()
 
@@ -92,6 +95,8 @@ PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today) // or b
     .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
     .minPossibleDate(minDateCalendar)      // Optional
     .maxPossibleDate(maxDateCalendar)      // Optional
+    .disabledDays(disabledDaysList)        // Optional
+    .firstDayOfWeek(Calendar.MONDAY)       // Optional
     .applyTheme(themeFactory)              // Optional
     .build();
 
@@ -514,7 +519,7 @@ These variables are only accessible programmatically to get or set. (Available b
 <br/>
 
 ### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
-You can listen to day picking actions by setting an instance of [OnDayPickedListener](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/OnDayPickedListener.kt) to the views.
+You can listen to day picking actions by setting an instance of [OnDayPickedListener](library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.kt) to the views.
 For example:
 
 ```kotlin
@@ -609,9 +614,9 @@ Change Log
 
 Third-Party Libraries
 ---------------------
-**• PrimeCalendar** (https://github.com/aminography/PrimeCalendar)
+**• PrimeCalendar** (<https://github.com/aminography/PrimeCalendar>)
 
-**• PrimeAdapter** (https://github.com/aminography/PrimeAdapter)
+**• PrimeAdapter** (<https://github.com/aminography/PrimeAdapter>)
 
 <br/>
 
