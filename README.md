@@ -39,8 +39,8 @@ Main Characteristics
 - Fluent UI
 - RTL Support
 - Various Calendar Types
-- Various Date Picking sStrategies
-- Showing Dialog & BottomSheet
+- Various Date Picking Strategies
+- Both Dialog & BottomSheet
 
 <br/>
 
