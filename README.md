@@ -500,7 +500,7 @@ These variables are only accessible programmatically to get or set. (Available b
   
   <tr>
     <td><b>• pickType</b></td>
-    <td><a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/PickType.kt">PickType</a></td>
+    <td><a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/common/PickType.kt">PickType</a></td>
   </tr>
   <tr>
     <td colspan="2"><i>Specifies the date picking type of the view. Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>MULTIPLE</b>, <b>NOTHING</b>.</i></td>
@@ -519,7 +519,7 @@ These variables are only accessible programmatically to get or set. (Available b
 <br/>
 
 ### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
-You can listen to day picking actions by setting an instance of [OnDayPickedListener](library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.kt) to the views.
+You can listen to day picking actions by setting an instance of [OnDayPickedListener](https:///aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.kt) to the views.
 For example:
 
 ```kotlin
