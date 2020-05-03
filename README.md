@@ -32,8 +32,8 @@ The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com
 
 <br/>
 
-Main Features
--------------
+Main Characteristics
+--------------------
 - Endless Scrolling
 - Customizable Views & Theme
 - Fluent UI
