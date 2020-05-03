@@ -30,6 +30,16 @@ Core Logic
 ----------
 The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com/aminography/PrimeCalendar).
 
+
+Main Features
+-------------
+- Endless scrolling
+- Customizable views & theme
+- Fluent UI
+- Various calendar types
+- Various pick strategies
+- Showing Dialog & BottomSheet
+
 <br/>
 
 Download
