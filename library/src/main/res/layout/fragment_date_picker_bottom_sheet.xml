@@ -7,57 +7,66 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/cardBackgroundImageView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/shape_bottom_sheet_background" />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/topLineImageView"
-        android:layout_width="32dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="8dp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/shape_rounded_line" />
+        app:srcCompat="@drawable/shape_bottom_sheet_background" />
 
     <ViewStub
-        android:id="@+id/actionViewStub"
-        android:layout_width="match_parent"
+        android:id="@+id/actionBarViewStub"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:inflatedId="@id/actionViewStub"
-        app:layout_constraintTop_toBottomOf="@id/topLineImageView" />
+        android:inflatedId="@id/actionBarViewStub"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        android:id="@+id/headerLayout"
-        android:layout_width="match_parent"
+        android:id="@+id/selectionBarLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/calendarView"
-        app:layout_constraintTop_toBottomOf="@id/actionViewStub">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/actionBarViewStub">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/selectionBarBackgroundImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/white" />
 
         <ViewStub
-            android:id="@+id/headerViewStub"
+            android:id="@+id/selectionBarViewStub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inflatedId="@id/headerViewStub" />
+            android:inflatedId="@id/selectionBarViewStub" />
 
     </FrameLayout>
 
     <com.aminography.primedatepicker.calendarview.PrimeCalendarView
         android:id="@+id/calendarView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectionBarLayout" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+        app:layout_constraintBottom_toBottomOf="@id/calendarView"
+        app:layout_constraintEnd_toEndOf="@id/calendarView"
+        app:layout_constraintStart_toStartOf="@id/calendarView"
+        app:layout_constraintTop_toTopOf="@id/calendarView">
 
         <com.google.android.material.circularreveal.CircularRevealFrameLayout
             android:id="@+id/circularRevealFrameLayout"

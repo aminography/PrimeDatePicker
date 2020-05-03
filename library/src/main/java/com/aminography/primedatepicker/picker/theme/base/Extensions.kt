@@ -17,8 +17,8 @@ import com.aminography.primedatepicker.picker.theme.abs.GotoViewTheme
 import com.aminography.primedatepicker.picker.theme.abs.SelectionBarTheme
 import kotlinx.android.synthetic.main.action_bar_container.view.*
 import kotlinx.android.synthetic.main.goto_container.view.*
-import kotlinx.android.synthetic.main.range_days_header.view.*
-import kotlinx.android.synthetic.main.single_day_header.view.*
+import kotlinx.android.synthetic.main.selection_bar_range_days_container.view.*
+import kotlinx.android.synthetic.main.selection_bar_single_day_container.view.*
 
 /**
  * @author aminography
@@ -37,9 +37,6 @@ internal fun ActionBarView.applyTheme(theme: ActionBarTheme) {
 }
 
 internal fun SelectionBarView.applyTheme(theme: SelectionBarTheme) {
-    with((this as BaseLazyView).rootView) {
-        setBackgroundColor(theme.selectionBarBackgroundColor)
-    }
     when (this) {
         is SingleDaySelectionBarView -> {
             labelFormatter = theme.selectionBarSingleDayLabelFormatter

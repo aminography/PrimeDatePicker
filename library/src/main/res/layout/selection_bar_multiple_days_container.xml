@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/material_size_4">
+    android:paddingTop="@dimen/material_size_4"
+    android:paddingBottom="@dimen/material_size_4">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/emptyStateTextView"
@@ -23,9 +24,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:clipChildren="false"
-        android:clipToPadding="false"
+        android:clipToPadding="true"
+        android:fadingEdgeLength="@dimen/material_size_2"
         android:paddingStart="@dimen/material_size_4"
         android:paddingEnd="@dimen/material_size_4"
+        android:requiresFadingEdge="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,12 +1,18 @@
 package com.aminography.primedatepicker.picker.selection.multiple
 
+import android.content.Context
+import android.graphics.Rect
 import android.graphics.Typeface
+import android.view.View
 import android.view.ViewStub
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.common.LabelFormatter
-import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.base.BaseLazyView
 import com.aminography.primedatepicker.picker.base.adapter.OnListItemClickListener
 import com.aminography.primedatepicker.picker.selection.SelectionBarView
@@ -16,7 +22,7 @@ import com.aminography.primedatepicker.picker.selection.multiple.dataholder.Pick
 import com.aminography.primedatepicker.utils.forceLocaleStrings
 import com.aminography.primedatepicker.utils.gone
 import com.aminography.primedatepicker.utils.visible
-import kotlinx.android.synthetic.main.multiple_days_header.view.*
+import kotlinx.android.synthetic.main.selection_bar_multiple_days_container.view.*
 import java.util.*
 
 /**
@@ -25,11 +31,13 @@ import java.util.*
 internal class MultipleDaysSelectionBarView(
     viewStub: ViewStub,
     private val direction: Direction
-) : BaseLazyView(R.layout.multiple_days_header, viewStub), SelectionBarView {
+) : BaseLazyView(
+    R.layout.selection_bar_multiple_days_container, viewStub
+), SelectionBarView {
 
     private val multipleDaysAdapter: PickedDaysListAdapter by lazy {
-        PickedDaysListAdapter().also {
-            it.setOnListItemClickListener(object : OnListItemClickListener {
+        PickedDaysListAdapter().also { adapter ->
+            adapter.setOnListItemClickListener(object : OnListItemClickListener {
                 override fun <DH> onItemClicked(dataHolder: DH) {
                     if (dataHolder is PickedDayDataHolder) {
                         onPickedDayClickListener?.invoke(dataHolder.calendar)
@@ -37,10 +45,18 @@ internal class MultipleDaysSelectionBarView(
                 }
             })
 
-            rootView.recyclerView.layoutManager = LinearLayoutManager(rootView.recyclerView.context, LinearLayoutManager.HORIZONTAL, direction == Direction.RTL)
-            rootView.recyclerView.adapter = it
+            rootView.recyclerView.layoutManager = LinearLayoutManager(
+                rootView.recyclerView.context,
+                LinearLayoutManager.HORIZONTAL,
+                direction == Direction.RTL
+            )
+            rootView.recyclerView.adapter = adapter
             rootView.recyclerView.isNestedScrollingEnabled = false
             rootView.recyclerView.speedFactor = 2.5f
+
+            CustomDividerItemDecoration(rootView.context).let {
+                rootView.recyclerView.addItemDecoration(it)
+            }
         }
     }
 
@@ -133,5 +149,25 @@ internal class MultipleDaysSelectionBarView(
         }
 
     var onPickedDayClickListener: ((PrimeCalendar) -> Unit)? = null
+
+    private class CustomDividerItemDecoration(
+        context: Context
+    ) : DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL) {
+
+        init {
+            ContextCompat.getDrawable(context, R.drawable.shape_rectangle_4)?.let {
+                setDrawable(it)
+            }
+        }
+
+        override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+            val position = parent.getChildAdapterPosition(view)
+            if (position == state.itemCount - 1) {
+                outRect.setEmpty()
+            } else {
+                super.getItemOffsets(outRect, view, parent, state)
+            }
+        }
+    }
 
 }

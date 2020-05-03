@@ -2,11 +2,13 @@ package com.aminography.primedatepicker.picker
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.FragmentManager
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
@@ -129,8 +131,8 @@ internal class PrimeDatePickerImpl(
                 }
             }
 
-            initActionView()
-            initHeaderView()
+            initActionBar()
+            initSelectionBar()
 
             calendarView.onDayPickedListener = this@PrimeDatePickerImpl
             calendarView.onMonthLabelClickListener = this@PrimeDatePickerImpl
@@ -195,9 +197,9 @@ internal class PrimeDatePickerImpl(
         }
     }
 
-    private fun initActionView() {
+    private fun initActionBar() {
         with(rootView) {
-            ActionBarView(actionViewStub, direction).also {
+            ActionBarView(actionBarViewStub, direction).also {
                 it.locale = locale
                 it.typeface = typeface
                 it.onTodayButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
@@ -208,19 +210,25 @@ internal class PrimeDatePickerImpl(
         }
     }
 
-    private fun initHeaderView() {
+    private fun initSelectionBar() {
         when (pickType) {
-            PickType.SINGLE -> initHeaderSingle(typeface)
-            PickType.RANGE_START, PickType.RANGE_END -> initHeaderRange(typeface)
-            PickType.MULTIPLE -> initHeaderMultiple(typeface)
+            PickType.SINGLE -> initSelectionBarSingle(typeface)
+            PickType.RANGE_START, PickType.RANGE_END -> initSelectionBarRange(typeface)
+            PickType.MULTIPLE -> initSelectionBarMultiple(typeface)
             PickType.NOTHING -> {
             }
         }
+        with(rootView) {
+            ImageViewCompat.setImageTintList(
+                selectionBarBackgroundImageView,
+                ColorStateList.valueOf(themeFactory.selectionBarBackgroundColor)
+            )
+        }
     }
 
-    private fun initHeaderSingle(typeface: Typeface?) {
+    private fun initSelectionBarSingle(typeface: Typeface?) {
         with(rootView) {
-            selectionBarView = SingleDaySelectionBarView(headerViewStub).also {
+            selectionBarView = SingleDaySelectionBarView(selectionBarViewStub).also {
                 it.applyTheme(themeFactory)
                 it.locale = locale
                 it.typeface = typeface
@@ -234,9 +242,9 @@ internal class PrimeDatePickerImpl(
         }
     }
 
-    private fun initHeaderRange(typeface: Typeface?) {
+    private fun initSelectionBarRange(typeface: Typeface?) {
         with(rootView) {
-            selectionBarView = RangeDaysSelectionBarView(headerViewStub, direction).also {
+            selectionBarView = RangeDaysSelectionBarView(selectionBarViewStub, direction).also {
                 it.applyTheme(themeFactory)
                 it.locale = locale
                 it.typeface = typeface
@@ -259,9 +267,9 @@ internal class PrimeDatePickerImpl(
         }
     }
 
-    private fun initHeaderMultiple(typeface: Typeface?) {
+    private fun initSelectionBarMultiple(typeface: Typeface?) {
         with(rootView) {
-            selectionBarView = MultipleDaysSelectionBarView(headerViewStub, direction).also {
+            selectionBarView = MultipleDaysSelectionBarView(selectionBarViewStub, direction).also {
                 it.applyTheme(themeFactory)
                 it.locale = locale
                 it.typeface = typeface

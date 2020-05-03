@@ -7,15 +7,15 @@ import android.view.ViewStub
 import android.view.animation.OvershootInterpolator
 import androidx.core.widget.ImageViewCompat
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.common.LabelFormatter
 import com.aminography.primedatepicker.common.PickType
-import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.base.BaseLazyView
 import com.aminography.primedatepicker.picker.selection.SelectionBarView
 import com.aminography.primedatepicker.utils.forceLocaleStrings
 import com.aminography.primedatepicker.utils.localizeDigits
-import kotlinx.android.synthetic.main.range_days_header.view.*
+import kotlinx.android.synthetic.main.selection_bar_range_days_container.view.*
 import java.util.*
 
 /**
@@ -24,7 +24,10 @@ import java.util.*
 internal class RangeDaysSelectionBarView(
     viewStub: ViewStub,
     private val direction: Direction
-) : BaseLazyView(if (direction == Direction.LTR) R.layout.range_days_header else R.layout.range_days_header_rtl, viewStub), SelectionBarView {
+) : BaseLazyView(
+    if (direction == Direction.LTR) R.layout.selection_bar_range_days_container
+    else R.layout.selection_bar_range_days_container_rtl, viewStub
+), SelectionBarView {
 
     var locale: Locale? = null
         set(value) {
