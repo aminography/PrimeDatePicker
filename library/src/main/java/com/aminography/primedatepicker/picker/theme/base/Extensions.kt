@@ -98,45 +98,45 @@ internal fun GotoView.applyTheme(theme: GotoViewTheme) {
 
 internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     // ------- Color Customizations
-    setBackgroundColor(theme.elementBackgroundColor)
-    monthLabelTextColor = theme.monthLabelTextColor
-    weekLabelTextColor = theme.weekLabelTextColor
-    dayLabelTextColor = theme.dayLabelTextColor
-    todayLabelTextColor = theme.todayLabelTextColor
-    pickedDayLabelTextColor = theme.pickedDayLabelTextColor
-    pickedDayCircleColor = theme.pickedDayCircleColor
-    disabledDayLabelTextColor = theme.disabledDayLabelTextColor
-    dividerColor = theme.dividerColor
+    setBackgroundColor(theme.calendarViewBackgroundColor)
+    monthLabelTextColor = theme.calendarViewMonthLabelTextColor
+    weekLabelTextColor = theme.calendarViewWeekLabelTextColor
+    dayLabelTextColor = theme.calendarViewDayLabelTextColor
+    todayLabelTextColor = theme.calendarViewTodayLabelTextColor
+    pickedDayLabelTextColor = theme.calendarViewPickedDayLabelTextColor
+    pickedDayCircleColor = theme.calendarViewPickedDayCircleColor
+    disabledDayLabelTextColor = theme.calendarViewDisabledDayLabelTextColor
+    dividerColor = theme.calendarViewDividerColor
 
     // ------- Size & Behaviour Customizations
-    monthLabelTextSize = theme.monthLabelTextSize
-    weekLabelTextSize = theme.weekLabelTextSize
-    dayLabelTextSize = theme.dayLabelTextSize
-    monthLabelTopPadding = theme.monthLabelTopPadding
-    monthLabelBottomPadding = theme.monthLabelBottomPadding
-    weekLabelTopPadding = theme.weekLabelTopPadding
-    weekLabelBottomPadding = theme.weekLabelBottomPadding
-    dayLabelVerticalPadding = theme.dayLabelVerticalPadding
-    showTwoWeeksInLandscape = theme.showTwoWeeksInLandscape
-    animateSelection = theme.animateSelection
-    animationDuration = theme.animationDuration
-    animationInterpolator = theme.animationInterpolator
-    dividerThickness = theme.dividerThickness
-    dividerInsetLeft = theme.dividerInsetLeft
-    dividerInsetRight = theme.dividerInsetRight
-    dividerInsetTop = theme.dividerInsetTop
-    dividerInsetBottom = theme.dividerInsetBottom
+    monthLabelTextSize = theme.calendarViewMonthLabelTextSize
+    weekLabelTextSize = theme.calendarViewWeekLabelTextSize
+    dayLabelTextSize = theme.calendarViewDayLabelTextSize
+    monthLabelTopPadding = theme.calendarViewMonthLabelTopPadding
+    monthLabelBottomPadding = theme.calendarViewMonthLabelBottomPadding
+    weekLabelTopPadding = theme.calendarViewWeekLabelTopPadding
+    weekLabelBottomPadding = theme.calendarViewWeekLabelBottomPadding
+    dayLabelVerticalPadding = theme.calendarViewDayLabelVerticalPadding
+    showTwoWeeksInLandscape = theme.calendarViewShowTwoWeeksInLandscape
+    animateSelection = theme.calendarViewAnimateSelection
+    animationDuration = theme.calendarViewAnimationDuration
+    animationInterpolator = theme.calendarViewAnimationInterpolator
+    dividerThickness = theme.calendarViewDividerThickness
+    dividerInsetLeft = theme.calendarViewDividerInsetLeft
+    dividerInsetRight = theme.calendarViewDividerInsetRight
+    dividerInsetTop = theme.calendarViewDividerInsetTop
+    dividerInsetBottom = theme.calendarViewDividerInsetBottom
 
-    elementPaddingLeft = theme.elementPaddingLeft
-    elementPaddingRight = theme.elementPaddingRight
-    elementPaddingTop = theme.elementPaddingTop
-    elementPaddingBottom = theme.elementPaddingBottom
+    elementPaddingLeft = theme.calendarViewPaddingLeft
+    elementPaddingRight = theme.calendarViewPaddingRight
+    elementPaddingTop = theme.calendarViewPaddingTop
+    elementPaddingBottom = theme.calendarViewPaddingBottom
 
-    loadFactor = theme.loadFactor
-    maxTransitionLength = theme.maxTransitionLength
-    transitionSpeedFactor = theme.transitionSpeedFactor
-    flingOrientation = theme.flingOrientation
-    monthLabelFormatter = theme.monthLabelFormatter
-    weekLabelFormatter = theme.weekLabelFormatter
-    developerOptionsShowGuideLines = theme.developerOptionsShowGuideLines
+    loadFactor = theme.calendarViewLoadFactor
+    maxTransitionLength = theme.calendarViewMaxTransitionLength
+    transitionSpeedFactor = theme.calendarViewTransitionSpeedFactor
+    flingOrientation = theme.calendarViewFlingOrientation
+    monthLabelFormatter = theme.calendarViewMonthLabelFormatter
+    weekLabelFormatter = theme.calendarViewWeekLabelFormatter
+    developerOptionsShowGuideLines = theme.calendarViewDeveloperOptionsShowGuideLines
 }

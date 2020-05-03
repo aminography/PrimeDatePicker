@@ -10,39 +10,39 @@ open class LightThemeFactory : NormalThemeFactory() {
 
     // --------------------------------------- Calendar View ---------------------------------------
 
-    override val elementBackgroundColor: Int
+    override val calendarViewBackgroundColor: Int
         get() = getColor(R.color.lightElementBackgroundColor)
 
     // ------- Month Label
 
-    override val monthLabelTextColor: Int
+    override val calendarViewMonthLabelTextColor: Int
         get() = getColor(R.color.lightMonthLabelTextColor)
 
     // ------- Week Label
 
-    override val weekLabelTextColor: Int
+    override val calendarViewWeekLabelTextColor: Int
         get() = getColor(R.color.lightWeekLabelTextColor)
 
     // ------- Day Label
 
-    override val dayLabelTextColor: Int
+    override val calendarViewDayLabelTextColor: Int
         get() = getColor(R.color.lightDayLabelTextColor)
 
-    override val todayLabelTextColor: Int
+    override val calendarViewTodayLabelTextColor: Int
         get() = getColor(R.color.lightTodayLabelTextColor)
 
-    override val pickedDayLabelTextColor: Int
+    override val calendarViewPickedDayLabelTextColor: Int
         get() = getColor(R.color.lightPickedDayLabelTextColor)
 
-    override val pickedDayCircleColor: Int
+    override val calendarViewPickedDayCircleColor: Int
         get() = getColor(R.color.lightPickedDayCircleColor)
 
-    override val disabledDayLabelTextColor: Int
+    override val calendarViewDisabledDayLabelTextColor: Int
         get() = getColor(R.color.lightDisabledDayLabelTextColor)
 
     // ------- Divider
 
-    override val dividerColor: Int
+    override val calendarViewDividerColor: Int
         get() = getColor(R.color.lightDividerColor)
 
     // ------------------------------------ Picker Bottom Sheet ------------------------------------

@@ -9,91 +9,91 @@ import com.aminography.primedatepicker.common.LabelFormatter
  */
 interface CalendarViewTheme : GeneralTheme {
 
-    val elementBackgroundColor: Int
+    val calendarViewBackgroundColor: Int
 
-    val showTwoWeeksInLandscape: Boolean
+    val calendarViewShowTwoWeeksInLandscape: Boolean
 
-    val elementPaddingLeft: Int
+    val calendarViewPaddingLeft: Int
 
-    val elementPaddingRight: Int
+    val calendarViewPaddingRight: Int
 
-    val elementPaddingTop: Int
+    val calendarViewPaddingTop: Int
 
-    val elementPaddingBottom: Int
+    val calendarViewPaddingBottom: Int
 
     // ------- Month Label
 
-    val monthLabelTextSize: Int
+    val calendarViewMonthLabelTextSize: Int
 
-    val monthLabelTextColor: Int
+    val calendarViewMonthLabelTextColor: Int
 
-    val monthLabelTopPadding: Int
+    val calendarViewMonthLabelTopPadding: Int
 
-    val monthLabelBottomPadding: Int
+    val calendarViewMonthLabelBottomPadding: Int
 
-    val monthLabelFormatter: LabelFormatter
+    val calendarViewMonthLabelFormatter: LabelFormatter
 
     // ------- Week Label
 
-    val weekLabelTextSize: Int
+    val calendarViewWeekLabelTextSize: Int
 
-    val weekLabelTextColor: Int
+    val calendarViewWeekLabelTextColor: Int
 
-    val weekLabelTopPadding: Int
+    val calendarViewWeekLabelTopPadding: Int
 
-    val weekLabelBottomPadding: Int
+    val calendarViewWeekLabelBottomPadding: Int
 
-    val weekLabelFormatter: LabelFormatter
+    val calendarViewWeekLabelFormatter: LabelFormatter
 
     // ------- Day Label
 
-    val dayLabelTextSize: Int
+    val calendarViewDayLabelTextSize: Int
 
-    val dayLabelTextColor: Int
+    val calendarViewDayLabelTextColor: Int
 
-    val dayLabelVerticalPadding: Int
+    val calendarViewDayLabelVerticalPadding: Int
 
-    val todayLabelTextColor: Int
+    val calendarViewTodayLabelTextColor: Int
 
-    val pickedDayLabelTextColor: Int
+    val calendarViewPickedDayLabelTextColor: Int
 
-    val pickedDayCircleColor: Int
+    val calendarViewPickedDayCircleColor: Int
 
-    val disabledDayLabelTextColor: Int
+    val calendarViewDisabledDayLabelTextColor: Int
 
     // ------- Divider
 
-    val dividerColor: Int
+    val calendarViewDividerColor: Int
 
-    val dividerThickness: Int
+    val calendarViewDividerThickness: Int
 
-    val dividerInsetLeft: Int
+    val calendarViewDividerInsetLeft: Int
 
-    val dividerInsetRight: Int
+    val calendarViewDividerInsetRight: Int
 
-    val dividerInsetTop: Int
+    val calendarViewDividerInsetTop: Int
 
-    val dividerInsetBottom: Int
+    val calendarViewDividerInsetBottom: Int
 
     // ------- Animation
 
-    val animateSelection: Boolean
+    val calendarViewAnimateSelection: Boolean
 
-    val animationDuration: Int
+    val calendarViewAnimationDuration: Int
 
-    val animationInterpolator: Interpolator
+    val calendarViewAnimationInterpolator: Interpolator
 
     // ------- Transition
 
-    val loadFactor: Int
+    val calendarViewLoadFactor: Int
 
-    val maxTransitionLength: Int
+    val calendarViewMaxTransitionLength: Int
 
-    val transitionSpeedFactor: Float
+    val calendarViewTransitionSpeedFactor: Float
 
-    val flingOrientation: PrimeCalendarView.FlingOrientation
+    val calendarViewFlingOrientation: PrimeCalendarView.FlingOrientation
 
     // ------- Developer Options
 
-    val developerOptionsShowGuideLines: Boolean
+    val calendarViewDeveloperOptionsShowGuideLines: Boolean
 }

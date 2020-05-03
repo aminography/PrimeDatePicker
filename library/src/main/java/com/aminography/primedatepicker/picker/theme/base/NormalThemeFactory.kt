@@ -18,102 +18,102 @@ abstract class NormalThemeFactory : ThemeFactory() {
 
     // --------------------------------------- Calendar View ---------------------------------------
 
-    override val showTwoWeeksInLandscape: Boolean
+    override val calendarViewShowTwoWeeksInLandscape: Boolean
         get() = getBoolean(R.bool.defaultShowTwoWeeksInLandscape)
 
-    override val elementPaddingLeft: Int
+    override val calendarViewPaddingLeft: Int
         get() = getDimension(R.dimen.defaultElementPaddingLeft)
 
-    override val elementPaddingRight: Int
+    override val calendarViewPaddingRight: Int
         get() = getDimension(R.dimen.defaultElementPaddingRight)
 
-    override val elementPaddingTop: Int
+    override val calendarViewPaddingTop: Int
         get() = getDimension(R.dimen.defaultElementPaddingTop)
 
-    override val elementPaddingBottom: Int
+    override val calendarViewPaddingBottom: Int
         get() = getDimension(R.dimen.defaultElementPaddingBottom)
 
     // ------- Month Label
 
-    override val monthLabelTextSize: Int
+    override val calendarViewMonthLabelTextSize: Int
         get() = getDimension(R.dimen.defaultMonthLabelTextSize)
 
-    override val monthLabelTopPadding: Int
+    override val calendarViewMonthLabelTopPadding: Int
         get() = getDimension(R.dimen.defaultMonthLabelTopPadding)
 
-    override val monthLabelBottomPadding: Int
+    override val calendarViewMonthLabelBottomPadding: Int
         get() = getDimension(R.dimen.defaultMonthLabelBottomPadding)
 
-    override val monthLabelFormatter: LabelFormatter
+    override val calendarViewMonthLabelFormatter: LabelFormatter
         get() = { primeCalendar -> "${primeCalendar.monthName} ${primeCalendar.year}" }
 
     // ------- Week Label
 
-    override val weekLabelTextSize: Int
+    override val calendarViewWeekLabelTextSize: Int
         get() = getDimension(R.dimen.defaultWeekLabelTextSize)
 
-    override val weekLabelTopPadding: Int
+    override val calendarViewWeekLabelTopPadding: Int
         get() = getDimension(R.dimen.defaultWeekLabelTopPadding)
 
-    override val weekLabelBottomPadding: Int
+    override val calendarViewWeekLabelBottomPadding: Int
         get() = getDimension(R.dimen.defaultWeekLabelBottomPadding)
 
-    override val weekLabelFormatter: LabelFormatter
+    override val calendarViewWeekLabelFormatter: LabelFormatter
         get() = { primeCalendar -> primeCalendar.weekDayNameShort }
 
     // ------- Day Label
 
-    override val dayLabelTextSize: Int
+    override val calendarViewDayLabelTextSize: Int
         get() = getDimension(R.dimen.defaultDayLabelTextSize)
 
-    override val dayLabelVerticalPadding: Int
+    override val calendarViewDayLabelVerticalPadding: Int
         get() = getDimension(R.dimen.defaultDayLabelVerticalPadding)
 
     // ------- Divider
 
-    override val dividerThickness: Int
+    override val calendarViewDividerThickness: Int
         get() = getDimension(R.dimen.defaultDividerThickness)
 
-    override val dividerInsetLeft: Int
+    override val calendarViewDividerInsetLeft: Int
         get() = getDimension(R.dimen.defaultDividerInsetLeft)
 
-    override val dividerInsetRight: Int
+    override val calendarViewDividerInsetRight: Int
         get() = getDimension(R.dimen.defaultDividerInsetRight)
 
-    override val dividerInsetTop: Int
+    override val calendarViewDividerInsetTop: Int
         get() = getDimension(R.dimen.defaultDividerInsetTop)
 
-    override val dividerInsetBottom: Int
+    override val calendarViewDividerInsetBottom: Int
         get() = getDimension(R.dimen.defaultDividerInsetBottom)
 
     // ------- Animation
 
-    override val animateSelection: Boolean
+    override val calendarViewAnimateSelection: Boolean
         get() = getBoolean(R.bool.defaultAnimateSelection)
 
-    override val animationDuration: Int
+    override val calendarViewAnimationDuration: Int
         get() = getInteger(R.integer.defaultAnimationDuration)
 
-    override val animationInterpolator: Interpolator
+    override val calendarViewAnimationInterpolator: Interpolator
         get() = OvershootInterpolator()
 
     // ------- Transition
 
-    override val loadFactor: Int
+    override val calendarViewLoadFactor: Int
         get() = getInteger(R.integer.defaultLoadFactor)
 
-    override val maxTransitionLength: Int
+    override val calendarViewMaxTransitionLength: Int
         get() = getInteger(R.integer.defaultMaxTransitionLength)
 
-    override val transitionSpeedFactor: Float
+    override val calendarViewTransitionSpeedFactor: Float
         get() = getFloat(R.string.defaultTransitionSpeedFactor)
 
-    override val flingOrientation: PrimeCalendarView.FlingOrientation
+    override val calendarViewFlingOrientation: PrimeCalendarView.FlingOrientation
         get() = PrimeCalendarView.FlingOrientation.VERTICAL
 
     // ------- Developer Options
 
-    override val developerOptionsShowGuideLines: Boolean
+    override val calendarViewDeveloperOptionsShowGuideLines: Boolean
         get() = false
 
     // ------------------------------------ Picker Bottom Sheet ------------------------------------
