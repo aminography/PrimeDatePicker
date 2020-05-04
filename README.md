@@ -180,6 +180,17 @@ BaseThemeFactory themeFactory = new LightThemeFactory() {
     public String getTypefacePath() {
         return "fonts/Roboto-Regular.ttf";
     }
+    
+    @NotNull
+    @Override
+    public PrimeCalendarView.FlingOrientation getCalendarViewFlingOrientation() {
+        return PrimeCalendarView.FlingOrientation.HORIZONTAL;
+    }
+    
+    @Override
+    public int getSelectionBarBackgroundColor() {
+        return super.getColor(R.color.green300);
+    }
     // Other customizations...
 };
 ```
