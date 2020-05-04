@@ -13,6 +13,7 @@ import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.SparseIntArray
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Interpolator
@@ -72,6 +73,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private var daysInMonth = 0
     private lateinit var monthLabel: String
     private lateinit var weekLabels: Array<String>
+    private lateinit var internalWeekLabelTextColors: Array<Int>
 
     private var firstDayOfMonthDayOfWeek = 0
 
@@ -240,6 +242,12 @@ class PrimeMonthView @JvmOverloads constructor(
         }
 
     // Programmatically Control Variables ----------------------------------------------------------
+
+    var weekLabelTextColors: SparseIntArray? = null
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
 
     var typeface: Typeface? = null
         set(value) {
@@ -658,6 +666,11 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
+        internalWeekLabelTextColors = Array(7) { dayOfWeek ->
+            val color = weekLabelTextColors?.get(if (dayOfWeek > 0) dayOfWeek else 7, -1)
+            if (color != null && color != -1) color else weekLabelTextColor
+        }
+
         toAnimateDay = null
 
         updateToday()
@@ -759,7 +772,9 @@ class PrimeMonthView @JvmOverloads constructor(
             val dayOfWeek = (i + firstDayOfWeek) % columnCount
             val x = xPositions[i]
 
-            weekLabelPaint?.run {
+            weekLabelPaint?.apply {
+                color = internalWeekLabelTextColors[dayOfWeek % 7]
+            }?.run {
                 canvas.drawText(
                     weekLabels[dayOfWeek % 7],
                     x,

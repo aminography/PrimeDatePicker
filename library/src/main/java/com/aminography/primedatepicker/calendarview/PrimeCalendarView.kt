@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.SparseIntArray
 import android.view.ViewGroup
 import android.view.animation.Interpolator
 import android.widget.FrameLayout
@@ -269,6 +270,12 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
     // Programmatically Control Variables ----------------------------------------------------------
+
+    override var weekLabelTextColors: SparseIntArray? = null
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
 
     override var typeface: Typeface? = null
         set(value) {

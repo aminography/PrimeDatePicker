@@ -1,6 +1,7 @@
 package com.aminography.primedatepicker.calendarview.callback
 
 import android.graphics.Typeface
+import android.util.SparseIntArray
 import android.view.animation.Interpolator
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.common.LabelFormatter
@@ -32,6 +33,8 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>?
 
     val disabledDaysSet: MutableSet<String>?
+
+    val weekLabelTextColors: SparseIntArray?
 
     val typeface: Typeface?
 

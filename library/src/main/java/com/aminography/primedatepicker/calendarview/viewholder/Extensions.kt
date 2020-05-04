@@ -20,6 +20,7 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
         disabledDaysSet = it.disabledDaysSet
         firstDayOfWeek = it.firstDayOfWeek
         locale = it.locale
+        weekLabelTextColors = it.weekLabelTextColors
 
         // ------- Common Attributes
 

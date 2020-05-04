@@ -97,7 +97,7 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     // ------- Color Customizations
     setBackgroundColor(theme.calendarViewBackgroundColor)
     monthLabelTextColor = theme.calendarViewMonthLabelTextColor
-    weekLabelTextColor = theme.calendarViewWeekLabelTextColor
+    weekLabelTextColors = theme.calendarViewWeekLabelTextColors
     dayLabelTextColor = theme.calendarViewDayLabelTextColor
     todayLabelTextColor = theme.calendarViewTodayLabelTextColor
     pickedDayLabelTextColor = theme.calendarViewPickedDayLabelTextColor

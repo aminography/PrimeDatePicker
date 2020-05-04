@@ -1,5 +1,6 @@
 package com.aminography.primedatepicker.picker.theme.abs
 
+import android.util.SparseIntArray
 import android.view.animation.Interpolator
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.common.LabelFormatter
@@ -37,7 +38,7 @@ interface CalendarViewTheme : GeneralTheme {
 
     val calendarViewWeekLabelTextSize: Int
 
-    val calendarViewWeekLabelTextColor: Int
+    val calendarViewWeekLabelTextColors: SparseIntArray
 
     val calendarViewWeekLabelTopPadding: Int
 

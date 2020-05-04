@@ -1,7 +1,9 @@
 package com.aminography.primedatepicker.picker.theme
 
+import android.util.SparseIntArray
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.picker.theme.base.NormalThemeFactory
+import java.util.*
 
 /**
  * @author aminography
@@ -20,8 +22,17 @@ open class DarkThemeFactory : NormalThemeFactory() {
 
     // ------- Week Label
 
-    override val calendarViewWeekLabelTextColor: Int
-        get() = getColor(R.color.darkWeekLabelTextColor)
+    override val calendarViewWeekLabelTextColors: SparseIntArray
+        get() = SparseIntArray(7).apply {
+            val defaultColor = getColor(R.color.darkWeekLabelTextColor)
+            put(Calendar.SUNDAY, defaultColor)
+            put(Calendar.MONDAY, defaultColor)
+            put(Calendar.TUESDAY, defaultColor)
+            put(Calendar.WEDNESDAY, defaultColor)
+            put(Calendar.THURSDAY, defaultColor)
+            put(Calendar.FRIDAY, defaultColor)
+            put(Calendar.SATURDAY, defaultColor)
+        }
 
     // ------- Day Label
 
