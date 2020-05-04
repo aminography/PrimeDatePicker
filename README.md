@@ -151,6 +151,17 @@ and
 [`LightThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)
 that you can override their parameters or inherit a class from or make your own theme factory.
 
+```kotlin
+val themeFactory = object : DarkThemeFactory() {
+
+    override val typefacePath: String?
+        get() = "fonts/Roboto-Regular.ttf"
+        
+    override val calendarViewWeekLabelFormatter: LabelFormatter
+        get() = { primeCalendar -> String.format("%s😍", primeCalendar.weekDayNameShort) }
+}
+```
+
 <br/>
 
 ### Customizing Texts
