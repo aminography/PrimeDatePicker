@@ -39,9 +39,7 @@ class DatePickerActivity : AppCompatActivity() {
             val typeface = getTypeface(calendarType)
             val theme = getDefaultTheme(typeface)
 
-            val today = CalendarFactory.newInstance(calendarType, locale).apply {
-                firstDayOfWeek = Calendar.TUESDAY
-            }
+            val today = CalendarFactory.newInstance(calendarType, locale)
 
             datePicker = if (isBottomSheet()) {
                 PrimeDatePicker.bottomSheetWith(today)
