@@ -69,6 +69,7 @@ internal class PrimeDatePickerImpl(
     private var gotoView: BaseLazyView? = null
     private var direction: Direction = Direction.LTR
     private lateinit var locale: Locale
+    private var firstDayOfWeek: Int = -1
     private var typeface: Typeface? = null
     private lateinit var themeFactory: ThemeFactory
 
@@ -88,6 +89,8 @@ internal class PrimeDatePickerImpl(
             }?.let {
                 calendar.firstDayOfWeek = it
             }
+
+            firstDayOfWeek = calendar.firstDayOfWeek
         }
 
         arguments?.getString("pickType")?.let { internalPickType = PickType.valueOf(it) }
@@ -206,7 +209,13 @@ internal class PrimeDatePickerImpl(
             ActionBarView(actionBarViewStub, direction).also {
                 it.locale = locale
                 it.typeface = typeface
-                it.onTodayButtonClick = { calendarView.goto(CalendarFactory.newInstance(calendarType, calendarView.locale), true) }
+                it.onTodayButtonClick = {
+                    CalendarFactory.newInstance(calendarType, calendarView.locale).also { calendar ->
+                        calendar.firstDayOfWeek = firstDayOfWeek
+                    }.let { calendar ->
+                        calendarView.goto(calendar, true)
+                    }
+                }
                 it.onPositiveButtonClick = { handleOnPositiveButtonClick(calendarView) }
                 it.onNegativeButtonClick = { onDismiss() }
                 it.applyTheme(themeFactory)
@@ -340,6 +349,7 @@ internal class PrimeDatePickerImpl(
                         initialDateCalendar?.clone()?.let { calendar ->
                             calendar.year = year
                             calendar.month = month
+                            calendar.firstDayOfWeek = firstDayOfWeek
                             calendarView.goto(calendar, true)
                         }
                     }, 250)

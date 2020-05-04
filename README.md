@@ -59,7 +59,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.0.0'
+    implementation 'com.aminography:primedatepicker:3.0.1'
     implementation 'com.aminography:primecalendar:1.2.18'
 }
 ```
@@ -670,6 +670,9 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
+### Version 3.0.1
+- A minor bug fixed.
+
 ### Version 3.0.0
 - Builder mechanism has changed a bit.
 - Adding full customization ability using a user configurable theme factory.
