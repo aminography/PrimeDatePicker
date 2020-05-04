@@ -198,7 +198,8 @@ BaseThemeFactory themeFactory = new LightThemeFactory() {
 
 ### Customizing Texts
 
-If you want to change some texts in `PrimeDatePicker`, define some strings in your project's `strings.xml` with equal name defined in the library's `strings.xml`, to override them.
+If you want to change some texts in `PrimeDatePicker`, current possible way is to
+define some strings in your project's `strings.xml` with equal name defined in the library's `strings.xml`, to override them.
 
 <br/>
 <hr/>
