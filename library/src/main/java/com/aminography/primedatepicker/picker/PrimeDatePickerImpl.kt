@@ -109,7 +109,10 @@ internal class PrimeDatePickerImpl(
 
         with(rootView) {
             themeFactory.let {
-                cardBackgroundImageView.setColorFilter(it.dialogBackgroundColor)
+                ImageViewCompat.setImageTintList(
+                    cardBackgroundImageView,
+                    ColorStateList.valueOf(it.dialogBackgroundColor)
+                )
                 circularRevealFrameLayout.setBackgroundColor(it.gotoViewBackgroundColor)
             }
             typeface?.let { calendarView.typeface = it }
@@ -247,8 +250,9 @@ internal class PrimeDatePickerImpl(
                 it.typeface = typeface
                 it.pickedDay = calendarView.pickedSingleDayCalendar
                 it.onPickedDayClickListener = {
-                    calendarView.pickedSingleDayCalendar?.apply {
-                        calendarView.focusOnDay(this)
+                    calendarView.pickedSingleDayCalendar?.let { day ->
+                        day.firstDayOfWeek = firstDayOfWeek
+                        calendarView.focusOnDay(day)
                     }
                 }
             }
@@ -266,14 +270,16 @@ internal class PrimeDatePickerImpl(
                 it.pickedRangeEndDay = calendarView.pickedRangeEndCalendar
                 it.onRangeStartClickListener = {
                     calendarView.pickType = PickType.RANGE_START
-                    calendarView.pickedRangeStartCalendar?.apply {
-                        calendarView.goto(this, true)
+                    calendarView.pickedRangeStartCalendar?.let { day ->
+                        day.firstDayOfWeek = firstDayOfWeek
+                        calendarView.goto(day, true)
                     }
                 }
                 it.onRangeEndClickListener = {
                     calendarView.pickType = PickType.RANGE_END
-                    calendarView.pickedRangeEndCalendar?.apply {
-                        calendarView.goto(this, true)
+                    calendarView.pickedRangeEndCalendar?.let { day ->
+                        day.firstDayOfWeek = firstDayOfWeek
+                        calendarView.goto(day, true)
                     }
                 }
             }
@@ -287,6 +293,7 @@ internal class PrimeDatePickerImpl(
                 it.locale = locale
                 it.typeface = typeface
                 it.onPickedDayClickListener = { day ->
+                    day.firstDayOfWeek = firstDayOfWeek
                     calendarView.focusOnDay(day)
                 }
                 it.pickedDays = calendarView?.pickedMultipleDaysList
