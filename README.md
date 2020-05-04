@@ -175,6 +175,18 @@ val themeFactory = object : DarkThemeFactory() {
 }
 ```
 
+<table>
+
+  <tr>
+    <td><b>Result:</b></td>
+  </tr>
+
+  <tr>
+    <td><img src="static/theme.png" width="300"/></td>
+  </tr>
+
+</table>
+
 > Java
 ```java
 BaseThemeFactory themeFactory = new LightThemeFactory() {

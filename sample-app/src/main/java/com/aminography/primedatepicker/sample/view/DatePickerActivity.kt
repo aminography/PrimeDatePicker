@@ -139,14 +139,6 @@ class DatePickerActivity : AppCompatActivity() {
             else -> object : DarkThemeFactory() {
                 override val typefacePath: String?
                     get() = typeface
-
-//                override val calendarViewWeekLabelFormatter: LabelFormatter
-//                    get() = { primeCalendar ->
-//                        when (primeCalendar[Calendar.DAY_OF_WEEK]) {
-//                            Calendar.SATURDAY, Calendar.SUNDAY -> String.format("%s\uD83D\uDE0D", primeCalendar.weekDayNameShort)
-//                            else -> String.format("%s\uD83D\uDE01", primeCalendar.weekDayNameShort)
-//                        }
-//                    }
             }
         }
     }
