@@ -182,7 +182,7 @@ val themeFactory = object : DarkThemeFactory() {
   </tr>
 
   <tr>
-    <td><img src="static/theme.png" width="300"/></td>
+    <td><img src="static/theme.png" width="400"/></td>
   </tr>
 
 </table>
