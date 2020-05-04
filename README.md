@@ -176,9 +176,8 @@ BaseThemeFactory themeFactory = new LightThemeFactory() {
     @Nullable
     @Override
     public String getTypefacePath() {
-        return typeface;
+        return "fonts/Roboto-Regular.ttf";
     }
-    
     // ...
 };
 ```
