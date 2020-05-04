@@ -166,6 +166,8 @@ val themeFactory = object : DarkThemeFactory() {
                 else -> String.format("%s😁", primeCalendar.weekDayNameShort)
             }
         }
+     // Other customizations...
+
 }
 ```
 
@@ -178,7 +180,7 @@ BaseThemeFactory themeFactory = new LightThemeFactory() {
     public String getTypefacePath() {
         return "fonts/Roboto-Regular.ttf";
     }
-    // ...
+    // Other customizations...
 };
 ```
 
