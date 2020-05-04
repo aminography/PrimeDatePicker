@@ -524,7 +524,7 @@ These variables are only accessible programmatically to get or set. (Available b
   
   <tr>
     <td><b>• pickType</b></td>
-    <td><a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/common/PickType.kt">PickType</a></td>
+    <td><a href="library/src/main/java/com/aminography/primedatepicker/common/PickType.kt">PickType</a></td>
   </tr>
   <tr>
     <td colspan="2"><i>Specifies the date picking type of the view. Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>MULTIPLE</b>, <b>NOTHING</b>.</i></td>
@@ -620,13 +620,13 @@ Change Log
 - Adding Goto by tapping on Month-Year.
 - Picking animation has improved.
 - Possibility to change start day of week.
-- Adding RTL support in bottom sheet.
+- Adding RTL support in bottom sheet.```
 
 ### Version 1.1.0
 - Migrated to AndroidX
 
 ### Version 1.0.16
-- Ability to pick multiple days using `MULTIPLE` <a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/PickType.kt">PickType</a>.
+- Ability to pick multiple days using `MULTIPLE` <a href="library/src/main/java/com/aminography/primedatepicker/common/PickType.kt">PickType</a>.
 
 ### Version 1.0.15
 - A minor bug is fixed.
