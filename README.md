@@ -36,9 +36,10 @@ The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com
 Main Characteristics
 --------------------
 - Endless Scrolling
-- Customizable Views & Theme
+- Fully Customizable Views & Theme
 - Fluent UI
 - RTL Support
+- Landscape Support
 - Various Calendar Types
 - Various Date Picking Strategies
 - Showing Both Dialog & BottomSheet
