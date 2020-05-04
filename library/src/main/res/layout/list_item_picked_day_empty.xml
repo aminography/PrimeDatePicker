@@ -4,17 +4,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <View
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backgroundImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/material_size_2"
-        android:layout_marginEnd="@dimen/material_size_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.aminography.primedatepicker.picker.header.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLineTextView
         android:id="@+id/twoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,13 +21,13 @@
         android:paddingTop="@dimen/material_size_4"
         android:paddingEnd="@dimen/material_size_8"
         android:paddingBottom="@dimen/material_size_4"
-        app:firstLabelTextColor="@color/transparent"
-        app:firstLabelTextSize="@dimen/text_size_header_multi_large"
+        app:bottomLabelTextColor="@color/transparent"
+        app:bottomLabelTextSize="@dimen/text_size_header_multi_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:secondLabelTextColor="@color/transparent"
-        app:secondLabelTextSize="@dimen/text_size_header_multi_small" />
+        app:topLabelTextColor="@color/transparent"
+        app:topLabelTextSize="@dimen/text_size_header_multi_large" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

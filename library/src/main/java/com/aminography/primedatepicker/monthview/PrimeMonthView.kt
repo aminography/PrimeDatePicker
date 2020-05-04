@@ -13,6 +13,7 @@ import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.SparseIntArray
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Interpolator
@@ -23,8 +24,9 @@ import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.*
-import com.aminography.primedatepicker.tools.*
+import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.common.*
+import com.aminography.primedatepicker.utils.*
 import java.util.*
 import kotlin.collections.LinkedHashMap
 import kotlin.math.min
@@ -69,6 +71,9 @@ class PrimeMonthView @JvmOverloads constructor(
     private var todayDayOfMonth = -1
 
     private var daysInMonth = 0
+    private lateinit var monthLabel: String
+    private lateinit var weekLabels: Array<String>
+    private lateinit var internalWeekLabelTextColors: Array<Int>
 
     private var firstDayOfMonthDayOfWeek = 0
 
@@ -76,7 +81,6 @@ class PrimeMonthView @JvmOverloads constructor(
     private var rowCount = 6
     private var columnCount = 7
 
-    private var dayOfWeekLabelCalendar: PrimeCalendar? = null
     private var firstDayOfMonthCalendar: PrimeCalendar? = null
 
     private var animationProgress = 1.0f
@@ -239,6 +243,12 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // Programmatically Control Variables ----------------------------------------------------------
 
+    var weekLabelTextColors: SparseIntArray? = null
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
     var typeface: Typeface? = null
         set(value) {
             field = value
@@ -382,14 +392,14 @@ class PrimeMonthView @JvmOverloads constructor(
     var calendarType = CalendarType.CIVIL
         set(value) {
             field = value
-            direction = LanguageUtils.direction(value, locale.language)
+            direction = value.findDirection(locale)
             if (invalidate) goto(CalendarFactory.newInstance(value, locale))
         }
 
     var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
-            direction = LanguageUtils.direction(calendarType, value.language)
+            direction = value.findDirection(calendarType)
             if (invalidate) goto(CalendarFactory.newInstance(calendarType, value))
         }
 
@@ -399,9 +409,43 @@ class PrimeMonthView @JvmOverloads constructor(
             animator.interpolator = animationInterpolator
         }
 
+    var monthLabelFormatter: LabelFormatter = DEFAULT_MONTH_LABEL_FORMATTER
+        set(value) {
+            field = value
+            if (invalidate) goto(year, month)
+        }
+
+    var weekLabelFormatter: LabelFormatter = DEFAULT_WEEK_LABEL_FORMATTER
+        set(value) {
+            field = value
+            if (invalidate) goto(year, month)
+        }
+
+    var developerOptionsShowGuideLines: Boolean = false
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
     // ---------------------------------------------------------------------------------------------
 
-    private var animator = ValueAnimator().apply {
+    internal var disabledDaysSet: MutableSet<String>? = null
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
+    var disabledDaysList: List<PrimeCalendar> = arrayListOf()
+        set(value) {
+            field = value
+            mutableSetOf<String>().apply {
+                addAll(value.map { DateUtils.dateString(it) ?: "" })
+            }.also { disabledDaysSet = it }
+        }
+
+    // ---------------------------------------------------------------------------------------------
+
+    private val animator = ValueAnimator().apply {
         setValues(progressProperty)
         duration = animationDuration.toLong()
         interpolator = animationInterpolator
@@ -411,7 +455,7 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    internal var weekStartDay = -1
+    internal var firstDayOfWeek = -1
         set(value) {
             field = value
             if (invalidate) invalidate()
@@ -420,27 +464,27 @@ class PrimeMonthView @JvmOverloads constructor(
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
 
-    fun doNotInvalidate(function: () -> Unit) {
+    fun doNotInvalidate(block: (PrimeMonthView) -> Unit) {
         val previous = invalidate
         invalidate = false
-        function.invoke()
+        block.invoke(this)
         invalidate = previous
     }
 
     // ---------------------------------------------------------------------------------------------
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
+        context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).run {
             doNotInvalidate {
                 calendarType = CalendarType.values()[getInt(R.styleable.PrimeMonthView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
 
-                monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
-                weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
-                dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
-                todayLabelTextColor = getColor(R.styleable.PrimeMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.defaultTodayLabelTextColor))
-                pickedDayLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
-                pickedDayCircleColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
-                disabledDayLabelTextColor = getColor(R.styleable.PrimeMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDisabledDayLabelTextColor))
+                monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.blueGray200))
+                weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.red300))
+                dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.gray900))
+                todayLabelTextColor = getColor(R.styleable.PrimeMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
+                pickedDayLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
+                pickedDayCircleColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.red300))
+                disabledDayLabelTextColor = getColor(R.styleable.PrimeMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
 
                 monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
                 weekLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
@@ -471,7 +515,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun calculateSizes() {
-        if (context.isDisplayLandscape()) {
+        if (context.isDisplayLandscape) {
             if (showTwoWeeksInLandscape) {
                 maxRowCount = 3
                 rowCount = 3
@@ -570,8 +614,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         drawMonthLabel(canvas)
-        drawWeekLabels(canvas)
-        drawDayLabels(canvas)
+        calculateXPositions().let {
+            drawWeekLabels(canvas, it)
+            drawDayLabels(canvas, it)
+        }
     }
 
     fun goTo(calendar: PrimeCalendar) =
@@ -584,7 +630,7 @@ class PrimeMonthView @JvmOverloads constructor(
         doNotInvalidate {
             locale = calendar.locale
             calendarType = calendar.calendarType
-            weekStartDay = calendar.firstDayOfWeek
+            firstDayOfWeek = calendar.firstDayOfWeek
         }
         goto(calendar.year, calendar.month)
     }
@@ -593,21 +639,39 @@ class PrimeMonthView @JvmOverloads constructor(
         this.year = year
         this.month = month
 
-        if (weekStartDay == -1) {
+        if (firstDayOfWeek == -1) {
             doNotInvalidate {
-                weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+                firstDayOfWeek = DateUtils.defaultWeekStartDay(calendarType)
             }
         }
 
-        dayOfWeekLabelCalendar = CalendarFactory.newInstance(calendarType, locale)
-        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType, locale).apply {
-            firstDayOfWeek = weekStartDay
-            set(year, month, 1)
-        }.also {
+        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType, locale).also {
+            it.firstDayOfWeek = firstDayOfWeek
+            it.set(year, month, 1)
             firstDayOfMonthDayOfWeek = it[Calendar.DAY_OF_WEEK]
         }
 
         daysInMonth = DateUtils.getDaysInMonth(calendarType, year, month)
+
+        firstDayOfMonthCalendar?.let {
+            monthLabelFormatter(it)
+        }?.also {
+            monthLabel = it.localizeDigits(locale)
+        }
+
+        CalendarFactory.newInstance(calendarType, locale).let {
+            weekLabels = Array(7) { dayOfWeek ->
+                it[Calendar.DAY_OF_WEEK] = dayOfWeek
+                weekLabelFormatter(it).localizeDigits(locale)
+            }
+        }
+
+        internalWeekLabelTextColors = Array(7) { dayOfWeek ->
+            val color = weekLabelTextColors?.get(if (dayOfWeek > 0) dayOfWeek else 7, -1)
+            if (color != null && color != -1) color else weekLabelTextColor
+        }
+
+        toAnimateDay = null
 
         updateToday()
         updateRowCount()
@@ -631,8 +695,8 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun adjustDayOfWeekOffset(dayOfWeek: Int): Int {
-        val day = if (dayOfWeek < weekStartDay) dayOfWeek + 7 else dayOfWeek
-        return (day - weekStartDay) % 7
+        val day = if (dayOfWeek < firstDayOfWeek) dayOfWeek + 7 else dayOfWeek
+        return (day - firstDayOfWeek) % 7
     }
 
     private fun drawMonthLabel(canvas: Canvas) {
@@ -641,26 +705,20 @@ class PrimeMonthView @JvmOverloads constructor(
             (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f +
             monthLabelTopPadding
 
-        monthLabelPaint?.apply {
+        monthLabelPaint?.run {
             y -= ((descent() + ascent()) / 2)
         }
 
-        var monthAndYearString = "${firstDayOfMonthCalendar?.monthName} ${firstDayOfMonthCalendar?.year}"
-        monthAndYearString = when (direction) {
-            Direction.LTR -> monthAndYearString
-            Direction.RTL -> PersianUtils.convertLatinDigitsToPersian(monthAndYearString)
-        }
-
-        monthLabelPaint?.apply {
+        monthLabelPaint?.run {
             canvas.drawText(
-                monthAndYearString,
+                monthLabel,
                 x,
                 y,
                 this
             )
         }
 
-        if (SHOW_GUIDE_LINES) {
+        if (developerOptionsShowGuideLines) {
             Paint().apply {
                 isAntiAlias = true
                 color = Color.RED
@@ -700,43 +758,32 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawWeekLabels(canvas: Canvas) {
+    private fun drawWeekLabels(canvas: Canvas, xPositions: Array<Float>) {
         var y = paddingTop +
             monthHeaderHeight +
             (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f +
             weekLabelTopPadding
 
-        weekLabelPaint?.apply {
+        weekLabelPaint?.run {
             y -= ((descent() + ascent()) / 2)
         }
 
-        val xPositionList = arrayListOf<Float>().apply {
-            for (i in 0 until columnCount) {
-                // RTLize for Persian and Hijri Calendars
-                add(when (direction) {
-                    Direction.LTR -> (2 * i + 1) * (cellWidth / 2) + paddingLeft
-                    Direction.RTL -> (2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft
-                })
-            }
-        }
-
         for (i in 0 until columnCount) {
-            val dayOfWeek = (i + weekStartDay) % columnCount
-            val x = xPositionList[i]
-
-            dayOfWeekLabelCalendar?.set(Calendar.DAY_OF_WEEK, dayOfWeek % 7)
-            val weekDisplayName = dayOfWeekLabelCalendar?.weekDayNameShort ?: ""
+            val dayOfWeek = (i + firstDayOfWeek) % columnCount
+            val x = xPositions[i]
 
             weekLabelPaint?.apply {
+                color = internalWeekLabelTextColors[dayOfWeek % 7]
+            }?.run {
                 canvas.drawText(
-                    weekDisplayName,
+                    weekLabels[dayOfWeek % 7],
                     x,
                     y,
                     this
                 )
             }
 
-            if (SHOW_GUIDE_LINES) {
+            if (developerOptionsShowGuideLines) {
                 Paint().apply {
                     isAntiAlias = true
                     color = Color.GRAY
@@ -763,7 +810,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        if (SHOW_GUIDE_LINES) {
+        if (developerOptionsShowGuideLines) {
             Paint().apply {
                 isAntiAlias = true
                 color = Color.GREEN
@@ -780,26 +827,16 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawDayLabels(canvas: Canvas) {
+    private fun drawDayLabels(canvas: Canvas, xPositions: Array<Float>) {
         var topY: Float = (paddingTop + monthHeaderHeight + weekHeaderHeight).toFloat()
         var offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
         val radius = min(cellWidth, cellHeight) / 2 - dp(2f)
 
-        val xPositionList = arrayListOf<Float>().apply {
-            for (i in 0 until columnCount) {
-                // RTLize for Persian and Hijri Calendars
-                add(when (direction) {
-                    Direction.LTR -> ((2 * i + 1) * (cellWidth / 2) + paddingLeft)
-                    Direction.RTL -> ((2 * (columnCount - 1 - i) + 1) * (cellWidth / 2) + paddingLeft)
-                })
-            }
-        }
-
         for (dayOfMonth in 1..daysInMonth) {
             val y = topY + cellHeight / 2
-            val x = xPositionList[offset]
+            val x = xPositions[offset]
 
-            val pickedDayState = MonthViewUtils.findDayState(
+            val pickedDayState = findPickedDayState(
                 year,
                 month,
                 dayOfMonth,
@@ -812,12 +849,12 @@ class PrimeMonthView @JvmOverloads constructor(
 
             val animate = toAnimateDay?.let {
                 it.year == year && it.month == month && it.dayOfMonth == dayOfMonth
-            } ?: true
+            } ?: (pickType == PickType.RANGE_START || pickType == PickType.RANGE_END)
 
             drawDayBackground(canvas, pickedDayState, x, y, radius, animate)
             drawDayLabel(canvas, dayOfMonth, pickedDayState, x, y)
 
-            if (SHOW_GUIDE_LINES) {
+            if (developerOptionsShowGuideLines) {
                 Paint().apply {
                     isAntiAlias = true
                     color = Color.GRAY
@@ -852,7 +889,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float, animate: Boolean) {
-        selectedDayBackgroundPaint?.apply {
+        selectedDayBackgroundPaint?.run {
             fun drawCircle() = canvas.drawCircle(
                 x,
                 y,
@@ -926,8 +963,8 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, pickedDayState: PickedDayState, x: Float, y: Float) {
-        dayLabelPaint?.apply {
-            color = if (DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar)) {
+        dayLabelPaint?.run {
+            color = if (isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet)) {
                 disabledDayLabelTextColor
             } else if (pickType != PickType.NOTHING) {
                 when (pickedDayState) {
@@ -961,12 +998,9 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        val date = when (direction) {
-            Direction.LTR -> "$dayOfMonth"
-            Direction.RTL -> PersianUtils.convertLatinDigitsToPersian("$dayOfMonth")
-        }
+        val date = dayOfMonth.localizeDigits(locale)
 
-        dayLabelPaint?.apply {
+        dayLabelPaint?.run {
             canvas.drawText(
                 date,
                 x,
@@ -1001,51 +1035,50 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun onDayClicked(calendar: PrimeCalendar) {
-        calendar.apply {
-            var change = false
-            doNotInvalidate {
-                when (pickType) {
-                    PickType.SINGLE -> {
-                        pickedSingleDayCalendar = calendar
+        var change = false
+        doNotInvalidate {
+            when (pickType) {
+                PickType.SINGLE -> {
+                    pickedSingleDayCalendar = calendar
+                    toAnimateDay = calendar
+                    change = true
+                }
+                PickType.RANGE_START -> {
+                    if (DateUtils.isAfter(calendar, pickedRangeEndCalendar)) {
+                        pickedRangeEndCalendar = null
+                    }
+                    pickedRangeStartCalendar = calendar
+                    change = true
+                }
+                PickType.RANGE_END -> {
+                    if (pickedRangeStartCalendar != null && !DateUtils.isBefore(calendar, pickedRangeStartCalendar)) {
+                        pickedRangeEndCalendar = calendar
                         change = true
-                    }
-                    PickType.RANGE_START -> {
-                        if (DateUtils.isAfter(calendar, pickedRangeEndCalendar)) {
-                            pickedRangeEndCalendar = null
-                        }
-                        pickedRangeStartCalendar = calendar
-                        change = true
-                    }
-                    PickType.RANGE_END -> {
-                        if (pickedRangeStartCalendar != null && !DateUtils.isBefore(calendar, pickedRangeStartCalendar)) {
-                            pickedRangeEndCalendar = calendar
-                            change = true
-                        }
-                    }
-                    PickType.MULTIPLE -> {
-                        if (pickedMultipleDaysMap == null) pickedMultipleDaysMap = LinkedHashMap()
-                        val dateString = DateUtils.dateString(year, month, dayOfMonth)
-                        if (pickedMultipleDaysMap?.containsKey(dateString) == true) {
-                            pickedMultipleDaysMap?.remove(dateString)
-                        } else {
-                            pickedMultipleDaysMap?.put(dateString, calendar)
-                        }
-                        toAnimateDay = calendar
-                        change = true
-                    }
-                    PickType.NOTHING -> {
                     }
                 }
+                PickType.MULTIPLE -> {
+                    if (pickedMultipleDaysMap == null) pickedMultipleDaysMap = LinkedHashMap()
+                    val dateString = DateUtils.dateString(year, month, calendar.dayOfMonth)
+                    if (pickedMultipleDaysMap?.containsKey(dateString) == true) {
+                        pickedMultipleDaysMap?.remove(dateString)
+                    } else {
+                        pickedMultipleDaysMap?.put(dateString, calendar)
+                    }
+                    toAnimateDay = calendar
+                    change = true
+                }
+                PickType.NOTHING -> {
+                }
             }
-
-            notifyDayPicked(change)
-            checkAnimatedInvalidation()
         }
+
+        notifyDayPicked(change)
+        checkAnimatedInvalidation()
     }
 
     private fun checkAnimatedInvalidation() {
         if (animateSelection) {
-            invalidate()
+//            invalidate()
             animator.start()
         } else {
             invalidate()
@@ -1099,8 +1132,18 @@ class PrimeMonthView @JvmOverloads constructor(
         else day
     }
 
+    private fun calculateXPositions(): Array<Float> {
+        return Array(columnCount) {
+            // RTLize for Persian and Hijri Calendars
+            when (direction) {
+                Direction.LTR -> (2 * it + 1) * (cellWidth / 2) + paddingLeft
+                Direction.RTL -> (2 * (columnCount - 1 - it) + 1) * (cellWidth / 2) + paddingLeft
+            }
+        }
+    }
+
     private fun ifInValidRange(dayOfMonth: Int, function: () -> Unit) {
-        if (!DateUtils.isOutOfRange(year, month, dayOfMonth, minDateCalendar, maxDateCalendar))
+        if (!isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet))
             function.invoke()
     }
 
@@ -1124,7 +1167,7 @@ class PrimeMonthView @JvmOverloads constructor(
         val savedState = SavedState(superState)
 
         savedState.calendarType = calendarType.ordinal
-        savedState.weekStartDay = weekStartDay
+        savedState.firstDayOfWeek = firstDayOfWeek
         savedState.locale = locale.language
 
         savedState.year = year
@@ -1140,6 +1183,8 @@ class PrimeMonthView @JvmOverloads constructor(
         savedState.pickedMultipleDaysList = pickedMultipleDaysMap?.values?.map {
             DateUtils.storeCalendar(it)!!
         } ?: arrayListOf()
+
+        disabledDaysSet?.let { savedState.disabledDaysList = it.toList() }
 
         savedState.monthLabelTextColor = monthLabelTextColor
         savedState.weekLabelTextColor = weekLabelTextColor
@@ -1170,7 +1215,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
-            weekStartDay = savedState.weekStartDay
+            firstDayOfWeek = savedState.firstDayOfWeek
             savedState.locale?.let { locale = Locale(it) }
 
             year = savedState.year
@@ -1190,6 +1235,8 @@ class PrimeMonthView @JvmOverloads constructor(
                     Pair(DateUtils.dateString(calendar)!!, calendar!!)
                 }?.also { putAll(it) }
             }.also { pickedMultipleDaysMap = it }
+
+            savedState.disabledDaysList?.toMutableSet()?.let { disabledDaysSet = it }
 
             monthLabelTextColor = savedState.monthLabelTextColor
             weekLabelTextColor = savedState.weekLabelTextColor
@@ -1221,7 +1268,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private class SavedState : BaseSavedState {
 
         internal var calendarType: Int = 0
-        internal var weekStartDay: Int = 0
+        internal var firstDayOfWeek: Int = 0
         internal var locale: String? = null
         internal var year: Int = 0
         internal var month: Int = 0
@@ -1234,6 +1281,8 @@ class PrimeMonthView @JvmOverloads constructor(
         internal var pickedRangeStartCalendar: String? = null
         internal var pickedRangeEndCalendar: String? = null
         internal var pickedMultipleDaysList: List<String>? = null
+
+        internal var disabledDaysList: List<String>? = null
 
         internal var monthLabelTextColor: Int = 0
         internal var weekLabelTextColor: Int = 0
@@ -1259,7 +1308,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         private constructor(input: Parcel) : super(input) {
             calendarType = input.readInt()
-            weekStartDay = input.readInt()
+            firstDayOfWeek = input.readInt()
             locale = input.readString()
             year = input.readInt()
             month = input.readInt()
@@ -1271,7 +1320,9 @@ class PrimeMonthView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedRangeStartCalendar = input.readString()
             pickedRangeEndCalendar = input.readString()
-            pickedMultipleDaysList?.let { input.readStringList(it) }
+            input.readStringList(pickedMultipleDaysList ?: mutableListOf())
+
+            disabledDaysList?.let { input.readStringList(it) }
 
             monthLabelTextColor = input.readInt()
             weekLabelTextColor = input.readInt()
@@ -1297,7 +1348,7 @@ class PrimeMonthView @JvmOverloads constructor(
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
             out.writeInt(calendarType)
-            out.writeInt(weekStartDay)
+            out.writeInt(firstDayOfWeek)
             out.writeString(locale)
             out.writeInt(year)
             out.writeInt(month)
@@ -1310,6 +1361,8 @@ class PrimeMonthView @JvmOverloads constructor(
             out.writeString(pickedRangeStartCalendar)
             out.writeString(pickedRangeEndCalendar)
             out.writeStringList(pickedMultipleDaysList)
+
+            out.writeStringList(disabledDaysList)
 
             out.writeInt(monthLabelTextColor)
             out.writeInt(weekLabelTextColor)
@@ -1342,9 +1395,15 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     companion object {
-        private const val SHOW_GUIDE_LINES = false
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
+
         val DEFAULT_INTERPOLATOR = OvershootInterpolator()
+
+        val DEFAULT_MONTH_LABEL_FORMATTER: LabelFormatter =
+            { primeCalendar -> "${primeCalendar.monthName} ${primeCalendar.year}" }
+
+        val DEFAULT_WEEK_LABEL_FORMATTER: LabelFormatter =
+            { primeCalendar -> primeCalendar.weekDayNameShort }
     }
 
 }

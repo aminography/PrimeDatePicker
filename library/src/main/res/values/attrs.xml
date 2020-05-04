@@ -96,6 +96,11 @@
         <attr name="dividerInsetTop" format="dimension" />
         <attr name="dividerInsetBottom" format="dimension" />
 
+        <attr name="elementPaddingLeft" format="dimension" />
+        <attr name="elementPaddingRight" format="dimension" />
+        <attr name="elementPaddingTop" format="dimension" />
+        <attr name="elementPaddingBottom" format="dimension" />
+
         <attr name="flingOrientation" format="enum">
             <enum name="vertical" value="0" />
             <enum name="horizontal" value="0" />
@@ -103,19 +108,17 @@
     </declare-styleable>
 
     <declare-styleable name="TwoLineTextView">
-        <attr name="firstLabelText" format="string" />
-        <attr name="secondLabelText" format="string" />
+        <attr name="topLabelText" format="string" />
+        <attr name="bottomLabelText" format="string" />
 
-        <attr name="firstLabelTextColor" format="color" />
-        <attr name="secondLabelTextColor" format="color" />
+        <attr name="topLabelTextColor" format="color" />
+        <attr name="bottomLabelTextColor" format="color" />
 
-        <attr name="firstLabelTextSize" format="dimension" />
-        <attr name="secondLabelTextSize" format="dimension" />
+        <attr name="topLabelTextSize" format="dimension" />
+        <attr name="bottomLabelTextSize" format="dimension" />
 
-        <attr name="firstLabelTopPadding" format="dimension" />
-        <attr name="firstLabelBottomPadding" format="dimension" />
-        <attr name="secondLabelTopPadding" format="dimension" />
-        <attr name="secondLabelBottomPadding" format="dimension" />
+        <attr name="preferredMinWidth" format="dimension" />
+        <attr name="gapBetweenLines" format="dimension" />
     </declare-styleable>
 
 </resources>

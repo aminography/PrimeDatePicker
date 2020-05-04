@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/material_size_4"
+    android:paddingBottom="@dimen/material_size_4">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/emptyStateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.65"
+        android:gravity="center"
+        android:text="@string/no_day_is_selected"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="true"
+        android:fadingEdgeLength="@dimen/material_size_2"
+        android:paddingStart="@dimen/material_size_4"
+        android:paddingEnd="@dimen/material_size_4"
+        android:requiresFadingEdge="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/list_item_picked_day" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

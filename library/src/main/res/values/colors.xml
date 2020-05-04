@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#607D8B</color>
-    <color name="colorPrimaryDark">#546E7A</color>
-    <color name="colorAccent">#E57373</color>
-
     <color name="white">#FFFFFF</color>
-    <color name="transWhite33">#33FFFFFF</color>
-    <color name="transWhiteAA">#AAFFFFFF</color>
-    <color name="blueGray200">#B0BEC5</color>
-    <color name="blueGray300">#90A4AE</color>
-    <color name="blueGray400">#78909C</color>
+    <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
-
-    <color name="textColorPrimary">#212121</color>
-    <color name="textColorSecondary">#9A9A9A</color>
-    <color name="textColorGreen">#66BB6A</color>
-    <color name="textColorRed">#EF5350</color>
-
+    <color name="deepDark">#2A2B2F</color>
 </resources>

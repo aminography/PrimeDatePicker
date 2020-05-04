@@ -4,6 +4,9 @@ import com.aminography.primecalendar.PrimeCalendar;
 
 import java.util.List;
 
+/**
+ * @author aminography
+ */
 @FunctionalInterface
 public interface MultipleDaysPickCallback extends BaseDayPickCallback {
 

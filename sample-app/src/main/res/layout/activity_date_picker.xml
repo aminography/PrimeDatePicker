@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Calendar Type"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="@color/gray600"
                 android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
                     android:checked="true"
                     android:paddingLeft="16dp"
                     android:text="Civil"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Persian"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Hijri"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Japanese"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Picker Type"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="@color/gray600"
                 android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold" />
 
@@ -109,7 +109,7 @@
                     android:checked="true"
                     android:paddingLeft="16dp"
                     android:text="Single Day"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -119,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Range of Days"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -129,7 +129,151 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Multiple Days"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RadioGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/colorDivider" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:text="Locale"
+                android:textColor="@color/gray600"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/calendarDefaultLocaleRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:paddingLeft="16dp"
+                    android:text="Calendar Default"
+                    android:textColor="@color/gray900"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/englishLocaleRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:text="English"
+                    android:textColor="@color/gray900"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RadioGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/colorDivider" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:text="Theme"
+                android:textColor="@color/gray600"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/lightThemeRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:paddingLeft="16dp"
+                    android:text="Default Light"
+                    android:textColor="@color/gray900"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/darkThemeRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:text="Default Dark"
+                    android:textColor="@color/gray900"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </RadioGroup>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@color/colorDivider" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:text="Bottom Sheet / Dialog"
+                android:textColor="@color/gray600"
+                android:textSize="@dimen/text_size_normal"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/bottomSheetRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:paddingLeft="16dp"
+                    android:text="Bottom Sheet"
+                    android:textColor="@color/gray900"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatRadioButton
+                    android:id="@+id/dialogRadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:text="Dialog"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -147,7 +291,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Date Boundary"
-                android:textColor="@color/textColorSecondary"
+                android:textColor="@color/gray600"
                 android:textSize="@dimen/text_size_normal"
                 android:textStyle="bold" />
 
@@ -166,7 +310,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Min Date: 5 months earlier"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -176,7 +320,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:text="Max Date: 5 months later"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/gray900"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 

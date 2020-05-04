@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">PrimeDatePicker</string>
 
-    <string name="action_today">Today</string>
-    <string name="action_cancel">Cancel</string>
-    <string name="action_select">Select</string>
+    <string name="action_today">TODAY</string>
+    <string name="action_cancel">CANCEL</string>
+    <string name="action_select">SELECT</string>
 
     <string name="prime_date_picker_selected_day">Selected Day</string>
     <string name="prime_date_picker_from">From</string>

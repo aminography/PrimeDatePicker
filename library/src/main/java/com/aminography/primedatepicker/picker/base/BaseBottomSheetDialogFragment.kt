@@ -2,29 +2,25 @@ package com.aminography.primedatepicker.picker.base
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.LayoutRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
-import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.tools.screenSize
+import com.aminography.primedatepicker.utils.screenSize
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-
 /**
- * Created by Amin on 8/24/2018.
+ * @author aminography
  */
-abstract class BaseBottomSheetDialogFragment(
+internal abstract class BaseBottomSheetDialogFragment(
     @LayoutRes private val layoutResId: Int
 ) : BottomSheetDialogFragment() {
 
-    protected val activityContext: Context by lazy { activity!!.applicationContext }
     protected lateinit var rootView: View
 
     @SuppressLint("RestrictedApi")
@@ -35,12 +31,13 @@ abstract class BaseBottomSheetDialogFragment(
         onInitViews(rootView)
 
         val parentView = rootView.parent as View
-        parentView.setBackgroundColor(ContextCompat.getColor(activityContext, R.color.transparent))
+        parentView.setBackgroundColor(Color.TRANSPARENT)
+
         val params = parentView.layoutParams as CoordinatorLayout.LayoutParams
         val behavior = params.behavior
         if (behavior is BottomSheetBehavior<*>) {
             behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.peekHeight = activityContext.screenSize().y
+            behavior.peekHeight = requireContext().screenSize.y
         }
     }
 

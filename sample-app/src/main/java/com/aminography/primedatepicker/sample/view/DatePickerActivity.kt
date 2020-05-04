@@ -6,19 +6,24 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.PickType
-import com.aminography.primedatepicker.picker.PrimeDatePickerBottomSheet
+import com.aminography.primedatepicker.common.PickType
+import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.RangeDaysPickCallback
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
+import com.aminography.primedatepicker.picker.theme.DarkThemeFactory
+import com.aminography.primedatepicker.picker.theme.LightThemeFactory
+import com.aminography.primedatepicker.picker.theme.base.ThemeFactory
 import com.aminography.primedatepicker.sample.*
 import kotlinx.android.synthetic.main.activity_date_picker.*
 import java.util.*
 
-
+/**
+ * @author aminography
+ */
 class DatePickerActivity : AppCompatActivity() {
 
-    private var datePicker: PrimeDatePickerBottomSheet? = null
+    private var datePicker: PrimeDatePicker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,42 +32,37 @@ class DatePickerActivity : AppCompatActivity() {
         showDatePickerButton.setOnClickListener {
 
             val calendarType = getCalendarType()
+            val locale = getLocale(calendarType)
             val pickType = getPickType()
             val minDateCalendar = getMinDateCalendar(calendarType)
             val maxDateCalendar = getMaxDateCalendar(calendarType)
             val typeface = getTypeface(calendarType)
+            val theme = getDefaultTheme(typeface)
 
-            val today = CalendarFactory.newInstance(calendarType)
+            val today = CalendarFactory.newInstance(calendarType, locale)
 
-            datePicker = when (pickType) {
-                PickType.SINGLE -> {
-                    PrimeDatePickerBottomSheet.from(today)
-                        .pickSingleDay(singleDayPickCallback)
-                        .minPossibleDate(minDateCalendar)
-                        .maxPossibleDate(maxDateCalendar)
-                        .typefacePath(typeface)
-                        .animateSelection(true)
-                        .build()
+            datePicker = if (isBottomSheet()) {
+                PrimeDatePicker.bottomSheetWith(today)
+            } else {
+                PrimeDatePicker.dialogWith(today)
+            }.let {
+                when (pickType) {
+                    PickType.SINGLE -> {
+                        it.pickSingleDay(singleDayPickCallback)
+                    }
+                    PickType.RANGE_START -> {
+                        it.pickRangeDays(rangeDaysPickCallback)
+                    }
+                    PickType.MULTIPLE -> {
+                        it.pickMultipleDays(multipleDaysPickCallback)
+                    }
+                    else -> null
                 }
-                PickType.RANGE_START -> {
-                    PrimeDatePickerBottomSheet.from(today)
-                        .pickRangeDays(rangeDaysPickCallback)
-                        .minPossibleDate(minDateCalendar)
-                        .maxPossibleDate(maxDateCalendar)
-                        .typefacePath(typeface)
-                        .animateSelection(true)
-                        .build()
-                }
-                PickType.MULTIPLE -> {
-                    PrimeDatePickerBottomSheet.from(today)
-                        .pickMultipleDays(multipleDaysPickCallback)
-                        .minPossibleDate(minDateCalendar)
-                        .maxPossibleDate(maxDateCalendar)
-                        .typefacePath(typeface)
-                        .animateSelection(true)
-                        .build()
-                }
-                else -> null
+            }?.let {
+                minDateCalendar?.let { minDate -> it.minPossibleDate(minDate) }
+                maxDateCalendar?.let { maxDate -> it.maxPossibleDate(maxDate) }
+                it.applyTheme(theme)
+                it.build()
             }
 
             datePicker?.show(supportFragmentManager, PICKER_TAG)
@@ -76,7 +76,7 @@ class DatePickerActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        datePicker = supportFragmentManager.findFragmentByTag(PICKER_TAG) as? PrimeDatePickerBottomSheet
+        datePicker = supportFragmentManager.findFragmentByTag(PICKER_TAG) as? PrimeDatePicker
         when (datePicker?.pickType) {
             PickType.SINGLE -> {
                 datePicker?.setDayPickCallback(singleDayPickCallback)
@@ -123,6 +123,26 @@ class DatePickerActivity : AppCompatActivity() {
         }
     }
 
+    private fun getLocale(calendarType: CalendarType): Locale {
+        return when {
+            calendarDefaultLocaleRadioButton.isChecked -> CalendarFactory.newInstance(calendarType).locale
+            else -> Locale.ENGLISH
+        }
+    }
+
+    private fun getDefaultTheme(typeface: String): ThemeFactory {
+        return when {
+            lightThemeRadioButton.isChecked -> object : LightThemeFactory() {
+                override val typefacePath: String?
+                    get() = typeface
+            }
+            else -> object : DarkThemeFactory() {
+                override val typefacePath: String?
+                    get() = typeface
+            }
+        }
+    }
+
     private fun getMinDateCalendar(calendarType: CalendarType): PrimeCalendar? {
         val minDateCalendar: PrimeCalendar?
         if (minDateCheckBox.isChecked) {
@@ -143,6 +163,10 @@ class DatePickerActivity : AppCompatActivity() {
             maxDateCalendar = null
         }
         return maxDateCalendar
+    }
+
+    private fun isBottomSheet(): Boolean {
+        return bottomSheetRadioButton.isChecked
     }
 
     private fun getTypeface(calendarType: CalendarType): String {

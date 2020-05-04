@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Calendar Type"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                 android:checked="true"
                 android:paddingLeft="16dp"
                 android:text="Civil"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Persian"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Hijri"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -105,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Japanese"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -123,7 +123,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Picker Type"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -142,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Single Day"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -152,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Start of Range"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="End of Range"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Multiple Days"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -190,7 +190,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Date Boundary"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -209,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Min Date: 5 months earlier"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Max Date: 5 months later"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -237,7 +237,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Go to"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -250,7 +250,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="36dp"
             android:text="7 month earlier"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/gray900"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -262,7 +262,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="36dp"
             android:text="Now"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/gray900"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -274,7 +274,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="36dp"
             android:text="7 month later"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/gray900"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -290,7 +290,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Fling Direction"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -310,7 +310,7 @@
                 android:checked="true"
                 android:paddingLeft="16dp"
                 android:text="Vertical"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -320,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Horizontal"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -338,7 +338,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Locale"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -358,7 +358,7 @@
                 android:checked="true"
                 android:paddingLeft="16dp"
                 android:text="Calendar Default"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -368,7 +368,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="English"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -386,7 +386,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Transition Speed Factor"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -404,7 +404,7 @@
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
                 android:text="1"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
@@ -431,7 +431,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Max Transition Length"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -449,7 +449,7 @@
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
                 android:text="1"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
@@ -476,7 +476,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Selection Animation"
-            android:textColor="@color/textColorSecondary"
+            android:textColor="@color/gray600"
             android:textSize="@dimen/text_size_normal"
             android:textStyle="bold" />
 
@@ -495,7 +495,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="16dp"
                 android:text="Enable"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -514,7 +514,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:text="Duration"
-            android:textColor="@color/textColorPrimary"
+            android:textColor="@color/gray900"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -532,7 +532,7 @@
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
                 android:text="1"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/gray900"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 

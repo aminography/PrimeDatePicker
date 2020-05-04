@@ -1,6 +1,5 @@
 package com.aminography.primedatepicker.picker.go
 
-import android.graphics.Color
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.ViewGroup
@@ -8,22 +7,23 @@ import android.view.ViewStub
 import android.widget.FrameLayout
 import android.widget.NumberPicker
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primecalendar.hijri.HijriCalendar
-import com.aminography.primecalendar.persian.PersianCalendar
-import com.aminography.primedatepicker.Direction
+import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.picker.header.BaseLazyView
-import com.aminography.primedatepicker.tools.PersianUtils
+import com.aminography.primedatepicker.picker.base.BaseLazyView
+import com.aminography.primedatepicker.picker.component.ColoredNumberPicker
+import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.goto_container.view.*
 
-
-class GotoView(
+/**
+ * @author aminography
+ */
+internal class GotoView(
     viewStub: ViewStub,
     direction: Direction
 ) : BaseLazyView(if (direction == Direction.LTR) R.layout.goto_container else R.layout.goto_container_rtl, viewStub) {
 
-    private lateinit var monthNumberPicker: MyNumberPicker
-    private lateinit var yearNumberPicker: MyNumberPicker
+    private lateinit var monthNumberPicker: ColoredNumberPicker
+    private lateinit var yearNumberPicker: ColoredNumberPicker
 
     var calendar: PrimeCalendar? = null
         set(value) {
@@ -37,7 +37,7 @@ class GotoView(
     var typeface: Typeface? = null
         set(value) {
             field = value
-            MyNumberPicker.typeface = value
+            ColoredNumberPicker.typeface = value
         }
 
     var onCloseClickListener: (() -> Unit)? = null
@@ -45,7 +45,7 @@ class GotoView(
     var onGoClickListener: ((Int, Int) -> Unit)? = null
         set(value) {
             field = value
-            rootView.goButton.setOnClickListener {
+            rootView.goButtonImageView.setOnClickListener {
                 val month = monthNumberPicker.value
                 val year = yearNumberPicker.value
                 value?.invoke(year, month)
@@ -54,13 +54,14 @@ class GotoView(
 
     private fun init(calendar: PrimeCalendar) {
         val clone = calendar.clone()
+        clone.locale
 
         fun monthName(month: Int): String {
             clone.month = month
             return clone.monthName
         }
 
-        monthNumberPicker = MyNumberPicker(rootView.context)
+        monthNumberPicker = ColoredNumberPicker(rootView.context)
         rootView.monthFrameLayout.removeAllViews()
         rootView.monthFrameLayout.addView(monthNumberPicker)
         (monthNumberPicker.layoutParams as FrameLayout.LayoutParams).apply {
@@ -68,7 +69,7 @@ class GotoView(
             gravity = Gravity.CENTER
         }
 
-        monthNumberPicker.setDividerColor(Color.WHITE)
+        monthNumberPicker.applyDividerColor()
         monthNumberPicker.fixInputFilter()
         monthNumberPicker.descendantFocusability = NumberPicker.FOCUS_BLOCK_DESCENDANTS
         monthNumberPicker.minValue = 0
@@ -76,7 +77,7 @@ class GotoView(
         monthNumberPicker.value = calendar.month
         monthNumberPicker.setFormatter { value -> monthName(value) }
 
-        yearNumberPicker = MyNumberPicker(rootView.context)
+        yearNumberPicker = ColoredNumberPicker(rootView.context)
         rootView.yearFrameLayout.removeAllViews()
         rootView.yearFrameLayout.addView(yearNumberPicker)
         (yearNumberPicker.layoutParams as FrameLayout.LayoutParams).apply {
@@ -84,19 +85,13 @@ class GotoView(
             gravity = Gravity.CENTER
         }
 
-        yearNumberPicker.setDividerColor(Color.WHITE)
+        yearNumberPicker.applyDividerColor()
         yearNumberPicker.fixInputFilter()
         yearNumberPicker.minValue = minDateCalendar?.year ?: 0
         yearNumberPicker.maxValue = maxDateCalendar?.year ?: 10_000
         yearNumberPicker.wrapSelectorWheel = false
         yearNumberPicker.value = calendar.year
-        yearNumberPicker.setFormatter(
-            when (calendar) {
-                is PersianCalendar -> NumberPicker.Formatter { value -> PersianUtils.convertLatinDigitsToPersian("$value") }
-                is HijriCalendar -> NumberPicker.Formatter { value -> PersianUtils.convertLatinDigitsToPersian("$value") }
-                else -> NumberPicker.Formatter { value -> "$value" }
-            }
-        )
+        yearNumberPicker.setFormatter { value -> value.localizeDigits(calendar.locale) }
 
         fun adjustMinMaxMonth(year: Int) {
             val minYear = minDateCalendar?.takeIf { it.year == year }?.year
@@ -116,7 +111,7 @@ class GotoView(
             adjustMinMaxMonth(new)
         }
 
-        rootView.closeButton.setOnClickListener {
+        rootView.closeButtonImageView.setOnClickListener {
             onCloseClickListener?.invoke()
         }
     }

@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
+import android.util.SparseIntArray
 import android.view.ViewGroup
 import android.view.animation.Interpolator
 import android.widget.FrameLayout
@@ -16,16 +17,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.*
+import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
 import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
+import com.aminography.primedatepicker.common.*
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
-import com.aminography.primedatepicker.tools.DateUtils
-import com.aminography.primedatepicker.tools.LanguageUtils
-import com.aminography.primedatepicker.tools.monthOffset
+import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_MONTH_LABEL_FORMATTER
+import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_WEEK_LABEL_FORMATTER
+import com.aminography.primedatepicker.utils.DateUtils
+import com.aminography.primedatepicker.utils.findDirection
+import com.aminography.primedatepicker.utils.monthOffset
 import java.util.*
 
 
@@ -179,6 +183,18 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
+    override var monthLabelFormatter: LabelFormatter = DEFAULT_MONTH_LABEL_FORMATTER
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var weekLabelFormatter: LabelFormatter = DEFAULT_WEEK_LABEL_FORMATTER
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
     override var toFocusDay: PrimeCalendar? = null
 
     // Control Variables ---------------------------------------------------------------------------
@@ -229,7 +245,37 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) applyDividers()
         }
 
+    override var elementPaddingLeft: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var elementPaddingRight: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var elementPaddingTop: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var elementPaddingBottom: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
     // Programmatically Control Variables ----------------------------------------------------------
+
+    override var weekLabelTextColors: SparseIntArray? = null
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
 
     override var typeface: Typeface? = null
         set(value) {
@@ -261,7 +307,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>? = null
         set(value) {
             field = value
-            if (invalidate) invalidate()
+            if (invalidate) adapter?.notifyDataSetChanged()
             notifyDayPicked(true)
         }
 
@@ -301,10 +347,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
             if (invalidate) {
-                val minOffset = value?.monthOffset() ?: Int.MIN_VALUE
+                val minOffset = value?.monthOffset ?: Int.MIN_VALUE
                 findFirstVisibleItem()?.also { current ->
                     if (current.offset < minOffset) {
-                        value?.apply {
+                        value?.run {
                             goto(year, month, false)
                         }
                     } else {
@@ -343,10 +389,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
             if (invalidate) {
-                val maxOffset = value?.monthOffset() ?: Int.MAX_VALUE
+                val maxOffset = value?.monthOffset ?: Int.MAX_VALUE
                 findLastVisibleItem()?.also { current ->
                     if (current.offset > maxOffset) {
-                        value?.apply {
+                        value?.run {
                             goto(year, month, false)
                         }
                     } else {
@@ -392,7 +438,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             notifyDayPicked(true)
         }
 
-    override var weekStartDay: Int = -1
+    override var firstDayOfWeek: Int = -1
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -402,7 +448,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         set(value) {
             val previous = calendarType
             field = value
-            direction = LanguageUtils.direction(value, locale.language)
+            direction = value.findDirection(locale)
 
             if (invalidate) {
                 if (previous != value) {
@@ -417,7 +463,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var locale: Locale = Locale.getDefault()
         set(value) {
             field = value
-            direction = LanguageUtils.direction(calendarType, value.language)
+            direction = value.findDirection(calendarType)
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
@@ -434,6 +480,28 @@ class PrimeCalendarView @JvmOverloads constructor(
             applyDividers()
 
             if (invalidate) goto(calendar, false)
+        }
+
+    override var developerOptionsShowGuideLines: Boolean = false
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    // ---------------------------------------------------------------------------------------------
+
+    override var disabledDaysSet: MutableSet<String>? = null
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    var disabledDaysList: List<PrimeCalendar> = arrayListOf()
+        set(value) {
+            field = value
+            mutableSetOf<String>().apply {
+                addAll(value.map { DateUtils.dateString(it) ?: "" })
+            }.also { disabledDaysSet = it }
         }
 
     // ---------------------------------------------------------------------------------------------
@@ -471,18 +539,18 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var pickedDaysChanged: Boolean = false
     private var invalidate: Boolean = true
 
-    fun invalidateAfter(function: () -> Unit) {
+    fun invalidateAfter(block: (PrimeCalendarView) -> Unit) {
         val previous = invalidate
         invalidate = false
-        function.invoke()
+        block.invoke(this)
         invalidate = previous
         adapter?.notifyDataSetChanged()
     }
 
-    fun doNotInvalidate(function: () -> Unit) {
+    fun doNotInvalidate(block: (PrimeCalendarView) -> Unit) {
         val previous = invalidate
         invalidate = false
-        function.invoke()
+        block.invoke(this)
         invalidate = previous
     }
 
@@ -493,13 +561,13 @@ class PrimeCalendarView @JvmOverloads constructor(
         when {
             layoutHeight.equals(LayoutParams.MATCH_PARENT.toString()) -> definedHeight = LayoutParams.MATCH_PARENT
             layoutHeight.equals(LayoutParams.WRAP_CONTENT.toString()) -> definedHeight = LayoutParams.WRAP_CONTENT
-            else -> context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.layout_height)).apply {
+            else -> context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.layout_height)).run {
                 definedHeight = getDimensionPixelSize(0, LayoutParams.WRAP_CONTENT)
                 recycle()
             }
         }
 
-        context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
+        context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).run {
             doNotInvalidate {
                 calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
 
@@ -512,22 +580,27 @@ class PrimeCalendarView @JvmOverloads constructor(
                 maxTransitionLength = getInteger(R.styleable.PrimeCalendarView_maxTransitionLength, resources.getInteger(R.integer.defaultMaxTransitionLength))
                 transitionSpeedFactor = getFloat(R.styleable.PrimeCalendarView_transitionSpeedFactor, resources.getString(R.string.defaultTransitionSpeedFactor).toFloat())
 
-                dividerColor = getColor(R.styleable.PrimeCalendarView_dividerColor, ContextCompat.getColor(context, R.color.defaultDividerColor))
+                dividerColor = getColor(R.styleable.PrimeCalendarView_dividerColor, ContextCompat.getColor(context, R.color.gray400))
                 dividerThickness = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerThickness, resources.getDimensionPixelSize(R.dimen.defaultDividerThickness))
                 dividerInsetLeft = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetLeft, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetLeft))
                 dividerInsetRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetRight, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetRight))
                 dividerInsetTop = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetTop, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetTop))
                 dividerInsetBottom = getDimensionPixelSize(R.styleable.PrimeCalendarView_dividerInsetBottom, resources.getDimensionPixelSize(R.dimen.defaultDividerInsetBottom))
 
+                elementPaddingLeft = getDimensionPixelSize(R.styleable.PrimeCalendarView_elementPaddingLeft, resources.getDimensionPixelSize(R.dimen.defaultElementPaddingLeft))
+                elementPaddingRight = getDimensionPixelSize(R.styleable.PrimeCalendarView_elementPaddingRight, resources.getDimensionPixelSize(R.dimen.defaultElementPaddingRight))
+                elementPaddingTop = getDimensionPixelSize(R.styleable.PrimeCalendarView_elementPaddingTop, resources.getDimensionPixelSize(R.dimen.defaultElementPaddingTop))
+                elementPaddingBottom = getDimensionPixelSize(R.styleable.PrimeCalendarView_elementPaddingBottom, resources.getDimensionPixelSize(R.dimen.defaultElementPaddingBottom))
+
                 // Common Attributes ---------------------------------------------------------------
 
-                monthLabelTextColor = getColor(R.styleable.PrimeCalendarView_monthLabelTextColor, ContextCompat.getColor(context, R.color.defaultMonthLabelTextColor))
-                weekLabelTextColor = getColor(R.styleable.PrimeCalendarView_weekLabelTextColor, ContextCompat.getColor(context, R.color.defaultWeekLabelTextColor))
-                dayLabelTextColor = getColor(R.styleable.PrimeCalendarView_dayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDayLabelTextColor))
-                todayLabelTextColor = getColor(R.styleable.PrimeCalendarView_todayLabelTextColor, ContextCompat.getColor(context, R.color.defaultTodayLabelTextColor))
-                pickedDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultSelectedDayLabelTextColor))
-                pickedDayCircleColor = getColor(R.styleable.PrimeCalendarView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.defaultSelectedDayCircleColor))
-                disabledDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.defaultDisabledDayLabelTextColor))
+                monthLabelTextColor = getColor(R.styleable.PrimeCalendarView_monthLabelTextColor, ContextCompat.getColor(context, R.color.blueGray200))
+                weekLabelTextColor = getColor(R.styleable.PrimeCalendarView_weekLabelTextColor, ContextCompat.getColor(context, R.color.red300))
+                dayLabelTextColor = getColor(R.styleable.PrimeCalendarView_dayLabelTextColor, ContextCompat.getColor(context, R.color.gray900))
+                todayLabelTextColor = getColor(R.styleable.PrimeCalendarView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
+                pickedDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
+                pickedDayCircleColor = getColor(R.styleable.PrimeCalendarView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.red300))
+                disabledDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
 
                 monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeCalendarView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
                 weekLabelTextSize = getDimensionPixelSize(R.styleable.PrimeCalendarView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
@@ -546,8 +619,6 @@ class PrimeCalendarView @JvmOverloads constructor(
             }
             recycle()
         }
-
-        applyDividers()
 
         addView(recyclerView)
         recyclerView.speedFactor = transitionSpeedFactor
@@ -591,30 +662,30 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     fun gotoNextMonth(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType, locale).apply {
+        return CalendarFactory.newInstance(calendarType, locale).run {
             add(Calendar.MONTH, 1)
-            return goto(year, month, animate)
+            goto(year, month, animate)
         }
     }
 
     fun gotoPreviousMonth(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType, locale).apply {
+        return CalendarFactory.newInstance(calendarType, locale).run {
             add(Calendar.MONTH, -1)
-            return goto(year, month, animate)
+            goto(year, month, animate)
         }
     }
 
     fun gotoNextYear(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType, locale).apply {
+        return CalendarFactory.newInstance(calendarType, locale).run {
             add(Calendar.YEAR, 1)
-            return goto(year, month, animate)
+            goto(year, month, animate)
         }
     }
 
     fun gotoPreviousYear(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType, locale).apply {
+        return CalendarFactory.newInstance(calendarType, locale).run {
             add(Calendar.YEAR, -1)
-            return goto(year, month, animate)
+            goto(year, month, animate)
         }
     }
 
@@ -639,7 +710,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         doNotInvalidate {
             locale = calendar.locale
             calendarType = calendar.calendarType
-            weekStartDay = calendar.firstDayOfWeek
+            firstDayOfWeek = calendar.firstDayOfWeek
         }
         return goto(calendar.year, calendar.month, animate)
     }
@@ -648,14 +719,14 @@ class PrimeCalendarView @JvmOverloads constructor(
         if (DateUtils.isOutOfRange(year, month, minDateCalendar, maxDateCalendar)) {
             return false
         }
-        if (weekStartDay == -1) {
-            weekStartDay = DateUtils.defaultWeekStartDay(calendarType)
+        if (firstDayOfWeek == -1) {
+            firstDayOfWeek = DateUtils.defaultWeekStartDay(calendarType)
         }
 
-        dataList = CalendarViewUtils.createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)
+        dataList = createPivotList(calendarType, year, month, minDateCalendar, maxDateCalendar, loadFactor)
         if (animate) {
             findFirstVisibleItem()?.let { current ->
-                val transitionList = CalendarViewUtils.createTransitionList(
+                val transitionList = createTransitionList(
                     calendarType,
                     current.year,
                     current.month,
@@ -665,14 +736,14 @@ class PrimeCalendarView @JvmOverloads constructor(
                 )
 
                 val isForward = DateUtils.isBefore(current.year, current.month, year, month)
-                transitionList?.apply {
+                transitionList?.run {
                     var isLastTransitionItemRemoved = false
                     if (isForward) {
                         maxDateCalendar?.let { max ->
-                            val maxOffset = max.monthOffset()
+                            val maxOffset = max.monthOffset
                             val targetOffset = year * 12 + month
                             if (maxOffset == targetOffset) {
-                                transitionList.removeAt(transitionList.size - 1)
+                                removeAt(size - 1)
                                 isLastTransitionItemRemoved = true
                             }
                         }
@@ -694,10 +765,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         } else {
-            dataList?.apply {
+            dataList?.run {
                 adapter.replaceDataList(this)
-                findPositionInList(year, month, this)?.apply {
-                    recyclerView.fastScrollTo(this)
+                findPositionInList(year, month, this)?.let {
+                    recyclerView.fastScrollTo(it)
                 }
             }
         }
@@ -720,7 +791,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             position = layoutManager.findFirstVisibleItemPosition()
         }
         if (position != RecyclerView.NO_POSITION) {
-            return adapter.getItem(position)
+            return adapter.itemAt(position)
         }
         return null
     }
@@ -731,7 +802,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             position = layoutManager.findLastVisibleItemPosition()
         }
         if (position != RecyclerView.NO_POSITION) {
-            return adapter.getItem(position)
+            return adapter.itemAt(position)
         }
         return null
     }
@@ -763,8 +834,8 @@ class PrimeCalendarView @JvmOverloads constructor(
                     change = true
                 }
                 PickType.RANGE_START -> {
-                    startDay?.apply {
-                        if (DateUtils.isAfter(startDay, pickedRangeEndCalendar)) {
+                    startDay?.let {
+                        if (DateUtils.isAfter(it, pickedRangeEndCalendar)) {
                             pickedRangeEndCalendar = null
                         }
                     }
@@ -816,7 +887,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     override fun onHeightDetect(height: Float) {
         if (detectedItemHeight == 0f && height > 0f) {
-            detectedItemHeight = height
+            detectedItemHeight = height + paddingTop + paddingBottom
             requestLayout()
             invalidate()
         }
@@ -838,10 +909,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                 RecyclerView.SCROLL_STATE_IDLE -> {
                     if (isInTransition) {
                         postDelayed({
-                            dataList?.apply {
+                            dataList?.run {
                                 adapter.replaceDataList(this)
-                                findPositionInList(gotoYear, gotoMonth, this)?.apply {
-                                    recyclerView.fastScrollTo(this)
+                                findPositionInList(gotoYear, gotoMonth, this)?.let {
+                                    recyclerView.fastScrollTo(it)
                                 }
                                 isInTransition = false
                                 recyclerView.touchEnabled = true
@@ -874,12 +945,12 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                     if (!isInLoading && (visibleItemCount + lastVisibleItemPosition > totalItemCount)) {
                         isInLoading = true
-                        val dataHolder = adapter.getItem(totalItemCount - 1)
+                        val dataHolder = adapter.itemAt(totalItemCount - 1)
                         val offset = dataHolder.offset
-                        val maxOffset = maxDateCalendar?.monthOffset() ?: Int.MAX_VALUE
+                        val maxOffset = maxDateCalendar?.monthOffset ?: Int.MAX_VALUE
 
                         if (offset < maxOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(
+                            val moreData = extendMoreList(
                                 calendarType,
                                 dataHolder.year,
                                 dataHolder.month,
@@ -891,7 +962,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                             dataList?.apply {
                                 addAll(size, moreData)
-                                adapter.replaceDataList(this)
+                            }?.let {
+                                adapter.replaceDataList(it)
                             }
                         }
                         isInLoading = false
@@ -901,12 +973,12 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                     if (!isInLoading && firstVisibleItemPosition == 0) {
                         isInLoading = true
-                        val dataHolder = adapter.getItem(0)
+                        val dataHolder = adapter.itemAt(0)
                         val offset = dataHolder.offset
-                        val minOffset = minDateCalendar?.monthOffset() ?: Int.MIN_VALUE
+                        val minOffset = minDateCalendar?.monthOffset ?: Int.MIN_VALUE
 
                         if (offset > minOffset) {
-                            val moreData = CalendarViewUtils.extendMoreList(
+                            val moreData = extendMoreList(
                                 calendarType,
                                 dataHolder.year,
                                 dataHolder.month,
@@ -918,7 +990,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                             dataList?.apply {
                                 addAll(0, moreData)
-                                adapter.replaceDataList(this)
+                            }?.let {
+                                adapter.replaceDataList(it)
                                 recyclerView.fastScrollTo(moreData.size + 1)
                             }
                         }
@@ -943,7 +1016,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.calendarType = calendarType.ordinal
         savedState.locale = locale.language
 
-        currentItemCalendar()?.apply {
+        currentItemCalendar()?.run {
             savedState.currentYear = year
             savedState.currentMonth = month
         }
@@ -962,6 +1035,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             DateUtils.storeCalendar(it)!!
         } ?: arrayListOf()
 
+        disabledDaysSet?.let { savedState.disabledDaysList = it.toList() }
+
         savedState.loadFactor = loadFactor
         savedState.maxTransitionLength = maxTransitionLength
         savedState.transitionSpeedFactor = transitionSpeedFactor
@@ -971,6 +1046,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.dividerInsetRight = dividerInsetRight
         savedState.dividerInsetTop = dividerInsetTop
         savedState.dividerInsetBottom = dividerInsetBottom
+
+        savedState.elementPaddingLeft = elementPaddingLeft
+        savedState.elementPaddingRight = elementPaddingRight
+        savedState.elementPaddingTop = elementPaddingTop
+        savedState.elementPaddingBottom = elementPaddingBottom
 
         // Common Attributes -----------------------------------------------------------------------
 
@@ -1006,7 +1086,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
         doNotInvalidate {
             calendarType = CalendarType.values()[savedState.calendarType]
-            locale = Locale(savedState.locale)
+            locale = Locale(savedState.locale ?: "en")
 
             layoutManager = createLayoutManager()
             recyclerView.layoutManager = layoutManager
@@ -1028,6 +1108,8 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }?.also { putAll(it) }
             }.also { pickedMultipleDaysMap = it }
 
+            savedState.disabledDaysList?.toMutableSet()?.let { disabledDaysSet = it }
+
             loadFactor = savedState.loadFactor
             maxTransitionLength = savedState.maxTransitionLength
             transitionSpeedFactor = savedState.transitionSpeedFactor
@@ -1037,6 +1119,11 @@ class PrimeCalendarView @JvmOverloads constructor(
             dividerInsetRight = savedState.dividerInsetRight
             dividerInsetTop = savedState.dividerInsetTop
             dividerInsetBottom = savedState.dividerInsetBottom
+
+            elementPaddingLeft = savedState.elementPaddingLeft
+            elementPaddingRight = savedState.elementPaddingRight
+            elementPaddingTop = savedState.elementPaddingTop
+            elementPaddingBottom = savedState.elementPaddingBottom
 
             // Common Attributes -------------------------------------------------------------------
 
@@ -1084,6 +1171,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var pickedRangeEndCalendar: String? = null
         internal var pickedMultipleDaysList: List<String>? = null
 
+        internal var disabledDaysList: List<String>? = null
+
         internal var loadFactor: Int = 0
         internal var maxTransitionLength: Int = 0
         internal var transitionSpeedFactor: Float = 0f
@@ -1093,6 +1182,11 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var dividerInsetRight: Int = 0
         internal var dividerInsetTop: Int = 0
         internal var dividerInsetBottom: Int = 0
+
+        internal var elementPaddingLeft: Int = 0
+        internal var elementPaddingRight: Int = 0
+        internal var elementPaddingTop: Int = 0
+        internal var elementPaddingBottom: Int = 0
 
         // Common Attributes -----------------------------------------------------------------------
 
@@ -1133,7 +1227,9 @@ class PrimeCalendarView @JvmOverloads constructor(
             pickedSingleDayCalendar = input.readString()
             pickedRangeStartCalendar = input.readString()
             pickedRangeEndCalendar = input.readString()
-            input.readStringList(pickedMultipleDaysList)
+            input.readStringList(pickedMultipleDaysList ?: mutableListOf())
+
+            disabledDaysList?.let { input.readStringList(it) }
 
             loadFactor = input.readInt()
             maxTransitionLength = input.readInt()
@@ -1144,6 +1240,11 @@ class PrimeCalendarView @JvmOverloads constructor(
             dividerInsetRight = input.readInt()
             dividerInsetTop = input.readInt()
             dividerInsetBottom = input.readInt()
+
+            elementPaddingLeft = input.readInt()
+            elementPaddingRight = input.readInt()
+            elementPaddingTop = input.readInt()
+            elementPaddingBottom = input.readInt()
 
             // Common Attributes -------------------------------------------------------------------
 
@@ -1186,6 +1287,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeString(pickedRangeEndCalendar)
             out.writeStringList(pickedMultipleDaysList)
 
+            out.writeStringList(disabledDaysList)
+
             out.writeInt(loadFactor)
             out.writeInt(maxTransitionLength)
             out.writeFloat(transitionSpeedFactor)
@@ -1195,6 +1298,11 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(dividerInsetRight)
             out.writeInt(dividerInsetTop)
             out.writeInt(dividerInsetBottom)
+
+            out.writeInt(elementPaddingLeft)
+            out.writeInt(elementPaddingRight)
+            out.writeInt(elementPaddingTop)
+            out.writeInt(elementPaddingBottom)
 
             // Common Attributes -------------------------------------------------------------------
 

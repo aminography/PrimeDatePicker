@@ -11,14 +11,19 @@ import androidx.core.view.GravityCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.OnDayPickedListener
-import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.common.OnDayPickedListener
+import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.sample.*
-import com.aminography.primedatepicker.tools.dp2px
+import com.aminography.primedatepicker.utils.dp2px
+import com.aminography.primedatepicker.utils.invisible
+import com.aminography.primedatepicker.utils.visible
 import kotlinx.android.synthetic.main.activity_month_view.*
 import kotlinx.android.synthetic.main.nav_drawer_month.view.*
 import java.util.*
 
+/**
+ * @author aminography
+ */
 @SuppressLint("SetTextI18n")
 class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
@@ -254,7 +259,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
     }
 
     private fun restoreDefaults(calendarType: CalendarType) {
-        pickedTextView.visibility = View.INVISIBLE
+        pickedTextView.invisible()
         pickedTextView.text = ""
         with(navigationLayout) {
             minDateCheckBox.isChecked = false
@@ -306,14 +311,14 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             when (pickType) {
                 PickType.SINGLE -> {
                     monthView.pickedSingleDayCalendar?.apply {
-                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.visible()
                         pickedTextView.text = "Single Day: $longDateString"
                     }
                 }
                 PickType.RANGE_START, PickType.RANGE_END -> {
                     monthView.pickedRangeStartCalendar?.let { start ->
                         endRangeRadioButton.isEnabled = true
-                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.visible()
                         var text = "Start Range Day: ${start.longDateString}"
                         monthView.pickedRangeEndCalendar?.let { end ->
                             text += "\n"
@@ -324,12 +329,12 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
                 }
                 PickType.MULTIPLE -> {
                     monthView.pickedMultipleDaysList.apply {
-                        pickedTextView.visibility = View.VISIBLE
+                        pickedTextView.visible()
                         pickedTextView.text = "Multiple Days: ${joinToString(" -\n") { it.longDateString }}"
                     }
                 }
                 PickType.NOTHING -> {
-                    pickedTextView.visibility = View.INVISIBLE
+                    pickedTextView.invisible()
                 }
             }
         }

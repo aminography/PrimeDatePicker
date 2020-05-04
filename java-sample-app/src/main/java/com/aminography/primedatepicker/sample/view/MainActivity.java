@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.aminography.primedatepicker.sample.R;
 
 /**
- * Created by aminography on 8/17/2018.
+ * @author aminography
  */
 public class MainActivity extends AppCompatActivity {
 

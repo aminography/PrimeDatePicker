@@ -1,10 +1,12 @@
 package com.aminography.primedatepicker.calendarview.callback
 
 import android.graphics.Typeface
+import android.util.SparseIntArray
 import android.view.animation.Interpolator
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primedatepicker.OnDayPickedListener
-import com.aminography.primedatepicker.PickType
+import com.aminography.primedatepicker.common.LabelFormatter
+import com.aminography.primedatepicker.common.OnDayPickedListener
+import com.aminography.primedatepicker.common.PickType
 import java.util.*
 
 /**
@@ -18,7 +20,7 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
 
     val pickType: PickType
 
-    val weekStartDay: Int
+    val firstDayOfWeek: Int
 
     val locale: Locale
 
@@ -29,6 +31,10 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val pickedSingleDayCalendar: PrimeCalendar?
 
     val pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>?
+
+    val disabledDaysSet: MutableSet<String>?
+
+    val weekLabelTextColors: SparseIntArray?
 
     val typeface: Typeface?
 
@@ -53,10 +59,18 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val weekLabelTopPadding: Int
     val weekLabelBottomPadding: Int
     val dayLabelVerticalPadding: Int
+
+    val elementPaddingLeft: Int
+    val elementPaddingRight: Int
+    val elementPaddingTop: Int
+    val elementPaddingBottom: Int
+
     val showTwoWeeksInLandscape: Boolean
     val animateSelection: Boolean
     val animationDuration: Int
     val animationInterpolator: Interpolator
+    val monthLabelFormatter: LabelFormatter
+    val weekLabelFormatter: LabelFormatter
     val toFocusDay: PrimeCalendar?
-
+    val developerOptionsShowGuideLines: Boolean
 }

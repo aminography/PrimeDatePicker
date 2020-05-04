@@ -3,14 +3,6 @@
 
     <!-- PrimeMonthView -->
 
-    <color name="defaultMonthLabelTextColor">@color/blueGray200</color>
-    <color name="defaultWeekLabelTextColor">@color/colorAccent</color>
-    <color name="defaultDayLabelTextColor">@color/textColorPrimary</color>
-    <color name="defaultTodayLabelTextColor">@color/textColorGreen</color>
-    <color name="defaultSelectedDayLabelTextColor">@color/white</color>
-    <color name="defaultSelectedDayCircleColor">@color/colorAccent</color>
-    <color name="defaultDisabledDayLabelTextColor">@color/textColorSecondary</color>
-
     <dimen name="defaultMonthLabelTextSize">20sp</dimen>
     <dimen name="defaultWeekLabelTextSize">13sp</dimen>
     <dimen name="defaultDayLabelTextSize">13sp</dimen>
@@ -23,12 +15,10 @@
 
     <bool name="defaultShowTwoWeeksInLandscape">true</bool>
 
-    <bool name="defaultAnimateSelection">false</bool>
+    <bool name="defaultAnimateSelection">true</bool>
     <integer name="defaultAnimationDuration">400</integer>
 
     <!-- PrimeCalendarView -->
-
-    <color name="defaultDividerColor">#BDBDBD</color>
 
     <dimen name="defaultDividerThickness">1px</dimen>
     <dimen name="defaultDividerInsetLeft">0dp</dimen>
@@ -36,13 +26,95 @@
     <dimen name="defaultDividerInsetTop">0dp</dimen>
     <dimen name="defaultDividerInsetBottom">0dp</dimen>
 
-    <string name="defaultTransitionSpeedFactor">1.0</string>
+    <dimen name="defaultElementPaddingLeft">16dp</dimen>
+    <dimen name="defaultElementPaddingRight">16dp</dimen>
+    <dimen name="defaultElementPaddingTop">16dp</dimen>
+    <dimen name="defaultElementPaddingBottom">16dp</dimen>
+
+    <string name="defaultTransitionSpeedFactor" translatable="false">1.0</string>
     <integer name="defaultLoadFactor">24</integer>
     <integer name="defaultMaxTransitionLength">2</integer>
+
+    <!-- Button Bar -->
+
+    <dimen name="defaultButtonTextSize">15sp</dimen>
+
+    <!-- Goto View -->
+
+    <dimen name="defaultGotoTextSize">20sp</dimen>
+
+    <!-- Dark Theme -->
+
+    <color name="lightElementBackgroundColor">@color/white</color>
+    <color name="lightMonthLabelTextColor">@color/blueGray200</color>
+    <color name="lightWeekLabelTextColor">@color/red300</color>
+    <color name="lightDayLabelTextColor">@color/gray900</color>
+    <color name="lightTodayLabelTextColor">@color/green400</color>
+    <color name="lightPickedDayLabelTextColor">@color/white</color>
+    <color name="lightPickedDayCircleColor">@color/red300</color>
+    <color name="lightDisabledDayLabelTextColor">@color/gray400</color>
+    <color name="lightDividerColor">@color/gray400</color>
+
+    <color name="lightButtonBarBackgroundColor">@color/white</color>
+    <color name="lightButtonBarTodayTextColor">@color/gray900</color>
+    <color name="lightButtonBarNegativeTextColor">@color/red400</color>
+    <color name="lightButtonBarPositiveTextColor">@color/green400</color>
+
+    <color name="lightSelectionBarBackgroundColor">@color/blueGray500</color>
+
+    <color name="lightSelectionBarSingleDayItemTopLabelTextColor">@color/blueGray50</color>
+    <color name="lightSelectionBarSingleDayItemBottomLabelTextColor">@color/white</color>
+
+    <color name="lightSelectionBarRangeDaysItemBackgroundColor">@color/blueGray300</color>
+    <color name="lightSelectionBarRangeDaysItemTopLabelTextColor">@color/blueGray50</color>
+    <color name="lightSelectionBarRangeDaysItemBottomLabelTextColor">@color/white</color>
+
+    <color name="lightSelectionBarMultipleDaysItemBackgroundColor">@color/blueGray300</color>
+    <color name="lightSelectionBarMultipleDaysItemTopLabelTextColor">@color/white</color>
+    <color name="lightSelectionBarMultipleDaysItemBottomLabelTextColor">@color/white</color>
+
+    <color name="lightGotoBackgroundColor">@color/red300</color>
+    <color name="lightGotoTextColor">@color/white</color>
+    <color name="lightGotoDividerColor">@color/white</color>
+
+    <!-- Dark Theme -->
+
+    <color name="darkElementBackgroundColor">@color/deepDark</color>
+    <color name="darkMonthLabelTextColor">@color/blueGray300</color>
+    <color name="darkWeekLabelTextColor">@color/blue700</color>
+    <color name="darkDayLabelTextColor">@color/white</color>
+    <color name="darkTodayLabelTextColor">@color/orange800</color>
+    <color name="darkPickedDayLabelTextColor">@color/white</color>
+    <color name="darkPickedDayCircleColor">@color/teal700</color>
+    <color name="darkDisabledDayLabelTextColor">@color/gray600</color>
+    <color name="darkDividerColor">@color/gray400</color>
+
+    <color name="darkButtonBarBackgroundColor">@color/deepDark</color>
+    <color name="darkButtonBarTodayTextColor">@color/white</color>
+    <color name="darkButtonBarNegativeTextColor">@color/red400</color>
+    <color name="darkButtonBarPositiveTextColor">@color/green400</color>
+
+    <color name="darkSelectionBarBackgroundColor">@color/blueGray800</color>
+
+    <color name="darkSelectionBarSingleDayItemTopLabelTextColor">@color/blueGray200</color>
+    <color name="darkSelectionBarSingleDayItemBottomLabelTextColor">@color/white</color>
+
+    <color name="darkSelectionBarRangeDaysItemBackgroundColor">@color/blueGray600</color>
+    <color name="darkSelectionBarRangeDaysItemTopLabelTextColor">@color/blueGray200</color>
+    <color name="darkSelectionBarRangeDaysItemBottomLabelTextColor">@color/white</color>
+
+    <color name="darkSelectionBarMultipleDaysItemBackgroundColor">@color/blueGray600</color>
+    <color name="darkSelectionBarMultipleDaysItemTopLabelTextColor">@color/white</color>
+    <color name="darkSelectionBarMultipleDaysItemBottomLabelTextColor">@color/white</color>
+
+    <color name="darkGotoViewBackgroundColor">@color/teal700</color>
+    <color name="darkGotoViewTextColor">@color/white</color>
+    <color name="darkGotoViewDividerColor">@color/white</color>
 
     <!-- TwoLineTextView -->
 
     <color name="defaultTwoLineTextColor">@color/white</color>
     <dimen name="defaultTwoLineTextSize">15sp</dimen>
+    <dimen name="defaultGapBetweenLines">6dp</dimen>
 
 </resources>

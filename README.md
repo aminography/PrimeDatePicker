@@ -11,15 +11,15 @@ First, **`PrimeDatePicker`** is a tool which provides picking a single day, mult
   <tr>
     <td><b>Picking Multiple Days</b><br/><i>Example for Civil</i></td>
     <td><b>Picking a Range of Days</b><br/><i>Example for Persian</i></td>
-    <td><b>Picking a Single Day</b><br/><i>Example for Japanese</i></td>
-    <td><b>Goto View</b><br/><i>Example for Civil</i></td>
+    <td><b>Picking a Single Day</b><br/><i>Example for Hijri</i></td>
+    <td><b>Goto View</b><br/><i>Example for Japanese</i></td>
   </tr>
 
   <tr>
-    <td><img src="static/pick_multiple.gif"/></td>
-    <td><img src="static/pick_range.gif"/></td>
-    <td><img src="static/pick_single.gif"/></td>
-    <td><img src="static/goto.gif"/></td>
+    <td><img src="static/MCDB.gif"/></td>
+    <td><img src="static/RPLB.gif"/></td>
+    <td><img src="static/SHLD.gif"/></td>
+    <td><img src="static/GJDD.gif"/></td>
   </tr>
 
 </table>
@@ -29,6 +29,21 @@ First, **`PrimeDatePicker`** is a tool which provides picking a single day, mult
 Core Logic
 ----------
 The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com/aminography/PrimeCalendar).
+
+<br/>
+
+Main Characteristics
+--------------------
+- Endless Scrolling
+- Customizable Views & Theme
+- Fluent UI
+- RTL Support
+- Various Calendar Types
+- Various Date Picking Strategies
+- Showing Both Dialog & BottomSheet
+- Fast Goto
+
+#### :dart: Download [SampleApp.apk](https://github.com/aminography/SampleAppsRepo/blob/master/PrimeDatePicker-sample-release.apk)
 
 <br/>
 
@@ -42,8 +57,8 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:2.0.0'
-    implementation 'com.aminography:primecalendar:1.2.17'
+    implementation 'com.aminography:primedatepicker:3.0.0'
+    implementation 'com.aminography:primecalendar:1.2.18'
 }
 ```
 
@@ -51,22 +66,26 @@ dependencies {
 
 Usage
 -----------------
-To enjoy `PrimeDatePickerBottomSheet`, create an instance of it using builder pattern, like the following snippets:
+To enjoy `PrimeDatePicker`, create an instance of it using builder pattern, like the following snippets:
 
 > Kotlin
 ```kotlin
+
 val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
     // TODO
 }
 
+val themeFactory = DarkThemeFactory()
+
 val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
-val datePicker = PrimeDatePickerBottomSheet.with(today)
+val datePicker = PrimeDatePicker.bottomSheetWith(today) // or dialogWith(today)
         .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
         .minPossibleDate(minDateCalendar)            // Optional
         .maxPossibleDate(maxDateCalendar)            // Optional
-        .typefacePath(typeface)                      // Optional
-        .animateSelection(true)                      // Optional
+        .disabledDays(disabledDaysList)              // Optional
+        .firstDayOfWeek(Calendar.MONDAY)             // Optional
+        .applyTheme(themeFactory)                    // Optional
         .build()
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
@@ -83,14 +102,17 @@ SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
     }
 };
 
-PrimeCalendar today = new CivilCalendar();  // Causes a Civil date picker, also today as the starting date
+BaseThemeFactory themeFactory = new LightThemeFactory();
 
-PrimeDatePickerBottomSheet datePicker = PrimeDatePickerBottomSheet.from(today)
+PrimeCalendar today = new JapaneseCalendar();  // Causes a Japanese date picker, also today as the starting date
+
+PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today) // or bottomSheetWith(today)
     .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
     .minPossibleDate(minDateCalendar)      // Optional
     .maxPossibleDate(maxDateCalendar)      // Optional
-    .typefacePath(typeface)                // Optional
-    .animateSelection(true)                // Optional
+    .disabledDays(disabledDaysList)        // Optional
+    .firstDayOfWeek(Calendar.MONDAY)       // Optional
+    .applyTheme(themeFactory)              // Optional
     .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
@@ -100,17 +122,17 @@ datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 
 ### Configurations Based on Input Calendar
 
-`PrimeDatePickerBottomSheet` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
+`PrimeDatePicker` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
 
 ```kotlin
 // shows a Persian calendar, but in English language which leads to LTR direction
-val calendar = PersianCalendar(Locale.ENGLISH).also { 
+val calendar = PersianCalendar(Locale.ENGLISH).also {
     it.year = 1398                       // customizes starting year
     it.month = 7                         // customizes starting month
     it.firstDayOfWeek = Calendar.MONDAY  // sets first day of week to Monday
 }
 
-val datePicker = PrimeDatePickerBottomSheet.with(calendar)
+val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
                     .pickSingleDay(singleDayPickCallback)
                      ...
                     .build()
@@ -118,16 +140,85 @@ val datePicker = PrimeDatePickerBottomSheet.with(calendar)
 
 <br/>
 
-### Customizing Texts in Date Picker Bottom Sheet
+### Customizing Theme
 
-If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+`PrimeDatePicker` is fully customizable and you can fit its view to what you desire.
+Almost everything is customizable, such as: text size & color, background & element color, padding, font typeface, string formatter, calendar animation & transition parameters, *etc*.
+
+In this way, a theme factory class is provided which declares theme parameters.
+A concrete subclass of this class realizes the parameters to be used by views.
+By default, there are two concrete subclasses:
+[`DarkThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/DarkThemeFactory.kt)
+and
+[`LightThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)
+that you can override their parameters or inherit a class from or make your own theme factory.
+
+Here is an example of how to override theme parameters in `Kotlin` as well as `Java`:
+
+> Kotlin
+```kotlin
+val themeFactory = object : DarkThemeFactory() {
+
+    override val typefacePath: String?
+        get() = "fonts/Roboto-Regular.ttf"
+        
+    override val calendarViewWeekLabelFormatter: LabelFormatter
+        get() = { primeCalendar ->
+            when (primeCalendar[Calendar.DAY_OF_WEEK]) {
+                Calendar.SATURDAY, 
+                Calendar.SUNDAY -> String.format("%s😍", primeCalendar.weekDayNameShort)
+                else -> String.format("%s😁", primeCalendar.weekDayNameShort)
+            }
+        }
+        
+     // Other customizations...
+}
+```
+
+<table>
+
+  <tr>
+    <td><b>Result:</b></td>
+  </tr>
+
+  <tr>
+    <td><img src="static/theme_result.png" width="400"/></td>
+  </tr>
+
+</table>
+
+> Java
+```java
+BaseThemeFactory themeFactory = new LightThemeFactory() {
+    
+    @NotNull
+    @Override
+    public PrimeCalendarView.FlingOrientation getCalendarViewFlingOrientation() {
+        return PrimeCalendarView.FlingOrientation.HORIZONTAL;
+    }
+    
+    @Override
+    public int getSelectionBarBackgroundColor() {
+        return super.getColor(R.color.green300);
+    }
+    
+    // Other customizations...
+};
+```
+
+<br/>
+
+### Customizing Texts
+
+If you want to change some texts in `PrimeDatePicker`, such as a button text, the current solution is to
+define some strings in your project's `strings.xml` with equal name defined in the library's `strings.xml`, to override them.
 
 <br/>
 <hr/>
 
 Stand-Alone Views
 -----------------
-In addition to use **`PrimeDatePickerBottomSheet`** as a date picker tool, it is possible to employ stand-alone views in your project.
+In addition to use **`PrimeDatePicker`** as a date picker tool, it is possible to employ stand-alone views in your project.
 They are **`PrimeMonthView`** & **`PrimeCalendarView`** which can be used in layout `xml` files or instantiated programmatically.
 For example:
 
@@ -493,7 +584,7 @@ These variables are only accessible programmatically to get or set. (Available b
   
   <tr>
     <td><b>• pickType</b></td>
-    <td><a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/PickType.kt">PickType</a></td>
+    <td><a href="library/src/main/java/com/aminography/primedatepicker/common/PickType.kt">PickType</a></td>
   </tr>
   <tr>
     <td colspan="2"><i>Specifies the date picking type of the view. Its possible values are: <b>SINGLE</b>, <b>RANGE_START</b>, <b>RANGE_END</b>, <b>MULTIPLE</b>, <b>NOTHING</b>.</i></td>
@@ -512,7 +603,7 @@ These variables are only accessible programmatically to get or set. (Available b
 <br/>
 
 ### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
-You can listen to day picking actions by setting an instance of [OnDayPickedListener](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/OnDayPickedListener.kt) to the views.
+You can listen to day picking actions by setting an instance of [OnDayPickedListener](library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.java) to the views.
 For example:
 
 ```kotlin
@@ -532,7 +623,7 @@ monthView.onDayPickedListener = object : OnDayPickedListener {
 
 Locale
 -------------------------------------------
-`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePickerBottomSheet`) have been implemented with localization capabilities. 
+`PrimeMonthView` and `PrimeCalendarView` (consequently `PrimeDatePicker`) have been implemented with localization capabilities.
 By choosing locale for the `PrimeCalendar` instance which is passed to `goto` method, or by setting it directly to the views, you can  localize names, digits, and layout direction.
 
 #### Localization example for `PrimeMonthView` using `PersianCalendar`:
@@ -577,19 +668,25 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
+### Version 3.0.0
+- Builder mechanism has changed a bit.
+- Adding full customization ability using a user configurable theme factory.
+- Ability to show the date picker as a dialog using `PrimeDatePicker.dialogWith` method as well as `PrimeDatePicker.bottomSheetWith` to show a bottom sheet.
+- Ability to specify a list of disabled days.
+
 ### Version 2.0.0
 - Builder mechanism has changed.
 - Picking multiple days has better UX.
 - Adding Goto by tapping on Month-Year.
 - Picking animation has improved.
 - Possibility to change start day of week.
-- Adding RTL support in bottom sheet.
+- Adding RTL support in bottom sheet.```
 
 ### Version 1.1.0
 - Migrated to AndroidX
 
 ### Version 1.0.16
-- Ability to pick multiple days using `MULTIPLE` <a href="https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/PickType.kt">PickType</a>.
+- Ability to pick multiple days using `MULTIPLE` <a href="library/src/main/java/com/aminography/primedatepicker/common/PickType.kt">PickType</a>.
 
 ### Version 1.0.15
 - A minor bug is fixed.
@@ -601,9 +698,9 @@ Change Log
 
 Third-Party Libraries
 ---------------------
-**• PrimeCalendar** (https://github.com/aminography/PrimeCalendar)
+**• PrimeCalendar** (<https://github.com/aminography/PrimeCalendar>)
 
-**• PrimeAdapter** (https://github.com/aminography/PrimeAdapter)
+**• PrimeAdapter** (<https://github.com/aminography/PrimeAdapter>)
 
 <br/>
 

@@ -11,7 +11,7 @@ import com.aminography.primedatepicker.calendarview.adapter.MonthListAdapter
 import kotlin.math.roundToInt
 
 /**
- * Created by aminography on 9/4/2018.
+ * @author aminography
  */
 internal class SkipDividerItemDecorator(
     private val divider: Drawable? = null
@@ -44,7 +44,7 @@ internal class SkipDividerItemDecorator(
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             val position = parent.getChildAdapterPosition(child)
-            if (position != RecyclerView.NO_POSITION && position != parent.adapter!!.itemCount - 1 && (parent.adapter as MonthListAdapter).getItem(position).hasDivider) {
+            if (position != RecyclerView.NO_POSITION && position != parent.adapter!!.itemCount - 1 && (parent.adapter as MonthListAdapter).itemAt(position).hasDivider) {
                 parent.getDecoratedBoundsWithMargins(child, bounds)
                 val bottom = bounds.bottom + child.translationY.roundToInt()
                 divider?.apply {
@@ -75,7 +75,7 @@ internal class SkipDividerItemDecorator(
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             val position = parent.getChildAdapterPosition(child)
-            if (position != RecyclerView.NO_POSITION && position != parent.adapter!!.itemCount - 1 && (parent.adapter as MonthListAdapter).getItem(position).hasDivider) {
+            if (position != RecyclerView.NO_POSITION && position != parent.adapter!!.itemCount - 1 && (parent.adapter as MonthListAdapter).itemAt(position).hasDivider) {
                 parent.layoutManager!!.getDecoratedBoundsWithMargins(child, bounds)
                 val right = bounds.right + child.translationX.roundToInt()
                 divider?.apply {
@@ -91,7 +91,7 @@ internal class SkipDividerItemDecorator(
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         if (orientation == null) orientation = getOrientation(parent)
         val position = parent.getChildAdapterPosition(view)
-        if (position != RecyclerView.NO_POSITION && position != parent.adapter!!.itemCount - 1 && (parent.adapter as MonthListAdapter).getItem(position).hasDivider) {
+        if (position != RecyclerView.NO_POSITION && position != parent.adapter!!.itemCount - 1 && (parent.adapter as MonthListAdapter).itemAt(position).hasDivider) {
             if (divider == null) {
                 outRect.set(0, 0, 0, 0)
                 return
