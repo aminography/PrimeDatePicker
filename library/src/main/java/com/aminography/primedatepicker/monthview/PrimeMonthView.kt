@@ -659,6 +659,8 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
+        toAnimateDay = null
+
         updateToday()
         updateRowCount()
 
@@ -833,7 +835,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
             val animate = toAnimateDay?.let {
                 it.year == year && it.month == month && it.dayOfMonth == dayOfMonth
-            } ?: true
+            } ?: (pickType == PickType.RANGE_START || pickType == PickType.RANGE_END)
 
             drawDayBackground(canvas, pickedDayState, x, y, radius, animate)
             drawDayLabel(canvas, dayOfMonth, pickedDayState, x, y)
@@ -1025,6 +1027,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 when (pickType) {
                     PickType.SINGLE -> {
                         pickedSingleDayCalendar = calendar
+                        toAnimateDay = calendar
                         change = true
                     }
                     PickType.RANGE_START -> {

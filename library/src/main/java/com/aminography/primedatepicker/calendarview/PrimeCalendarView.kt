@@ -904,10 +904,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                 RecyclerView.SCROLL_STATE_IDLE -> {
                     if (isInTransition) {
                         postDelayed({
-                            dataList?.apply {
+                            dataList?.run {
                                 adapter.replaceDataList(this)
-                                findPositionInList(gotoYear, gotoMonth, this)?.apply {
-                                    recyclerView.fastScrollTo(this)
+                                findPositionInList(gotoYear, gotoMonth, this)?.let {
+                                    recyclerView.fastScrollTo(it)
                                 }
                                 isInTransition = false
                                 recyclerView.touchEnabled = true
