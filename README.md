@@ -158,7 +158,13 @@ val themeFactory = object : DarkThemeFactory() {
         get() = "fonts/Roboto-Regular.ttf"
         
     override val calendarViewWeekLabelFormatter: LabelFormatter
-        get() = { primeCalendar -> String.format("%s😍", primeCalendar.weekDayNameShort) }
+        get() = { primeCalendar ->
+            when (primeCalendar[Calendar.DAY_OF_WEEK]) {
+                Calendar.SATURDAY, 
+                Calendar.SUNDAY -> String.format("%s😍", primeCalendar.weekDayNameShort)
+                else -> String.format("%s😁", primeCalendar.weekDayNameShort)
+            }
+        }
 }
 ```
 
