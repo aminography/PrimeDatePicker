@@ -122,7 +122,14 @@ internal class PrimeDatePickerImpl(
                     it.calendarType = calendarType
 
                     it.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
+                        ?: CalendarFactory.newInstance(calendarType).also { calendar ->
+                            calendar.set(1, 11, 1)
+                        }
                     it.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
+                        ?: CalendarFactory.newInstance(calendarType).also { calendar ->
+                            calendar.set(10000, 0, 1)
+                            calendar[Calendar.DAY_OF_YEAR] -= 1
+                        }
 
                     arguments?.getStringArrayList("disabledDaysList")?.run {
                         it.disabledDaysList = map { list -> DateUtils.restoreCalendar(list)!! }
