@@ -41,6 +41,7 @@ Main Characteristics
 - Various Calendar Types
 - Various Date Picking Strategies
 - Both Dialog & BottomSheet
+- Fast Goto
 
 <br/>
 

@@ -47,8 +47,10 @@ open class LightThemeFactory : NormalThemeFactory() {
 
     // ------------------------------------ Picker Bottom Sheet ------------------------------------
 
-    override val actionBarBackgroundColor: Int
+    override val dialogBackgroundColor: Int
         get() = getColor(R.color.lightButtonBarBackgroundColor)
+
+    // ------- Action Bar
 
     override val actionBarTodayTextColor: Int
         get() = getColor(R.color.lightButtonBarTodayTextColor)

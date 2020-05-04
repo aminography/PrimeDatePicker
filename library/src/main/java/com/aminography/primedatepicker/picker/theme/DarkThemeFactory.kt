@@ -47,8 +47,10 @@ open class DarkThemeFactory : NormalThemeFactory() {
 
     // ------------------------------------ Picker Bottom Sheet ------------------------------------
 
-    override val actionBarBackgroundColor: Int
+    override val dialogBackgroundColor: Int
         get() = getColor(R.color.darkButtonBarBackgroundColor)
+
+    // ------- Action Bar
 
     override val actionBarTodayTextColor: Int
         get() = getColor(R.color.darkButtonBarTodayTextColor)

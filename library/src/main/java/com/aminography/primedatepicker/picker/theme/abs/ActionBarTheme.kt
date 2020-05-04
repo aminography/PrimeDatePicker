@@ -5,8 +5,6 @@ package com.aminography.primedatepicker.picker.theme.abs
  */
 interface ActionBarTheme: GeneralTheme {
 
-    val actionBarBackgroundColor: Int
-
     val actionBarTextSize: Int
 
     val actionBarTodayTextColor: Int

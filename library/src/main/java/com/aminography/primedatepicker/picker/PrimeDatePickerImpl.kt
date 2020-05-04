@@ -102,7 +102,7 @@ internal class PrimeDatePickerImpl(
 
         with(rootView) {
             themeFactory.let {
-                cardBackgroundImageView.setColorFilter(it.actionBarBackgroundColor)
+                cardBackgroundImageView.setColorFilter(it.dialogBackgroundColor)
                 circularRevealFrameLayout.setBackgroundColor(it.gotoViewBackgroundColor)
             }
             typeface?.let { calendarView.typeface = it }

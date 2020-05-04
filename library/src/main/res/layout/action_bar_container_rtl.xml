@@ -25,14 +25,14 @@
         android:paddingTop="@dimen/material_size_8"
         android:paddingEnd="@dimen/material_size_12"
         android:paddingBottom="@dimen/material_size_8"
-        app:topLabelText="@string/action_today"
-        app:topLabelTextColor="@color/gray900"
-        app:topLabelTextSize="@dimen/text_size_normal"
+        app:bottomLabelTextSize="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:preferredMinWidth="@dimen/material_size_48"
-        app:bottomLabelTextSize="0dp" />
+        app:topLabelText="@string/action_today"
+        app:topLabelTextColor="@color/gray900"
+        app:topLabelTextSize="@dimen/text_size_normal" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/negativeButton"
@@ -52,14 +52,14 @@
         android:paddingTop="@dimen/material_size_8"
         android:paddingEnd="@dimen/material_size_12"
         android:paddingBottom="@dimen/material_size_8"
-        app:topLabelText="@string/action_cancel"
-        app:topLabelTextColor="@color/red400"
-        app:topLabelTextSize="@dimen/text_size_normal"
+        app:bottomLabelTextSize="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/positiveTwoLineTextView"
         app:layout_constraintTop_toTopOf="parent"
         app:preferredMinWidth="@dimen/material_size_48"
-        app:bottomLabelTextSize="0dp" />
+        app:topLabelText="@string/action_cancel"
+        app:topLabelTextColor="@color/red400"
+        app:topLabelTextSize="@dimen/text_size_normal" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/positiveButton"
@@ -80,13 +80,13 @@
         android:paddingTop="@dimen/material_size_8"
         android:paddingEnd="@dimen/material_size_12"
         android:paddingBottom="@dimen/material_size_8"
-        app:topLabelText="@string/action_select"
-        app:topLabelTextColor="@color/green400"
-        app:topLabelTextSize="@dimen/text_size_normal"
+        app:bottomLabelTextSize="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:preferredMinWidth="@dimen/material_size_48"
-        app:bottomLabelTextSize="0dp" />
+        app:topLabelText="@string/action_select"
+        app:topLabelTextColor="@color/green400"
+        app:topLabelTextSize="@dimen/text_size_normal" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

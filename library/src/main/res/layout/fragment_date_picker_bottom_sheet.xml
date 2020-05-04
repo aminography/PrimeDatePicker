@@ -19,6 +19,7 @@
         android:id="@+id/actionBarViewStub"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/material_size_4"
         android:inflatedId="@id/actionBarViewStub"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,6 +29,7 @@
         android:id="@+id/selectionBarLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:padding="@dimen/material_size_4"
         app:layout_constraintBottom_toTopOf="@id/calendarView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@color/white" />
+            app:srcCompat="@drawable/shape_round_rectangle_8" />
 
         <ViewStub
             android:id="@+id/selectionBarViewStub"

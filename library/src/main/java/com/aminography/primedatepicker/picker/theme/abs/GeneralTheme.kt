@@ -6,4 +6,6 @@ package com.aminography.primedatepicker.picker.theme.abs
 interface GeneralTheme {
 
     val typefacePath: String?
+
+    val dialogBackgroundColor: Int
 }
