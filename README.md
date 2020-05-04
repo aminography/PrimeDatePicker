@@ -151,6 +151,7 @@ and
 [`LightThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)
 that you can override their parameters or inherit a class from or make your own theme factory.
 
+> Kotlin
 ```kotlin
 val themeFactory = object : DarkThemeFactory() {
 
@@ -166,6 +167,20 @@ val themeFactory = object : DarkThemeFactory() {
             }
         }
 }
+```
+
+> Java
+```java
+BaseThemeFactory themeFactory = new LightThemeFactory() {
+    
+    @Nullable
+    @Override
+    public String getTypefacePath() {
+        return typeface;
+    }
+    
+    // ...
+};
 ```
 
 <br/>
