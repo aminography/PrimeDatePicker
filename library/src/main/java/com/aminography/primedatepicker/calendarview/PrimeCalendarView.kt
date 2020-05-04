@@ -343,7 +343,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 val minOffset = value?.monthOffset ?: Int.MIN_VALUE
                 findFirstVisibleItem()?.also { current ->
                     if (current.offset < minOffset) {
-                        value?.apply {
+                        value?.run {
                             goto(year, month, false)
                         }
                     } else {
@@ -385,7 +385,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 val maxOffset = value?.monthOffset ?: Int.MAX_VALUE
                 findLastVisibleItem()?.also { current ->
                     if (current.offset > maxOffset) {
-                        value?.apply {
+                        value?.run {
                             goto(year, month, false)
                         }
                     } else {
@@ -554,13 +554,13 @@ class PrimeCalendarView @JvmOverloads constructor(
         when {
             layoutHeight.equals(LayoutParams.MATCH_PARENT.toString()) -> definedHeight = LayoutParams.MATCH_PARENT
             layoutHeight.equals(LayoutParams.WRAP_CONTENT.toString()) -> definedHeight = LayoutParams.WRAP_CONTENT
-            else -> context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.layout_height)).apply {
+            else -> context.obtainStyledAttributes(attrs, intArrayOf(android.R.attr.layout_height)).run {
                 definedHeight = getDimensionPixelSize(0, LayoutParams.WRAP_CONTENT)
                 recycle()
             }
         }
 
-        context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).apply {
+        context.obtainStyledAttributes(attrs, R.styleable.PrimeCalendarView, defStyleAttr, defStyleRes).run {
             doNotInvalidate {
                 calendarType = CalendarType.values()[getInt(R.styleable.PrimeCalendarView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
 
@@ -613,8 +613,6 @@ class PrimeCalendarView @JvmOverloads constructor(
             recycle()
         }
 
-        applyDividers()
-
         addView(recyclerView)
         recyclerView.speedFactor = transitionSpeedFactor
         recyclerView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
@@ -657,30 +655,30 @@ class PrimeCalendarView @JvmOverloads constructor(
     }
 
     fun gotoNextMonth(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType, locale).apply {
+        return CalendarFactory.newInstance(calendarType, locale).run {
             add(Calendar.MONTH, 1)
-            return goto(year, month, animate)
+            goto(year, month, animate)
         }
     }
 
     fun gotoPreviousMonth(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType, locale).apply {
+        return CalendarFactory.newInstance(calendarType, locale).run {
             add(Calendar.MONTH, -1)
-            return goto(year, month, animate)
+            goto(year, month, animate)
         }
     }
 
     fun gotoNextYear(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType, locale).apply {
+        return CalendarFactory.newInstance(calendarType, locale).run {
             add(Calendar.YEAR, 1)
-            return goto(year, month, animate)
+            goto(year, month, animate)
         }
     }
 
     fun gotoPreviousYear(animate: Boolean = true): Boolean {
-        CalendarFactory.newInstance(calendarType, locale).apply {
+        return CalendarFactory.newInstance(calendarType, locale).run {
             add(Calendar.YEAR, -1)
-            return goto(year, month, animate)
+            goto(year, month, animate)
         }
     }
 
@@ -731,14 +729,14 @@ class PrimeCalendarView @JvmOverloads constructor(
                 )
 
                 val isForward = DateUtils.isBefore(current.year, current.month, year, month)
-                transitionList?.apply {
+                transitionList?.run {
                     var isLastTransitionItemRemoved = false
                     if (isForward) {
                         maxDateCalendar?.let { max ->
                             val maxOffset = max.monthOffset
                             val targetOffset = year * 12 + month
                             if (maxOffset == targetOffset) {
-                                transitionList.removeAt(transitionList.size - 1)
+                                removeAt(size - 1)
                                 isLastTransitionItemRemoved = true
                             }
                         }
@@ -760,10 +758,10 @@ class PrimeCalendarView @JvmOverloads constructor(
                 }
             }
         } else {
-            dataList?.apply {
+            dataList?.run {
                 adapter.replaceDataList(this)
-                findPositionInList(year, month, this)?.apply {
-                    recyclerView.fastScrollTo(this)
+                findPositionInList(year, month, this)?.let {
+                    recyclerView.fastScrollTo(it)
                 }
             }
         }
@@ -829,8 +827,8 @@ class PrimeCalendarView @JvmOverloads constructor(
                     change = true
                 }
                 PickType.RANGE_START -> {
-                    startDay?.apply {
-                        if (DateUtils.isAfter(startDay, pickedRangeEndCalendar)) {
+                    startDay?.let {
+                        if (DateUtils.isAfter(it, pickedRangeEndCalendar)) {
                             pickedRangeEndCalendar = null
                         }
                     }
@@ -957,7 +955,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                             dataList?.apply {
                                 addAll(size, moreData)
-                                adapter.replaceDataList(this)
+                            }?.let {
+                                adapter.replaceDataList(it)
                             }
                         }
                         isInLoading = false
@@ -984,7 +983,8 @@ class PrimeCalendarView @JvmOverloads constructor(
 
                             dataList?.apply {
                                 addAll(0, moreData)
-                                adapter.replaceDataList(this)
+                            }?.let {
+                                adapter.replaceDataList(it)
                                 recyclerView.fastScrollTo(moreData.size + 1)
                             }
                         }
@@ -1009,7 +1009,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.calendarType = calendarType.ordinal
         savedState.locale = locale.language
 
-        currentItemCalendar()?.apply {
+        currentItemCalendar()?.run {
             savedState.currentYear = year
             savedState.currentMonth = month
         }

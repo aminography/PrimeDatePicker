@@ -141,9 +141,8 @@ internal class TwoLineTextView @JvmOverloads constructor(
     // ---------------------------------------------------------------------------------------------
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.TwoLineTextView, defStyleAttr, defStyleRes).apply {
+        context.obtainStyledAttributes(attrs, R.styleable.TwoLineTextView, defStyleAttr, defStyleRes).run {
             doNotInvalidate {
-
                 topLabelText = getString(R.styleable.TwoLineTextView_topLabelText) ?: ""
                 bottomLabelText = getString(R.styleable.TwoLineTextView_bottomLabelText) ?: ""
 
@@ -232,11 +231,9 @@ internal class TwoLineTextView @JvmOverloads constructor(
         val x = paddingLeft + viewWidth / 2f
         var y = paddingTop + topLabelTextSize / 2f
 
-        topLabelPaint?.apply {
+        topLabelPaint?.run {
             y -= ((descent() + ascent()) / 2)
-        }
 
-        topLabelPaint?.apply {
             canvas.drawText(
                 topLabelText,
                 x,
@@ -250,11 +247,9 @@ internal class TwoLineTextView @JvmOverloads constructor(
         val x = paddingLeft + viewWidth / 2f
         var y = paddingTop + topLabelTextSize + gapBetweenLines + bottomLabelTextSize / 2f
 
-        bottomLabelPaint?.apply {
+        bottomLabelPaint?.run {
             y -= ((descent() + ascent()) / 2)
-        }
 
-        bottomLabelPaint?.apply {
             canvas.drawText(
                 bottomLabelText,
                 x,

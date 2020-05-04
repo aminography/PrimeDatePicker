@@ -466,7 +466,7 @@ class PrimeMonthView @JvmOverloads constructor(
     // ---------------------------------------------------------------------------------------------
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).apply {
+        context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).run {
             doNotInvalidate {
                 calendarType = CalendarType.values()[getInt(R.styleable.PrimeMonthView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
 
@@ -637,10 +637,9 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType, locale).apply {
-            firstDayOfWeek = firstDayOfWeek
-            set(year, month, 1)
-        }.also {
+        firstDayOfMonthCalendar = CalendarFactory.newInstance(calendarType, locale).also {
+            it.firstDayOfWeek = firstDayOfWeek
+            it.set(year, month, 1)
             firstDayOfMonthDayOfWeek = it[Calendar.DAY_OF_WEEK]
         }
 
@@ -760,7 +759,7 @@ class PrimeMonthView @JvmOverloads constructor(
             val dayOfWeek = (i + firstDayOfWeek) % columnCount
             val x = xPositions[i]
 
-            weekLabelPaint?.apply {
+            weekLabelPaint?.run {
                 canvas.drawText(
                     weekLabels[dayOfWeek % 7],
                     x,
@@ -875,7 +874,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float, animate: Boolean) {
-        selectedDayBackgroundPaint?.apply {
+        selectedDayBackgroundPaint?.run {
             fun drawCircle() = canvas.drawCircle(
                 x,
                 y,
@@ -949,7 +948,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, pickedDayState: PickedDayState, x: Float, y: Float) {
-        dayLabelPaint?.apply {
+        dayLabelPaint?.run {
             color = if (isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet)) {
                 disabledDayLabelTextColor
             } else if (pickType != PickType.NOTHING) {
@@ -986,7 +985,7 @@ class PrimeMonthView @JvmOverloads constructor(
 
         val date = dayOfMonth.localizeDigits(locale)
 
-        dayLabelPaint?.apply {
+        dayLabelPaint?.run {
             canvas.drawText(
                 date,
                 x,
@@ -1021,47 +1020,45 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun onDayClicked(calendar: PrimeCalendar) {
-        calendar.apply {
-            var change = false
-            doNotInvalidate {
-                when (pickType) {
-                    PickType.SINGLE -> {
-                        pickedSingleDayCalendar = calendar
-                        toAnimateDay = calendar
+        var change = false
+        doNotInvalidate {
+            when (pickType) {
+                PickType.SINGLE -> {
+                    pickedSingleDayCalendar = calendar
+                    toAnimateDay = calendar
+                    change = true
+                }
+                PickType.RANGE_START -> {
+                    if (DateUtils.isAfter(calendar, pickedRangeEndCalendar)) {
+                        pickedRangeEndCalendar = null
+                    }
+                    pickedRangeStartCalendar = calendar
+                    change = true
+                }
+                PickType.RANGE_END -> {
+                    if (pickedRangeStartCalendar != null && !DateUtils.isBefore(calendar, pickedRangeStartCalendar)) {
+                        pickedRangeEndCalendar = calendar
                         change = true
-                    }
-                    PickType.RANGE_START -> {
-                        if (DateUtils.isAfter(calendar, pickedRangeEndCalendar)) {
-                            pickedRangeEndCalendar = null
-                        }
-                        pickedRangeStartCalendar = calendar
-                        change = true
-                    }
-                    PickType.RANGE_END -> {
-                        if (pickedRangeStartCalendar != null && !DateUtils.isBefore(calendar, pickedRangeStartCalendar)) {
-                            pickedRangeEndCalendar = calendar
-                            change = true
-                        }
-                    }
-                    PickType.MULTIPLE -> {
-                        if (pickedMultipleDaysMap == null) pickedMultipleDaysMap = LinkedHashMap()
-                        val dateString = DateUtils.dateString(year, month, dayOfMonth)
-                        if (pickedMultipleDaysMap?.containsKey(dateString) == true) {
-                            pickedMultipleDaysMap?.remove(dateString)
-                        } else {
-                            pickedMultipleDaysMap?.put(dateString, calendar)
-                        }
-                        toAnimateDay = calendar
-                        change = true
-                    }
-                    PickType.NOTHING -> {
                     }
                 }
+                PickType.MULTIPLE -> {
+                    if (pickedMultipleDaysMap == null) pickedMultipleDaysMap = LinkedHashMap()
+                    val dateString = DateUtils.dateString(year, month, calendar.dayOfMonth)
+                    if (pickedMultipleDaysMap?.containsKey(dateString) == true) {
+                        pickedMultipleDaysMap?.remove(dateString)
+                    } else {
+                        pickedMultipleDaysMap?.put(dateString, calendar)
+                    }
+                    toAnimateDay = calendar
+                    change = true
+                }
+                PickType.NOTHING -> {
+                }
             }
-
-            notifyDayPicked(change)
-            checkAnimatedInvalidation()
         }
+
+        notifyDayPicked(change)
+        checkAnimatedInvalidation()
     }
 
     private fun checkAnimatedInvalidation() {
