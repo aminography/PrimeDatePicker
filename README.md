@@ -40,7 +40,7 @@ Main Characteristics
 - RTL Support
 - Various Calendar Types
 - Various Date Picking Strategies
-- Both Dialog & BottomSheet
+- Showing Both Dialog & BottomSheet
 - Fast Goto
 
 <br/>
@@ -138,9 +138,16 @@ val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
 
 <br/>
 
-### Customizing Texts in Date Picker Bottom Sheet
+### Customizing Theme
 
-If you want to change the texts of the date picker bottom sheet, define some strings in your project's `strings.xml` with equal name defined in the library's [`strings.xml`](https://github.com/aminography/PrimeDatePicker/blob/master/library/src/main/res/values/strings.xml), to override them.
+`PrimeDatePicker` is fully customizable and you can fit its view to what you desire.
+Almost everything is customizable. Such as text size & color, background & element color, padding, font typeface, string formatter, calendar animation & transition parameters, *etc*.
+
+<br/>
+
+### Customizing Texts
+
+If you want to change some texts in `PrimeDatePicker`, define some strings in your project's `strings.xml` with equal name defined in the library's `strings.xml`, to override them.
 
 <br/>
 <hr/>
