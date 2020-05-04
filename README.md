@@ -168,8 +168,8 @@ val themeFactory = object : DarkThemeFactory() {
                 else -> String.format("%s😁", primeCalendar.weekDayNameShort)
             }
         }
+        
      // Other customizations...
-
 }
 ```
 
@@ -187,6 +187,7 @@ BaseThemeFactory themeFactory = new LightThemeFactory() {
     public int getSelectionBarBackgroundColor() {
         return super.getColor(R.color.green300);
     }
+    
     // Other customizations...
 };
 ```
