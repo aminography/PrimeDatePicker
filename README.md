@@ -145,7 +145,7 @@ Almost everything is customizable, such as: text size & color, background & elem
 
 In this way, a theme factory class is provided which declares theme parameters.
 A concrete subclass of this class realizes the parameters to be used by views.
-By default, there are two concrete subclass [`DarkThemeFactory`]((./library/src/main/java/com/aminography/primedatepicker/picker/theme/DarkThemeFactory.kt)) and [`LightThemeFactory`]((./library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)) that you can override their parameters or inherit a class of them or make your own theme factory.
+By default, there are two concrete subclass [`DarkThemeFactory`]((library/src/main/java/com/aminography/primedatepicker/picker/theme/DarkThemeFactory.kt)) and [`LightThemeFactory`]((library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)) that you can override their parameters or inherit a class of them or make your own theme factory.
 
 <br/>
 
@@ -543,7 +543,7 @@ These variables are only accessible programmatically to get or set. (Available b
 <br/>
 
 ### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
-You can listen to day picking actions by setting an instance of [OnDayPickedListener](./library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.kt) to the views.
+You can listen to day picking actions by setting an instance of [OnDayPickedListener](library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.kt) to the views.
 For example:
 
 ```kotlin
