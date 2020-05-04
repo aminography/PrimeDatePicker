@@ -43,7 +43,7 @@ Main Characteristics
 - Showing Both Dialog & BottomSheet
 - Fast Goto
 
-#### Download [Sample App](https://github.com/aminography/SampleAppsRepo/blob/master/sample-app-release.apk)
+#### :dart: Download [SampleApp.apk](https://github.com/aminography/SampleAppsRepo/blob/master/sample-app-release.apk)
 
 <br/>
 
