@@ -141,7 +141,11 @@ val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
 ### Customizing Theme
 
 `PrimeDatePicker` is fully customizable and you can fit its view to what you desire.
-Almost everything is customizable. Such as text size & color, background & element color, padding, font typeface, string formatter, calendar animation & transition parameters, *etc*.
+Almost everything is customizable, such as: text size & color, background & element color, padding, font typeface, string formatter, calendar animation & transition parameters, *etc*.
+
+In this way, a theme factory class is provided which declares theme parameters.
+A concrete subclass of this class realizes the parameters to be used by views.
+By default, there are two concrete subclass [`DarkThemeFactory`]((./library/src/main/java/com/aminography/primedatepicker/picker/theme/DarkThemeFactory.kt)) and [`LightThemeFactory`]((./library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)) that you can override their parameters or inherit a class of them or make your own theme factory.
 
 <br/>
 
@@ -539,7 +543,7 @@ These variables are only accessible programmatically to get or set. (Available b
 <br/>
 
 ### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
-You can listen to day picking actions by setting an instance of [OnDayPickedListener](https:///aminography/PrimeDatePicker/blob/master/library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.kt) to the views.
+You can listen to day picking actions by setting an instance of [OnDayPickedListener](./library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.kt) to the views.
 For example:
 
 ```kotlin
