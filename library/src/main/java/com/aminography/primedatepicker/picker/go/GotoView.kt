@@ -7,8 +7,8 @@ import android.view.ViewStub
 import android.widget.FrameLayout
 import android.widget.NumberPicker
 import com.aminography.primecalendar.PrimeCalendar
-import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.R
+import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.picker.base.BaseLazyView
 import com.aminography.primedatepicker.picker.component.ColoredNumberPicker
 import com.aminography.primedatepicker.utils.localizeDigits
@@ -87,7 +87,7 @@ internal class GotoView(
 
         yearNumberPicker.applyDividerColor()
         yearNumberPicker.fixInputFilter()
-        yearNumberPicker.minValue = minDateCalendar?.year ?: 0
+        yearNumberPicker.minValue = minDateCalendar?.year ?: 1
         yearNumberPicker.maxValue = maxDateCalendar?.year ?: 10_000
         yearNumberPicker.wrapSelectorWheel = false
         yearNumberPicker.value = calendar.year
