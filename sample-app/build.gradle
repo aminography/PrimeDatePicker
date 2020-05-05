@@ -34,9 +34,9 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-//    implementation 'com.aminography:primedatepicker:3.0.3'
+//    implementation 'com.aminography:primedatepicker:3.0.4'
     implementation project(':library')
-    implementation 'com.aminography:primecalendar:1.2.18'
+    implementation 'com.aminography:primecalendar:1.2.19'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
