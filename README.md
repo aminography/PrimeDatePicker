@@ -45,7 +45,7 @@ Main Characteristics
 - Showing Both Dialog & BottomSheet
 - Fast Goto
 
-#### :dart: Download [SampleApp.apk](https://github.com/aminography/SampleAppsRepo/blob/master/PrimeDatePicker-sample-release.apk)
+#### :dart: Download [SampleApp.apk](https://github.com/aminography/SampleAppsRepo/blob/master/PrimeDatePicker/sample-app-release.apk)
 
 <br/>
 
