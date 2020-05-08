@@ -107,7 +107,7 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="TwoLineTextView">
+    <declare-styleable name="TwoLinesTextView">
         <attr name="topLabelText" format="string" />
         <attr name="bottomLabelText" format="string" />
 

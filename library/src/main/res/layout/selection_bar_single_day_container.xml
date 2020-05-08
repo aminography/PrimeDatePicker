@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/material_size_4">
 
-    <com.aminography.primedatepicker.picker.component.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLinesTextView
         android:id="@+id/pickedTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

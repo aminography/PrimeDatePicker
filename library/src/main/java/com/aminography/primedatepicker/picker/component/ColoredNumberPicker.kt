@@ -54,7 +54,7 @@ internal class ColoredNumberPicker : NumberPicker {
                 if (pf.name == "mSelectionDivider") {
                     pf.isAccessible = true
                     try {
-                        ColoredNumberPicker.dividerColor?.let {
+                        dividerColor?.let {
                             val colorDrawable = ColorDrawable(it)
                             pf.set(this, colorDrawable)
                         }
@@ -69,7 +69,8 @@ internal class ColoredNumberPicker : NumberPicker {
                 }
             }
         } else {
-            // TODO
+            // TODO:  @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P)
+            //        private final Drawable mSelectionDivider;
         }
     }
 

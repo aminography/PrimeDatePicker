@@ -40,7 +40,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.aminography.primedatepicker.picker.component.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLinesTextView
         android:id="@+id/rangeStartTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
         app:bottomLabelTextColor="@color/white"
         app:bottomLabelTextSize="@dimen/text_size_normal" />
 
-    <com.aminography.primedatepicker.picker.component.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLinesTextView
         android:id="@+id/rangeEndTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
