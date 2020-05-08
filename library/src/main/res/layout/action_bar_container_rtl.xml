@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="@id/todayTwoLineTextView"
         app:layout_constraintTop_toTopOf="@id/todayTwoLineTextView" />
 
-    <com.aminography.primedatepicker.picker.component.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLinesTextView
         android:id="@+id/todayTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
         app:layout_constraintStart_toStartOf="@id/negativeTwoLineTextView"
         app:layout_constraintTop_toTopOf="@id/negativeTwoLineTextView" />
 
-    <com.aminography.primedatepicker.picker.component.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLinesTextView
         android:id="@+id/negativeTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
         app:layout_constraintStart_toStartOf="@id/positiveTwoLineTextView"
         app:layout_constraintTop_toTopOf="@id/positiveTwoLineTextView" />
 
-    <com.aminography.primedatepicker.picker.component.TwoLineTextView
+    <com.aminography.primedatepicker.picker.component.TwoLinesTextView
         android:id="@+id/positiveTwoLineTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

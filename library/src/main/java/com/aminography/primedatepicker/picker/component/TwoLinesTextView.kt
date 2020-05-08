@@ -23,7 +23,7 @@ import kotlin.math.max
  * @author aminography
  */
 @Suppress("ConstantConditionIf", "MemberVisibilityCanBePrivate", "unused")
-internal class TwoLineTextView @JvmOverloads constructor(
+internal class TwoLinesTextView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,
@@ -141,19 +141,19 @@ internal class TwoLineTextView @JvmOverloads constructor(
     // ---------------------------------------------------------------------------------------------
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.TwoLineTextView, defStyleAttr, defStyleRes).run {
+        context.obtainStyledAttributes(attrs, R.styleable.TwoLinesTextView, defStyleAttr, defStyleRes).run {
             doNotInvalidate {
-                topLabelText = getString(R.styleable.TwoLineTextView_topLabelText) ?: ""
-                bottomLabelText = getString(R.styleable.TwoLineTextView_bottomLabelText) ?: ""
+                topLabelText = getString(R.styleable.TwoLinesTextView_topLabelText) ?: ""
+                bottomLabelText = getString(R.styleable.TwoLinesTextView_bottomLabelText) ?: ""
 
-                topLabelTextColor = getColor(R.styleable.TwoLineTextView_topLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
-                bottomLabelTextColor = getColor(R.styleable.TwoLineTextView_bottomLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
+                topLabelTextColor = getColor(R.styleable.TwoLinesTextView_topLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
+                bottomLabelTextColor = getColor(R.styleable.TwoLinesTextView_bottomLabelTextColor, ContextCompat.getColor(context, R.color.defaultTwoLineTextColor))
 
-                topLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_topLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
-                bottomLabelTextSize = getDimensionPixelSize(R.styleable.TwoLineTextView_bottomLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
+                topLabelTextSize = getDimensionPixelSize(R.styleable.TwoLinesTextView_topLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
+                bottomLabelTextSize = getDimensionPixelSize(R.styleable.TwoLinesTextView_bottomLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultTwoLineTextSize))
 
-                preferredMinWidth = getDimensionPixelSize(R.styleable.TwoLineTextView_preferredMinWidth, 0)
-                gapBetweenLines = getDimensionPixelSize(R.styleable.TwoLineTextView_gapBetweenLines, 0)
+                preferredMinWidth = getDimensionPixelSize(R.styleable.TwoLinesTextView_preferredMinWidth, 0)
+                gapBetweenLines = getDimensionPixelSize(R.styleable.TwoLinesTextView_gapBetweenLines, 0)
             }
             recycle()
         }
