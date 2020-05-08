@@ -13,7 +13,6 @@ class MyApplication : Application() {
         super.onCreate()
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
-
 }
 
 const val FONT_PATH_CIVIL = "fonts/Roboto-Regular.ttf"
