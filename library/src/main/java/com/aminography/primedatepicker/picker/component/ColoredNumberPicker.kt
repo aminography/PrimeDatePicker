@@ -69,8 +69,9 @@ internal class ColoredNumberPicker : NumberPicker {
                 }
             }
         } else {
-            // TODO:  @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P)
-            //        private final Drawable mSelectionDivider;
+            // TODO: finding a way to customize the divider, because of:
+            //  @UnsupportedAppUsage(maxTargetSdk = Build.VERSION_CODES.P)
+            //  private final Drawable mSelectionDivider;
         }
     }
 
