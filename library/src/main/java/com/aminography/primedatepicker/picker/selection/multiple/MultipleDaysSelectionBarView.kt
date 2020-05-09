@@ -16,10 +16,12 @@ import com.aminography.primedatepicker.picker.selection.SelectionBarView
 import com.aminography.primedatepicker.picker.selection.multiple.adapter.PickedDaysListAdapter
 import com.aminography.primedatepicker.picker.selection.multiple.dataholder.PickedDayDataHolder
 import com.aminography.primedatepicker.picker.selection.multiple.dataholder.PickedDayEmptyDataHolder
-import com.aminography.primedatepicker.utils.forceLocaleStrings
-import com.aminography.primedatepicker.utils.gone
-import com.aminography.primedatepicker.utils.visible
+import com.aminography.primedatepicker.utils.*
 import kotlinx.android.synthetic.main.selection_bar_multiple_days_container.view.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 
@@ -28,7 +30,8 @@ import java.util.*
  */
 internal class MultipleDaysSelectionBarView(
     viewStub: ViewStub,
-    private val direction: Direction
+    private val direction: Direction,
+    private val coroutineScope: CoroutineScope
 ) : BaseLazyView(
     R.layout.selection_bar_multiple_days_container, viewStub
 ), SelectionBarView {
@@ -117,31 +120,38 @@ internal class MultipleDaysSelectionBarView(
 
     var bottomLabelFormatter: LabelFormatter? = null
 
+    private var submitListJob: Job? = null
+
     var pickedDays: List<PrimeCalendar>? = null
         set(value) {
             field = value
-            value?.map {
-                PickedDayDataHolder(
-                    it.shortDateString,
-                    it,
-                    topLabelFormatter,
-                    bottomLabelFormatter
-                )
-            }?.also {
-                val count = multipleDaysAdapter.itemCount
+            submitListJob?.cancel()
+            submitListJob = coroutineScope.launch(DEFAULT) {
+                value?.map {
+                    PickedDayDataHolder(
+                        it.shortDateString,
+                        it,
+                        topLabelFormatter,
+                        bottomLabelFormatter
+                    )
+                }?.also {
+                    withContext(MAIN) {
+                        val count = multipleDaysAdapter.itemCount
 
-                if (it.isEmpty()) {
-                    rootView.emptyStateTextView.visible()
-                    arrayListOf(PickedDayEmptyDataHolder())
-                } else {
-                    rootView.emptyStateTextView.gone()
-                    it
-                }.let { list ->
-                    multipleDaysAdapter.submitList(list)
-                }
+                        if (it.isEmpty()) {
+                            rootView.emptyStateTextView.visible()
+                            arrayListOf(PickedDayEmptyDataHolder())
+                        } else {
+                            rootView.emptyStateTextView.gone()
+                            it
+                        }.let { list ->
+                            multipleDaysAdapter.submitList(list)
+                        }
 
-                if (it.size > 2 && count < it.size) {
-                    rootView.recyclerView.smoothScrollTo(it.size - 1)
+                        if (it.size > 2 && count < it.size) {
+                            rootView.recyclerView.smoothScrollTo(it.size - 1)
+                        }
+                    }
                 }
             }
         }

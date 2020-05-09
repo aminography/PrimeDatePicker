@@ -10,8 +10,10 @@ android {
         applicationId "com.aminography.primedatepicker.javasampleapp"
         minSdkVersion 14
         targetSdkVersion 29
+
         versionCode 2
         versionName "2.0"
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -30,13 +32,17 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
 
-    implementation 'com.aminography:primecalendar:1.2.19'
+    // ------- PrimeDatePicker
     implementation project(':library')
 
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // ------- PrimeCalendar
+    implementation "com.aminography:primecalendar:$primecalendar_version"
+
+    // ------- Test
+    testImplementation "junit:junit:$junit_version"
+    androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
 }

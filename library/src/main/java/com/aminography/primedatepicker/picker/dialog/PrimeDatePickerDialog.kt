@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.picker.dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.OnDayPickedListener
 import com.aminography.primedatepicker.common.PickType
@@ -27,7 +28,7 @@ internal class PrimeDatePickerDialog : BaseDialogFragment(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        primeDatePicker.onCreate(requireContext())
+        primeDatePicker.onCreate(requireContext(), lifecycleScope)
     }
 
     override fun onInitViews(rootView: View) {

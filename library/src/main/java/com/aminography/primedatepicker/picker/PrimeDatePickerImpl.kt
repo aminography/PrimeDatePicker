@@ -38,6 +38,7 @@ import com.aminography.primedatepicker.utils.DateUtils
 import com.aminography.primedatepicker.utils.findDirection
 import com.aminography.primedatepicker.utils.forceLocaleStrings
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
+import kotlinx.coroutines.CoroutineScope
 import java.util.*
 
 /**
@@ -51,6 +52,7 @@ internal class PrimeDatePickerImpl(
 ) : PrimeDatePicker, OnDayPickedListener, OnMonthLabelClickListener {
 
     private lateinit var context: Context
+    private lateinit var coroutineScope: CoroutineScope
 
     private var onCancelListener: DialogInterface.OnCancelListener? = null
     private var onDismissListener: DialogInterface.OnDismissListener? = null
@@ -76,8 +78,9 @@ internal class PrimeDatePickerImpl(
     private var typeface: Typeface? = null
     private lateinit var themeFactory: ThemeFactory
 
-    internal fun onCreate(context: Context) {
+    internal fun onCreate(context: Context, coroutineScope: CoroutineScope) {
         this.context = context
+        this.coroutineScope = coroutineScope
     }
 
     internal fun onInitViews(rootView: View, arguments: Bundle?) {
@@ -294,7 +297,7 @@ internal class PrimeDatePickerImpl(
 
     private fun initSelectionBarMultiple(typeface: Typeface?) {
         with(rootView) {
-            selectionBarView = MultipleDaysSelectionBarView(selectionBarViewStub, direction).also {
+            selectionBarView = MultipleDaysSelectionBarView(selectionBarViewStub, direction, coroutineScope).also {
                 it.applyTheme(themeFactory)
                 it.locale = locale
                 it.typeface = typeface

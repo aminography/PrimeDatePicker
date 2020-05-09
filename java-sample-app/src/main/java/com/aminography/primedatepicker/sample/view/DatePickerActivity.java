@@ -111,7 +111,7 @@ public class DatePickerActivity extends AppCompatActivity {
                         if (isBottomSheet()) {
                             datePicker = PrimeDatePicker.Companion.bottomSheetWith(today)
                                 .pickSingleDay(singleDayPickCallback)
-                                .minPossibleDate(minDateCalendar)
+                                .minPossibleDate(minDateCalendar) // TODO: check if not null
                                 .maxPossibleDate(maxDateCalendar)
                                 .applyTheme(theme)
                                 .build();
