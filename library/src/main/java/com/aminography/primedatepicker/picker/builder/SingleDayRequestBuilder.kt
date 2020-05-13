@@ -21,12 +21,12 @@ class SingleDayRequestBuilder<T : PrimeDatePicker> internal constructor(
     /**
      * Specifies initially picked day when the date picker is shown first time.
      *
-     * @param singleDay The [PrimeCalendar] to use as the picked date.
+     * @param pickedDay The [PrimeCalendar] to use as the picked date.
      *
      * @return current instance of [SingleDayRequestBuilder].
      */
-    fun initiallyPickedSingleDay(singleDay: PrimeCalendar): SingleDayRequestBuilder<T> {
-        bundle.putString("pickedSingleDayCalendar", DateUtils.storeCalendar(singleDay))
+    fun initiallyPickedSingleDay(pickedDay: PrimeCalendar): SingleDayRequestBuilder<T> {
+        bundle.putString("pickedSingleDayCalendar", DateUtils.storeCalendar(pickedDay))
         return this
     }
 

@@ -6,7 +6,9 @@
     <attr name="dayLabelTextColor" format="color" />
     <attr name="todayLabelTextColor" format="color" />
     <attr name="pickedDayLabelTextColor" format="color" />
-    <attr name="pickedDayCircleColor" format="color" />
+    <attr name="pickedDayInRangeLabelTextColor" format="color" />
+    <attr name="pickedDayCircleBackgroundColor" format="color" />
+    <attr name="pickedDayInRangeBackgroundColor" format="color" />
     <attr name="disabledDayLabelTextColor" format="color" />
 
     <attr name="monthLabelTextSize" format="dimension" />
@@ -37,7 +39,9 @@
         <attr name="dayLabelTextColor" />
         <attr name="todayLabelTextColor" />
         <attr name="pickedDayLabelTextColor" />
-        <attr name="pickedDayCircleColor" />
+        <attr name="pickedDayInRangeLabelTextColor" />
+        <attr name="pickedDayCircleBackgroundColor" />
+        <attr name="pickedDayInRangeBackgroundColor" />
         <attr name="disabledDayLabelTextColor" />
 
         <attr name="monthLabelTextSize" />
@@ -65,7 +69,9 @@
         <attr name="dayLabelTextColor" />
         <attr name="todayLabelTextColor" />
         <attr name="pickedDayLabelTextColor" />
-        <attr name="pickedDayCircleColor" />
+        <attr name="pickedDayInRangeLabelTextColor" />
+        <attr name="pickedDayCircleBackgroundColor" />
+        <attr name="pickedDayInRangeBackgroundColor" />
         <attr name="disabledDayLabelTextColor" />
 
         <attr name="monthLabelTextSize" />

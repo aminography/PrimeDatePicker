@@ -58,7 +58,11 @@ interface CalendarViewTheme : GeneralTheme {
 
     val calendarViewPickedDayLabelTextColor: Int
 
-    val calendarViewPickedDayCircleColor: Int
+    val calendarViewPickedDayInRangeLabelTextColor: Int
+
+    val calendarViewPickedDayCircleBackgroundColor: Int
+
+    val calendarViewPickedDayInRangeBackgroundColor: Int
 
     val calendarViewDisabledDayLabelTextColor: Int
 

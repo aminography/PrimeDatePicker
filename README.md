@@ -251,12 +251,12 @@ For example:
     android:id="@+id/calendarView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:pickedDayCircleColor="#0000FF" />
+    app:pickedDayCircleBackgroundColor="#0000FF" />
 ```
 
 > Programmatically
 ```kotlin
-calendarView.pickedDayCircleColor = Color.BLUE
+calendarView.pickedDayCircleBackgroundColor = Color.BLUE
 ```
 
 <br/>
@@ -319,7 +319,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
   </tr>
   
   <tr>
-    <td><b>• pickedDayCircleColor</b></td>
+    <td><b>• pickedDayCircleBackgroundColor</b></td>
     <td>color</td>
   </tr>
   <tr>

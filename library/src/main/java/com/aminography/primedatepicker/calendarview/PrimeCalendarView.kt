@@ -99,7 +99,19 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
-    override var pickedDayCircleColor: Int = 0
+    override var pickedDayInRangeLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var pickedDayCircleBackgroundColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var pickedDayInRangeBackgroundColor: Int = 0
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -322,26 +334,26 @@ class PrimeCalendarView @JvmOverloads constructor(
     override var minDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
-            var change = false
+            var hasChanged = false
             doNotInvalidate {
                 value.also { min ->
                     pickedSingleDayCalendar?.let { single ->
                         if (DateUtils.isBefore(single, min)) {
                             pickedSingleDayCalendar = min
-                            change = true
+                            hasChanged = true
                         }
                     }
                     pickedRangeStartCalendar?.let { start ->
                         if (DateUtils.isBefore(start, min)) {
                             pickedRangeStartCalendar = min
-                            change = true
+                            hasChanged = true
                         }
                     }
                     pickedRangeEndCalendar?.let { end ->
                         if (DateUtils.isBefore(end, min)) {
                             pickedRangeStartCalendar = null
                             pickedRangeEndCalendar = null
-                            change = true
+                            hasChanged = true
                         }
                     }
                 }
@@ -358,32 +370,32 @@ class PrimeCalendarView @JvmOverloads constructor(
                     }
                 }
             }
-            notifyDayPicked(change)
+            notifyDayPicked(hasChanged)
         }
 
     override var maxDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
-            var change = false
+            var hasChanged = false
             doNotInvalidate {
                 value.also { max ->
                     pickedSingleDayCalendar?.let { single ->
                         if (DateUtils.isAfter(single, max)) {
                             pickedSingleDayCalendar = max
-                            change = true
+                            hasChanged = true
                         }
                     }
                     pickedRangeStartCalendar?.let { start ->
                         if (DateUtils.isAfter(start, max)) {
                             pickedRangeStartCalendar = null
                             pickedRangeEndCalendar = null
-                            change = true
+                            hasChanged = true
                         }
                     }
                     pickedRangeEndCalendar?.let { end ->
                         if (DateUtils.isAfter(end, max)) {
                             pickedRangeEndCalendar = max
-                            change = true
+                            hasChanged = true
                         }
                     }
                 }
@@ -400,7 +412,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                     }
                 }
             }
-            notifyDayPicked(change)
+            notifyDayPicked(hasChanged)
         }
 
     override var pickType: PickType = PickType.NOTHING
@@ -599,7 +611,9 @@ class PrimeCalendarView @JvmOverloads constructor(
                 dayLabelTextColor = getColor(R.styleable.PrimeCalendarView_dayLabelTextColor, ContextCompat.getColor(context, R.color.gray900))
                 todayLabelTextColor = getColor(R.styleable.PrimeCalendarView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
                 pickedDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
-                pickedDayCircleColor = getColor(R.styleable.PrimeCalendarView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.red300))
+                pickedDayInRangeLabelTextColor = getColor(R.styleable.PrimeCalendarView_pickedDayInRangeLabelTextColor, ContextCompat.getColor(context, R.color.white))
+                pickedDayCircleBackgroundColor = getColor(R.styleable.PrimeCalendarView_pickedDayCircleBackgroundColor, ContextCompat.getColor(context, R.color.red300))
+                pickedDayInRangeBackgroundColor = getColor(R.styleable.PrimeCalendarView_pickedDayInRangeBackgroundColor, ContextCompat.getColor(context, R.color.red300))
                 disabledDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
 
                 monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeCalendarView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
@@ -826,12 +840,12 @@ class PrimeCalendarView @JvmOverloads constructor(
         endDay: PrimeCalendar?,
         multipleDays: List<PrimeCalendar>?
     ) {
-        var change = false
+        var hasChanged = false
         doNotInvalidate {
             when (pickType) {
                 PickType.SINGLE -> {
                     pickedSingleDayCalendar = singleDay
-                    change = true
+                    hasChanged = true
                 }
                 PickType.RANGE_START -> {
                     startDay?.let {
@@ -840,22 +854,22 @@ class PrimeCalendarView @JvmOverloads constructor(
                         }
                     }
                     pickedRangeStartCalendar = startDay
-                    change = true
+                    hasChanged = true
                 }
                 PickType.RANGE_END -> {
                     if (endDay != null) {
                         if (pickedRangeStartCalendar != null && !DateUtils.isBefore(endDay, pickedRangeStartCalendar)) {
                             pickedRangeEndCalendar = endDay
-                            change = true
+                            hasChanged = true
                         }
                     } else {
                         pickedRangeEndCalendar = endDay
-                        change = true
+                        hasChanged = true
                     }
                 }
                 PickType.MULTIPLE -> {
                     pickedMultipleDaysList = multipleDays ?: arrayListOf()
-                    change = true
+                    hasChanged = true
                 }
                 PickType.NOTHING -> {
                 }
@@ -868,11 +882,11 @@ class PrimeCalendarView @JvmOverloads constructor(
             adapter?.notifyDataSetChanged()
         }
 
-        notifyDayPicked(change)
+        notifyDayPicked(hasChanged)
     }
 
-    private fun notifyDayPicked(change: Boolean) {
-        pickedDaysChanged = pickedDaysChanged or change
+    private fun notifyDayPicked(hasChanged: Boolean) {
+        pickedDaysChanged = pickedDaysChanged or hasChanged
         if (invalidate && pickedDaysChanged) {
             onDayPickedListener?.onDayPicked(
                 pickType,
@@ -1058,8 +1072,10 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.weekLabelTextColor = weekLabelTextColor
         savedState.dayLabelTextColor = dayLabelTextColor
         savedState.todayLabelTextColor = todayLabelTextColor
-        savedState.selectedDayLabelTextColor = pickedDayLabelTextColor
-        savedState.selectedDayCircleColor = pickedDayCircleColor
+        savedState.pickedDayLabelTextColor = pickedDayLabelTextColor
+        savedState.pickedDayInRangeLabelTextColor = pickedDayInRangeLabelTextColor
+        savedState.pickedDayCircleBackgroundColor = pickedDayCircleBackgroundColor
+        savedState.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
         savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
         savedState.monthLabelTextSize = monthLabelTextSize
         savedState.weekLabelTextSize = weekLabelTextSize
@@ -1131,8 +1147,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             weekLabelTextColor = savedState.weekLabelTextColor
             dayLabelTextColor = savedState.dayLabelTextColor
             todayLabelTextColor = savedState.todayLabelTextColor
-            pickedDayLabelTextColor = savedState.selectedDayLabelTextColor
-            pickedDayCircleColor = savedState.selectedDayCircleColor
+            pickedDayLabelTextColor = savedState.pickedDayLabelTextColor
+            pickedDayInRangeLabelTextColor = savedState.pickedDayInRangeLabelTextColor
+            pickedDayCircleBackgroundColor = savedState.pickedDayCircleBackgroundColor
+            pickedDayInRangeBackgroundColor = savedState.pickedDayInRangeBackgroundColor
             disabledDayLabelTextColor = savedState.disabledDayLabelTextColor
             monthLabelTextSize = savedState.monthLabelTextSize
             weekLabelTextSize = savedState.weekLabelTextSize
@@ -1194,8 +1212,10 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var weekLabelTextColor: Int = 0
         internal var dayLabelTextColor: Int = 0
         internal var todayLabelTextColor: Int = 0
-        internal var selectedDayLabelTextColor: Int = 0
-        internal var selectedDayCircleColor: Int = 0
+        internal var pickedDayLabelTextColor: Int = 0
+        internal var pickedDayInRangeLabelTextColor: Int = 0
+        internal var pickedDayCircleBackgroundColor: Int = 0
+        internal var pickedDayInRangeBackgroundColor: Int = 0
         internal var disabledDayLabelTextColor: Int = 0
         internal var monthLabelTextSize: Int = 0
         internal var weekLabelTextSize: Int = 0
@@ -1252,8 +1272,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             weekLabelTextColor = input.readInt()
             dayLabelTextColor = input.readInt()
             todayLabelTextColor = input.readInt()
-            selectedDayLabelTextColor = input.readInt()
-            selectedDayCircleColor = input.readInt()
+            pickedDayLabelTextColor = input.readInt()
+            pickedDayInRangeLabelTextColor = input.readInt()
+            pickedDayCircleBackgroundColor = input.readInt()
+            pickedDayInRangeBackgroundColor = input.readInt()
             disabledDayLabelTextColor = input.readInt()
             monthLabelTextSize = input.readInt()
             weekLabelTextSize = input.readInt()
@@ -1310,8 +1332,10 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(weekLabelTextColor)
             out.writeInt(dayLabelTextColor)
             out.writeInt(todayLabelTextColor)
-            out.writeInt(selectedDayLabelTextColor)
-            out.writeInt(selectedDayCircleColor)
+            out.writeInt(pickedDayLabelTextColor)
+            out.writeInt(pickedDayInRangeLabelTextColor)
+            out.writeInt(pickedDayCircleBackgroundColor)
+            out.writeInt(pickedDayInRangeBackgroundColor)
             out.writeInt(disabledDayLabelTextColor)
             out.writeInt(monthLabelTextSize)
             out.writeInt(weekLabelTextSize)
