@@ -165,13 +165,30 @@ val themeFactory = object : DarkThemeFactory() {
     override val typefacePath: String?
         get() = "fonts/Roboto-Regular.ttf"
         
+    override val calendarViewPickedDayInRangeBackgroundColor: Int
+        get() = getColor(R.color.red100)
+
+    override val calendarViewPickedDayInRangeLabelTextColor: Int
+        get() = getColor(R.color.gray900)
+
     override val calendarViewWeekLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
             when (primeCalendar[Calendar.DAY_OF_WEEK]) {
-                Calendar.SATURDAY, 
+                Calendar.SATURDAY,
                 Calendar.SUNDAY -> String.format("%s😍", primeCalendar.weekDayNameShort)
                 else -> String.format("%s😁", primeCalendar.weekDayNameShort)
             }
+        }
+
+    override val calendarViewWeekLabelTextColors: SparseIntArray
+        get() = SparseIntArray(7).apply {
+            put(Calendar.SATURDAY, getColor(R.color.red300))
+            put(Calendar.SUNDAY, getColor(R.color.red300))
+            put(Calendar.MONDAY, getColor(R.color.green400))
+            put(Calendar.TUESDAY, getColor(R.color.green400))
+            put(Calendar.WEDNESDAY, getColor(R.color.green400))
+            put(Calendar.THURSDAY, getColor(R.color.green400))
+            put(Calendar.FRIDAY, getColor(R.color.green400))
         }
         
      // Other customizations...
@@ -185,7 +202,7 @@ val themeFactory = object : DarkThemeFactory() {
   </tr>
 
   <tr>
-    <td><img src="static/theme_result.png" width="400"/></td>
+    <td><img src="static/theming_result.png" width="400"/></td>
   </tr>
 
 </table>
