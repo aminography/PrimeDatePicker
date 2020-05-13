@@ -9,7 +9,7 @@ android {
 //    resourcePrefix 'pdp_'
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 13
         targetSdkVersion 29
 
         versionCode libraryVersionCode
