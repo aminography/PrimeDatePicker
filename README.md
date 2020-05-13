@@ -185,7 +185,6 @@ val themeFactory = object : DarkThemeFactory() {
         get() = SparseIntArray(7).apply {
             val red = getColor(R.color.red300)
             val green = getColor(R.color.green400)
-            
             put(Calendar.SATURDAY, red)
             put(Calendar.SUNDAY, red)
             put(Calendar.MONDAY, green)
