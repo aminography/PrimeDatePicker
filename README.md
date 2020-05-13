@@ -183,13 +183,16 @@ val themeFactory = object : DarkThemeFactory() {
 
     override val calendarViewWeekLabelTextColors: SparseIntArray
         get() = SparseIntArray(7).apply {
-            put(Calendar.SATURDAY, getColor(R.color.red300))
-            put(Calendar.SUNDAY, getColor(R.color.red300))
-            put(Calendar.MONDAY, getColor(R.color.green400))
-            put(Calendar.TUESDAY, getColor(R.color.green400))
-            put(Calendar.WEDNESDAY, getColor(R.color.green400))
-            put(Calendar.THURSDAY, getColor(R.color.green400))
-            put(Calendar.FRIDAY, getColor(R.color.green400))
+            val red = getColor(R.color.red300)
+            val green = getColor(R.color.green400)
+            
+            put(Calendar.SATURDAY, red)
+            put(Calendar.SUNDAY, red)
+            put(Calendar.MONDAY, green)
+            put(Calendar.TUESDAY, green)
+            put(Calendar.WEDNESDAY, green)
+            put(Calendar.THURSDAY, green)
+            put(Calendar.FRIDAY, green)
         }
         
      // Other customizations...
