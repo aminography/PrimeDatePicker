@@ -21,7 +21,7 @@ First, **`PrimeDatePicker`** is a tool which provides picking a single day, mult
     <td><img src="static/MCDB.gif"/></td>
     <td><img src="static/RPLB.gif"/></td>
     <td><img src="static/SHLD.gif"/></td>
-    <td><img src="static/GJDD.gif"/></td>
+    <td><img src="static/GJDD2.gif"/></td>
   </tr>
 
 </table>

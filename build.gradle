@@ -52,7 +52,7 @@ ext {
     publishedGroupId = 'com.aminography'
     artifact = 'primedatepicker'
 
-    libraryVersionCode = 34
+    libraryVersionCode = 310
     libraryVersion = "3.1.0"
 
     libraryName = 'PrimeDatePicker'
