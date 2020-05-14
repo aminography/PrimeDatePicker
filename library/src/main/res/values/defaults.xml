@@ -51,7 +51,9 @@
     <color name="lightDayLabelTextColor">@color/gray900</color>
     <color name="lightTodayLabelTextColor">@color/green400</color>
     <color name="lightPickedDayLabelTextColor">@color/white</color>
-    <color name="lightPickedDayCircleColor">@color/red300</color>
+    <color name="lightPickedDayInRangeLabelTextColor">@color/white</color>
+    <color name="lightPickedDayCircleBackgroundColor">@color/red300</color>
+    <color name="lightPickedDayInRangeBackgroundColor">@color/red300</color>
     <color name="lightDisabledDayLabelTextColor">@color/gray400</color>
     <color name="lightDividerColor">@color/gray400</color>
 
@@ -85,7 +87,9 @@
     <color name="darkDayLabelTextColor">@color/white</color>
     <color name="darkTodayLabelTextColor">@color/orange800</color>
     <color name="darkPickedDayLabelTextColor">@color/white</color>
-    <color name="darkPickedDayCircleColor">@color/teal700</color>
+    <color name="darkPickedDayInRangeLabelTextColor">@color/white</color>
+    <color name="darkPickedDayCircleBackgroundColor">@color/teal700</color>
+    <color name="darkPickedDayInRangeBackgroundColor">@color/teal700</color>
     <color name="darkDisabledDayLabelTextColor">@color/gray600</color>
     <color name="darkDividerColor">@color/gray400</color>
 

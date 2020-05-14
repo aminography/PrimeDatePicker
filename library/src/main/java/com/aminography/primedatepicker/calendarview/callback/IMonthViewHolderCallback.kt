@@ -49,7 +49,9 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val dayLabelTextColor: Int
     val todayLabelTextColor: Int
     val pickedDayLabelTextColor: Int
-    val pickedDayCircleColor: Int
+    val pickedDayInRangeLabelTextColor: Int
+    val pickedDayCircleBackgroundColor: Int
+    val pickedDayInRangeBackgroundColor: Int
     val disabledDayLabelTextColor: Int
     val monthLabelTextSize: Int
     val weekLabelTextSize: Int

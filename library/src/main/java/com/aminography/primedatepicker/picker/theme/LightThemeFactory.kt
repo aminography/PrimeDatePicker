@@ -45,8 +45,14 @@ open class LightThemeFactory : NormalThemeFactory() {
     override val calendarViewPickedDayLabelTextColor: Int
         get() = getColor(R.color.lightPickedDayLabelTextColor)
 
-    override val calendarViewPickedDayCircleColor: Int
-        get() = getColor(R.color.lightPickedDayCircleColor)
+    override val calendarViewPickedDayInRangeLabelTextColor: Int
+        get() = getColor(R.color.lightPickedDayInRangeLabelTextColor)
+
+    override val calendarViewPickedDayCircleBackgroundColor: Int
+        get() = getColor(R.color.lightPickedDayCircleBackgroundColor)
+
+    override val calendarViewPickedDayInRangeBackgroundColor: Int
+        get() = getColor(R.color.lightPickedDayInRangeBackgroundColor)
 
     override val calendarViewDisabledDayLabelTextColor: Int
         get() = getColor(R.color.lightDisabledDayLabelTextColor)

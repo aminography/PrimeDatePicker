@@ -38,6 +38,7 @@ import com.aminography.primedatepicker.utils.DateUtils
 import com.aminography.primedatepicker.utils.findDirection
 import com.aminography.primedatepicker.utils.forceLocaleStrings
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
+import kotlinx.coroutines.CoroutineScope
 import java.util.*
 
 /**
@@ -51,6 +52,7 @@ internal class PrimeDatePickerImpl(
 ) : PrimeDatePicker, OnDayPickedListener, OnMonthLabelClickListener {
 
     private lateinit var context: Context
+    private lateinit var coroutineScope: CoroutineScope
 
     private var onCancelListener: DialogInterface.OnCancelListener? = null
     private var onDismissListener: DialogInterface.OnDismissListener? = null
@@ -76,8 +78,9 @@ internal class PrimeDatePickerImpl(
     private var typeface: Typeface? = null
     private lateinit var themeFactory: ThemeFactory
 
-    internal fun onCreate(context: Context) {
+    internal fun onCreate(context: Context, coroutineScope: CoroutineScope) {
         this.context = context
+        this.coroutineScope = coroutineScope
     }
 
     internal fun onInitViews(rootView: View, arguments: Bundle?) {
@@ -120,15 +123,20 @@ internal class PrimeDatePickerImpl(
                 if (it.pickType == PickType.NOTHING) {
                     it.calendarType = calendarType
 
-                    it.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
-                        ?: CalendarFactory.newInstance(calendarType).also { calendar ->
-                            calendar.set(1, 11, 1)
-                        }
-                    it.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
-                        ?: CalendarFactory.newInstance(calendarType).also { calendar ->
-                            calendar.set(10000, 0, 1)
-                            calendar[Calendar.DAY_OF_YEAR] -= 1
-                        }
+                    val minFeasibleDate = CalendarFactory.newInstance(calendarType).also { calendar ->
+                        calendar.set(1, 0, 1)
+                    }
+                    val maxFeasibleDate = CalendarFactory.newInstance(calendarType).also { calendar ->
+                        calendar.set(9999, 11, 29)
+                    }
+
+                    it.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))?.takeIf { min ->
+                        min.after(minFeasibleDate)
+                    } ?: minFeasibleDate
+                    
+                    it.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))?.takeIf { max ->
+                        max.before(maxFeasibleDate)
+                    } ?: maxFeasibleDate
 
                     arguments?.getStringArrayList("disabledDaysList")?.run {
                         it.disabledDaysList = map { list -> DateUtils.restoreCalendar(list)!! }
@@ -294,7 +302,7 @@ internal class PrimeDatePickerImpl(
 
     private fun initSelectionBarMultiple(typeface: Typeface?) {
         with(rootView) {
-            selectionBarView = MultipleDaysSelectionBarView(selectionBarViewStub, direction).also {
+            selectionBarView = MultipleDaysSelectionBarView(selectionBarViewStub, direction, coroutineScope).also {
                 it.applyTheme(themeFactory)
                 it.locale = locale
                 it.typeface = typeface

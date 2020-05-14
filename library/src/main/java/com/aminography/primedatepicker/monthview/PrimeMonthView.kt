@@ -51,7 +51,8 @@ class PrimeMonthView @JvmOverloads constructor(
     private var monthLabelPaint: Paint? = null
     private var weekLabelPaint: Paint? = null
     private var dayLabelPaint: Paint? = null
-    private var selectedDayBackgroundPaint: Paint? = null
+    private var selectedDayCirclePaint: Paint? = null
+    private var selectedDayRectPaint: Paint? = null
 
     private var viewWidth = 0
     private var monthHeaderHeight = 0
@@ -128,7 +129,20 @@ class PrimeMonthView @JvmOverloads constructor(
             if (invalidate) invalidate()
         }
 
-    var pickedDayCircleColor: Int = 0
+    var pickedDayInRangeLabelTextColor: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) invalidate()
+        }
+
+    var pickedDayCircleBackgroundColor: Int = 0
+        set(value) {
+            field = value
+            initSelectedDayBackgroundPaint()
+            if (invalidate) invalidate()
+        }
+
+    var pickedDayInRangeBackgroundColor: Int = 0
         set(value) {
             field = value
             initSelectedDayBackgroundPaint()
@@ -330,63 +344,63 @@ class PrimeMonthView @JvmOverloads constructor(
     var minDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
-            var change = false
+            var hasChanged = false
             doNotInvalidate {
                 value?.also { min ->
                     pickedSingleDayCalendar?.let { single ->
                         if (DateUtils.isBefore(single, min)) {
                             pickedSingleDayCalendar = min
-                            change = true
+                            hasChanged = true
                         }
                     }
                     pickedRangeStartCalendar?.let { start ->
                         if (DateUtils.isBefore(start, min)) {
                             pickedRangeStartCalendar = min
-                            change = true
+                            hasChanged = true
                         }
                     }
                     pickedRangeEndCalendar?.let { end ->
                         if (DateUtils.isBefore(end, min)) {
                             pickedRangeStartCalendar = null
                             pickedRangeEndCalendar = null
-                            change = true
+                            hasChanged = true
                         }
                     }
                 }
             }
             if (invalidate) invalidate()
-            notifyDayPicked(change)
+            notifyDayPicked(hasChanged)
         }
 
     var maxDateCalendar: PrimeCalendar? = null
         set(value) {
             field = value
-            var change = false
+            var hasChanged = false
             doNotInvalidate {
                 value?.also { max ->
                     pickedSingleDayCalendar?.let { single ->
                         if (DateUtils.isAfter(single, max)) {
                             pickedSingleDayCalendar = max
-                            change = true
+                            hasChanged = true
                         }
                     }
                     pickedRangeStartCalendar?.let { start ->
                         if (DateUtils.isAfter(start, max)) {
                             pickedRangeStartCalendar = null
                             pickedRangeEndCalendar = null
-                            change = true
+                            hasChanged = true
                         }
                     }
                     pickedRangeEndCalendar?.let { end ->
                         if (DateUtils.isAfter(end, max)) {
                             pickedRangeEndCalendar = max
-                            change = true
+                            hasChanged = true
                         }
                     }
                 }
             }
             if (invalidate) invalidate()
-            notifyDayPicked(change)
+            notifyDayPicked(hasChanged)
         }
 
     var calendarType = CalendarType.CIVIL
@@ -483,7 +497,9 @@ class PrimeMonthView @JvmOverloads constructor(
                 dayLabelTextColor = getColor(R.styleable.PrimeMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.gray900))
                 todayLabelTextColor = getColor(R.styleable.PrimeMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
                 pickedDayLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
-                pickedDayCircleColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleColor, ContextCompat.getColor(context, R.color.red300))
+                pickedDayInRangeLabelTextColor = getColor(R.styleable.PrimeMonthView_pickedDayInRangeLabelTextColor, ContextCompat.getColor(context, R.color.white))
+                pickedDayCircleBackgroundColor = getColor(R.styleable.PrimeMonthView_pickedDayCircleBackgroundColor, ContextCompat.getColor(context, R.color.red300))
+                pickedDayInRangeBackgroundColor = getColor(R.styleable.PrimeMonthView_pickedDayInRangeBackgroundColor, ContextCompat.getColor(context, R.color.red300))
                 disabledDayLabelTextColor = getColor(R.styleable.PrimeMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
 
                 monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
@@ -569,8 +585,15 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun initSelectedDayBackgroundPaint() {
-        selectedDayBackgroundPaint = Paint().apply {
-            color = pickedDayCircleColor
+        selectedDayCirclePaint = Paint().apply {
+            color = pickedDayCircleBackgroundColor
+            style = Style.FILL
+            textAlign = Align.CENTER
+            isAntiAlias = true
+            isFakeBoldText = true
+        }
+        selectedDayRectPaint = Paint().apply {
+            color = pickedDayInRangeBackgroundColor
             style = Style.FILL
             textAlign = Align.CENTER
             isAntiAlias = true
@@ -889,7 +912,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float, animate: Boolean) {
-        selectedDayBackgroundPaint?.run {
+        selectedDayCirclePaint?.run {
             fun drawCircle() = canvas.drawCircle(
                 x,
                 y,
@@ -902,7 +925,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 y - radius * (if (animate) animationProgress else 1f),
                 x + cellWidth / 2,
                 y + radius * (if (animate) animationProgress else 1f),
-                this
+                selectedDayRectPaint!!
             )
 
             fun drawHalfRect(isStart: Boolean) {
@@ -913,14 +936,14 @@ class PrimeMonthView @JvmOverloads constructor(
                             y - radius * (if (animate) animationProgress else 1f),
                             (x + cellWidth / 2),
                             y + radius * (if (animate) animationProgress else 1f),
-                            this
+                            selectedDayRectPaint!!
                         )
                     else canvas.drawRect(
                         x - cellWidth / 2,
                         y - radius * (if (animate) animationProgress else 1f),
                         x,
                         y + radius * (if (animate) animationProgress else 1f),
-                        this
+                        selectedDayRectPaint!!
                     )
                     // ---------------------
                     Direction.RTL -> if (isStart)
@@ -929,14 +952,14 @@ class PrimeMonthView @JvmOverloads constructor(
                             y - radius * (if (animate) animationProgress else 1f),
                             x,
                             y + radius * (if (animate) animationProgress else 1f),
-                            this
+                            selectedDayRectPaint!!
                         )
                     else canvas.drawRect(
                         x,
                         y - radius * (if (animate) animationProgress else 1f),
                         (x + cellWidth / 2),
                         y + radius * (if (animate) animationProgress else 1f),
-                        this
+                        selectedDayRectPaint!!
                     )
                 }
             }
@@ -946,15 +969,15 @@ class PrimeMonthView @JvmOverloads constructor(
                     drawCircle()
                 }
                 PickedDayState.START_OF_RANGE -> {
-                    drawCircle()
                     drawHalfRect(true)
+                    drawCircle()
                 }
                 PickedDayState.IN_RANGE -> {
                     drawRect()
                 }
                 PickedDayState.END_OF_RANGE -> {
-                    drawCircle()
                     drawHalfRect(false)
+                    drawCircle()
                 }
                 PickedDayState.NOTHING -> {
                 }
@@ -978,7 +1001,7 @@ class PrimeMonthView @JvmOverloads constructor(
                         pickedDayLabelTextColor
                     }
                     PickedDayState.IN_RANGE -> {
-                        pickedDayLabelTextColor
+                        pickedDayInRangeLabelTextColor
                     }
                     PickedDayState.END_OF_RANGE -> {
                         pickedDayLabelTextColor
@@ -1035,25 +1058,25 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     private fun onDayClicked(calendar: PrimeCalendar) {
-        var change = false
+        var hasChanged = false
         doNotInvalidate {
             when (pickType) {
                 PickType.SINGLE -> {
                     pickedSingleDayCalendar = calendar
                     toAnimateDay = calendar
-                    change = true
+                    hasChanged = true
                 }
                 PickType.RANGE_START -> {
                     if (DateUtils.isAfter(calendar, pickedRangeEndCalendar)) {
                         pickedRangeEndCalendar = null
                     }
                     pickedRangeStartCalendar = calendar
-                    change = true
+                    hasChanged = true
                 }
                 PickType.RANGE_END -> {
                     if (pickedRangeStartCalendar != null && !DateUtils.isBefore(calendar, pickedRangeStartCalendar)) {
                         pickedRangeEndCalendar = calendar
-                        change = true
+                        hasChanged = true
                     }
                 }
                 PickType.MULTIPLE -> {
@@ -1065,14 +1088,14 @@ class PrimeMonthView @JvmOverloads constructor(
                         pickedMultipleDaysMap?.put(dateString, calendar)
                     }
                     toAnimateDay = calendar
-                    change = true
+                    hasChanged = true
                 }
                 PickType.NOTHING -> {
                 }
             }
         }
 
-        notifyDayPicked(change)
+        notifyDayPicked(hasChanged)
         checkAnimatedInvalidation()
     }
 
@@ -1090,8 +1113,8 @@ class PrimeMonthView @JvmOverloads constructor(
         checkAnimatedInvalidation()
     }
 
-    private fun notifyDayPicked(change: Boolean) {
-        pickedDaysChanged = pickedDaysChanged or change
+    private fun notifyDayPicked(hasChanged: Boolean) {
+        pickedDaysChanged = pickedDaysChanged or hasChanged
         if (invalidate && pickedDaysChanged) {
             onDayPickedListener?.onDayPicked(
                 pickType,
@@ -1190,8 +1213,10 @@ class PrimeMonthView @JvmOverloads constructor(
         savedState.weekLabelTextColor = weekLabelTextColor
         savedState.dayLabelTextColor = dayLabelTextColor
         savedState.todayLabelTextColor = todayLabelTextColor
-        savedState.selectedDayLabelTextColor = pickedDayLabelTextColor
-        savedState.selectedDayCircleColor = pickedDayCircleColor
+        savedState.pickedDayLabelTextColor = pickedDayLabelTextColor
+        savedState.pickedDayInRangeLabelTextColor = pickedDayInRangeLabelTextColor
+        savedState.pickedDayCircleBackgroundColor = pickedDayCircleBackgroundColor
+        savedState.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
         savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
         savedState.monthLabelTextSize = monthLabelTextSize
         savedState.weekLabelTextSize = weekLabelTextSize
@@ -1242,8 +1267,9 @@ class PrimeMonthView @JvmOverloads constructor(
             weekLabelTextColor = savedState.weekLabelTextColor
             dayLabelTextColor = savedState.dayLabelTextColor
             todayLabelTextColor = savedState.todayLabelTextColor
-            pickedDayLabelTextColor = savedState.selectedDayLabelTextColor
-            pickedDayCircleColor = savedState.selectedDayCircleColor
+            pickedDayInRangeLabelTextColor = savedState.pickedDayInRangeLabelTextColor
+            pickedDayCircleBackgroundColor = savedState.pickedDayCircleBackgroundColor
+            pickedDayInRangeBackgroundColor = savedState.pickedDayInRangeBackgroundColor
             disabledDayLabelTextColor = savedState.disabledDayLabelTextColor
             monthLabelTextSize = savedState.monthLabelTextSize
             weekLabelTextSize = savedState.weekLabelTextSize
@@ -1288,8 +1314,10 @@ class PrimeMonthView @JvmOverloads constructor(
         internal var weekLabelTextColor: Int = 0
         internal var dayLabelTextColor: Int = 0
         internal var todayLabelTextColor: Int = 0
-        internal var selectedDayLabelTextColor: Int = 0
-        internal var selectedDayCircleColor: Int = 0
+        internal var pickedDayLabelTextColor: Int = 0
+        internal var pickedDayInRangeLabelTextColor: Int = 0
+        internal var pickedDayCircleBackgroundColor: Int = 0
+        internal var pickedDayInRangeBackgroundColor: Int = 0
         internal var disabledDayLabelTextColor: Int = 0
         internal var monthLabelTextSize: Int = 0
         internal var weekLabelTextSize: Int = 0
@@ -1328,8 +1356,10 @@ class PrimeMonthView @JvmOverloads constructor(
             weekLabelTextColor = input.readInt()
             dayLabelTextColor = input.readInt()
             todayLabelTextColor = input.readInt()
-            selectedDayLabelTextColor = input.readInt()
-            selectedDayCircleColor = input.readInt()
+            pickedDayLabelTextColor = input.readInt()
+            pickedDayInRangeLabelTextColor = input.readInt()
+            pickedDayCircleBackgroundColor = input.readInt()
+            pickedDayInRangeBackgroundColor = input.readInt()
             disabledDayLabelTextColor = input.readInt()
             monthLabelTextSize = input.readInt()
             weekLabelTextSize = input.readInt()
@@ -1368,8 +1398,10 @@ class PrimeMonthView @JvmOverloads constructor(
             out.writeInt(weekLabelTextColor)
             out.writeInt(dayLabelTextColor)
             out.writeInt(todayLabelTextColor)
-            out.writeInt(selectedDayLabelTextColor)
-            out.writeInt(selectedDayCircleColor)
+            out.writeInt(pickedDayLabelTextColor)
+            out.writeInt(pickedDayInRangeLabelTextColor)
+            out.writeInt(pickedDayCircleBackgroundColor)
+            out.writeInt(pickedDayInRangeBackgroundColor)
             out.writeInt(disabledDayLabelTextColor)
             out.writeInt(monthLabelTextSize)
             out.writeInt(weekLabelTextSize)

@@ -3,8 +3,8 @@
 [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23367-red.svg)](http://androidweekly.net/issues/issue-367)
 [![Download](https://api.bintray.com/packages/aminography/maven/PrimeDatePicker/images/download.svg) ](https://bintray.com/aminography/maven/PrimeDatePicker/_latestVersion)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1c44ee8a3a14b0e8c963c36c8e586d8)](https://app.codacy.com/manual/aminography/PrimeDatePicker?utm_source=github.com&utm_medium=referral&utm_content=aminography/PrimeDatePicker&utm_campaign=Badge_Grade_Dashboard)
-[![API](https://img.shields.io/badge/minSdkVersion-14-important.svg)](https://android-arsenal.com/api?level=14)
-  
+[![API](https://img.shields.io/badge/minSdkVersion-13-important.svg)](https://android-arsenal.com/api?level=13)
+
 First, **`PrimeDatePicker`** is a tool which provides picking a single day, multiple days, and a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
 ![](static/prime_logo.png)
 
@@ -21,7 +21,7 @@ First, **`PrimeDatePicker`** is a tool which provides picking a single day, mult
     <td><img src="static/MCDB.gif"/></td>
     <td><img src="static/RPLB.gif"/></td>
     <td><img src="static/SHLD.gif"/></td>
-    <td><img src="static/GJDD.gif"/></td>
+    <td><img src="static/GJDD2.gif"/></td>
   </tr>
 
 </table>
@@ -61,8 +61,8 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.0.4'
-    implementation 'com.aminography:primecalendar:1.2.19'
+    implementation 'com.aminography:primedatepicker:3.1.0'
+    implementation 'com.aminography:primecalendar:1.2.21'
 }
 ```
 
@@ -166,13 +166,32 @@ val themeFactory = object : DarkThemeFactory() {
     override val typefacePath: String?
         get() = "fonts/Roboto-Regular.ttf"
         
+    override val calendarViewPickedDayInRangeBackgroundColor: Int
+        get() = getColor(R.color.red100)
+
+    override val calendarViewPickedDayInRangeLabelTextColor: Int
+        get() = getColor(R.color.gray900)
+
     override val calendarViewWeekLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
             when (primeCalendar[Calendar.DAY_OF_WEEK]) {
-                Calendar.SATURDAY, 
+                Calendar.SATURDAY,
                 Calendar.SUNDAY -> String.format("%s😍", primeCalendar.weekDayNameShort)
                 else -> String.format("%s😁", primeCalendar.weekDayNameShort)
             }
+        }
+
+    override val calendarViewWeekLabelTextColors: SparseIntArray
+        get() = SparseIntArray(7).apply {
+            val red = getColor(R.color.red300)
+            val green = getColor(R.color.green400)
+            put(Calendar.SATURDAY, red)
+            put(Calendar.SUNDAY, red)
+            put(Calendar.MONDAY, green)
+            put(Calendar.TUESDAY, green)
+            put(Calendar.WEDNESDAY, green)
+            put(Calendar.THURSDAY, green)
+            put(Calendar.FRIDAY, green)
         }
         
      // Other customizations...
@@ -186,7 +205,7 @@ val themeFactory = object : DarkThemeFactory() {
   </tr>
 
   <tr>
-    <td><img src="static/theme_result.png" width="400"/></td>
+    <td><img src="static/theming_result.png" width="400"/></td>
   </tr>
 
 </table>
@@ -252,12 +271,12 @@ For example:
     android:id="@+id/calendarView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:pickedDayCircleColor="#0000FF" />
+    app:pickedDayCircleBackgroundColor="#0000FF" />
 ```
 
 > Programmatically
 ```kotlin
-calendarView.pickedDayCircleColor = Color.BLUE
+calendarView.pickedDayCircleBackgroundColor = Color.BLUE
 ```
 
 <br/>
@@ -320,7 +339,7 @@ calendarView.pickedDayCircleColor = Color.BLUE
   </tr>
   
   <tr>
-    <td><b>• pickedDayCircleColor</b></td>
+    <td><b>• pickedDayCircleBackgroundColor</b></td>
     <td>color</td>
   </tr>
   <tr>
@@ -672,6 +691,11 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
+### Version 3.1.0
+- Adding ability to change background and text color of days in selected range.
+- Improvement in japanese text and temporal names.
+- Minor bug fixed.
+
 ### Version 3.0.4
 - A minor bug fixed.
 

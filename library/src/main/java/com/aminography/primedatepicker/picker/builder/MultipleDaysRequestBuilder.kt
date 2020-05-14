@@ -22,15 +22,39 @@ class MultipleDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
     /**
      * Specifies initially picked multiple days when the date picker is shown first time.
      *
-     * @param multipleDays The list of [PrimeCalendar]s to use as the picked dates.
+     * @param pickedDays The list of [PrimeCalendar]s to use as the picked dates.
      *
      * @return current instance of [MultipleDaysRequestBuilder].
      */
-    fun initiallyPickedMultipleDays(multipleDays: List<PrimeCalendar>): MultipleDaysRequestBuilder<T> {
-        bundle.putStringArrayList("pickedMultipleDaysList", multipleDays.map {
+    fun initiallyPickedMultipleDays(pickedDays: List<PrimeCalendar>): MultipleDaysRequestBuilder<T> {
+        bundle.putStringArrayList("pickedMultipleDaysList", pickedDays.map {
             DateUtils.storeCalendar(it)!!
         } as ArrayList<String>)
         return this
     }
+
+//    /**
+//     * Specifies minimum number of days that can be picked.
+//     *
+//     * @param count The minimum number of days that can be picked.
+//     *
+//     * @return current instance of [MultipleDaysRequestBuilder].
+//     */
+//    fun minPickedDaysCount(count: Int): MultipleDaysRequestBuilder<T> {
+//        bundle.putInt("minPickedDaysCount", count)
+//        return this
+//    }
+//
+//    /**
+//     * Specifies maximum number of days that can be picked.
+//     *
+//     * @param count The maximum number of days that can be picked.
+//     *
+//     * @return current instance of [MultipleDaysRequestBuilder].
+//     */
+//    fun maxPickedDaysCount(count: Int): MultipleDaysRequestBuilder<T> {
+//        bundle.putInt("maxPickedDaysCount", count)
+//        return this
+//    }
 
 }
