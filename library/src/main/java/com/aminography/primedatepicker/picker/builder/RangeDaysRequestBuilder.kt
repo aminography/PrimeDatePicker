@@ -32,28 +32,28 @@ class RangeDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
         return this
     }
 
-    /**
-     * Specifies minimum length of range that can be picked.
-     *
-     * @param length The minimum length of range that can be picked.
-     *
-     * @return current instance of [RangeDaysRequestBuilder].
-     */
-    fun minRageLength(length: Int): RangeDaysRequestBuilder<T> {
-        bundle.putInt("minRageLength", length)
-        return this
-    }
-
-    /**
-     * Specifies maximum length of range that can be picked.
-     *
-     * @param length The maximum length of range that can be picked.
-     *
-     * @return current instance of [RangeDaysRequestBuilder].
-     */
-    fun maxRageLength(length: Int): RangeDaysRequestBuilder<T> {
-        bundle.putInt("maxRageLength", length)
-        return this
-    }
+//    /**
+//     * Specifies minimum length of range that can be picked.
+//     *
+//     * @param length The minimum length of range that can be picked.
+//     *
+//     * @return current instance of [RangeDaysRequestBuilder].
+//     */
+//    fun minRageLength(length: Int): RangeDaysRequestBuilder<T> {
+//        bundle.putInt("minRageLength", length)
+//        return this
+//    }
+//
+//    /**
+//     * Specifies maximum length of range that can be picked.
+//     *
+//     * @param length The maximum length of range that can be picked.
+//     *
+//     * @return current instance of [RangeDaysRequestBuilder].
+//     */
+//    fun maxRageLength(length: Int): RangeDaysRequestBuilder<T> {
+//        bundle.putInt("maxRageLength", length)
+//        return this
+//    }
 
 }

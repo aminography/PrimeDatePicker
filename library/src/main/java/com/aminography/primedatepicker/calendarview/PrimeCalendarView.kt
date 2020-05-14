@@ -749,16 +749,27 @@ class PrimeCalendarView @JvmOverloads constructor(
                     maxTransitionLength
                 )
 
-                val isForward = DateUtils.isBefore(current.year, current.month, year, month)
                 transitionList?.run {
+                    val isForward = DateUtils.isBefore(current.year, current.month, year, month)
                     var isLastTransitionItemRemoved = false
+                    var isFirstTransitionItemRemoved = false
+
                     if (isForward) {
                         maxDateCalendar?.let { max ->
                             val maxOffset = max.monthOffset
                             val targetOffset = year * 12 + month
                             if (maxOffset == targetOffset) {
-                                removeAt(size - 1)
+                                removeAt(size - 1) // extra next padding item
                                 isLastTransitionItemRemoved = true
+                            }
+                        }
+                    } else {
+                        minDateCalendar?.let { min ->
+                            val minOffset = min.monthOffset
+                            val targetOffset = year * 12 + month
+                            if (minOffset == targetOffset) {
+                                removeAt(0) // extra previous padding item
+                                isFirstTransitionItemRemoved = true
                             }
                         }
                     }
@@ -774,7 +785,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                         recyclerView.smoothScrollTo(if (isLastTransitionItemRemoved) size - 1 else size - 2)
                     } else {
                         recyclerView.fastScrollTo(size - 2)
-                        recyclerView.smoothScrollTo(1)
+                        recyclerView.smoothScrollTo(if (isFirstTransitionItemRemoved) 0 else 1)
                     }
                 }
             }

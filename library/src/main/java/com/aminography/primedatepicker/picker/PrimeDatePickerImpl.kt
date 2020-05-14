@@ -123,15 +123,20 @@ internal class PrimeDatePickerImpl(
                 if (it.pickType == PickType.NOTHING) {
                     it.calendarType = calendarType
 
-                    it.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))
-                        ?: CalendarFactory.newInstance(calendarType).also { calendar ->
-                            calendar.set(1, 11, 1)
-                        }
-                    it.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))
-                        ?: CalendarFactory.newInstance(calendarType).also { calendar ->
-                            calendar.set(10000, 0, 1)
-                            calendar[Calendar.DAY_OF_YEAR] -= 1
-                        }
+                    val minFeasibleDate = CalendarFactory.newInstance(calendarType).also { calendar ->
+                        calendar.set(1, 0, 1)
+                    }
+                    val maxFeasibleDate = CalendarFactory.newInstance(calendarType).also { calendar ->
+                        calendar.set(9999, 11, 29)
+                    }
+
+                    it.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))?.takeIf { min ->
+                        min.after(minFeasibleDate)
+                    } ?: minFeasibleDate
+                    
+                    it.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))?.takeIf { max ->
+                        max.before(maxFeasibleDate)
+                    } ?: maxFeasibleDate
 
                     arguments?.getStringArrayList("disabledDaysList")?.run {
                         it.disabledDaysList = map { list -> DateUtils.restoreCalendar(list)!! }

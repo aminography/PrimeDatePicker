@@ -33,28 +33,28 @@ class MultipleDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
         return this
     }
 
-    /**
-     * Specifies minimum number of days that can be picked.
-     *
-     * @param count The minimum number of days that can be picked.
-     *
-     * @return current instance of [MultipleDaysRequestBuilder].
-     */
-    fun minPickedDaysCount(count: Int): MultipleDaysRequestBuilder<T> {
-        bundle.putInt("minPickedDaysCount", count)
-        return this
-    }
-
-    /**
-     * Specifies maximum number of days that can be picked.
-     *
-     * @param count The maximum number of days that can be picked.
-     *
-     * @return current instance of [MultipleDaysRequestBuilder].
-     */
-    fun maxPickedDaysCount(count: Int): MultipleDaysRequestBuilder<T> {
-        bundle.putInt("maxPickedDaysCount", count)
-        return this
-    }
+//    /**
+//     * Specifies minimum number of days that can be picked.
+//     *
+//     * @param count The minimum number of days that can be picked.
+//     *
+//     * @return current instance of [MultipleDaysRequestBuilder].
+//     */
+//    fun minPickedDaysCount(count: Int): MultipleDaysRequestBuilder<T> {
+//        bundle.putInt("minPickedDaysCount", count)
+//        return this
+//    }
+//
+//    /**
+//     * Specifies maximum number of days that can be picked.
+//     *
+//     * @param count The maximum number of days that can be picked.
+//     *
+//     * @return current instance of [MultipleDaysRequestBuilder].
+//     */
+//    fun maxPickedDaysCount(count: Int): MultipleDaysRequestBuilder<T> {
+//        bundle.putInt("maxPickedDaysCount", count)
+//        return this
+//    }
 
 }
