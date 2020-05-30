@@ -161,7 +161,7 @@ Here is an example of how to override theme parameters in `Kotlin` as well as `J
 
 > Kotlin
 ```kotlin
-val themeFactory = object : DarkThemeFactory() {
+val themeFactory = object : LightThemeFactory() {
 
     override val typefacePath: String?
         get() = "fonts/Roboto-Regular.ttf"
