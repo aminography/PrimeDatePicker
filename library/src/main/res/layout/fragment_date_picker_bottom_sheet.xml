@@ -29,7 +29,10 @@
         android:id="@+id/selectionBarLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="6dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="2dp"
         app:layout_constraintBottom_toTopOf="@id/calendarView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/transparent"
             android:visibility="invisible"
             app:layout_behavior="com.google.android.material.transformation.FabTransformationSheetBehavior">
 
