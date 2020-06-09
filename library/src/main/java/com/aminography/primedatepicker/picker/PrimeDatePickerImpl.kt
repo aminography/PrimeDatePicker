@@ -113,7 +113,6 @@ internal class PrimeDatePickerImpl(
                     cardBackgroundImageView,
                     ColorStateList.valueOf(it.dialogBackgroundColor)
                 )
-//                circularRevealFrameLayout.setBackgroundColor(it.gotoViewBackgroundColor)
                 generateTopGradientDrawable(it.gotoViewBackgroundColor).let { drawable ->
                     circularRevealFrameLayout.setBackgroundDrawableCompat(drawable)
                 }

@@ -21,7 +21,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -52,8 +52,8 @@ ext {
     publishedGroupId = 'com.aminography'
     artifact = 'primedatepicker'
 
-    libraryVersionCode = 310
-    libraryVersion = "3.1.0"
+    libraryVersionCode = 320
+    libraryVersion = "3.2.0"
 
     libraryName = 'PrimeDatePicker'
     libraryDescription = 'PrimeDatePicker is a date picker tool.'

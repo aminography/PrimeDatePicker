@@ -61,7 +61,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.1.0'
+    implementation 'com.aminography:primedatepicker:3.2.0'
     implementation 'com.aminography:primecalendar:1.2.21'
 }
 ```
@@ -691,6 +691,9 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
+### Version 3.2.0
+- Some UI adjustments.
+
 ### Version 3.1.0
 - Adding ability to change background and text color of days in selected range.
 - Improvement in japanese text and temporal names.
