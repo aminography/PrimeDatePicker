@@ -34,9 +34,7 @@ import com.aminography.primedatepicker.picker.selection.single.SingleDaySelectio
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import com.aminography.primedatepicker.picker.theme.base.ThemeFactory
 import com.aminography.primedatepicker.picker.theme.base.applyTheme
-import com.aminography.primedatepicker.utils.DateUtils
-import com.aminography.primedatepicker.utils.findDirection
-import com.aminography.primedatepicker.utils.forceLocaleStrings
+import com.aminography.primedatepicker.utils.*
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 import kotlinx.coroutines.CoroutineScope
 import java.util.*
@@ -115,7 +113,9 @@ internal class PrimeDatePickerImpl(
                     cardBackgroundImageView,
                     ColorStateList.valueOf(it.dialogBackgroundColor)
                 )
-                circularRevealFrameLayout.setBackgroundColor(it.gotoViewBackgroundColor)
+                generateTopGradientDrawable(it.gotoViewBackgroundColor).let { drawable ->
+                    circularRevealFrameLayout.setBackgroundDrawableCompat(drawable)
+                }
             }
             typeface?.let { calendarView.typeface = it }
 
@@ -133,7 +133,7 @@ internal class PrimeDatePickerImpl(
                     it.minDateCalendar = DateUtils.restoreCalendar(arguments?.getString("minDateCalendar"))?.takeIf { min ->
                         min.after(minFeasibleDate)
                     } ?: minFeasibleDate
-                    
+
                     it.maxDateCalendar = DateUtils.restoreCalendar(arguments?.getString("maxDateCalendar"))?.takeIf { max ->
                         max.before(maxFeasibleDate)
                     } ?: maxFeasibleDate

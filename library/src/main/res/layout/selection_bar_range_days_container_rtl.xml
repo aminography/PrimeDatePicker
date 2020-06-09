@@ -16,7 +16,7 @@
         app:layout_constraintLeft_toRightOf="@id/rangeEndBackView"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/shape_round_rectangle_8" />
+        app:srcCompat="@drawable/shape_round_rectangle_6" />
 
     <View
         android:id="@+id/rangeStartBackView"

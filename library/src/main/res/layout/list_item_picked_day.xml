@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/shape_round_rectangle_8" />
+        app:srcCompat="@drawable/shape_round_rectangle_6" />
 
     <com.aminography.primedatepicker.picker.component.TwoLinesTextView
         android:id="@+id/twoLineTextView"

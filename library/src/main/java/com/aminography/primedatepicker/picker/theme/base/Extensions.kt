@@ -83,7 +83,6 @@ internal fun SelectionBarView.applyTheme(theme: SelectionBarTheme) {
 
 internal fun GotoView.applyTheme(theme: GotoViewTheme) {
     with(rootView) {
-        setBackgroundColor(theme.gotoViewBackgroundColor)
         ImageViewCompat.setImageTintList(goIconImageView, ColorStateList.valueOf(theme.gotoViewBackgroundColor))
         ImageViewCompat.setImageTintList(closeIconImageView, ColorStateList.valueOf(theme.gotoViewBackgroundColor))
 

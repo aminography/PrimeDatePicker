@@ -56,7 +56,7 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginStart="@dimen/material_size_16"
-        android:layout_marginTop="@dimen/material_size_4"
+        android:layout_marginTop="@dimen/material_size_8"
         android:layout_marginEnd="@dimen/material_size_16"
         android:alpha="0.67"
         android:paddingTop="@dimen/material_size_8"
