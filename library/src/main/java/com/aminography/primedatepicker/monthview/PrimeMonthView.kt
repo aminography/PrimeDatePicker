@@ -45,8 +45,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // Interior Variables --------------------------------------------------------------------------
 
-    private val dp = context.dp2px(1f)
-    private fun dp(value: Float) = dp.times(value).toInt()
+    private val dpUnit = context.dp2px(1f)
+
+    private val Int.dp: Float
+        get() = dpUnit.times(this.toFloat())
 
     private var monthLabelPaint: Paint? = null
     private var weekLabelPaint: Paint? = null
@@ -58,7 +60,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private var monthHeaderHeight = 0
     private var weekHeaderHeight = 0
 
-    private val defaultCellHeight = dp(36f).toFloat()
+    private val defaultCellHeight = 36.dp
     private var minCellHeight: Float = 0f
     private var cellHeight: Float = defaultCellHeight
     private var cellWidth: Float = cellHeight
@@ -87,7 +89,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private var animationProgress = 1.0f
     private val progressProperty = PropertyValuesHolder.ofFloat("PROGRESS", 1.0f, 0.75f, 1f)
 
-    private var toAnimateDay: PrimeCalendar? = null
+    private var pendingAnimateDay: PrimeCalendar? = null
 
     // Listeners -----------------------------------------------------------------------------------
 
@@ -694,7 +696,7 @@ class PrimeMonthView @JvmOverloads constructor(
             if (color != null && color != -1) color else weekLabelTextColor
         }
 
-        toAnimateDay = null
+        pendingAnimateDay = null
 
         updateToday()
         updateRowCount()
@@ -774,7 +776,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 canvas.drawCircle(
                     x,
                     paddingTop + (monthHeaderHeight / 2).toFloat(),
-                    dp(1f).toFloat(),
+                    1.dp,
                     this
                 )
             }
@@ -826,7 +828,7 @@ class PrimeMonthView @JvmOverloads constructor(
                     canvas.drawCircle(
                         x,
                         paddingTop + (monthHeaderHeight + weekHeaderHeight / 2).toFloat(),
-                        dp(1f).toFloat(),
+                        1.dp,
                         this
                     )
                 }
@@ -853,7 +855,7 @@ class PrimeMonthView @JvmOverloads constructor(
     private fun drawDayLabels(canvas: Canvas, xPositions: Array<Float>) {
         var topY: Float = (paddingTop + monthHeaderHeight + weekHeaderHeight).toFloat()
         var offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
-        val radius = min(cellWidth, cellHeight) / 2 - dp(2f)
+        val radius = min(cellWidth, cellHeight) / 2 - 2.dp
 
         for (dayOfMonth in 1..daysInMonth) {
             val y = topY + cellHeight / 2
@@ -870,7 +872,7 @@ class PrimeMonthView @JvmOverloads constructor(
                 pickedMultipleDaysMap
             )
 
-            val animate = toAnimateDay?.let {
+            val animate = pendingAnimateDay?.let {
                 it.year == year && it.month == month && it.dayOfMonth == dayOfMonth
             } ?: (pickType == PickType.RANGE_START || pickType == PickType.RANGE_END)
 
@@ -897,7 +899,7 @@ class PrimeMonthView @JvmOverloads constructor(
                     canvas.drawCircle(
                         x,
                         y,
-                        dp(1f).toFloat(),
+                        1.dp,
                         this
                     )
                 }
@@ -1063,7 +1065,7 @@ class PrimeMonthView @JvmOverloads constructor(
             when (pickType) {
                 PickType.SINGLE -> {
                     pickedSingleDayCalendar = calendar
-                    toAnimateDay = calendar
+                    pendingAnimateDay = calendar
                     hasChanged = true
                 }
                 PickType.RANGE_START -> {
@@ -1087,7 +1089,7 @@ class PrimeMonthView @JvmOverloads constructor(
                     } else {
                         pickedMultipleDaysMap?.put(dateString, calendar)
                     }
-                    toAnimateDay = calendar
+                    pendingAnimateDay = calendar
                     hasChanged = true
                 }
                 PickType.NOTHING -> {
@@ -1109,7 +1111,7 @@ class PrimeMonthView @JvmOverloads constructor(
     }
 
     fun focusOnDay(calendar: PrimeCalendar) {
-        toAnimateDay = calendar
+        pendingAnimateDay = calendar
         checkAnimatedInvalidation()
     }
 
