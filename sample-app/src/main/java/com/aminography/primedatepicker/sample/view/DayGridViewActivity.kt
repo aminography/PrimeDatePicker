@@ -16,7 +16,7 @@ import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.sample.*
 import com.aminography.primedatepicker.utils.invisible
 import com.aminography.primedatepicker.utils.visible
-import kotlinx.android.synthetic.main.activity_month_view.*
+import kotlinx.android.synthetic.main.activity_day_grid_view.*
 import kotlinx.android.synthetic.main.nav_drawer_month.view.*
 import java.util.*
 
@@ -24,20 +24,20 @@ import java.util.*
  * @author aminography
  */
 @SuppressLint("SetTextI18n")
-class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
+class DayGridViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private lateinit var navigationLayout: View
     private var calendarType = CalendarType.CIVIL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_month_view)
+        setContentView(R.layout.activity_day_grid_view)
         setSupportActionBar(toolbar)
 
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-        openDrawer()
+//        openDrawer()
 
         navigationLayout = navigationView.getHeaderView(0)
         with(navigationLayout) {
@@ -51,6 +51,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
             endRangeRadioButton.isEnabled = false
         }
 
+        monthView.developerOptionsShowGuideLines = true
         monthView.onDayPickedListener = this
         monthView.goto(CalendarFactory.newInstance(calendarType))
 

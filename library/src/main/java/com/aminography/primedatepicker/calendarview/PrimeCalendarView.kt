@@ -24,7 +24,7 @@ import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
 import com.aminography.primedatepicker.common.*
-import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_INTERPOLATOR
+import com.aminography.primedatepicker.monthview.DayGridView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_MONTH_LABEL_FORMATTER
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_WEEK_LABEL_FORMATTER
 import com.aminography.primedatepicker.utils.DateUtils
@@ -41,7 +41,7 @@ class PrimeCalendarView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,
-    @Suppress("UNUSED_PARAMETER") @StyleRes defStyleRes: Int = 0
+    @StyleRes defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr), IMonthViewHolderCallback {
 
     // Interior Variables --------------------------------------------------------------------------

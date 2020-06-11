@@ -2,7 +2,7 @@ package com.aminography.primedatepicker.monthview
 
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primedatepicker.common.PickType
-import com.aminography.primedatepicker.monthview.PrimeMonthView.PickedDayState.*
+import com.aminography.primedatepicker.monthview.PickedDayState.*
 import com.aminography.primedatepicker.utils.DateUtils
 
 
@@ -19,7 +19,7 @@ internal fun findPickedDayState(
     pickedRangeStartCalendar: PrimeCalendar?,
     pickedRangeEndCalendar: PrimeCalendar?,
     pickedMultipleDaysMap: LinkedHashMap<String, PrimeCalendar>?
-): PrimeMonthView.PickedDayState {
+): PickedDayState {
     when (pickType) {
         PickType.SINGLE -> {
             pickedSingleDayCalendar?.let { single ->

@@ -32,6 +32,29 @@
     <attr name="animateSelection" format="boolean" />
     <attr name="animationDuration" format="integer" />
 
+    <declare-styleable name="DayGridView">
+
+        <attr name="dayLabelTextColor" />
+        <attr name="todayLabelTextColor" />
+        <attr name="pickedDayLabelTextColor" />
+        <attr name="pickedDayInRangeLabelTextColor" />
+        <attr name="pickedDayCircleBackgroundColor" />
+        <attr name="pickedDayInRangeBackgroundColor" />
+        <attr name="disabledDayLabelTextColor" />
+
+        <attr name="dayLabelTextSize" />
+
+        <attr name="dayLabelVerticalPadding" />
+
+        <attr name="showTwoWeeksInLandscape" />
+
+        <attr name="calendarType" />
+
+        <attr name="animateSelection" />
+        <attr name="animationDuration" />
+
+    </declare-styleable>
+
     <declare-styleable name="PrimeMonthView">
 
         <attr name="monthLabelTextColor" />

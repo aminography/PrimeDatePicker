@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity() {
         calendarViewButton.setOnClickListener {
             startActivity(Intent(this, CalendarViewActivity::class.java))
         }
+
+        startActivity(Intent(this, DayGridViewActivity::class.java))
     }
 
 }
