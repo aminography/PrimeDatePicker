@@ -24,9 +24,9 @@ import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.calendarview.other.StartSnapHelper
 import com.aminography.primedatepicker.calendarview.other.TouchControllableRecyclerView
 import com.aminography.primedatepicker.common.*
-import com.aminography.primedatepicker.monthview.DayGridView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_MONTH_LABEL_FORMATTER
 import com.aminography.primedatepicker.monthview.PrimeMonthView.Companion.DEFAULT_WEEK_LABEL_FORMATTER
+import com.aminography.primedatepicker.monthview.SimpleMonthView.Companion.DEFAULT_INTERPOLATOR
 import com.aminography.primedatepicker.utils.DateUtils
 import com.aminography.primedatepicker.utils.findDirection
 import com.aminography.primedatepicker.utils.monthOffset

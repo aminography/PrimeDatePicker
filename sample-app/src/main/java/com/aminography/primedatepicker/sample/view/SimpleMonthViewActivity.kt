@@ -24,7 +24,7 @@ import java.util.*
  * @author aminography
  */
 @SuppressLint("SetTextI18n")
-class DayGridViewActivity : AppCompatActivity(), OnDayPickedListener {
+class SimpleMonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private lateinit var navigationLayout: View
     private var calendarType = CalendarType.CIVIL

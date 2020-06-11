@@ -28,40 +28,55 @@ class PrimeMonthView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,
     @StyleRes defStyleRes: Int = 0
-) : DayGridView(context, attrs, defStyleAttr, defStyleRes) {
+) : SimpleMonthView(context, attrs, defStyleAttr, defStyleRes) {
 
     // Interior Variables --------------------------------------------------------------------------
 
-    private var monthLabelPaint: Paint? = null
-    private var weekLabelPaint: Paint? = null
+    private val monthLabelPaint: Paint by lazy {
+        Paint().apply {
+            style = Paint.Style.FILL
+            textAlign = Paint.Align.CENTER
+            isAntiAlias = true
+            isFakeBoldText = true
+        }
+    }
+
+    private val weekLabelPaint: Paint by lazy {
+        Paint().apply {
+            style = Paint.Style.FILL
+            textAlign = Paint.Align.CENTER
+            isAntiAlias = true
+            isFakeBoldText = true
+        }
+    }
 
     private var monthHeaderHeight = 0
     private var weekHeaderHeight = 0
 
     private lateinit var monthLabel: String
     private lateinit var weekLabels: Array<String>
-    private lateinit var internalWeekLabelTextColors: Array<Int>
+    private lateinit var internalWeekLabelTextColors: IntArray
 
     // Control Variables ---------------------------------------------------------------------------
 
     var monthLabelTextColor: Int = 0
         set(value) {
             field = value
-            monthLabelPaint?.color = value
+            monthLabelPaint.color = value
             if (invalidate) invalidate()
         }
 
     var weekLabelTextColor: Int = 0
         set(value) {
             field = value
-            weekLabelPaint?.color = value
+            weekLabelPaint.color = value
             if (invalidate) invalidate()
         }
 
     var monthLabelTextSize: Int = 0
         set(value) {
             field = value
-            monthLabelPaint?.textSize = value.toFloat()
+            monthLabelPaint.textSize = value.toFloat()
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
@@ -72,7 +87,7 @@ class PrimeMonthView @JvmOverloads constructor(
     var weekLabelTextSize: Int = 0
         set(value) {
             field = value
-            weekLabelPaint?.textSize = value.toFloat()
+            weekLabelPaint.textSize = value.toFloat()
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
@@ -158,6 +173,17 @@ class PrimeMonthView @JvmOverloads constructor(
             }
             recycle()
         }
+
+        monthLabelPaint.also {
+            it.textSize = monthLabelTextSize.toFloat()
+            it.color = monthLabelTextColor
+            it.typeface = typeface
+        }
+        weekLabelPaint.also {
+            it.textSize = weekLabelTextSize.toFloat()
+            it.color = weekLabelTextColor
+            it.typeface = typeface
+        }
     }
 
     override fun calculateSizes() {
@@ -166,44 +192,20 @@ class PrimeMonthView @JvmOverloads constructor(
         weekHeaderHeight = weekLabelTextSize + weekLabelTopPadding + weekLabelBottomPadding
     }
 
-    private fun initMonthLabelPaint() {
-        monthLabelPaint = Paint().apply {
-            textSize = monthLabelTextSize.toFloat()
-            color = monthLabelTextColor
-            style = Paint.Style.FILL
-            textAlign = Paint.Align.CENTER
-            isAntiAlias = true
-            isFakeBoldText = true
-        }
-    }
-
-    private fun initWeekLabelPaint() {
-        weekLabelPaint = Paint().apply {
-            textSize = weekLabelTextSize.toFloat()
-            color = weekLabelTextColor
-            style = Paint.Style.FILL
-            textAlign = Paint.Align.CENTER
-            isAntiAlias = true
-            isFakeBoldText = true
-        }
-    }
-
-    override fun initPaints() {
-        super.initPaints()
-        initMonthLabelPaint()
-        initWeekLabelPaint()
-    }
-
     override fun applyTypeface() {
         super.applyTypeface()
-        monthLabelPaint?.typeface = typeface
-        weekLabelPaint?.typeface = typeface
+        monthLabelPaint.typeface = typeface
+        weekLabelPaint.typeface = typeface
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        if (!::monthLabel.isInitialized) {
+            val calendar = CalendarFactory.newInstance(calendarType, locale)
+            goto(calendar)
+        }
         drawMonthLabel(canvas)
-        drawWeekLabels(canvas, calculateXPositions())
+        drawWeekLabels(canvas, columnXPositions)
     }
 
     override fun setupGotoExtras() {
@@ -221,7 +223,7 @@ class PrimeMonthView @JvmOverloads constructor(
             }
         }
 
-        internalWeekLabelTextColors = Array(7) { dayOfWeek ->
+        internalWeekLabelTextColors = IntArray(7) { dayOfWeek ->
             val color = weekLabelTextColors?.get(if (dayOfWeek > 0) dayOfWeek else 7, -1)
             if (color != null && color != -1) color else weekLabelTextColor
         }
@@ -233,18 +235,14 @@ class PrimeMonthView @JvmOverloads constructor(
             (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f +
             monthLabelTopPadding
 
-        monthLabelPaint?.run {
-            y -= ((descent() + ascent()) / 2)
-        }
+        y -= ((monthLabelPaint.descent() + monthLabelPaint.ascent()) / 2)
 
-        monthLabelPaint?.run {
-            canvas.drawText(
-                monthLabel,
-                x,
-                y,
-                this
-            )
-        }
+        canvas.drawText(
+            monthLabel,
+            x,
+            y,
+            monthLabelPaint
+        )
 
         if (developerOptionsShowGuideLines) {
             Paint().apply {
@@ -286,30 +284,25 @@ class PrimeMonthView @JvmOverloads constructor(
         }
     }
 
-    private fun drawWeekLabels(canvas: Canvas, xPositions: Array<Float>) {
+    private fun drawWeekLabels(canvas: Canvas, xPositions: FloatArray) {
         var y = paddingTop +
             monthHeaderHeight +
             (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f +
             weekLabelTopPadding
 
-        weekLabelPaint?.run {
-            y -= ((descent() + ascent()) / 2)
-        }
+        y -= ((weekLabelPaint.descent() + weekLabelPaint.ascent()) / 2)
 
         for (i in 0 until columnCount) {
             val dayOfWeek = (i + firstDayOfWeek) % columnCount
             val x = xPositions[i]
 
-            weekLabelPaint?.apply {
-                color = internalWeekLabelTextColors[dayOfWeek % 7]
-            }?.run {
-                canvas.drawText(
-                    weekLabels[dayOfWeek % 7],
-                    x,
-                    y,
-                    this
-                )
-            }
+            weekLabelPaint.color = internalWeekLabelTextColors[dayOfWeek % 7]
+            canvas.drawText(
+                weekLabels[dayOfWeek % 7],
+                x,
+                y,
+                weekLabelPaint
+            )
 
             if (developerOptionsShowGuideLines) {
                 Paint().apply {
@@ -345,9 +338,9 @@ class PrimeMonthView @JvmOverloads constructor(
                 style = Paint.Style.FILL
                 alpha = 50
                 canvas.drawRect(
-                    leftSpace.toFloat(),
+                    leftGap.toFloat(),
                     paddingTop + monthHeaderHeight.toFloat(),
-                    viewWidth.toFloat() - rightSpace.toFloat(),
+                    viewWidth.toFloat() - rightGap.toFloat(),
                     paddingTop + (monthHeaderHeight + weekHeaderHeight).toFloat(),
                     this
                 )
@@ -377,14 +370,14 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private fun isMonthTouched(inputX: Float, inputY: Float): Boolean {
         return (
-            inputX < leftSpace ||
-                inputX > viewWidth - rightSpace ||
+            inputX < leftGap ||
+                inputX > viewWidth - rightGap ||
                 inputY < paddingTop ||
                 inputY > paddingTop + monthHeaderHeight
             ).not()
     }
 
-    override val topSpace: Int
+    override val topGap: Int
         get() = paddingTop + monthHeaderHeight + weekHeaderHeight
 
     // Save/Restore States -------------------------------------------------------------------------

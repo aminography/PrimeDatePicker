@@ -3,7 +3,7 @@
     <string name="title_date_picker_activity">DatePicker</string>
     <string name="title_calendar_activity">CalendarView</string>
     <string name="title_month_activity">MonthView</string>
-    <string name="title_day_grid_activity">DayGridView</string>
+    <string name="title_day_grid_activity">SimpleMonthView</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -42,12 +42,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/material_size_16"
-                android:text="This is a showcase of stand alone DayGridView."
+                android:text="This is a showcase of stand alone SimpleMonthView."
                 android:textColor="@color/gray900"
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
-            <com.aminography.primedatepicker.monthview.PrimeMonthView
+            <com.aminography.primedatepicker.monthview.SimpleMonthView
                 android:id="@+id/monthView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -32,7 +32,7 @@
     <attr name="animateSelection" format="boolean" />
     <attr name="animationDuration" format="integer" />
 
-    <declare-styleable name="DayGridView">
+    <declare-styleable name="SimpleMonthView">
 
         <attr name="dayLabelTextColor" />
         <attr name="todayLabelTextColor" />

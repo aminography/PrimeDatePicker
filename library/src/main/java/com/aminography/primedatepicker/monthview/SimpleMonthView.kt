@@ -5,10 +5,6 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Paint.Align
-import android.graphics.Paint.Style
 import android.graphics.Typeface
 import android.os.Parcel
 import android.os.Parcelable
@@ -35,7 +31,7 @@ import kotlin.math.min
  * @author aminography
  */
 @Suppress("ConstantConditionIf", "MemberVisibilityCanBePrivate", "unused")
-open class DayGridView @JvmOverloads constructor(
+open class SimpleMonthView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,
@@ -49,10 +45,6 @@ open class DayGridView @JvmOverloads constructor(
     protected val Int.dp: Float
         get() = dpUnit.times(this).toFloat()
 
-    private var dayLabelPaint: Paint? = null
-    private var selectedDayCirclePaint: Paint? = null
-    private var selectedDayRectPaint: Paint? = null
-
     protected var viewWidth = 0
         private set
     private var absoluteViewWidth = 0
@@ -62,6 +54,8 @@ open class DayGridView @JvmOverloads constructor(
     private var cellHeight: Float = defaultCellHeight
     protected var cellWidth: Float = cellHeight
         private set
+
+    protected var columnXPositions: FloatArray = floatArrayOf()
 
     private var direction = Direction.LTR
 
@@ -86,6 +80,20 @@ open class DayGridView @JvmOverloads constructor(
     private val progressProperty = PropertyValuesHolder.ofFloat("PROGRESS", 1.0f, 0.75f, 1f)
 
     private var pendingAnimateDay: PrimeCalendar? = null
+
+    private val daysGridPainter: DaysGridPainter by lazy { DaysGridPainter() }
+
+    protected open val topGap: Int
+        get() = paddingTop
+
+    protected open val bottomGap: Int
+        get() = paddingBottom
+
+    protected open val leftGap: Int
+        get() = paddingLeft
+
+    protected open val rightGap: Int
+        get() = paddingRight
 
     // Listeners -----------------------------------------------------------------------------------
 
@@ -122,14 +130,14 @@ open class DayGridView @JvmOverloads constructor(
     var pickedDayCircleBackgroundColor: Int = 0
         set(value) {
             field = value
-            initSelectedDayBackgroundPaint()
+            daysGridPainter.pickedDayCircleBackgroundColor = value
             if (invalidate) invalidate()
         }
 
     var pickedDayInRangeBackgroundColor: Int = 0
         set(value) {
             field = value
-            initSelectedDayBackgroundPaint()
+            daysGridPainter.pickedDayInRangeBackgroundColor = value
             if (invalidate) invalidate()
         }
 
@@ -142,7 +150,7 @@ open class DayGridView @JvmOverloads constructor(
     var dayLabelTextSize: Int = 0
         set(value) {
             field = value
-            dayLabelPaint?.textSize = value.toFloat()
+            daysGridPainter.dayLabelTextSize = value
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
@@ -382,7 +390,7 @@ open class DayGridView @JvmOverloads constructor(
     private var pickedDaysChanged: Boolean = false
     protected var invalidate: Boolean = true
 
-    fun doNotInvalidate(block: (DayGridView) -> Unit) {
+    fun doNotInvalidate(block: (SimpleMonthView) -> Unit) {
         val previous = invalidate
         invalidate = false
         block.invoke(this)
@@ -392,31 +400,43 @@ open class DayGridView @JvmOverloads constructor(
     // ---------------------------------------------------------------------------------------------
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.DayGridView, defStyleAttr, defStyleRes).run {
+        context.obtainStyledAttributes(attrs, R.styleable.SimpleMonthView, defStyleAttr, defStyleRes).run {
             doNotInvalidate {
-                calendarType = CalendarType.values()[getInt(R.styleable.DayGridView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
+                calendarType = CalendarType.values()[getInt(R.styleable.SimpleMonthView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
 
-                dayLabelTextColor = getColor(R.styleable.DayGridView_dayLabelTextColor, ContextCompat.getColor(context, R.color.gray900))
-                todayLabelTextColor = getColor(R.styleable.DayGridView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
-                pickedDayLabelTextColor = getColor(R.styleable.DayGridView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
-                pickedDayInRangeLabelTextColor = getColor(R.styleable.DayGridView_pickedDayInRangeLabelTextColor, ContextCompat.getColor(context, R.color.white))
-                pickedDayCircleBackgroundColor = getColor(R.styleable.DayGridView_pickedDayCircleBackgroundColor, ContextCompat.getColor(context, R.color.red300))
-                pickedDayInRangeBackgroundColor = getColor(R.styleable.DayGridView_pickedDayInRangeBackgroundColor, ContextCompat.getColor(context, R.color.red300))
-                disabledDayLabelTextColor = getColor(R.styleable.DayGridView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
+                dayLabelTextColor = getColor(R.styleable.SimpleMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.gray900))
+                todayLabelTextColor = getColor(R.styleable.SimpleMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
+                pickedDayLabelTextColor = getColor(R.styleable.SimpleMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
+                pickedDayInRangeLabelTextColor = getColor(R.styleable.SimpleMonthView_pickedDayInRangeLabelTextColor, ContextCompat.getColor(context, R.color.white))
+                pickedDayCircleBackgroundColor = getColor(R.styleable.SimpleMonthView_pickedDayCircleBackgroundColor, ContextCompat.getColor(context, R.color.red300))
+                pickedDayInRangeBackgroundColor = getColor(R.styleable.SimpleMonthView_pickedDayInRangeBackgroundColor, ContextCompat.getColor(context, R.color.red300))
+                disabledDayLabelTextColor = getColor(R.styleable.SimpleMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
 
-                dayLabelTextSize = getDimensionPixelSize(R.styleable.DayGridView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
+                dayLabelTextSize = getDimensionPixelSize(R.styleable.SimpleMonthView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
 
-                dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.DayGridView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
+                dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.SimpleMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
 
-                showTwoWeeksInLandscape = getBoolean(R.styleable.DayGridView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
+                showTwoWeeksInLandscape = getBoolean(R.styleable.SimpleMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
 
-                animateSelection = getBoolean(R.styleable.DayGridView_animateSelection, resources.getBoolean(R.bool.defaultAnimateSelection))
-                animationDuration = getInteger(R.styleable.DayGridView_animationDuration, resources.getInteger(R.integer.defaultAnimationDuration))
+                animateSelection = getBoolean(R.styleable.SimpleMonthView_animateSelection, resources.getBoolean(R.bool.defaultAnimateSelection))
+                animationDuration = getInteger(R.styleable.SimpleMonthView_animationDuration, resources.getInteger(R.integer.defaultAnimationDuration))
             }
             recycle()
         }
 
-        init()
+        daysGridPainter.also {
+            it.dayLabelTextSize = dayLabelTextSize
+            it.pickedDayCircleBackgroundColor = pickedDayCircleBackgroundColor
+            it.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
+            it.typeface = typeface
+            it.shouldAnimateDayBackground = { dayOfMonth -> shouldAnimateDayBackground(dayOfMonth) }
+            it.findPickedDayState = { dayOfMonth -> findPickedDayState(dayOfMonth) }
+            it.findDayLabelTextColor = { dayOfMonth, dayState -> findDayLabelTextColor(dayOfMonth, dayState) }
+            it.dayLabelFormatter = { dayOfMonth -> findDayLabelText(dayOfMonth) }
+        }
+
+        @Suppress("LeakingThis")
+        calculateSizes()
 
         if (isInEditMode) {
             val calendar = CalendarFactory.newInstance(calendarType, locale)
@@ -424,10 +444,8 @@ open class DayGridView @JvmOverloads constructor(
         }
     }
 
-    private fun init(){
-        calculateSizes()
-        initPaints()
-        applyTypeface()
+    protected open fun applyTypeface() {
+        daysGridPainter.typeface = typeface
     }
 
     protected open fun calculateSizes() {
@@ -446,65 +464,51 @@ open class DayGridView @JvmOverloads constructor(
         minCellHeight = dayLabelTextSize.toFloat()
         cellHeight = dayLabelTextSize + 2f * dayLabelVerticalPadding
         cellWidth = absoluteViewWidth / columnCount.toFloat()
-    }
 
-    private fun initDayLabelPaint() {
-        dayLabelPaint = Paint().apply {
-            textSize = dayLabelTextSize.toFloat()
-            color = dayLabelTextColor
-            style = Style.FILL
-            textAlign = Align.CENTER
-            isAntiAlias = true
-            isFakeBoldText = false
+        columnXPositions = FloatArray(columnCount) {
+            // RTL-ize for RTL Calendars
+            when (direction) {
+                Direction.LTR -> (2 * it + 1) * (cellWidth / 2) + leftGap
+                Direction.RTL -> (2 * (columnCount - 1 - it) + 1) * (cellWidth / 2) + leftGap
+            }
         }
-    }
-
-    private fun initSelectedDayBackgroundPaint() {
-        selectedDayCirclePaint = Paint().apply {
-            color = pickedDayCircleBackgroundColor
-            style = Style.FILL
-            textAlign = Align.CENTER
-            isAntiAlias = true
-            isFakeBoldText = true
-        }
-        selectedDayRectPaint = Paint().apply {
-            color = pickedDayInRangeBackgroundColor
-            style = Style.FILL
-            textAlign = Align.CENTER
-            isAntiAlias = true
-            isFakeBoldText = true
-        }
-    }
-
-    protected open fun initPaints() {
-        initDayLabelPaint()
-        initSelectedDayBackgroundPaint()
-    }
-
-    protected open fun applyTypeface() {
-        dayLabelPaint?.typeface = typeface
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val height = topSpace +
+        val height = topGap +
             cellHeight * rowCount +
-            bottomSpace
+            bottomGap
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height.toInt())
 
-        val maxHeight = topSpace +
+        val maxHeight = topGap +
             cellHeight * maxRowCount +
-            bottomSpace
+            bottomGap
         onHeightDetectListener?.onHeightDetect(maxHeight)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         viewWidth = w
-        absoluteViewWidth = viewWidth - leftSpace - rightSpace
+        absoluteViewWidth = viewWidth - leftGap - rightGap
         cellWidth = absoluteViewWidth / columnCount.toFloat()
+        calculateSizes()
     }
 
     override fun onDraw(canvas: Canvas) {
-        drawDayLabels(canvas, calculateXPositions())
+        val radius = min(cellWidth, cellHeight) / 2 - 2.dp
+        daysGridPainter.drawDayLabels(
+            canvas,
+            direction,
+            cellWidth,
+            cellHeight,
+            radius,
+            radius * animationProgress,
+            columnXPositions,
+            topGap + cellHeight / 2,
+            daysInMonth,
+            columnCount,
+            adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek),
+            developerOptionsShowGuideLines
+        )
     }
 
     fun goTo(calendar: PrimeCalendar) =
@@ -572,190 +576,63 @@ open class DayGridView @JvmOverloads constructor(
         return (day - firstDayOfWeek) % 7
     }
 
-    private fun drawDayLabels(canvas: Canvas, xPositions: Array<Float>) {
-        var topY: Float = topSpace.toFloat()
-        var offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
-        val radius = min(cellWidth, cellHeight) / 2 - 2.dp
-
-        for (dayOfMonth in 1..daysInMonth) {
-            val y = topY + cellHeight / 2
-            val x = xPositions[offset]
-
-            val pickedDayState = findPickedDayState(
-                year,
-                month,
-                dayOfMonth,
-                pickType,
-                pickedSingleDayCalendar,
-                pickedRangeStartCalendar,
-                pickedRangeEndCalendar,
-                pickedMultipleDaysMap
-            )
-
-            val animate = pendingAnimateDay?.let {
-                it.year == year && it.month == month && it.dayOfMonth == dayOfMonth
-            } ?: (pickType == PickType.RANGE_START || pickType == PickType.RANGE_END)
-
-            drawDayBackground(canvas, pickedDayState, x, y, radius, animate)
-            drawDayLabel(canvas, dayOfMonth, pickedDayState, x, y)
-
-            if (developerOptionsShowGuideLines) {
-                Paint().apply {
-                    isAntiAlias = true
-                    color = Color.GRAY
-                    style = Style.STROKE
-                    canvas.drawRect(
-                        x - cellWidth / 2,
-                        topY,
-                        x + cellWidth / 2,
-                        topY + cellHeight,
-                        this
-                    )
-                }
-                Paint().apply {
-                    isAntiAlias = true
-                    color = Color.RED
-                    style = Style.FILL
-                    canvas.drawCircle(
-                        x,
-                        y,
-                        1.dp,
-                        this
-                    )
-                }
-            }
-
-            offset++
-            if (offset == columnCount) {
-                offset = 0
-                topY += cellHeight
-            }
-        }
+    private fun findPickedDayState(dayOfMonth: Int): PickedDayState {
+        return findPickedDayState(
+            year,
+            month,
+            dayOfMonth,
+            pickType,
+            pickedSingleDayCalendar,
+            pickedRangeStartCalendar,
+            pickedRangeEndCalendar,
+            pickedMultipleDaysMap
+        )
     }
 
-    private fun drawDayBackground(canvas: Canvas, pickedDayState: PickedDayState, x: Float, y: Float, radius: Float, animate: Boolean) {
-        selectedDayCirclePaint?.run {
-            fun drawCircle() = canvas.drawCircle(
-                x,
-                y,
-                radius * (if (animate) animationProgress else 1f),
-                this
-            )
+    private fun shouldAnimateDayBackground(dayOfMonth: Int): Boolean {
+        return pendingAnimateDay?.let {
+            it.year == year && it.month == month && it.dayOfMonth == dayOfMonth
+        } ?: (pickType == PickType.RANGE_START || pickType == PickType.RANGE_END)
+    }
 
-            fun drawRect() = canvas.drawRect(
-                x - cellWidth / 2,
-                y - radius * (if (animate) animationProgress else 1f),
-                x + cellWidth / 2,
-                y + radius * (if (animate) animationProgress else 1f),
-                selectedDayRectPaint!!
-            )
-
-            fun drawHalfRect(isStart: Boolean) {
-                when (direction) {
-                    Direction.LTR -> if (isStart)
-                        canvas.drawRect(
-                            x,
-                            y - radius * (if (animate) animationProgress else 1f),
-                            (x + cellWidth / 2),
-                            y + radius * (if (animate) animationProgress else 1f),
-                            selectedDayRectPaint!!
-                        )
-                    else canvas.drawRect(
-                        x - cellWidth / 2,
-                        y - radius * (if (animate) animationProgress else 1f),
-                        x,
-                        y + radius * (if (animate) animationProgress else 1f),
-                        selectedDayRectPaint!!
-                    )
-                    // ---------------------
-                    Direction.RTL -> if (isStart)
-                        canvas.drawRect(
-                            x - cellWidth / 2,
-                            y - radius * (if (animate) animationProgress else 1f),
-                            x,
-                            y + radius * (if (animate) animationProgress else 1f),
-                            selectedDayRectPaint!!
-                        )
-                    else canvas.drawRect(
-                        x,
-                        y - radius * (if (animate) animationProgress else 1f),
-                        (x + cellWidth / 2),
-                        y + radius * (if (animate) animationProgress else 1f),
-                        selectedDayRectPaint!!
-                    )
-                }
-            }
-
+    private fun findDayLabelTextColor(dayOfMonth: Int, pickedDayState: PickedDayState): Int {
+        return if (isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet)) {
+            disabledDayLabelTextColor
+        } else if (pickType != PickType.NOTHING) {
             when (pickedDayState) {
-                PickedDayState.PICKED_SINGLE, PickedDayState.START_OF_RANGE_SINGLE -> {
-                    drawCircle()
+                PickedDayState.PICKED_SINGLE -> {
+                    pickedDayLabelTextColor
+                }
+                PickedDayState.START_OF_RANGE_SINGLE -> {
+                    pickedDayLabelTextColor
                 }
                 PickedDayState.START_OF_RANGE -> {
-                    drawHalfRect(true)
-                    drawCircle()
+                    pickedDayLabelTextColor
                 }
                 PickedDayState.IN_RANGE -> {
-                    drawRect()
+                    pickedDayInRangeLabelTextColor
                 }
                 PickedDayState.END_OF_RANGE -> {
-                    drawHalfRect(false)
-                    drawCircle()
+                    pickedDayLabelTextColor
                 }
                 PickedDayState.NOTHING -> {
+                    if (hasToday && dayOfMonth == todayDayOfMonth) {
+                        todayLabelTextColor
+                    } else {
+                        dayLabelTextColor
+                    }
                 }
             }
+        } else if (hasToday && dayOfMonth == todayDayOfMonth) {
+            todayLabelTextColor
+        } else {
+            dayLabelTextColor
         }
     }
 
-    private fun drawDayLabel(canvas: Canvas, dayOfMonth: Int, pickedDayState: PickedDayState, x: Float, y: Float) {
-        dayLabelPaint?.run {
-            color = if (isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet)) {
-                disabledDayLabelTextColor
-            } else if (pickType != PickType.NOTHING) {
-                when (pickedDayState) {
-                    PickedDayState.PICKED_SINGLE -> {
-                        pickedDayLabelTextColor
-                    }
-                    PickedDayState.START_OF_RANGE_SINGLE -> {
-                        pickedDayLabelTextColor
-                    }
-                    PickedDayState.START_OF_RANGE -> {
-                        pickedDayLabelTextColor
-                    }
-                    PickedDayState.IN_RANGE -> {
-                        pickedDayInRangeLabelTextColor
-                    }
-                    PickedDayState.END_OF_RANGE -> {
-                        pickedDayLabelTextColor
-                    }
-                    PickedDayState.NOTHING -> {
-                        if (hasToday && dayOfMonth == todayDayOfMonth) {
-                            todayLabelTextColor
-                        } else {
-                            dayLabelTextColor
-                        }
-                    }
-                }
-            } else if (hasToday && dayOfMonth == todayDayOfMonth) {
-                todayLabelTextColor
-            } else {
-                dayLabelTextColor
-            }
-        }
-
-        val date = dayOfMonth.localizeDigits(locale)
-
-        dayLabelPaint?.run {
-            canvas.drawText(
-                date,
-                x,
-                y - (descent() + ascent()) / 2,
-                this
-            )
-        }
+    private fun findDayLabelText(dayOfMonth: Int): String {
+        return dayOfMonth.localizeDigits(locale)
     }
-
-    protected open fun onTouchEventX(event: MotionEvent) {}
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -817,7 +694,6 @@ open class DayGridView @JvmOverloads constructor(
 
     private fun checkAnimatedInvalidation() {
         if (animateSelection) {
-//            invalidate()
             animator.start()
         } else {
             invalidate()
@@ -843,23 +719,11 @@ open class DayGridView @JvmOverloads constructor(
         }
     }
 
-    protected open val topSpace: Int
-        get() = paddingTop
-
-    protected open val bottomSpace: Int
-        get() = paddingBottom
-
-    protected open val leftSpace: Int
-        get() = paddingLeft
-
-    protected open val rightSpace: Int
-        get() = paddingRight
-
     private fun findDayByCoordinates(inputX: Float, inputY: Float): Int? {
-        if (inputX < leftSpace || inputX > viewWidth - rightSpace || inputY < topSpace) return null
+        if (inputX < leftGap || inputX > viewWidth - rightGap || inputY < topGap) return null
 
-        val row = ((inputY - topSpace) / cellHeight).toInt()
-        var column = ((inputX - leftSpace) * columnCount / absoluteViewWidth).toInt()
+        val row = ((inputY - topGap) / cellHeight).toInt()
+        var column = ((inputX - leftGap) * columnCount / absoluteViewWidth).toInt()
 
         column = when (direction) {
             Direction.LTR -> column
@@ -872,16 +736,6 @@ open class DayGridView @JvmOverloads constructor(
         return if (day < 1 || day > daysInMonth)
             null
         else day
-    }
-
-    protected fun calculateXPositions(): Array<Float> {
-        return Array(columnCount) {
-            // RTL-ize for RTL Calendars
-            when (direction) {
-                Direction.LTR -> (2 * it + 1) * (cellWidth / 2) + leftSpace
-                Direction.RTL -> (2 * (columnCount - 1 - it) + 1) * (cellWidth / 2) + leftSpace
-            }
-        }
     }
 
     private fun ifInValidRange(dayOfMonth: Int, function: () -> Unit) {
