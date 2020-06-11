@@ -494,21 +494,26 @@ open class SimpleMonthView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        val radius = min(cellWidth, cellHeight) / 2 - 2.dp
-        daysGridPainter.drawDayLabels(
-            canvas,
-            direction,
-            cellWidth,
-            cellHeight,
-            radius,
-            radius * animationProgress,
-            columnXPositions,
-            topGap + cellHeight / 2,
-            daysInMonth,
-            columnCount,
-            adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek),
-            developerOptionsShowGuideLines
-        )
+        if (year == 0 && month == 0) {
+            val calendar = CalendarFactory.newInstance(calendarType, locale)
+            goto(calendar)
+        } else {
+            val radius = min(cellWidth, cellHeight) / 2 - 2.dp
+            daysGridPainter.drawDayLabels(
+                canvas,
+                direction,
+                cellWidth,
+                cellHeight,
+                radius,
+                radius * animationProgress,
+                columnXPositions,
+                topGap + cellHeight / 2,
+                daysInMonth,
+                columnCount,
+                adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek),
+                developerOptionsShowGuideLines
+            )
+        }
     }
 
     fun goTo(calendar: PrimeCalendar) =

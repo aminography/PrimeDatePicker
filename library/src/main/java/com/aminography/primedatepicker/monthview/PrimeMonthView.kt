@@ -200,10 +200,6 @@ class PrimeMonthView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (!::monthLabel.isInitialized) {
-            val calendar = CalendarFactory.newInstance(calendarType, locale)
-            goto(calendar)
-        }
         drawMonthLabel(canvas)
         drawWeekLabels(canvas, columnXPositions)
     }
