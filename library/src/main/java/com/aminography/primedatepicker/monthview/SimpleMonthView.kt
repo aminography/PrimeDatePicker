@@ -59,8 +59,8 @@ open class SimpleMonthView @JvmOverloads constructor(
 
     private var direction = Direction.LTR
 
-    protected var month = 0
-    protected var year = 0
+    protected var month = -1
+    protected var year = -1
 
     private var hasToday = false
     private var todayDayOfMonth = -1
@@ -494,7 +494,7 @@ open class SimpleMonthView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        if (year == 0 && month == 0) {
+        if (year == -1 && month == -1) {
             val calendar = CalendarFactory.newInstance(calendarType, locale)
             goto(calendar)
         } else {
