@@ -7,8 +7,9 @@
     <attr name="todayLabelTextColor" format="color" />
     <attr name="pickedDayLabelTextColor" format="color" />
     <attr name="pickedDayInRangeLabelTextColor" format="color" />
-    <attr name="pickedDayCircleBackgroundColor" format="color" />
+    <attr name="pickedDayBackgroundColor" format="color" />
     <attr name="pickedDayInRangeBackgroundColor" format="color" />
+
     <attr name="disabledDayLabelTextColor" format="color" />
 
     <attr name="monthLabelTextSize" format="dimension" />
@@ -21,8 +22,15 @@
     <attr name="weekLabelBottomPadding" format="dimension" />
     <attr name="dayLabelVerticalPadding" format="dimension" />
 
+    <attr name="pickedDayRoundSquareCornerRadius" format="dimension" />
+
     <attr name="showTwoWeeksInLandscape" format="boolean" />
     <attr name="showBesideMonthDays" format="boolean" />
+
+    <attr name="pickedDayBackgroundShapeType" format="enum">
+        <enum name="circle" value="0" />
+        <enum name="roundSquare" value="1" />
+    </attr>
 
     <attr name="calendarType" format="enum">
         <enum name="civil" value="0" />
@@ -39,7 +47,7 @@
         <attr name="todayLabelTextColor" />
         <attr name="pickedDayLabelTextColor" />
         <attr name="pickedDayInRangeLabelTextColor" />
-        <attr name="pickedDayCircleBackgroundColor" />
+        <attr name="pickedDayBackgroundColor" />
         <attr name="pickedDayInRangeBackgroundColor" />
         <attr name="disabledDayLabelTextColor" />
 
@@ -47,9 +55,12 @@
 
         <attr name="dayLabelVerticalPadding" />
 
+        <attr name="pickedDayRoundSquareCornerRadius" />
+
         <attr name="showTwoWeeksInLandscape" />
         <attr name="showBesideMonthDays" />
 
+        <attr name="pickedDayBackgroundShapeType" />
         <attr name="calendarType" />
 
         <attr name="animateSelection" />
@@ -65,7 +76,7 @@
         <attr name="todayLabelTextColor" />
         <attr name="pickedDayLabelTextColor" />
         <attr name="pickedDayInRangeLabelTextColor" />
-        <attr name="pickedDayCircleBackgroundColor" />
+        <attr name="pickedDayBackgroundColor" />
         <attr name="pickedDayInRangeBackgroundColor" />
         <attr name="disabledDayLabelTextColor" />
 
@@ -79,9 +90,12 @@
         <attr name="weekLabelBottomPadding" />
         <attr name="dayLabelVerticalPadding" />
 
+        <attr name="pickedDayRoundSquareCornerRadius" />
+
         <attr name="showTwoWeeksInLandscape" />
         <attr name="showBesideMonthDays" />
 
+        <attr name="pickedDayBackgroundShapeType" />
         <attr name="calendarType" />
 
         <attr name="animateSelection" />
@@ -96,7 +110,7 @@
         <attr name="todayLabelTextColor" />
         <attr name="pickedDayLabelTextColor" />
         <attr name="pickedDayInRangeLabelTextColor" />
-        <attr name="pickedDayCircleBackgroundColor" />
+        <attr name="pickedDayBackgroundColor" />
         <attr name="pickedDayInRangeBackgroundColor" />
         <attr name="disabledDayLabelTextColor" />
 
@@ -110,9 +124,12 @@
         <attr name="weekLabelBottomPadding" />
         <attr name="dayLabelVerticalPadding" />
 
+        <attr name="pickedDayRoundSquareCornerRadius" />
+
         <attr name="showTwoWeeksInLandscape" />
         <attr name="showBesideMonthDays" />
 
+        <attr name="pickedDayBackgroundShapeType" />
         <attr name="calendarType" />
 
         <attr name="animateSelection" />

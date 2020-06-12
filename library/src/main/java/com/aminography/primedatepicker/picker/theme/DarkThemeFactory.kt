@@ -48,8 +48,8 @@ open class DarkThemeFactory : NormalThemeFactory() {
     override val calendarViewPickedDayInRangeLabelTextColor: Int
         get() = getColor(R.color.darkPickedDayInRangeLabelTextColor)
 
-    override val calendarViewPickedDayCircleBackgroundColor: Int
-        get() = getColor(R.color.darkPickedDayCircleBackgroundColor)
+    override val calendarViewPickedDayBackgroundColor: Int
+        get() = getColor(R.color.darkPickedDayBackgroundColor)
 
     override val calendarViewPickedDayInRangeBackgroundColor: Int
         get() = getColor(R.color.darkPickedDayInRangeBackgroundColor)

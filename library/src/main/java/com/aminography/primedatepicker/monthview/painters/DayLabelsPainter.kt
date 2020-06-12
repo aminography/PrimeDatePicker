@@ -1,9 +1,7 @@
 package com.aminography.primedatepicker.monthview.painters
 
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
+import com.aminography.primedatepicker.common.BackgroundShapeType
 import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.monthview.DayState
 
@@ -56,7 +54,7 @@ internal class DayLabelsPainter {
             dayLabelPaint.typeface = value
         }
 
-    var pickedDayCircleBackgroundColor: Int = 0
+    var pickedDayBackgroundColor: Int = 0
         set(value) {
             field = value
             selectedDayCirclePaint.color = value
@@ -67,6 +65,10 @@ internal class DayLabelsPainter {
             field = value
             selectedDayRectPaint.color = value
         }
+
+    var pickedDayBackgroundShapeType: BackgroundShapeType = BackgroundShapeType.CIRCLE
+
+    var pickedDayRoundSquareCornerRadius: Float = 0f
 
     var showBesideMonthDays: Boolean = false
 
@@ -96,6 +98,9 @@ internal class DayLabelsPainter {
                 val x = xPositions[i]
                 val dayOfMonth = daysInPreviousMonth - startingColumn + i + 1
                 drawDayLabel(canvas, x, y, dayOfMonth, DayState.BESIDE_MONTH)
+                if (developerOptionsShowGuideLines) {
+                    drawGuideLines(canvas, cellWidth, cellHeight, x, y)
+                }
             }
         }
 
@@ -124,6 +129,9 @@ internal class DayLabelsPainter {
                 val x = xPositions[column]
 
                 drawDayLabel(canvas, x, y, dayOfMonth, DayState.BESIDE_MONTH)
+                if (developerOptionsShowGuideLines) {
+                    drawGuideLines(canvas, cellWidth, cellHeight, x, y)
+                }
 
                 column++
                 if (column == columnCount) {
@@ -150,6 +158,18 @@ internal class DayLabelsPainter {
             x,
             y,
             radius,
+            selectedDayCirclePaint
+        )
+
+        fun drawRoundRect() = canvas.drawRoundRect(
+            RectF(
+                x - radius,
+                y - radius,
+                x + radius,
+                y + radius
+            ),
+            pickedDayRoundSquareCornerRadius,
+            pickedDayRoundSquareCornerRadius,
             selectedDayCirclePaint
         )
 
@@ -180,14 +200,20 @@ internal class DayLabelsPainter {
         when (dayState) {
             DayState.PICKED_SINGLE,
             DayState.START_OF_RANGE_SINGLE -> {
-                drawCircle()
+                when(pickedDayBackgroundShapeType){
+                    BackgroundShapeType.CIRCLE -> drawCircle()
+                    BackgroundShapeType.ROUND_SQUARE -> drawRoundRect()
+                }
             }
             DayState.START_OF_RANGE -> {
                 when (direction) {
                     Direction.LTR -> drawRightHalfRect()
                     Direction.RTL -> drawLeftHalfRect()
                 }
-                drawCircle()
+                when(pickedDayBackgroundShapeType){
+                    BackgroundShapeType.CIRCLE -> drawCircle()
+                    BackgroundShapeType.ROUND_SQUARE -> drawRoundRect()
+                }
             }
             DayState.IN_RANGE -> {
                 drawRect()
@@ -197,7 +223,10 @@ internal class DayLabelsPainter {
                     Direction.LTR -> drawLeftHalfRect()
                     Direction.RTL -> drawRightHalfRect()
                 }
-                drawCircle()
+                when(pickedDayBackgroundShapeType){
+                    BackgroundShapeType.CIRCLE -> drawCircle()
+                    BackgroundShapeType.ROUND_SQUARE -> drawRoundRect()
+                }
             }
             else -> {
                 // nothing!

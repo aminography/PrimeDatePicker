@@ -3,6 +3,7 @@ package com.aminography.primedatepicker.picker.theme.abs
 import android.util.SparseIntArray
 import android.view.animation.Interpolator
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
+import com.aminography.primedatepicker.common.BackgroundShapeType
 import com.aminography.primedatepicker.common.LabelFormatter
 
 /**
@@ -62,9 +63,13 @@ interface CalendarViewTheme : GeneralTheme {
 
     val calendarViewPickedDayInRangeLabelTextColor: Int
 
-    val calendarViewPickedDayCircleBackgroundColor: Int
+    val calendarViewPickedDayBackgroundColor: Int
 
     val calendarViewPickedDayInRangeBackgroundColor: Int
+
+    val pickedDayBackgroundShapeType: BackgroundShapeType
+
+    val pickedDayRoundSquareCornerRadius: Int
 
     val calendarViewDisabledDayLabelTextColor: Int
 

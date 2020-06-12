@@ -30,7 +30,7 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
         todayLabelTextColor = it.todayLabelTextColor
         pickedDayLabelTextColor = it.pickedDayLabelTextColor
         pickedDayInRangeLabelTextColor = it.pickedDayInRangeLabelTextColor
-        pickedDayCircleBackgroundColor = it.pickedDayCircleBackgroundColor
+        pickedDayBackgroundColor = it.pickedDayBackgroundColor
         pickedDayInRangeBackgroundColor = it.pickedDayInRangeBackgroundColor
         disabledDayLabelTextColor = it.disabledDayLabelTextColor
         monthLabelTextSize = it.monthLabelTextSize
@@ -48,6 +48,9 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
             it.elementPaddingRight,
             it.elementPaddingBottom
         )
+
+        pickedDayBackgroundShapeType = it.pickedDayBackgroundShapeType
+        pickedDayRoundSquareCornerRadius = it.pickedDayRoundSquareCornerRadius
 
         showTwoWeeksInLandscape = it.showTwoWeeksInLandscape
         showBesideMonthDays = it.showBesideMonthDays

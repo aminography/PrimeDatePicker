@@ -101,7 +101,7 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     todayLabelTextColor = theme.calendarViewTodayLabelTextColor
     pickedDayLabelTextColor = theme.calendarViewPickedDayLabelTextColor
     pickedDayInRangeLabelTextColor = theme.calendarViewPickedDayInRangeLabelTextColor
-    pickedDayCircleBackgroundColor = theme.calendarViewPickedDayCircleBackgroundColor
+    pickedDayBackgroundColor = theme.calendarViewPickedDayBackgroundColor
     pickedDayInRangeBackgroundColor = theme.calendarViewPickedDayInRangeBackgroundColor
     disabledDayLabelTextColor = theme.calendarViewDisabledDayLabelTextColor
     dividerColor = theme.calendarViewDividerColor
@@ -130,6 +130,9 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     elementPaddingRight = theme.calendarViewPaddingRight
     elementPaddingTop = theme.calendarViewPaddingTop
     elementPaddingBottom = theme.calendarViewPaddingBottom
+
+    pickedDayBackgroundShapeType = theme.pickedDayBackgroundShapeType
+    pickedDayRoundSquareCornerRadius = theme.pickedDayRoundSquareCornerRadius
 
     loadFactor = theme.calendarViewLoadFactor
     maxTransitionLength = theme.calendarViewMaxTransitionLength

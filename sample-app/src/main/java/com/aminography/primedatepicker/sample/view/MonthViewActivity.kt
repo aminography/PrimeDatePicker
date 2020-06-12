@@ -37,7 +37,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-        openDrawer()
+//        openDrawer()
 
         navigationLayout = navigationView.getHeaderView(0)
         with(navigationLayout) {
@@ -53,6 +53,8 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
         monthView.onDayPickedListener = this
         monthView.goto(CalendarFactory.newInstance(calendarType))
+        monthView.showBesideMonthDays = true
+        monthView.developerOptionsShowGuideLines = true
 
         initTypeface()
         initCalendarTypeSection()

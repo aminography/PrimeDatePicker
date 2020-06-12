@@ -131,10 +131,10 @@ open class SimpleMonthView @JvmOverloads constructor(
             if (invalidate) invalidate()
         }
 
-    var pickedDayCircleBackgroundColor: Int = 0
+    var pickedDayBackgroundColor: Int = 0
         set(value) {
             field = value
-            dayLabelsPainter.pickedDayCircleBackgroundColor = value
+            dayLabelsPainter.pickedDayBackgroundColor = value
             if (invalidate) invalidate()
         }
 
@@ -168,6 +168,24 @@ open class SimpleMonthView @JvmOverloads constructor(
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
+                invalidate()
+            }
+        }
+
+    var pickedDayBackgroundShapeType: BackgroundShapeType = BackgroundShapeType.CIRCLE
+        set(value) {
+            field = value
+            dayLabelsPainter.pickedDayBackgroundShapeType = value
+            if (invalidate) {
+                invalidate()
+            }
+        }
+
+    var pickedDayRoundSquareCornerRadius: Int = 0
+        set(value) {
+            field = value
+            dayLabelsPainter.pickedDayRoundSquareCornerRadius = value.toFloat()
+            if (invalidate) {
                 invalidate()
             }
         }
@@ -422,13 +440,16 @@ open class SimpleMonthView @JvmOverloads constructor(
                 todayLabelTextColor = getColor(R.styleable.SimpleMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
                 pickedDayLabelTextColor = getColor(R.styleable.SimpleMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
                 pickedDayInRangeLabelTextColor = getColor(R.styleable.SimpleMonthView_pickedDayInRangeLabelTextColor, ContextCompat.getColor(context, R.color.white))
-                pickedDayCircleBackgroundColor = getColor(R.styleable.SimpleMonthView_pickedDayCircleBackgroundColor, ContextCompat.getColor(context, R.color.red300))
+                pickedDayBackgroundColor = getColor(R.styleable.SimpleMonthView_pickedDayBackgroundColor, ContextCompat.getColor(context, R.color.red300))
                 pickedDayInRangeBackgroundColor = getColor(R.styleable.SimpleMonthView_pickedDayInRangeBackgroundColor, ContextCompat.getColor(context, R.color.red300))
                 disabledDayLabelTextColor = getColor(R.styleable.SimpleMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
 
                 dayLabelTextSize = getDimensionPixelSize(R.styleable.SimpleMonthView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
 
                 dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.SimpleMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
+
+                pickedDayBackgroundShapeType = BackgroundShapeType.values()[getInt(R.styleable.SimpleMonthView_pickedDayBackgroundShapeType, DEFAULT_BACKGROUND_SHAPE_TYPE.ordinal)]
+                pickedDayRoundSquareCornerRadius = getDimensionPixelSize(R.styleable.SimpleMonthView_pickedDayRoundSquareCornerRadius, resources.getDimensionPixelSize(R.dimen.defaultPickedDayRoundSquareCornerRadius))
 
                 showTwoWeeksInLandscape = getBoolean(R.styleable.SimpleMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
                 showBesideMonthDays = getBoolean(R.styleable.SimpleMonthView_showBesideMonthDays, resources.getBoolean(R.bool.defaultShowBesideMonthDays))
@@ -441,7 +462,7 @@ open class SimpleMonthView @JvmOverloads constructor(
 
         dayLabelsPainter.also {
             it.dayLabelTextSize = dayLabelTextSize
-            it.pickedDayCircleBackgroundColor = pickedDayCircleBackgroundColor
+            it.pickedDayBackgroundColor = pickedDayBackgroundColor
             it.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
             it.typeface = typeface
             it.shouldAnimateDayBackground = { dayOfMonth -> shouldAnimateDayBackground(dayOfMonth) }
@@ -818,13 +839,16 @@ open class SimpleMonthView @JvmOverloads constructor(
         savedState.todayLabelTextColor = todayLabelTextColor
         savedState.pickedDayLabelTextColor = pickedDayLabelTextColor
         savedState.pickedDayInRangeLabelTextColor = pickedDayInRangeLabelTextColor
-        savedState.pickedDayCircleBackgroundColor = pickedDayCircleBackgroundColor
+        savedState.pickedDayBackgroundColor = pickedDayBackgroundColor
         savedState.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
         savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
         savedState.dayLabelTextSize = dayLabelTextSize
         savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
         savedState.showTwoWeeksInLandscape = showTwoWeeksInLandscape
         savedState.showBesideMonthDays = showBesideMonthDays
+
+        savedState.pickedDayBackgroundShapeType = pickedDayBackgroundShapeType.ordinal
+        savedState.pickedDayRoundSquareCornerRadius = pickedDayRoundSquareCornerRadius
 
         savedState.animateSelection = animateSelection
         savedState.animationDuration = animationDuration
@@ -864,13 +888,16 @@ open class SimpleMonthView @JvmOverloads constructor(
             dayLabelTextColor = savedState.dayLabelTextColor
             todayLabelTextColor = savedState.todayLabelTextColor
             pickedDayInRangeLabelTextColor = savedState.pickedDayInRangeLabelTextColor
-            pickedDayCircleBackgroundColor = savedState.pickedDayCircleBackgroundColor
+            pickedDayBackgroundColor = savedState.pickedDayBackgroundColor
             pickedDayInRangeBackgroundColor = savedState.pickedDayInRangeBackgroundColor
             disabledDayLabelTextColor = savedState.disabledDayLabelTextColor
             dayLabelTextSize = savedState.dayLabelTextSize
             dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
             showTwoWeeksInLandscape = savedState.showTwoWeeksInLandscape
             showBesideMonthDays = savedState.showBesideMonthDays
+
+            pickedDayBackgroundShapeType = BackgroundShapeType.values()[savedState.pickedDayBackgroundShapeType]
+            pickedDayRoundSquareCornerRadius = savedState.pickedDayRoundSquareCornerRadius
 
             animateSelection = savedState.animateSelection
             animationDuration = savedState.animationDuration
@@ -905,13 +932,16 @@ open class SimpleMonthView @JvmOverloads constructor(
         internal var todayLabelTextColor: Int = 0
         internal var pickedDayLabelTextColor: Int = 0
         internal var pickedDayInRangeLabelTextColor: Int = 0
-        internal var pickedDayCircleBackgroundColor: Int = 0
+        internal var pickedDayBackgroundColor: Int = 0
         internal var pickedDayInRangeBackgroundColor: Int = 0
         internal var disabledDayLabelTextColor: Int = 0
         internal var dayLabelTextSize: Int = 0
         internal var dayLabelVerticalPadding: Int = 0
         internal var showTwoWeeksInLandscape: Boolean = false
         internal var showBesideMonthDays: Boolean = false
+
+        internal var pickedDayBackgroundShapeType: Int = 0
+        internal var pickedDayRoundSquareCornerRadius: Int = 0
 
         internal var animateSelection: Boolean = false
         internal var animationDuration: Int = 0
@@ -940,13 +970,16 @@ open class SimpleMonthView @JvmOverloads constructor(
             todayLabelTextColor = input.readInt()
             pickedDayLabelTextColor = input.readInt()
             pickedDayInRangeLabelTextColor = input.readInt()
-            pickedDayCircleBackgroundColor = input.readInt()
+            pickedDayBackgroundColor = input.readInt()
             pickedDayInRangeBackgroundColor = input.readInt()
             disabledDayLabelTextColor = input.readInt()
             dayLabelTextSize = input.readInt()
             dayLabelVerticalPadding = input.readInt()
             showTwoWeeksInLandscape = input.readInt() == 1
             showBesideMonthDays = input.readInt() == 1
+
+            pickedDayBackgroundShapeType = input.readInt()
+            pickedDayRoundSquareCornerRadius = input.readInt()
 
             animateSelection = input.readInt() == 1
             animationDuration = input.readInt()
@@ -975,13 +1008,16 @@ open class SimpleMonthView @JvmOverloads constructor(
             out.writeInt(todayLabelTextColor)
             out.writeInt(pickedDayLabelTextColor)
             out.writeInt(pickedDayInRangeLabelTextColor)
-            out.writeInt(pickedDayCircleBackgroundColor)
+            out.writeInt(pickedDayBackgroundColor)
             out.writeInt(pickedDayInRangeBackgroundColor)
             out.writeInt(disabledDayLabelTextColor)
             out.writeInt(dayLabelTextSize)
             out.writeInt(dayLabelVerticalPadding)
             out.writeInt(if (showTwoWeeksInLandscape) 1 else 0)
             out.writeInt(if (showBesideMonthDays) 1 else 0)
+
+            out.writeInt(pickedDayBackgroundShapeType)
+            out.writeInt(pickedDayRoundSquareCornerRadius)
 
             out.writeInt(if (animateSelection) 1 else 0)
             out.writeInt(animationDuration)
@@ -998,6 +1034,7 @@ open class SimpleMonthView @JvmOverloads constructor(
 
     companion object {
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
+        private val DEFAULT_BACKGROUND_SHAPE_TYPE = BackgroundShapeType.CIRCLE
 
         val DEFAULT_INTERPOLATOR = OvershootInterpolator()
 

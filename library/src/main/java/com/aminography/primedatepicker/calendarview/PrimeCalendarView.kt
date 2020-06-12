@@ -105,7 +105,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
-    override var pickedDayCircleBackgroundColor: Int = 0
+    override var pickedDayBackgroundColor: Int = 0
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -166,6 +166,18 @@ class PrimeCalendarView @JvmOverloads constructor(
         }
 
     override var dayLabelVerticalPadding: Int = 0
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var pickedDayBackgroundShapeType: BackgroundShapeType = BackgroundShapeType.CIRCLE
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
+    override var pickedDayRoundSquareCornerRadius: Int = 0
         set(value) {
             field = value
             if (invalidate) adapter?.notifyDataSetChanged()
@@ -618,7 +630,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 todayLabelTextColor = getColor(R.styleable.PrimeCalendarView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
                 pickedDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
                 pickedDayInRangeLabelTextColor = getColor(R.styleable.PrimeCalendarView_pickedDayInRangeLabelTextColor, ContextCompat.getColor(context, R.color.white))
-                pickedDayCircleBackgroundColor = getColor(R.styleable.PrimeCalendarView_pickedDayCircleBackgroundColor, ContextCompat.getColor(context, R.color.red300))
+                pickedDayBackgroundColor = getColor(R.styleable.PrimeCalendarView_pickedDayBackgroundColor, ContextCompat.getColor(context, R.color.red300))
                 pickedDayInRangeBackgroundColor = getColor(R.styleable.PrimeCalendarView_pickedDayInRangeBackgroundColor, ContextCompat.getColor(context, R.color.red300))
                 disabledDayLabelTextColor = getColor(R.styleable.PrimeCalendarView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
 
@@ -631,6 +643,9 @@ class PrimeCalendarView @JvmOverloads constructor(
                 weekLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
                 weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
                 dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
+
+                pickedDayBackgroundShapeType = BackgroundShapeType.values()[getInt(R.styleable.PrimeCalendarView_pickedDayBackgroundShapeType, DEFAULT_BACKGROUND_SHAPE_TYPE.ordinal)]
+                pickedDayRoundSquareCornerRadius = getDimensionPixelSize(R.styleable.PrimeCalendarView_pickedDayRoundSquareCornerRadius, resources.getDimensionPixelSize(R.dimen.defaultPickedDayRoundSquareCornerRadius))
 
                 showTwoWeeksInLandscape = getBoolean(R.styleable.PrimeCalendarView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
                 showBesideMonthDays = getBoolean(R.styleable.PrimeCalendarView_showBesideMonthDays, resources.getBoolean(R.bool.defaultShowBesideMonthDays))
@@ -1092,7 +1107,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.todayLabelTextColor = todayLabelTextColor
         savedState.pickedDayLabelTextColor = pickedDayLabelTextColor
         savedState.pickedDayInRangeLabelTextColor = pickedDayInRangeLabelTextColor
-        savedState.pickedDayCircleBackgroundColor = pickedDayCircleBackgroundColor
+        savedState.pickedDayBackgroundColor = pickedDayBackgroundColor
         savedState.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
         savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
         savedState.monthLabelTextSize = monthLabelTextSize
@@ -1105,6 +1120,9 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
         savedState.showTwoWeeksInLandscape = showTwoWeeksInLandscape
         savedState.showBesideMonthDays = showBesideMonthDays
+
+        savedState.pickedDayBackgroundShapeType = pickedDayBackgroundShapeType.ordinal
+        savedState.pickedDayRoundSquareCornerRadius = pickedDayRoundSquareCornerRadius
 
         savedState.animateSelection = animateSelection
         savedState.animationDuration = animationDuration
@@ -1168,7 +1186,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             todayLabelTextColor = savedState.todayLabelTextColor
             pickedDayLabelTextColor = savedState.pickedDayLabelTextColor
             pickedDayInRangeLabelTextColor = savedState.pickedDayInRangeLabelTextColor
-            pickedDayCircleBackgroundColor = savedState.pickedDayCircleBackgroundColor
+            pickedDayBackgroundColor = savedState.pickedDayBackgroundColor
             pickedDayInRangeBackgroundColor = savedState.pickedDayInRangeBackgroundColor
             disabledDayLabelTextColor = savedState.disabledDayLabelTextColor
             monthLabelTextSize = savedState.monthLabelTextSize
@@ -1181,6 +1199,9 @@ class PrimeCalendarView @JvmOverloads constructor(
             dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
             showTwoWeeksInLandscape = savedState.showTwoWeeksInLandscape
             showBesideMonthDays = savedState.showBesideMonthDays
+
+            pickedDayBackgroundShapeType = BackgroundShapeType.values()[savedState.pickedDayBackgroundShapeType]
+            pickedDayRoundSquareCornerRadius = savedState.pickedDayRoundSquareCornerRadius
 
             animateSelection = savedState.animateSelection
             animationDuration = savedState.animationDuration
@@ -1234,7 +1255,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var todayLabelTextColor: Int = 0
         internal var pickedDayLabelTextColor: Int = 0
         internal var pickedDayInRangeLabelTextColor: Int = 0
-        internal var pickedDayCircleBackgroundColor: Int = 0
+        internal var pickedDayBackgroundColor: Int = 0
         internal var pickedDayInRangeBackgroundColor: Int = 0
         internal var disabledDayLabelTextColor: Int = 0
         internal var monthLabelTextSize: Int = 0
@@ -1247,6 +1268,9 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var dayLabelVerticalPadding: Int = 0
         internal var showTwoWeeksInLandscape: Boolean = false
         internal var showBesideMonthDays: Boolean = false
+
+        internal var pickedDayBackgroundShapeType: Int = 0
+        internal var pickedDayRoundSquareCornerRadius: Int = 0
 
         internal var animateSelection: Boolean = false
         internal var animationDuration: Int = 0
@@ -1295,7 +1319,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             todayLabelTextColor = input.readInt()
             pickedDayLabelTextColor = input.readInt()
             pickedDayInRangeLabelTextColor = input.readInt()
-            pickedDayCircleBackgroundColor = input.readInt()
+            pickedDayBackgroundColor = input.readInt()
             pickedDayInRangeBackgroundColor = input.readInt()
             disabledDayLabelTextColor = input.readInt()
             monthLabelTextSize = input.readInt()
@@ -1308,6 +1332,9 @@ class PrimeCalendarView @JvmOverloads constructor(
             dayLabelVerticalPadding = input.readInt()
             showTwoWeeksInLandscape = input.readInt() == 1
             showBesideMonthDays = input.readInt() == 1
+
+            pickedDayBackgroundShapeType = input.readInt()
+            pickedDayRoundSquareCornerRadius = input.readInt()
 
             animateSelection = input.readInt() == 1
             animationDuration = input.readInt()
@@ -1356,7 +1383,7 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(todayLabelTextColor)
             out.writeInt(pickedDayLabelTextColor)
             out.writeInt(pickedDayInRangeLabelTextColor)
-            out.writeInt(pickedDayCircleBackgroundColor)
+            out.writeInt(pickedDayBackgroundColor)
             out.writeInt(pickedDayInRangeBackgroundColor)
             out.writeInt(disabledDayLabelTextColor)
             out.writeInt(monthLabelTextSize)
@@ -1369,6 +1396,9 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(dayLabelVerticalPadding)
             out.writeInt(if (showTwoWeeksInLandscape) 1 else 0)
             out.writeInt(if (showBesideMonthDays) 1 else 0)
+
+            out.writeInt(pickedDayBackgroundShapeType)
+            out.writeInt(pickedDayRoundSquareCornerRadius)
 
             out.writeInt(if (animateSelection) 1 else 0)
             out.writeInt(animationDuration)
@@ -1385,6 +1415,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     companion object {
         private val DEFAULT_CALENDAR_TYPE = CalendarType.CIVIL
+        private val DEFAULT_BACKGROUND_SHAPE_TYPE = BackgroundShapeType.CIRCLE
         private val DEFAULT_FLING_ORIENTATION = FlingOrientation.VERTICAL
     }
 
