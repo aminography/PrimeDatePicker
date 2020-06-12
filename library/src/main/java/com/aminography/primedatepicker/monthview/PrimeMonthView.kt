@@ -3,8 +3,6 @@ package com.aminography.primedatepicker.monthview
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.AttributeSet
@@ -16,6 +14,8 @@ import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.LabelFormatter
+import com.aminography.primedatepicker.monthview.painters.MonthLabelPainter
+import com.aminography.primedatepicker.monthview.painters.WeekDayLabelsPainter
 import com.aminography.primedatepicker.utils.localizeDigits
 import java.util.*
 
@@ -32,24 +32,6 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // Interior Variables --------------------------------------------------------------------------
 
-    private val monthLabelPaint: Paint by lazy {
-        Paint().apply {
-            style = Paint.Style.FILL
-            textAlign = Paint.Align.CENTER
-            isAntiAlias = true
-            isFakeBoldText = true
-        }
-    }
-
-    private val weekLabelPaint: Paint by lazy {
-        Paint().apply {
-            style = Paint.Style.FILL
-            textAlign = Paint.Align.CENTER
-            isAntiAlias = true
-            isFakeBoldText = true
-        }
-    }
-
     private var monthHeaderHeight = 0
     private var weekHeaderHeight = 0
 
@@ -57,26 +39,29 @@ class PrimeMonthView @JvmOverloads constructor(
     private lateinit var weekLabels: Array<String>
     private lateinit var internalWeekLabelTextColors: IntArray
 
+    private val monthLabelPainter: MonthLabelPainter by lazy { MonthLabelPainter() }
+    private val weekDayLabelsPainter: WeekDayLabelsPainter by lazy { WeekDayLabelsPainter() }
+
     // Control Variables ---------------------------------------------------------------------------
 
     var monthLabelTextColor: Int = 0
         set(value) {
             field = value
-            monthLabelPaint.color = value
+            monthLabelPainter.monthLabelTextColor = value
             if (invalidate) invalidate()
         }
 
     var weekLabelTextColor: Int = 0
         set(value) {
             field = value
-            weekLabelPaint.color = value
+            weekDayLabelsPainter.weekLabelTextColor = value
             if (invalidate) invalidate()
         }
 
     var monthLabelTextSize: Int = 0
         set(value) {
             field = value
-            monthLabelPaint.textSize = value.toFloat()
+            monthLabelPainter.monthLabelTextSize = value
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
@@ -87,7 +72,7 @@ class PrimeMonthView @JvmOverloads constructor(
     var weekLabelTextSize: Int = 0
         set(value) {
             field = value
-            weekLabelPaint.textSize = value.toFloat()
+            weekDayLabelsPainter.weekLabelTextSize = value
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
@@ -174,15 +159,18 @@ class PrimeMonthView @JvmOverloads constructor(
             recycle()
         }
 
-        monthLabelPaint.also {
-            it.textSize = monthLabelTextSize.toFloat()
-            it.color = monthLabelTextColor
+        monthLabelPainter.also {
+            it.monthLabelTextSize = monthLabelTextSize
+            it.monthLabelTextColor = monthLabelTextColor
             it.typeface = typeface
         }
-        weekLabelPaint.also {
-            it.textSize = weekLabelTextSize.toFloat()
-            it.color = weekLabelTextColor
+
+        weekDayLabelsPainter.also {
+            it.weekLabelTextSize = weekLabelTextSize
+            it.weekLabelTextColor = weekLabelTextColor
             it.typeface = typeface
+            it.findWeekDayLabelTextColor = { dayOfWeek -> internalWeekLabelTextColors[dayOfWeek] }
+            it.weekDayLabelFormatter = { dayOfWeek -> weekLabels[dayOfWeek] }
         }
     }
 
@@ -194,14 +182,33 @@ class PrimeMonthView @JvmOverloads constructor(
 
     override fun applyTypeface() {
         super.applyTypeface()
-        monthLabelPaint.typeface = typeface
-        weekLabelPaint.typeface = typeface
+        monthLabelPainter.typeface = typeface
+        weekDayLabelsPainter.typeface = typeface
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        drawMonthLabel(canvas)
-        drawWeekLabels(canvas, columnXPositions)
+
+        monthLabelPainter.draw(
+            canvas,
+            absoluteViewWidth.toFloat(),
+            monthHeaderHeight.toFloat(),
+            viewWidth / 2f,
+            paddingTop + monthHeaderHeight / 2f,
+            monthLabel,
+            developerOptionsShowGuideLines
+        )
+
+        weekDayLabelsPainter.draw(
+            canvas,
+            cellWidth,
+            weekHeaderHeight.toFloat(),
+            columnXPositions,
+            paddingTop + monthHeaderHeight + weekHeaderHeight / 2f,
+            columnCount,
+            firstDayOfWeek,
+            developerOptionsShowGuideLines
+        )
     }
 
     override fun setupGotoExtras() {
@@ -222,125 +229,6 @@ class PrimeMonthView @JvmOverloads constructor(
         internalWeekLabelTextColors = IntArray(7) { dayOfWeek ->
             val color = weekLabelTextColors?.get(if (dayOfWeek > 0) dayOfWeek else 7, -1)
             if (color != null && color != -1) color else weekLabelTextColor
-        }
-    }
-
-    private fun drawMonthLabel(canvas: Canvas) {
-        val x = viewWidth / 2f
-        var y = paddingTop +
-            (monthHeaderHeight - monthLabelTopPadding - monthLabelBottomPadding) / 2f +
-            monthLabelTopPadding
-
-        y -= ((monthLabelPaint.descent() + monthLabelPaint.ascent()) / 2)
-
-        canvas.drawText(
-            monthLabel,
-            x,
-            y,
-            monthLabelPaint
-        )
-
-        if (developerOptionsShowGuideLines) {
-            Paint().apply {
-                isAntiAlias = true
-                color = Color.RED
-                style = Paint.Style.FILL
-                alpha = 50
-                canvas.drawRect(
-                    paddingLeft.toFloat(),
-                    paddingTop.toFloat(),
-                    viewWidth - paddingRight.toFloat(),
-                    paddingTop + monthHeaderHeight.toFloat(),
-                    this
-                )
-            }
-            Paint().apply {
-                isAntiAlias = true
-                color = Color.GRAY
-                style = Paint.Style.STROKE
-                canvas.drawRect(
-                    paddingLeft.toFloat(),
-                    paddingTop.toFloat(),
-                    viewWidth - paddingRight.toFloat(),
-                    paddingTop + monthHeaderHeight.toFloat(),
-                    this
-                )
-            }
-            Paint().apply {
-                isAntiAlias = true
-                color = Color.RED
-                style = Paint.Style.FILL
-                canvas.drawCircle(
-                    x,
-                    paddingTop + (monthHeaderHeight / 2).toFloat(),
-                    1.dp,
-                    this
-                )
-            }
-        }
-    }
-
-    private fun drawWeekLabels(canvas: Canvas, xPositions: FloatArray) {
-        var y = paddingTop +
-            monthHeaderHeight +
-            (weekHeaderHeight - weekLabelTopPadding - weekLabelBottomPadding) / 2f +
-            weekLabelTopPadding
-
-        y -= ((weekLabelPaint.descent() + weekLabelPaint.ascent()) / 2)
-
-        for (i in 0 until columnCount) {
-            val dayOfWeek = (i + firstDayOfWeek) % columnCount
-            val x = xPositions[i]
-
-            weekLabelPaint.color = internalWeekLabelTextColors[dayOfWeek % 7]
-            canvas.drawText(
-                weekLabels[dayOfWeek % 7],
-                x,
-                y,
-                weekLabelPaint
-            )
-
-            if (developerOptionsShowGuideLines) {
-                Paint().apply {
-                    isAntiAlias = true
-                    color = Color.GRAY
-                    style = Paint.Style.STROKE
-                    canvas.drawRect(
-                        (x - cellWidth / 2),
-                        paddingTop + monthHeaderHeight.toFloat(),
-                        (x + cellWidth / 2),
-                        paddingTop + monthHeaderHeight + weekHeaderHeight.toFloat(),
-                        this
-                    )
-                }
-                Paint().apply {
-                    isAntiAlias = true
-                    color = Color.RED
-                    style = Paint.Style.FILL
-                    canvas.drawCircle(
-                        x,
-                        paddingTop + (monthHeaderHeight + weekHeaderHeight / 2).toFloat(),
-                        1.dp,
-                        this
-                    )
-                }
-            }
-        }
-
-        if (developerOptionsShowGuideLines) {
-            Paint().apply {
-                isAntiAlias = true
-                color = Color.GREEN
-                style = Paint.Style.FILL
-                alpha = 50
-                canvas.drawRect(
-                    leftGap.toFloat(),
-                    paddingTop + monthHeaderHeight.toFloat(),
-                    viewWidth.toFloat() - rightGap.toFloat(),
-                    paddingTop + (monthHeaderHeight + weekHeaderHeight).toFloat(),
-                    this
-                )
-            }
         }
     }
 

@@ -21,6 +21,7 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.*
+import com.aminography.primedatepicker.monthview.painters.DayLabelsPainter
 import com.aminography.primedatepicker.utils.*
 import java.util.*
 import kotlin.collections.LinkedHashMap
@@ -47,11 +48,14 @@ open class SimpleMonthView @JvmOverloads constructor(
 
     protected var viewWidth = 0
         private set
-    private var absoluteViewWidth = 0
+    protected var absoluteViewWidth = 0
+        private set
 
     private val defaultCellHeight = 36.dp
     private var minCellHeight: Float = 0f
-    private var cellHeight: Float = defaultCellHeight
+
+    protected var cellHeight: Float = defaultCellHeight
+        private set
     protected var cellWidth: Float = cellHeight
         private set
 
@@ -81,7 +85,7 @@ open class SimpleMonthView @JvmOverloads constructor(
 
     private var pendingAnimateDay: PrimeCalendar? = null
 
-    private val daysGridPainter: DaysGridPainter by lazy { DaysGridPainter() }
+    private val dayLabelsPainter: DayLabelsPainter by lazy { DayLabelsPainter() }
 
     protected open val topGap: Int
         get() = paddingTop
@@ -130,14 +134,14 @@ open class SimpleMonthView @JvmOverloads constructor(
     var pickedDayCircleBackgroundColor: Int = 0
         set(value) {
             field = value
-            daysGridPainter.pickedDayCircleBackgroundColor = value
+            dayLabelsPainter.pickedDayCircleBackgroundColor = value
             if (invalidate) invalidate()
         }
 
     var pickedDayInRangeBackgroundColor: Int = 0
         set(value) {
             field = value
-            daysGridPainter.pickedDayInRangeBackgroundColor = value
+            dayLabelsPainter.pickedDayInRangeBackgroundColor = value
             if (invalidate) invalidate()
         }
 
@@ -150,7 +154,7 @@ open class SimpleMonthView @JvmOverloads constructor(
     var dayLabelTextSize: Int = 0
         set(value) {
             field = value
-            daysGridPainter.dayLabelTextSize = value
+            dayLabelsPainter.dayLabelTextSize = value
             if (invalidate) {
                 calculateSizes()
                 requestLayout()
@@ -424,7 +428,7 @@ open class SimpleMonthView @JvmOverloads constructor(
             recycle()
         }
 
-        daysGridPainter.also {
+        dayLabelsPainter.also {
             it.dayLabelTextSize = dayLabelTextSize
             it.pickedDayCircleBackgroundColor = pickedDayCircleBackgroundColor
             it.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
@@ -445,7 +449,7 @@ open class SimpleMonthView @JvmOverloads constructor(
     }
 
     protected open fun applyTypeface() {
-        daysGridPainter.typeface = typeface
+        dayLabelsPainter.typeface = typeface
     }
 
     protected open fun calculateSizes() {
@@ -499,15 +503,15 @@ open class SimpleMonthView @JvmOverloads constructor(
             goto(calendar)
         } else {
             val radius = min(cellWidth, cellHeight) / 2 - 2.dp
-            daysGridPainter.drawDayLabels(
+            dayLabelsPainter.draw(
                 canvas,
                 direction,
                 cellWidth,
                 cellHeight,
-                radius,
-                radius * animationProgress,
                 columnXPositions,
                 topGap + cellHeight / 2,
+                radius,
+                radius * animationProgress,
                 daysInMonth,
                 columnCount,
                 adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek),

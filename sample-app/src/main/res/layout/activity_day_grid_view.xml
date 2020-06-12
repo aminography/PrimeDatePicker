@@ -47,7 +47,7 @@
                 android:textSize="@dimen/text_size_small"
                 android:textStyle="bold" />
 
-            <com.aminography.primedatepicker.monthview.SimpleMonthView
+            <com.aminography.primedatepicker.monthview.PrimeMonthView
                 android:id="@+id/monthView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

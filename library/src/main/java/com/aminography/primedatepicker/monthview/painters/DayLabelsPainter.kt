@@ -1,15 +1,16 @@
-package com.aminography.primedatepicker.monthview
+package com.aminography.primedatepicker.monthview.painters
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import com.aminography.primedatepicker.common.Direction
+import com.aminography.primedatepicker.monthview.PickedDayState
 
 /**
  * @author aminography
  */
-internal class DaysGridPainter {
+internal class DayLabelsPainter {
 
     var shouldAnimateDayBackground: ((Int) -> Boolean)? = null
     var findPickedDayState: ((Int) -> PickedDayState)? = null
@@ -67,15 +68,15 @@ internal class DaysGridPainter {
             selectedDayRectPaint.color = value
         }
 
-    fun drawDayLabels(
+    fun draw(
         canvas: Canvas,
         direction: Direction,
         cellWidth: Float,
         cellHeight: Float,
-        radius: Float,
-        animatedRadius: Float,
         xPositions: FloatArray,
         yPosition: Float,
+        radius: Float,
+        animatedRadius: Float,
         daysInMonth: Int,
         columnCount: Int,
         startingColumn: Int,
@@ -92,7 +93,7 @@ internal class DaysGridPainter {
             drawDayBackground(canvas, direction, cellWidth, x, y, targetRadius, pickedDayState)
             drawDayLabel(canvas, x, y, dayOfMonth, pickedDayState)
             if (developerOptionsShowGuideLines) {
-                drawDayLabelGuideLines(canvas, cellWidth, cellHeight, x, y)
+                drawGuideLines(canvas, cellWidth, cellHeight, x, y)
             }
 
             column++
@@ -190,7 +191,7 @@ internal class DaysGridPainter {
         }
     }
 
-    private fun drawDayLabelGuideLines(
+    private fun drawGuideLines(
         canvas: Canvas,
         cellWidth: Float,
         cellHeight: Float,
