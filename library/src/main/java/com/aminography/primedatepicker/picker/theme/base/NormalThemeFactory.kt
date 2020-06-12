@@ -21,6 +21,9 @@ abstract class NormalThemeFactory : ThemeFactory() {
     override val calendarViewShowTwoWeeksInLandscape: Boolean
         get() = getBoolean(R.bool.defaultShowTwoWeeksInLandscape)
 
+    override val calendarViewShowBesideMonthDays: Boolean
+        get() = getBoolean(R.bool.defaultShowBesideMonthDays)
+
     override val calendarViewPaddingLeft: Int
         get() = getDimension(R.dimen.defaultElementPaddingLeft)
 

@@ -181,6 +181,16 @@ open class SimpleMonthView @JvmOverloads constructor(
             }
         }
 
+    var showBesideMonthDays: Boolean = false
+        set(value) {
+            field = value
+            dayLabelsPainter.showBesideMonthDays = value
+            if (invalidate) {
+                calculateSizes()
+                invalidate()
+            }
+        }
+
     var animateSelection: Boolean = false
 
     var animationDuration: Int = 0
@@ -421,6 +431,7 @@ open class SimpleMonthView @JvmOverloads constructor(
                 dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.SimpleMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
 
                 showTwoWeeksInLandscape = getBoolean(R.styleable.SimpleMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
+                showBesideMonthDays = getBoolean(R.styleable.SimpleMonthView_showBesideMonthDays, resources.getBoolean(R.bool.defaultShowBesideMonthDays))
 
                 animateSelection = getBoolean(R.styleable.SimpleMonthView_animateSelection, resources.getBoolean(R.bool.defaultAnimateSelection))
                 animationDuration = getInteger(R.styleable.SimpleMonthView_animationDuration, resources.getInteger(R.integer.defaultAnimationDuration))
@@ -434,7 +445,7 @@ open class SimpleMonthView @JvmOverloads constructor(
             it.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
             it.typeface = typeface
             it.shouldAnimateDayBackground = { dayOfMonth -> shouldAnimateDayBackground(dayOfMonth) }
-            it.findPickedDayState = { dayOfMonth -> findPickedDayState(dayOfMonth) }
+            it.findDayState = { dayOfMonth -> findDayState(dayOfMonth) }
             it.findDayLabelTextColor = { dayOfMonth, dayState -> findDayLabelTextColor(dayOfMonth, dayState) }
             it.dayLabelFormatter = { dayOfMonth -> findDayLabelText(dayOfMonth) }
         }
@@ -503,6 +514,12 @@ open class SimpleMonthView @JvmOverloads constructor(
             goto(calendar)
         } else {
             val radius = min(cellWidth, cellHeight) / 2 - 2.dp
+            val daysInPreviousMonth = if (!showBesideMonthDays) 0 else {
+                CalendarFactory.newInstance(calendarType, locale).also {
+                    it.set(year, month, 1)
+                    it.add(Calendar.MONTH, -1)
+                }.monthLength
+            }
             dayLabelsPainter.draw(
                 canvas,
                 direction,
@@ -513,6 +530,8 @@ open class SimpleMonthView @JvmOverloads constructor(
                 radius,
                 radius * animationProgress,
                 daysInMonth,
+                daysInPreviousMonth,
+                rowCount,
                 columnCount,
                 adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek),
                 developerOptionsShowGuideLines
@@ -574,10 +593,14 @@ open class SimpleMonthView @JvmOverloads constructor(
     }
 
     private fun updateRowCount() {
-        val offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
-        val dividend = (offset + daysInMonth) / columnCount
-        val remainder = (offset + daysInMonth) % columnCount
-        rowCount = dividend + if (remainder > 0) 1 else 0
+        rowCount = if (showBesideMonthDays) {
+            maxRowCount
+        } else {
+            val offset = adjustDayOfWeekOffset(firstDayOfMonthDayOfWeek)
+            val dividend = (offset + daysInMonth) / columnCount
+            val remainder = (offset + daysInMonth) % columnCount
+            dividend + if (remainder > 0) 1 else 0
+        }
     }
 
     private fun adjustDayOfWeekOffset(dayOfWeek: Int): Int {
@@ -585,8 +608,8 @@ open class SimpleMonthView @JvmOverloads constructor(
         return (day - firstDayOfWeek) % 7
     }
 
-    private fun findPickedDayState(dayOfMonth: Int): PickedDayState {
-        return findPickedDayState(
+    private fun findDayState(dayOfMonth: Int): DayState {
+        return findDayState(
             year,
             month,
             dayOfMonth,
@@ -594,7 +617,10 @@ open class SimpleMonthView @JvmOverloads constructor(
             pickedSingleDayCalendar,
             pickedRangeStartCalendar,
             pickedRangeEndCalendar,
-            pickedMultipleDaysMap
+            pickedMultipleDaysMap,
+            minDateCalendar,
+            maxDateCalendar,
+            disabledDaysSet
         )
     }
 
@@ -604,38 +630,39 @@ open class SimpleMonthView @JvmOverloads constructor(
         } ?: (pickType == PickType.RANGE_START || pickType == PickType.RANGE_END)
     }
 
-    private fun findDayLabelTextColor(dayOfMonth: Int, pickedDayState: PickedDayState): Int {
-        return if (isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet)) {
-            disabledDayLabelTextColor
-        } else if (pickType != PickType.NOTHING) {
-            when (pickedDayState) {
-                PickedDayState.PICKED_SINGLE -> {
-                    pickedDayLabelTextColor
-                }
-                PickedDayState.START_OF_RANGE_SINGLE -> {
-                    pickedDayLabelTextColor
-                }
-                PickedDayState.START_OF_RANGE -> {
-                    pickedDayLabelTextColor
-                }
-                PickedDayState.IN_RANGE -> {
-                    pickedDayInRangeLabelTextColor
-                }
-                PickedDayState.END_OF_RANGE -> {
-                    pickedDayLabelTextColor
-                }
-                PickedDayState.NOTHING -> {
-                    if (hasToday && dayOfMonth == todayDayOfMonth) {
-                        todayLabelTextColor
-                    } else {
-                        dayLabelTextColor
-                    }
+    private fun findDayLabelTextColor(dayOfMonth: Int, dayState: DayState): Int {
+        return when (dayState) {
+            DayState.PICKED_SINGLE -> {
+                pickedDayLabelTextColor
+            }
+            DayState.START_OF_RANGE_SINGLE -> {
+                pickedDayLabelTextColor
+            }
+            DayState.START_OF_RANGE -> {
+                pickedDayLabelTextColor
+            }
+            DayState.IN_RANGE -> {
+                pickedDayInRangeLabelTextColor
+            }
+            DayState.END_OF_RANGE -> {
+                pickedDayLabelTextColor
+            }
+            DayState.NORMAL -> {
+                if (hasToday && dayOfMonth == todayDayOfMonth) {
+                    todayLabelTextColor
+                } else {
+                    dayLabelTextColor
                 }
             }
-        } else if (hasToday && dayOfMonth == todayDayOfMonth) {
-            todayLabelTextColor
-        } else {
-            dayLabelTextColor
+            DayState.DISABLED -> {
+                disabledDayLabelTextColor
+            }
+            DayState.OUT_OF_VALID_RANGE -> {
+                disabledDayLabelTextColor
+            }
+            DayState.BESIDE_MONTH -> {
+                disabledDayLabelTextColor
+            }
         }
     }
 
@@ -748,8 +775,14 @@ open class SimpleMonthView @JvmOverloads constructor(
     }
 
     private fun ifInValidRange(dayOfMonth: Int, function: () -> Unit) {
-        if (!isDayDisabled(year, month, dayOfMonth, minDateCalendar, maxDateCalendar, disabledDaysSet))
-            function.invoke()
+        when (findDayState(dayOfMonth)) {
+            DayState.DISABLED,
+            DayState.OUT_OF_VALID_RANGE,
+            DayState.BESIDE_MONTH -> {
+                // nothing!
+            }
+            else -> function.invoke()
+        }
     }
 
     interface OnHeightDetectListener {
@@ -790,7 +823,8 @@ open class SimpleMonthView @JvmOverloads constructor(
         savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
         savedState.dayLabelTextSize = dayLabelTextSize
         savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
-        savedState.twoWeeksInLandscape = showTwoWeeksInLandscape
+        savedState.showTwoWeeksInLandscape = showTwoWeeksInLandscape
+        savedState.showBesideMonthDays = showBesideMonthDays
 
         savedState.animateSelection = animateSelection
         savedState.animationDuration = animationDuration
@@ -835,7 +869,8 @@ open class SimpleMonthView @JvmOverloads constructor(
             disabledDayLabelTextColor = savedState.disabledDayLabelTextColor
             dayLabelTextSize = savedState.dayLabelTextSize
             dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
-            showTwoWeeksInLandscape = savedState.twoWeeksInLandscape
+            showTwoWeeksInLandscape = savedState.showTwoWeeksInLandscape
+            showBesideMonthDays = savedState.showBesideMonthDays
 
             animateSelection = savedState.animateSelection
             animationDuration = savedState.animationDuration
@@ -875,7 +910,8 @@ open class SimpleMonthView @JvmOverloads constructor(
         internal var disabledDayLabelTextColor: Int = 0
         internal var dayLabelTextSize: Int = 0
         internal var dayLabelVerticalPadding: Int = 0
-        internal var twoWeeksInLandscape: Boolean = false
+        internal var showTwoWeeksInLandscape: Boolean = false
+        internal var showBesideMonthDays: Boolean = false
 
         internal var animateSelection: Boolean = false
         internal var animationDuration: Int = 0
@@ -909,7 +945,8 @@ open class SimpleMonthView @JvmOverloads constructor(
             disabledDayLabelTextColor = input.readInt()
             dayLabelTextSize = input.readInt()
             dayLabelVerticalPadding = input.readInt()
-            twoWeeksInLandscape = input.readInt() == 1
+            showTwoWeeksInLandscape = input.readInt() == 1
+            showBesideMonthDays = input.readInt() == 1
 
             animateSelection = input.readInt() == 1
             animationDuration = input.readInt()
@@ -943,7 +980,8 @@ open class SimpleMonthView @JvmOverloads constructor(
             out.writeInt(disabledDayLabelTextColor)
             out.writeInt(dayLabelTextSize)
             out.writeInt(dayLabelVerticalPadding)
-            out.writeInt(if (twoWeeksInLandscape) 1 else 0)
+            out.writeInt(if (showTwoWeeksInLandscape) 1 else 0)
+            out.writeInt(if (showBesideMonthDays) 1 else 0)
 
             out.writeInt(if (animateSelection) 1 else 0)
             out.writeInt(animationDuration)

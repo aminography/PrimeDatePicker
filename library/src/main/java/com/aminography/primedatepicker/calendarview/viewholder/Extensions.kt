@@ -50,6 +50,7 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
         )
 
         showTwoWeeksInLandscape = it.showTwoWeeksInLandscape
+        showBesideMonthDays = it.showBesideMonthDays
         animateSelection = it.animateSelection
         animationDuration = it.animationDuration
         animationInterpolator = it.animationInterpolator

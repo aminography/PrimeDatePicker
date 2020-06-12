@@ -14,6 +14,7 @@
     <dimen name="defaultDayLabelVerticalPadding">10dp</dimen>
 
     <bool name="defaultShowTwoWeeksInLandscape">true</bool>
+    <bool name="defaultShowBesideMonthDays">false</bool>
 
     <bool name="defaultAnimateSelection">true</bool>
     <integer name="defaultAnimationDuration">400</integer>

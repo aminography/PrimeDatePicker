@@ -68,6 +68,7 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val elementPaddingBottom: Int
 
     val showTwoWeeksInLandscape: Boolean
+    val showBesideMonthDays: Boolean
     val animateSelection: Boolean
     val animationDuration: Int
     val animationInterpolator: Interpolator

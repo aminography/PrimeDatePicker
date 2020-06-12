@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface
 import com.aminography.primedatepicker.common.Direction
-import com.aminography.primedatepicker.monthview.PickedDayState
+import com.aminography.primedatepicker.monthview.DayState
 
 /**
  * @author aminography
@@ -13,8 +13,8 @@ import com.aminography.primedatepicker.monthview.PickedDayState
 internal class DayLabelsPainter {
 
     var shouldAnimateDayBackground: ((Int) -> Boolean)? = null
-    var findPickedDayState: ((Int) -> PickedDayState)? = null
-    var findDayLabelTextColor: ((Int, PickedDayState) -> Int)? = null
+    var findDayState: ((Int) -> DayState)? = null
+    var findDayLabelTextColor: ((Int, DayState) -> Int)? = null
     var dayLabelFormatter: ((Int) -> String)? = null
 
     private val dayLabelPaint: Paint by lazy {
@@ -68,6 +68,8 @@ internal class DayLabelsPainter {
             selectedDayRectPaint.color = value
         }
 
+    var showBesideMonthDays: Boolean = false
+
     fun draw(
         canvas: Canvas,
         direction: Direction,
@@ -78,16 +80,29 @@ internal class DayLabelsPainter {
         radius: Float,
         animatedRadius: Float,
         daysInMonth: Int,
+        daysInPreviousMonth: Int,
+        rowCount: Int,
         columnCount: Int,
         startingColumn: Int,
         developerOptionsShowGuideLines: Boolean
     ) {
+        var row = 0
         var column = startingColumn
+
         var y = yPosition
+
+        if (showBesideMonthDays) {
+            for (i in 0 until startingColumn) {
+                val x = xPositions[i]
+                val dayOfMonth = daysInPreviousMonth - startingColumn + i + 1
+                drawDayLabel(canvas, x, y, dayOfMonth, DayState.BESIDE_MONTH)
+            }
+        }
+
         for (dayOfMonth in 1..daysInMonth) {
             val x = xPositions[column]
 
-            val pickedDayState = findPickedDayState?.invoke(dayOfMonth) ?: PickedDayState.NOTHING
+            val pickedDayState = findDayState?.invoke(dayOfMonth) ?: DayState.NORMAL
             val targetRadius = if (shouldAnimateDayBackground?.invoke(dayOfMonth) == true) animatedRadius else radius
 
             drawDayBackground(canvas, direction, cellWidth, x, y, targetRadius, pickedDayState)
@@ -98,8 +113,24 @@ internal class DayLabelsPainter {
 
             column++
             if (column == columnCount) {
+                row++
                 column = 0
                 y += cellHeight
+            }
+        }
+
+        if (showBesideMonthDays) {
+            for (dayOfMonth in 1..15) {
+                val x = xPositions[column]
+
+                drawDayLabel(canvas, x, y, dayOfMonth, DayState.BESIDE_MONTH)
+
+                column++
+                if (column == columnCount) {
+                    if (++row == rowCount) break
+                    column = 0
+                    y += cellHeight
+                }
             }
         }
     }
@@ -111,7 +142,7 @@ internal class DayLabelsPainter {
         x: Float,
         y: Float,
         radius: Float,
-        pickedDayState: PickedDayState
+        dayState: DayState
     ) {
         val halfCellWidth = cellWidth / 2
 
@@ -146,29 +177,30 @@ internal class DayLabelsPainter {
             selectedDayRectPaint
         )
 
-        when (pickedDayState) {
-            PickedDayState.PICKED_SINGLE,
-            PickedDayState.START_OF_RANGE_SINGLE -> {
+        when (dayState) {
+            DayState.PICKED_SINGLE,
+            DayState.START_OF_RANGE_SINGLE -> {
                 drawCircle()
             }
-            PickedDayState.START_OF_RANGE -> {
+            DayState.START_OF_RANGE -> {
                 when (direction) {
                     Direction.LTR -> drawRightHalfRect()
                     Direction.RTL -> drawLeftHalfRect()
                 }
                 drawCircle()
             }
-            PickedDayState.IN_RANGE -> {
+            DayState.IN_RANGE -> {
                 drawRect()
             }
-            PickedDayState.END_OF_RANGE -> {
+            DayState.END_OF_RANGE -> {
                 when (direction) {
                     Direction.LTR -> drawLeftHalfRect()
                     Direction.RTL -> drawRightHalfRect()
                 }
                 drawCircle()
             }
-            PickedDayState.NOTHING -> {
+            else -> {
+                // nothing!
             }
         }
     }
@@ -178,10 +210,10 @@ internal class DayLabelsPainter {
         x: Float,
         y: Float,
         dayOfMonth: Int,
-        pickedDayState: PickedDayState
+        dayState: DayState
     ) {
         dayLabelPaint.run {
-            color = findDayLabelTextColor?.invoke(dayOfMonth, pickedDayState) ?: Color.BLACK
+            color = findDayLabelTextColor?.invoke(dayOfMonth, dayState) ?: Color.BLACK
             canvas.drawText(
                 dayLabelFormatter?.invoke(dayOfMonth) ?: "$dayOfMonth",
                 x,

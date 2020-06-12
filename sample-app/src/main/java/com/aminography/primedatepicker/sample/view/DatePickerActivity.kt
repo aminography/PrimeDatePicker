@@ -135,10 +135,14 @@ class DatePickerActivity : AppCompatActivity() {
             lightThemeRadioButton.isChecked -> object : LightThemeFactory() {
                 override val typefacePath: String?
                     get() = typeface
+                override val calendarViewShowBesideMonthDays: Boolean
+                    get() = true
             }
             else -> object : DarkThemeFactory() {
                 override val typefacePath: String?
                     get() = typeface
+                override val calendarViewShowBesideMonthDays: Boolean
+                    get() = true
             }
         }
     }

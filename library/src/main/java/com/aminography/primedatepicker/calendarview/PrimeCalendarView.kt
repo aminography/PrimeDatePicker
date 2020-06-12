@@ -177,6 +177,12 @@ class PrimeCalendarView @JvmOverloads constructor(
             if (invalidate) adapter?.notifyDataSetChanged()
         }
 
+    override var showBesideMonthDays: Boolean = false
+        set(value) {
+            field = value
+            if (invalidate) adapter?.notifyDataSetChanged()
+        }
+
     override var animateSelection: Boolean = false
         set(value) {
             field = value
@@ -627,6 +633,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                 dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.PrimeCalendarView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
 
                 showTwoWeeksInLandscape = getBoolean(R.styleable.PrimeCalendarView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
+                showBesideMonthDays = getBoolean(R.styleable.PrimeCalendarView_showBesideMonthDays, resources.getBoolean(R.bool.defaultShowBesideMonthDays))
 
                 animateSelection = getBoolean(R.styleable.PrimeCalendarView_animateSelection, resources.getBoolean(R.bool.defaultAnimateSelection))
                 animationDuration = getInteger(R.styleable.PrimeCalendarView_animationDuration, resources.getInteger(R.integer.defaultAnimationDuration))
@@ -1096,7 +1103,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         savedState.weekLabelTopPadding = weekLabelTopPadding
         savedState.weekLabelBottomPadding = weekLabelBottomPadding
         savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
-        savedState.twoWeeksInLandscape = showTwoWeeksInLandscape
+        savedState.showTwoWeeksInLandscape = showTwoWeeksInLandscape
+        savedState.showBesideMonthDays = showBesideMonthDays
 
         savedState.animateSelection = animateSelection
         savedState.animationDuration = animationDuration
@@ -1171,7 +1179,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             weekLabelTopPadding = savedState.weekLabelTopPadding
             weekLabelBottomPadding = savedState.weekLabelBottomPadding
             dayLabelVerticalPadding = savedState.dayLabelVerticalPadding
-            showTwoWeeksInLandscape = savedState.twoWeeksInLandscape
+            showTwoWeeksInLandscape = savedState.showTwoWeeksInLandscape
+            showBesideMonthDays = savedState.showBesideMonthDays
 
             animateSelection = savedState.animateSelection
             animationDuration = savedState.animationDuration
@@ -1236,7 +1245,8 @@ class PrimeCalendarView @JvmOverloads constructor(
         internal var weekLabelTopPadding: Int = 0
         internal var weekLabelBottomPadding: Int = 0
         internal var dayLabelVerticalPadding: Int = 0
-        internal var twoWeeksInLandscape: Boolean = false
+        internal var showTwoWeeksInLandscape: Boolean = false
+        internal var showBesideMonthDays: Boolean = false
 
         internal var animateSelection: Boolean = false
         internal var animationDuration: Int = 0
@@ -1296,7 +1306,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             weekLabelTopPadding = input.readInt()
             weekLabelBottomPadding = input.readInt()
             dayLabelVerticalPadding = input.readInt()
-            twoWeeksInLandscape = input.readInt() == 1
+            showTwoWeeksInLandscape = input.readInt() == 1
+            showBesideMonthDays = input.readInt() == 1
 
             animateSelection = input.readInt() == 1
             animationDuration = input.readInt()
@@ -1356,7 +1367,8 @@ class PrimeCalendarView @JvmOverloads constructor(
             out.writeInt(weekLabelTopPadding)
             out.writeInt(weekLabelBottomPadding)
             out.writeInt(dayLabelVerticalPadding)
-            out.writeInt(if (twoWeeksInLandscape) 1 else 0)
+            out.writeInt(if (showTwoWeeksInLandscape) 1 else 0)
+            out.writeInt(if (showBesideMonthDays) 1 else 0)
 
             out.writeInt(if (animateSelection) 1 else 0)
             out.writeInt(animationDuration)

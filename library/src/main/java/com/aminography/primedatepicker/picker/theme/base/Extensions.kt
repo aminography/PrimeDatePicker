@@ -116,6 +116,7 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     weekLabelBottomPadding = theme.calendarViewWeekLabelBottomPadding
     dayLabelVerticalPadding = theme.calendarViewDayLabelVerticalPadding
     showTwoWeeksInLandscape = theme.calendarViewShowTwoWeeksInLandscape
+    showBesideMonthDays = theme.calendarViewShowBesideMonthDays
     animateSelection = theme.calendarViewAnimateSelection
     animationDuration = theme.calendarViewAnimationDuration
     animationInterpolator = theme.calendarViewAnimationInterpolator

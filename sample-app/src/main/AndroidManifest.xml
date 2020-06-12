@@ -35,11 +35,6 @@
             android:label="@string/title_month_activity"
             android:theme="@style/AppTheme.NoActionBar.SmokyStatus" />
 
-        <activity
-            android:name=".view.SimpleMonthViewActivity"
-            android:label="@string/title_day_grid_activity"
-            android:theme="@style/AppTheme.NoActionBar.SmokyStatus" />
-
     </application>
 
 </manifest>

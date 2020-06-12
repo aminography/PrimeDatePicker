@@ -14,6 +14,8 @@ interface CalendarViewTheme : GeneralTheme {
 
     val calendarViewShowTwoWeeksInLandscape: Boolean
 
+    val calendarViewShowBesideMonthDays: Boolean
+
     val calendarViewPaddingLeft: Int
 
     val calendarViewPaddingRight: Int

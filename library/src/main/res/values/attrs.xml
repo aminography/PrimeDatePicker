@@ -22,6 +22,7 @@
     <attr name="dayLabelVerticalPadding" format="dimension" />
 
     <attr name="showTwoWeeksInLandscape" format="boolean" />
+    <attr name="showBesideMonthDays" format="boolean" />
 
     <attr name="calendarType" format="enum">
         <enum name="civil" value="0" />
@@ -47,6 +48,7 @@
         <attr name="dayLabelVerticalPadding" />
 
         <attr name="showTwoWeeksInLandscape" />
+        <attr name="showBesideMonthDays" />
 
         <attr name="calendarType" />
 
@@ -78,6 +80,7 @@
         <attr name="dayLabelVerticalPadding" />
 
         <attr name="showTwoWeeksInLandscape" />
+        <attr name="showBesideMonthDays" />
 
         <attr name="calendarType" />
 
@@ -108,6 +111,7 @@
         <attr name="dayLabelVerticalPadding" />
 
         <attr name="showTwoWeeksInLandscape" />
+        <attr name="showBesideMonthDays" />
 
         <attr name="calendarType" />
 
