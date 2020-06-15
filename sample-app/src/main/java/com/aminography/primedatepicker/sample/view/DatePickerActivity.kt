@@ -144,7 +144,7 @@ class DatePickerActivity : AppCompatActivity() {
                 override val typefacePath: String?
                     get() = typeface
 
-                override val calendarViewShowBesideMonthDays: Boolean
+                override val calendarViewShowAdjacentMonthDays: Boolean
                     get() = true
             }
         }

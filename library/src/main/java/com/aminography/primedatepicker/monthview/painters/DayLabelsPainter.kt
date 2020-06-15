@@ -70,7 +70,7 @@ internal class DayLabelsPainter {
 
     var pickedDayRoundSquareCornerRadius: Float = 0f
 
-    var showBesideMonthDays: Boolean = false
+    var showAdjacentMonthDays: Boolean = false
 
     fun draw(
         canvas: Canvas,
@@ -93,7 +93,7 @@ internal class DayLabelsPainter {
 
         var y = yPosition
 
-        if (showBesideMonthDays) {
+        if (showAdjacentMonthDays) {
             for (i in 0 until startingColumn) {
                 val x = xPositions[i]
                 val dayOfMonth = daysInPreviousMonth - startingColumn + i + 1
@@ -124,7 +124,7 @@ internal class DayLabelsPainter {
             }
         }
 
-        if (showBesideMonthDays) {
+        if (showAdjacentMonthDays) {
             for (dayOfMonth in 1..15) {
                 val x = xPositions[column]
 

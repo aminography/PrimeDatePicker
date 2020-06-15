@@ -57,6 +57,9 @@ open class LightThemeFactory : NormalThemeFactory() {
     override val calendarViewDisabledDayLabelTextColor: Int
         get() = getColor(R.color.lightDisabledDayLabelTextColor)
 
+    override val calendarViewAdjacentMonthDayLabelTextColor: Int
+        get() = getColor(R.color.lightAdjacentMonthDayLabelTextColor)
+
     // ------- Divider
 
     override val calendarViewDividerColor: Int

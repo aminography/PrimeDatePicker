@@ -53,7 +53,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
         monthView.onDayPickedListener = this
         monthView.goto(CalendarFactory.newInstance(calendarType))
-        monthView.showBesideMonthDays = true
+        monthView.showAdjacentMonthDays = true
         monthView.developerOptionsShowGuideLines = true
 
         initTypeface()

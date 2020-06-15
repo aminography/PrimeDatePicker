@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CalendarViewActivity::class.java))
         }
 
-        startActivity(Intent(this, MonthViewActivity::class.java))
+//        startActivity(Intent(this, MonthViewActivity::class.java))
     }
 
 }

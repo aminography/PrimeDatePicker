@@ -54,6 +54,7 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val pickedDayBackgroundColor: Int
     val pickedDayInRangeBackgroundColor: Int
     val disabledDayLabelTextColor: Int
+    val adjacentMonthDayLabelTextColor: Int
     val monthLabelTextSize: Int
     val weekLabelTextSize: Int
     val dayLabelTextSize: Int
@@ -72,7 +73,7 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val pickedDayRoundSquareCornerRadius: Int
 
     val showTwoWeeksInLandscape: Boolean
-    val showBesideMonthDays: Boolean
+    val showAdjacentMonthDays: Boolean
     val animateSelection: Boolean
     val animationDuration: Int
     val animationInterpolator: Interpolator

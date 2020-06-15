@@ -104,6 +104,7 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     pickedDayBackgroundColor = theme.calendarViewPickedDayBackgroundColor
     pickedDayInRangeBackgroundColor = theme.calendarViewPickedDayInRangeBackgroundColor
     disabledDayLabelTextColor = theme.calendarViewDisabledDayLabelTextColor
+    adjacentMonthDayLabelTextColor = theme.calendarViewAdjacentMonthDayLabelTextColor
     dividerColor = theme.calendarViewDividerColor
 
     // ------- Size & Behaviour Customizations
@@ -116,7 +117,7 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     weekLabelBottomPadding = theme.calendarViewWeekLabelBottomPadding
     dayLabelVerticalPadding = theme.calendarViewDayLabelVerticalPadding
     showTwoWeeksInLandscape = theme.calendarViewShowTwoWeeksInLandscape
-    showBesideMonthDays = theme.calendarViewShowBesideMonthDays
+    showAdjacentMonthDays = theme.calendarViewShowAdjacentMonthDays
     animateSelection = theme.calendarViewAnimateSelection
     animationDuration = theme.calendarViewAnimationDuration
     animationInterpolator = theme.calendarViewAnimationInterpolator

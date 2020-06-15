@@ -15,7 +15,7 @@ interface CalendarViewTheme : GeneralTheme {
 
     val calendarViewShowTwoWeeksInLandscape: Boolean
 
-    val calendarViewShowBesideMonthDays: Boolean
+    val calendarViewShowAdjacentMonthDays: Boolean
 
     val calendarViewPaddingLeft: Int
 
@@ -72,6 +72,8 @@ interface CalendarViewTheme : GeneralTheme {
     val pickedDayRoundSquareCornerRadius: Int
 
     val calendarViewDisabledDayLabelTextColor: Int
+
+    val calendarViewAdjacentMonthDayLabelTextColor: Int
 
     // ------- Divider
 

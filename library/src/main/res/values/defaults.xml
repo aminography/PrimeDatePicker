@@ -15,7 +15,7 @@
     <dimen name="defaultPickedDayRoundSquareCornerRadius">8dp</dimen>
 
     <bool name="defaultShowTwoWeeksInLandscape">true</bool>
-    <bool name="defaultShowBesideMonthDays">false</bool>
+    <bool name="defaultShowAdjacentMonthDays">false</bool>
 
     <bool name="defaultAnimateSelection">true</bool>
     <integer name="defaultAnimationDuration">400</integer>
@@ -57,6 +57,7 @@
     <color name="lightPickedDayBackgroundColor">@color/red300</color>
     <color name="lightPickedDayInRangeBackgroundColor">@color/red300</color>
     <color name="lightDisabledDayLabelTextColor">@color/gray400</color>
+    <color name="lightAdjacentMonthDayLabelTextColor">@color/gray400</color>
     <color name="lightDividerColor">@color/gray400</color>
 
     <color name="lightButtonBarBackgroundColor">@color/white</color>
@@ -93,6 +94,7 @@
     <color name="darkPickedDayBackgroundColor">@color/teal700</color>
     <color name="darkPickedDayInRangeBackgroundColor">@color/teal700</color>
     <color name="darkDisabledDayLabelTextColor">@color/gray600</color>
+    <color name="darkAdjacentMonthDayLabelTextColor">@color/gray600</color>
     <color name="darkDividerColor">@color/gray400</color>
 
     <color name="darkButtonBarBackgroundColor">@color/deepDark</color>
