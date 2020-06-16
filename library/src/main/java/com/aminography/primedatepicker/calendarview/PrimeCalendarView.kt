@@ -546,9 +546,12 @@ class PrimeCalendarView @JvmOverloads constructor(
     // ---------------------------------------------------------------------------------------------
 
     private fun currentItemCalendar(): PrimeCalendar? = findFirstVisibleItem()?.run {
-        val calendar = CalendarFactory.newInstance(calendarType, locale)
-        calendar.set(year, month, 1)
-        return calendar
+        CalendarFactory.newInstance(calendarType, locale).also {
+            it.set(year, month, 1)
+            if (firstDayOfWeek != -1) {
+                it.firstDayOfWeek = firstDayOfWeek
+            }
+        }
     }
 
     private fun createLayoutManager(): LinearLayoutManager = when (flingOrientation) {
