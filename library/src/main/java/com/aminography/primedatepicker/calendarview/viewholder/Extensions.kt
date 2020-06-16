@@ -30,9 +30,10 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
         todayLabelTextColor = it.todayLabelTextColor
         pickedDayLabelTextColor = it.pickedDayLabelTextColor
         pickedDayInRangeLabelTextColor = it.pickedDayInRangeLabelTextColor
-        pickedDayCircleBackgroundColor = it.pickedDayCircleBackgroundColor
+        pickedDayBackgroundColor = it.pickedDayBackgroundColor
         pickedDayInRangeBackgroundColor = it.pickedDayInRangeBackgroundColor
         disabledDayLabelTextColor = it.disabledDayLabelTextColor
+        adjacentMonthDayLabelTextColor = it.adjacentMonthDayLabelTextColor
         monthLabelTextSize = it.monthLabelTextSize
         weekLabelTextSize = it.weekLabelTextSize
         dayLabelTextSize = it.dayLabelTextSize
@@ -49,7 +50,11 @@ internal fun PrimeMonthView.configFrom(callback: IMonthViewHolderCallback?) {
             it.elementPaddingBottom
         )
 
+        pickedDayBackgroundShapeType = it.pickedDayBackgroundShapeType
+        pickedDayRoundSquareCornerRadius = it.pickedDayRoundSquareCornerRadius
+
         showTwoWeeksInLandscape = it.showTwoWeeksInLandscape
+        showAdjacentMonthDays = it.showAdjacentMonthDays
         animateSelection = it.animateSelection
         animationDuration = it.animationDuration
         animationInterpolator = it.animationInterpolator

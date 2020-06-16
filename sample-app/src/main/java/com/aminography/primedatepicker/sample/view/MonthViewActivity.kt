@@ -14,7 +14,6 @@ import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primedatepicker.common.OnDayPickedListener
 import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.sample.*
-import com.aminography.primedatepicker.utils.dp2px
 import com.aminography.primedatepicker.utils.invisible
 import com.aminography.primedatepicker.utils.visible
 import kotlinx.android.synthetic.main.activity_month_view.*
@@ -54,6 +53,8 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
 
         monthView.onDayPickedListener = this
         monthView.goto(CalendarFactory.newInstance(calendarType))
+        monthView.showAdjacentMonthDays = true
+        monthView.developerOptionsShowGuideLines = true
 
         initTypeface()
         initCalendarTypeSection()
@@ -62,10 +63,6 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         initSetToSection()
         initLocaleSection()
         initAnimationSection()
-
-        titleTextView.setOnClickListener {
-            monthView.weekLabelTextSize = dp2px(24f)
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.util.SparseIntArray
 import android.view.animation.Interpolator
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primedatepicker.common.BackgroundShapeType
 import com.aminography.primedatepicker.common.LabelFormatter
 import com.aminography.primedatepicker.common.OnDayPickedListener
 import com.aminography.primedatepicker.common.PickType
@@ -50,9 +51,10 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val todayLabelTextColor: Int
     val pickedDayLabelTextColor: Int
     val pickedDayInRangeLabelTextColor: Int
-    val pickedDayCircleBackgroundColor: Int
+    val pickedDayBackgroundColor: Int
     val pickedDayInRangeBackgroundColor: Int
     val disabledDayLabelTextColor: Int
+    val adjacentMonthDayLabelTextColor: Int
     val monthLabelTextSize: Int
     val weekLabelTextSize: Int
     val dayLabelTextSize: Int
@@ -67,7 +69,11 @@ interface IMonthViewHolderCallback : OnDayPickedListener {
     val elementPaddingTop: Int
     val elementPaddingBottom: Int
 
+    val pickedDayBackgroundShapeType: BackgroundShapeType
+    val pickedDayRoundSquareCornerRadius: Int
+
     val showTwoWeeksInLandscape: Boolean
+    val showAdjacentMonthDays: Boolean
     val animateSelection: Boolean
     val animationDuration: Int
     val animationInterpolator: Interpolator

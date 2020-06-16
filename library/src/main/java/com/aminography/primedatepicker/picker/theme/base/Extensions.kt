@@ -101,9 +101,10 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     todayLabelTextColor = theme.calendarViewTodayLabelTextColor
     pickedDayLabelTextColor = theme.calendarViewPickedDayLabelTextColor
     pickedDayInRangeLabelTextColor = theme.calendarViewPickedDayInRangeLabelTextColor
-    pickedDayCircleBackgroundColor = theme.calendarViewPickedDayCircleBackgroundColor
+    pickedDayBackgroundColor = theme.calendarViewPickedDayBackgroundColor
     pickedDayInRangeBackgroundColor = theme.calendarViewPickedDayInRangeBackgroundColor
     disabledDayLabelTextColor = theme.calendarViewDisabledDayLabelTextColor
+    adjacentMonthDayLabelTextColor = theme.calendarViewAdjacentMonthDayLabelTextColor
     dividerColor = theme.calendarViewDividerColor
 
     // ------- Size & Behaviour Customizations
@@ -116,6 +117,7 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     weekLabelBottomPadding = theme.calendarViewWeekLabelBottomPadding
     dayLabelVerticalPadding = theme.calendarViewDayLabelVerticalPadding
     showTwoWeeksInLandscape = theme.calendarViewShowTwoWeeksInLandscape
+    showAdjacentMonthDays = theme.calendarViewShowAdjacentMonthDays
     animateSelection = theme.calendarViewAnimateSelection
     animationDuration = theme.calendarViewAnimationDuration
     animationInterpolator = theme.calendarViewAnimationInterpolator
@@ -129,6 +131,9 @@ internal fun PrimeCalendarView.applyTheme(theme: CalendarViewTheme) {
     elementPaddingRight = theme.calendarViewPaddingRight
     elementPaddingTop = theme.calendarViewPaddingTop
     elementPaddingBottom = theme.calendarViewPaddingBottom
+
+    pickedDayBackgroundShapeType = theme.pickedDayBackgroundShapeType
+    pickedDayRoundSquareCornerRadius = theme.pickedDayRoundSquareCornerRadius
 
     loadFactor = theme.calendarViewLoadFactor
     maxTransitionLength = theme.calendarViewMaxTransitionLength

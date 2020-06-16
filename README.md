@@ -61,7 +61,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.1.1'
+    implementation 'com.aminography:primedatepicker:3.2.0'
     implementation 'com.aminography:primecalendar:1.3.0'
 }
 ```
@@ -271,12 +271,12 @@ For example:
     android:id="@+id/calendarView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:pickedDayCircleBackgroundColor="#0000FF" />
+    app:pickedDayBackgroundColor="#0000FF" />
 ```
 
 > Programmatically
 ```kotlin
-calendarView.pickedDayCircleBackgroundColor = Color.BLUE
+calendarView.pickedDayBackgroundColor = Color.BLUE
 ```
 
 <br/>
@@ -339,7 +339,7 @@ calendarView.pickedDayCircleBackgroundColor = Color.BLUE
   </tr>
   
   <tr>
-    <td><b>• pickedDayCircleBackgroundColor</b></td>
+    <td><b>• pickedDayBackgroundColor</b></td>
     <td>color</td>
   </tr>
   <tr>
@@ -691,6 +691,11 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
+### Version 3.2.0
+- Ability to show adjacent months days in current month (using `showAdjacentMonthDays`) and customize their text color.
+- Ability to change the background shape of selected day (using `pickedDayBackgroundShapeType` and `pickedDayRoundSquareCornerRadius`).
+- Minor improvements.
+
 ### Version 3.1.1
 - Some UI adjustments.
 

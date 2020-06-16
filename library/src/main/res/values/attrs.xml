@@ -5,11 +5,13 @@
     <attr name="weekLabelTextColor" format="color" />
     <attr name="dayLabelTextColor" format="color" />
     <attr name="todayLabelTextColor" format="color" />
+    <attr name="disabledDayLabelTextColor" format="color" />
+    <attr name="adjacentMonthDayLabelTextColor" format="color" />
     <attr name="pickedDayLabelTextColor" format="color" />
     <attr name="pickedDayInRangeLabelTextColor" format="color" />
-    <attr name="pickedDayCircleBackgroundColor" format="color" />
+    <attr name="pickedDayBackgroundColor" format="color" />
     <attr name="pickedDayInRangeBackgroundColor" format="color" />
-    <attr name="disabledDayLabelTextColor" format="color" />
+
 
     <attr name="monthLabelTextSize" format="dimension" />
     <attr name="weekLabelTextSize" format="dimension" />
@@ -21,7 +23,15 @@
     <attr name="weekLabelBottomPadding" format="dimension" />
     <attr name="dayLabelVerticalPadding" format="dimension" />
 
+    <attr name="pickedDayRoundSquareCornerRadius" format="dimension" />
+
     <attr name="showTwoWeeksInLandscape" format="boolean" />
+    <attr name="showAdjacentMonthDays" format="boolean" />
+
+    <attr name="pickedDayBackgroundShapeType" format="enum">
+        <enum name="circle" value="0" />
+        <enum name="roundSquare" value="1" />
+    </attr>
 
     <attr name="calendarType" format="enum">
         <enum name="civil" value="0" />
@@ -32,17 +42,46 @@
     <attr name="animateSelection" format="boolean" />
     <attr name="animationDuration" format="integer" />
 
+    <declare-styleable name="SimpleMonthView">
+
+        <attr name="dayLabelTextColor" />
+        <attr name="todayLabelTextColor" />
+        <attr name="disabledDayLabelTextColor" />
+        <attr name="adjacentMonthDayLabelTextColor" />
+        <attr name="pickedDayLabelTextColor" />
+        <attr name="pickedDayInRangeLabelTextColor" />
+        <attr name="pickedDayBackgroundColor" />
+        <attr name="pickedDayInRangeBackgroundColor" />
+
+        <attr name="dayLabelTextSize" />
+
+        <attr name="dayLabelVerticalPadding" />
+
+        <attr name="pickedDayRoundSquareCornerRadius" />
+
+        <attr name="showTwoWeeksInLandscape" />
+        <attr name="showAdjacentMonthDays" />
+
+        <attr name="pickedDayBackgroundShapeType" />
+        <attr name="calendarType" />
+
+        <attr name="animateSelection" />
+        <attr name="animationDuration" />
+
+    </declare-styleable>
+
     <declare-styleable name="PrimeMonthView">
 
         <attr name="monthLabelTextColor" />
         <attr name="weekLabelTextColor" />
         <attr name="dayLabelTextColor" />
         <attr name="todayLabelTextColor" />
+        <attr name="disabledDayLabelTextColor" />
+        <attr name="adjacentMonthDayLabelTextColor" />
         <attr name="pickedDayLabelTextColor" />
         <attr name="pickedDayInRangeLabelTextColor" />
-        <attr name="pickedDayCircleBackgroundColor" />
+        <attr name="pickedDayBackgroundColor" />
         <attr name="pickedDayInRangeBackgroundColor" />
-        <attr name="disabledDayLabelTextColor" />
 
         <attr name="monthLabelTextSize" />
         <attr name="weekLabelTextSize" />
@@ -54,8 +93,12 @@
         <attr name="weekLabelBottomPadding" />
         <attr name="dayLabelVerticalPadding" />
 
-        <attr name="showTwoWeeksInLandscape" />
+        <attr name="pickedDayRoundSquareCornerRadius" />
 
+        <attr name="showTwoWeeksInLandscape" />
+        <attr name="showAdjacentMonthDays" />
+
+        <attr name="pickedDayBackgroundShapeType" />
         <attr name="calendarType" />
 
         <attr name="animateSelection" />
@@ -68,11 +111,12 @@
         <attr name="weekLabelTextColor" />
         <attr name="dayLabelTextColor" />
         <attr name="todayLabelTextColor" />
+        <attr name="disabledDayLabelTextColor" />
+        <attr name="adjacentMonthDayLabelTextColor" />
         <attr name="pickedDayLabelTextColor" />
         <attr name="pickedDayInRangeLabelTextColor" />
-        <attr name="pickedDayCircleBackgroundColor" />
+        <attr name="pickedDayBackgroundColor" />
         <attr name="pickedDayInRangeBackgroundColor" />
-        <attr name="disabledDayLabelTextColor" />
 
         <attr name="monthLabelTextSize" />
         <attr name="weekLabelTextSize" />
@@ -84,8 +128,12 @@
         <attr name="weekLabelBottomPadding" />
         <attr name="dayLabelVerticalPadding" />
 
-        <attr name="showTwoWeeksInLandscape" />
+        <attr name="pickedDayRoundSquareCornerRadius" />
 
+        <attr name="showTwoWeeksInLandscape" />
+        <attr name="showAdjacentMonthDays" />
+
+        <attr name="pickedDayBackgroundShapeType" />
         <attr name="calendarType" />
 
         <attr name="animateSelection" />

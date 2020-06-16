@@ -4,6 +4,7 @@ import android.view.animation.Interpolator
 import android.view.animation.OvershootInterpolator
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.calendarview.PrimeCalendarView
+import com.aminography.primedatepicker.common.BackgroundShapeType
 import com.aminography.primedatepicker.common.LabelFormatter
 
 /**
@@ -20,6 +21,9 @@ abstract class NormalThemeFactory : ThemeFactory() {
 
     override val calendarViewShowTwoWeeksInLandscape: Boolean
         get() = getBoolean(R.bool.defaultShowTwoWeeksInLandscape)
+
+    override val calendarViewShowAdjacentMonthDays: Boolean
+        get() = getBoolean(R.bool.defaultShowAdjacentMonthDays)
 
     override val calendarViewPaddingLeft: Int
         get() = getDimension(R.dimen.defaultElementPaddingLeft)
@@ -68,6 +72,12 @@ abstract class NormalThemeFactory : ThemeFactory() {
 
     override val calendarViewDayLabelVerticalPadding: Int
         get() = getDimension(R.dimen.defaultDayLabelVerticalPadding)
+
+    override val pickedDayBackgroundShapeType: BackgroundShapeType
+        get() = BackgroundShapeType.CIRCLE
+
+    override val pickedDayRoundSquareCornerRadius: Int
+        get() = getDimension(R.dimen.defaultPickedDayRoundSquareCornerRadius)
 
     // ------- Divider
 

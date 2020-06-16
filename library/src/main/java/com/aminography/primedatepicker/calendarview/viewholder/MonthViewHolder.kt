@@ -2,12 +2,13 @@ package com.aminography.primedatepicker.calendarview.viewholder
 
 import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
+import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.common.OnDayPickedListener
 import com.aminography.primedatepicker.common.OnMonthLabelClickListener
 import com.aminography.primedatepicker.common.PickType
-import com.aminography.primedatepicker.calendarview.callback.IMonthViewHolderCallback
-import com.aminography.primedatepicker.calendarview.dataholder.MonthDataHolder
 import com.aminography.primedatepicker.monthview.PrimeMonthView
+import com.aminography.primedatepicker.monthview.SimpleMonthView
 
 /**
  * @author aminography
@@ -18,7 +19,7 @@ class MonthViewHolder(
 ) : RecyclerView.ViewHolder(monthView),
     OnDayPickedListener,
     OnMonthLabelClickListener,
-    PrimeMonthView.OnHeightDetectListener {
+    SimpleMonthView.OnHeightDetectListener {
 
     internal fun bindDataToView(dataHolder: MonthDataHolder) {
         monthView.onDayPickedListener = this@MonthViewHolder
