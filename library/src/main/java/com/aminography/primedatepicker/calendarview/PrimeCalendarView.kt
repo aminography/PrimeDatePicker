@@ -556,7 +556,7 @@ class PrimeCalendarView @JvmOverloads constructor(
 
     private fun createLayoutManager(): LinearLayoutManager = when (flingOrientation) {
         FlingOrientation.VERTICAL -> LinearLayoutManager(context)
-        FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, calendarType != CalendarType.CIVIL)
+        FlingOrientation.HORIZONTAL -> LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, direction == Direction.RTL)
     }
 
     private fun applyDividers() {
