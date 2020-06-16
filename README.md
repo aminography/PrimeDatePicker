@@ -692,8 +692,8 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 Change Log
 ----------
 ### Version 3.2.0
-- Ability to show adjacent months days in current month (using `showAdjacentMonthDays`) and customize their text color.
-- Ability to change the background shape of selected day (using `pickedDayBackgroundShapeType` and `pickedDayRoundSquareCornerRadius`).
+- Ability to show adjacent months' days in the current month (using `showAdjacentMonthDays`) and customize their text color.
+- Ability to change the background shape of the selected days (using `pickedDayBackgroundShapeType` and `pickedDayRoundSquareCornerRadius`).
 - Minor improvements.
 
 ### Version 3.1.1
