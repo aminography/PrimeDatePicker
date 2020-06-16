@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
-import com.aminography.primedatepicker.common.BackgroundShapeType
 import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
@@ -137,15 +136,15 @@ class DatePickerActivity : AppCompatActivity() {
                 override val typefacePath: String?
                     get() = typeface
 
-                override val pickedDayBackgroundShapeType: BackgroundShapeType
-                    get() = BackgroundShapeType.ROUND_SQUARE
+//                override val pickedDayBackgroundShapeType: BackgroundShapeType
+//                    get() = BackgroundShapeType.ROUND_SQUARE
             }
             else -> object : DarkThemeFactory() {
                 override val typefacePath: String?
                     get() = typeface
 
-                override val calendarViewShowAdjacentMonthDays: Boolean
-                    get() = true
+//                override val calendarViewShowAdjacentMonthDays: Boolean
+//                    get() = true
             }
         }
     }
