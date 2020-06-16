@@ -78,7 +78,8 @@ open class SimpleMonthView @JvmOverloads constructor(
     protected var columnCount = 7
         private set
 
-    protected var firstDayOfMonthCalendar: PrimeCalendar? = null
+    var firstDayOfMonthCalendar: PrimeCalendar? = null
+        private set
 
     private var animationProgress = 1.0f
     private val progressProperty = PropertyValuesHolder.ofFloat("PROGRESS", 1.0f, 0.75f, 1f)

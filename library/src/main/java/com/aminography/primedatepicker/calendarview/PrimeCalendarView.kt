@@ -62,6 +62,9 @@ class PrimeCalendarView @JvmOverloads constructor(
     private var gotoYear: Int = 0
     private var gotoMonth: Int = 0
 
+    val firstDayOfMonthCalendar: PrimeCalendar?
+        get() = currentItemCalendar()
+
     // Listeners -----------------------------------------------------------------------------------
 
     var onDayPickedListener: OnDayPickedListener? = null
