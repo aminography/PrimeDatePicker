@@ -43,29 +43,3 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'PrimeDatePicker'
-    orgName = 'aminography'
-
-    publishedGroupId = 'com.aminography'
-    artifact = 'primedatepicker'
-
-    libraryVersionCode = 320
-    libraryVersion = "3.2.0"
-
-    libraryName = 'PrimeDatePicker'
-    libraryDescription = 'PrimeDatePicker is a date picker tool.'
-
-    siteUrl = 'https://github.com/aminography/PrimeDatePicker'
-    gitUrl = 'https://github.com/aminography/PrimeDatePicker.git'
-
-    developerId = 'aminography'
-    developerName = 'Mohammad Amin Hassani'
-    developerEmail = 'aminography@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}

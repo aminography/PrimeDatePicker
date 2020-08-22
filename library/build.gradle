@@ -12,8 +12,8 @@ android {
         minSdkVersion 13
         targetSdkVersion 29
 
-        versionCode libraryVersionCode
-        versionName libraryVersion
+        versionCode 330
+        versionName "3.3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -64,6 +64,34 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$androidx_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
+}
+
+// -------------------------------------------------------------------------------------------------
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'PrimeDatePicker'
+    orgName = 'aminography'
+
+    publishedGroupId = 'com.aminography'
+    artifact = 'primedatepicker'
+
+    libraryVersionCode = android.defaultConfig.versionCode
+    libraryVersion = android.defaultConfig.versionName
+
+    libraryName = 'PrimeDatePicker'
+    libraryDescription = 'PrimeDatePicker is a date picker tool.'
+
+    siteUrl = 'https://github.com/aminography/PrimeDatePicker'
+    gitUrl = 'https://github.com/aminography/PrimeDatePicker.git'
+
+    developerId = 'aminography'
+    developerName = 'Mohammad Amin Hassani'
+    developerEmail = 'aminography@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
 
 apply from: rootProject.file('gradle/install.gradle')
