@@ -921,43 +921,43 @@ open class SimpleMonthView @JvmOverloads constructor(
 
     private class SavedState : BaseSavedState {
 
-        internal var calendarType: Int = 0
-        internal var firstDayOfWeek: Int = 0
-        internal var locale: String? = null
-        internal var year: Int = 0
-        internal var month: Int = 0
+        var calendarType: Int = 0
+        var firstDayOfWeek: Int = 0
+        var locale: String? = null
+        var year: Int = 0
+        var month: Int = 0
 
-        internal var minDateCalendar: String? = null
-        internal var maxDateCalendar: String? = null
+        var minDateCalendar: String? = null
+        var maxDateCalendar: String? = null
 
-        internal var pickType: String? = null
-        internal var pickedSingleDayCalendar: String? = null
-        internal var pickedRangeStartCalendar: String? = null
-        internal var pickedRangeEndCalendar: String? = null
-        internal var pickedMultipleDaysList: List<String>? = null
+        var pickType: String? = null
+        var pickedSingleDayCalendar: String? = null
+        var pickedRangeStartCalendar: String? = null
+        var pickedRangeEndCalendar: String? = null
+        var pickedMultipleDaysList: List<String>? = null
 
-        internal var disabledDaysList: List<String>? = null
+        var disabledDaysList: List<String>? = null
 
-        internal var dayLabelTextColor: Int = 0
-        internal var todayLabelTextColor: Int = 0
-        internal var pickedDayLabelTextColor: Int = 0
-        internal var pickedDayInRangeLabelTextColor: Int = 0
-        internal var pickedDayBackgroundColor: Int = 0
-        internal var pickedDayInRangeBackgroundColor: Int = 0
-        internal var disabledDayLabelTextColor: Int = 0
-        internal var adjacentMonthDayLabelTextColor: Int = 0
-        internal var dayLabelTextSize: Int = 0
-        internal var dayLabelVerticalPadding: Int = 0
-        internal var showTwoWeeksInLandscape: Boolean = false
-        internal var showAdjacentMonthDays: Boolean = false
+        var dayLabelTextColor: Int = 0
+        var todayLabelTextColor: Int = 0
+        var pickedDayLabelTextColor: Int = 0
+        var pickedDayInRangeLabelTextColor: Int = 0
+        var pickedDayBackgroundColor: Int = 0
+        var pickedDayInRangeBackgroundColor: Int = 0
+        var disabledDayLabelTextColor: Int = 0
+        var adjacentMonthDayLabelTextColor: Int = 0
+        var dayLabelTextSize: Int = 0
+        var dayLabelVerticalPadding: Int = 0
+        var showTwoWeeksInLandscape: Boolean = false
+        var showAdjacentMonthDays: Boolean = false
 
-        internal var pickedDayBackgroundShapeType: Int = 0
-        internal var pickedDayRoundSquareCornerRadius: Int = 0
+        var pickedDayBackgroundShapeType: Int = 0
+        var pickedDayRoundSquareCornerRadius: Int = 0
 
-        internal var animateSelection: Boolean = false
-        internal var animationDuration: Int = 0
+        var animateSelection: Boolean = false
+        var animationDuration: Int = 0
 
-        internal constructor(superState: Parcelable?) : super(superState)
+        constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
             calendarType = input.readInt()

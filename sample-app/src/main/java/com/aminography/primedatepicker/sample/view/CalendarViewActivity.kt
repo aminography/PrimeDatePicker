@@ -12,9 +12,9 @@ import androidx.core.view.GravityCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.common.OnDayPickedListener
 import com.aminography.primedatepicker.common.PickType
-import com.aminography.primedatepicker.calendarview.PrimeCalendarView
 import com.aminography.primedatepicker.sample.*
 import com.aminography.primedatepicker.utils.invisible
 import com.aminography.primedatepicker.utils.visible
@@ -101,6 +101,13 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 //                    calendarView.calendarType = calendarType
 //                    calendarView.locale = Locale.ENGLISH
                     calendarView.goto(CalendarFactory.newInstance(calendarType), false)
+
+//                    val dayCalendar = CivilCalendar(locale = Locale.ENGLISH).also {
+//                        it.setTime(Date())
+//                        it.firstDayOfWeek = Calendar.MONDAY     //<---  Here Monday
+//                    }
+//                    calendarView.flingOrientation = PrimeCalendarView.FlingOrientation.HORIZONTAL
+//                    calendarView.goto(calendar = dayCalendar, animate = true)
 
                     restoreDefaults()
                 }
@@ -196,6 +203,14 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
                     }
                 }
             }
+
+//            calendarView.minDateCalendar = CalendarFactory.newInstance(calendarType).also {
+//                it.dayOfMonth = 5
+//            }
+//
+//            calendarView.maxDateCalendar = CalendarFactory.newInstance(calendarType).also {
+//                it.dayOfMonth = 25
+//            }
         }
     }
 

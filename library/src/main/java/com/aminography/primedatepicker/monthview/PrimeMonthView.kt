@@ -304,18 +304,18 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private class SavedState : BaseSavedState {
 
-        internal var monthLabelTextColor: Int = 0
-        internal var weekLabelTextColor: Int = 0
+        var monthLabelTextColor: Int = 0
+        var weekLabelTextColor: Int = 0
 
-        internal var monthLabelTextSize: Int = 0
-        internal var weekLabelTextSize: Int = 0
+        var monthLabelTextSize: Int = 0
+        var weekLabelTextSize: Int = 0
 
-        internal var monthLabelTopPadding: Int = 0
-        internal var monthLabelBottomPadding: Int = 0
-        internal var weekLabelTopPadding: Int = 0
-        internal var weekLabelBottomPadding: Int = 0
+        var monthLabelTopPadding: Int = 0
+        var monthLabelBottomPadding: Int = 0
+        var weekLabelTopPadding: Int = 0
+        var weekLabelBottomPadding: Int = 0
 
-        internal constructor(superState: Parcelable?) : super(superState)
+        constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
             monthLabelTextColor = input.readInt()
