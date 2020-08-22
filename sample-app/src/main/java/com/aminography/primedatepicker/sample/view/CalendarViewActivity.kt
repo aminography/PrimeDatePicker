@@ -26,6 +26,7 @@ import java.util.*
  * @author aminography
  */
 @SuppressLint("SetTextI18n")
+
 class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
 
     private lateinit var navigationLayout: View
@@ -399,7 +400,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         singleDay: PrimeCalendar?,
         startDay: PrimeCalendar?,
         endDay: PrimeCalendar?,
-        multipleDays: List<PrimeCalendar>?
+        multipleDays: List<PrimeCalendar>
     ) {
         with(navigationLayout) {
             endRangeRadioButton.isEnabled = false
@@ -436,6 +437,7 @@ class CalendarViewActivity : AppCompatActivity(), OnDayPickedListener {
         }
     }
 
+    @Suppress("SameParameterValue")
     private fun toast(text: String) =
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 

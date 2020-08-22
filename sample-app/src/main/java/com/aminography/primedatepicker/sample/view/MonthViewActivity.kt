@@ -300,7 +300,7 @@ class MonthViewActivity : AppCompatActivity(), OnDayPickedListener {
         singleDay: PrimeCalendar?,
         startDay: PrimeCalendar?,
         endDay: PrimeCalendar?,
-        multipleDays: List<PrimeCalendar>?
+        multipleDays: List<PrimeCalendar>
     ) {
         with(navigationLayout) {
             endRangeRadioButton.isEnabled = false

@@ -5,30 +5,23 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.View
 import androidx.core.graphics.ColorUtils
-import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 
 /**
  * @author aminography
  */
 
-fun View.visible() {
-    visibility = View.VISIBLE
-}
+fun View.visible() = if (visibility != View.VISIBLE) visibility = View.VISIBLE else Unit
 
-fun View.invisible() {
-    visibility = View.INVISIBLE
-}
+fun View.invisible() = if (visibility != View.INVISIBLE) visibility = View.INVISIBLE else Unit
 
-fun View.gone() {
-    visibility = View.GONE
-}
+fun View.gone() = if (visibility != View.GONE) visibility = View.GONE else Unit
 
 fun View.setBackgroundDrawableCompat(drawable: Drawable) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-        circularRevealFrameLayout.background = drawable
+        background = drawable
     } else {
         @Suppress("DEPRECATION")
-        circularRevealFrameLayout.setBackgroundDrawable(drawable)
+        setBackgroundDrawable(drawable)
     }
 }
 

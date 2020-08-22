@@ -891,7 +891,7 @@ class PrimeCalendarView @JvmOverloads constructor(
         singleDay: PrimeCalendar?,
         startDay: PrimeCalendar?,
         endDay: PrimeCalendar?,
-        multipleDays: List<PrimeCalendar>?
+        multipleDays: List<PrimeCalendar>
     ) {
         var hasChanged = false
         doNotInvalidate {
@@ -921,7 +921,7 @@ class PrimeCalendarView @JvmOverloads constructor(
                     }
                 }
                 PickType.MULTIPLE -> {
-                    pickedMultipleDaysList = multipleDays ?: arrayListOf()
+                    pickedMultipleDaysList = multipleDays
                     hasChanged = true
                 }
                 PickType.NOTHING -> {
