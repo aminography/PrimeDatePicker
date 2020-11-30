@@ -19,10 +19,14 @@ import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.PrimeCalendar
 import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
+import com.aminography.primecalendar.common.localizeDigits
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.*
 import com.aminography.primedatepicker.monthview.painters.DayLabelsPainter
-import com.aminography.primedatepicker.utils.*
+import com.aminography.primedatepicker.utils.DateUtils
+import com.aminography.primedatepicker.utils.dp2px
+import com.aminography.primedatepicker.utils.findDirection
+import com.aminography.primedatepicker.utils.isDisplayLandscape
 import java.util.*
 import kotlin.collections.LinkedHashMap
 import kotlin.math.min

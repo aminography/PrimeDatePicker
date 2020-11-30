@@ -3,12 +3,12 @@ package com.aminography.primedatepicker.picker.selection.single
 import android.graphics.Typeface
 import android.view.ViewStub
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primecalendar.common.localizeDigits
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.LabelFormatter
 import com.aminography.primedatepicker.picker.base.BaseLazyView
 import com.aminography.primedatepicker.picker.selection.SelectionBarView
 import com.aminography.primedatepicker.utils.forceLocaleStrings
-import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.selection_bar_single_day_container.view.*
 import java.util.*
 

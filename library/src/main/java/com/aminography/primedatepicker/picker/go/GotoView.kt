@@ -7,11 +7,11 @@ import android.view.ViewStub
 import android.widget.FrameLayout
 import android.widget.NumberPicker
 import com.aminography.primecalendar.PrimeCalendar
+import com.aminography.primecalendar.common.localizeDigits
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.Direction
 import com.aminography.primedatepicker.picker.base.BaseLazyView
 import com.aminography.primedatepicker.picker.component.ColoredNumberPicker
-import com.aminography.primedatepicker.utils.localizeDigits
 import kotlinx.android.synthetic.main.goto_container.view.*
 
 /**
