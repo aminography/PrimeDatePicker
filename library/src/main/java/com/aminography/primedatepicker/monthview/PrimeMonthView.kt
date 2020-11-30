@@ -12,11 +12,11 @@ import androidx.annotation.AttrRes
 import androidx.annotation.StyleRes
 import androidx.core.content.ContextCompat
 import com.aminography.primecalendar.common.CalendarFactory
+import com.aminography.primecalendar.common.localizeDigits
 import com.aminography.primedatepicker.R
 import com.aminography.primedatepicker.common.LabelFormatter
 import com.aminography.primedatepicker.monthview.painters.MonthLabelPainter
 import com.aminography.primedatepicker.monthview.painters.WeekDayLabelsPainter
-import com.aminography.primedatepicker.utils.localizeDigits
 import java.util.*
 
 /**
