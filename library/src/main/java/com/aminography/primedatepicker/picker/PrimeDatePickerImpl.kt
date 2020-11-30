@@ -353,29 +353,31 @@ internal class PrimeDatePickerImpl(
                 fab.post { fab.isExpanded = isExpanded }
             }
 
-            if (gotoView == null) {
-                gotoView = GotoView(gotoViewStub, direction).also {
-                    it.typeface = typeface
-                    it.minDateCalendar = calendarView.minDateCalendar
-                    it.maxDateCalendar = calendarView.maxDateCalendar
-                    it.applyTheme(themeFactory)
+            if (calendarView.firstDayOfMonthCalendar?.monthOffset == calendar.monthOffset) {
+                if (gotoView == null) {
+                    gotoView = GotoView(gotoViewStub, direction).also {
+                        it.typeface = typeface
+                        it.minDateCalendar = calendarView.minDateCalendar
+                        it.maxDateCalendar = calendarView.maxDateCalendar
+                        it.applyTheme(themeFactory)
+                    }
                 }
-            }
-            (gotoView as? GotoView)?.also {
-                it.calendar = calendar
-                it.onCloseClickListener = { expandGoto(false, touchedX, touchedY) }
-                it.onGoClickListener = { year, month ->
-                    expandGoto(false, touchedX, touchedY)
-                    postDelayed({
-                        initialDateCalendar.clone().let { calendar ->
-                            calendar.year = year
-                            calendar.month = month
-                            calendarView.goto(calendar, true)
-                        }
-                    }, 250)
+                (gotoView as? GotoView)?.also {
+                    it.calendar = calendar
+                    it.onCloseClickListener = { expandGoto(false, touchedX, touchedY) }
+                    it.onGoClickListener = { year, month ->
+                        expandGoto(false, touchedX, touchedY)
+                        postDelayed({
+                            initialDateCalendar.clone().let { calendar ->
+                                calendar.year = year
+                                calendar.month = month
+                                calendarView.goto(calendar, true)
+                            }
+                        }, 250)
+                    }
                 }
+                expandGoto(true, touchedX, touchedY)
             }
-            expandGoto(true, touchedX, touchedY)
         }
     }
 

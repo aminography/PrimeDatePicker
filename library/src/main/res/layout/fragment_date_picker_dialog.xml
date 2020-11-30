@@ -21,8 +21,8 @@
         android:layout_height="wrap_content"
         android:paddingStart="8dp"
         android:paddingTop="8dp"
-        android:paddingBottom="2dp"
         android:paddingEnd="8dp"
+        android:paddingBottom="2dp"
         app:layout_constraintBottom_toTopOf="@id/calendarView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +89,7 @@
             app:elevation="0dp"
             app:fabCustomSize="8dp"
             app:fabSize="auto"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="ContentDescription,RtlHardcoded" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
