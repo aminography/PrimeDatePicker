@@ -61,7 +61,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.2.0'
+    implementation 'com.aminography:primedatepicker:3.2.1'
     implementation 'com.aminography:primecalendar:1.3.1'
 }
 ```
@@ -691,6 +691,9 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
+### Version 3.2.1
+- Improving Arabic digits.
+
 ### Version 3.2.0
 - Ability to show adjacent months' days in the current month (using `showAdjacentMonthDays`) and customize their text color.
 - Ability to change the background shape of the selected days (using `pickedDayBackgroundShapeType` and `pickedDayRoundSquareCornerRadius`).
