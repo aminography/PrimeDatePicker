@@ -11,6 +11,7 @@ import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.PrimeDatePickerImpl
 import com.aminography.primedatepicker.picker.base.BaseDialogFragment
 import com.aminography.primedatepicker.picker.callback.BaseDayPickCallback
+import com.aminography.primedatepicker.utils.enableHardwareAcceleration
 
 /**
  * `PrimeDatePickerBottomSheet` contains the logic of picking days in a dialog view.
@@ -29,6 +30,7 @@ internal class PrimeDatePickerDialog : BaseDialogFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         primeDatePicker.onCreate(requireContext(), lifecycleScope)
+        activity?.enableHardwareAcceleration()
     }
 
     override fun onInitViews(rootView: View) {

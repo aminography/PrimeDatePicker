@@ -1,9 +1,11 @@
 package com.aminography.primedatepicker.utils
 
+import android.app.Activity
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.view.View
+import android.view.WindowManager
 import androidx.core.graphics.ColorUtils
 import kotlinx.android.synthetic.main.fragment_date_picker_bottom_sheet.view.*
 
@@ -42,5 +44,12 @@ fun generateTopGradientDrawable(color: Int): Drawable {
             color, color, color, color, color, color, color, color,
             color, color, color, color, color, color, color, color
         )
+    )
+}
+
+fun Activity.enableHardwareAcceleration() {
+    window.setFlags(
+        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
     )
 }
