@@ -32,6 +32,20 @@ class RangeDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
         return this
     }
 
+    /**
+     * Specifies initially picked start day when the date picker is shown first time.
+     *
+     * @param startDay The [PrimeCalendar] to use as the start date of picked range.
+     * @param pickEndDay Indicates that the date picker initially starts with selecting the end of range.
+     *
+     * @return current instance of [RangeDaysRequestBuilder].
+     */
+    fun initiallyPickedStartDay(startDay: PrimeCalendar, pickEndDay: Boolean = true): RangeDaysRequestBuilder<T> {
+        bundle.putString("pickedRangeStartCalendar", DateUtils.storeCalendar(startDay))
+        bundle.putBoolean("initiallyPickEndDay", pickEndDay)
+        return this
+    }
+
 //    /**
 //     * Specifies minimum length of range that can be picked.
 //     *
