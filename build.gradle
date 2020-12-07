@@ -3,7 +3,7 @@
 buildscript {
     def versionMajor = 3 // X
     def versionMinor = 3 // Y
-    def versionPatch = 0 // Z
+    def versionPatch = 1 // Z
 
     ext.version_code = versionMajor * 10000 + versionMinor * 100 + versionPatch
     ext.version_name = "${versionMajor}.${versionMinor}.${versionPatch}"

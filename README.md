@@ -61,7 +61,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.3.0'
+    implementation 'com.aminography:primedatepicker:3.3.1'
     implementation 'com.aminography:primecalendar:1.3.2'
 }
 ```
@@ -691,6 +691,9 @@ By choosing locale for the `PrimeCalendar` instance which is passed to `goto` me
 
 Change Log
 ----------
+### Version 3.3.1
+- Ability to specify only from date initially when picking range.
+
 ### Version 3.3.0
 - Handling hardware acceleration issue.
 
