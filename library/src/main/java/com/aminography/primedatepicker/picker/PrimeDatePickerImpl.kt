@@ -95,6 +95,9 @@ internal class PrimeDatePickerImpl(
         }
 
         arguments?.getString("pickType")?.let { internalPickType = PickType.valueOf(it) }
+        arguments?.getBoolean("initiallyPickEndDay")?.takeIf { it }?.let {
+            internalPickType = PickType.RANGE_END
+        }
 
         direction = calendarType.findDirection(locale)
 
