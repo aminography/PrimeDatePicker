@@ -44,7 +44,7 @@ Main Characteristics
 - Landscape Support
 - Various Calendar Types
 - Various Date Picking Strategies
-- Showing Both Dialog & BottomSheet
+- Dialog & BottomSheet Presentations
 - Fast Goto
 
 #### :dart: Download [SampleApp.apk](https://github.com/aminography/PrimeDatePicker/releases/download/v3.1.1/sample-app-release.apk)
