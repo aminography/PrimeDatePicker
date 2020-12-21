@@ -137,7 +137,7 @@ val calendar = PersianCalendar(Locale.ENGLISH).also {
 }
 
 val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
-                    .pickSingleDay(singleDayPickCallback)
+                    .pickSingleDay(callback)
                      ...
                     .build()
 ```
