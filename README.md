@@ -70,7 +70,7 @@ dependencies {
 
 Usage
 -----------------
-To enjoy `PrimeDatePicker`, create an instance of it using builder pattern, like the following snippets:
+To enjoy `PrimeDatePicker`, create an instance using a builder pattern, like the following snippets:
 
 > Kotlin
 ```kotlin
