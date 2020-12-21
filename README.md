@@ -38,7 +38,7 @@ Main Characteristics
 --------------------
 - Endless Scrolling
 - Fully Customizable Views & Theme
-- Regarding Material Design
+- Align With Material Design
 - Fluent UI
 - RTL Support
 - Landscape Support
