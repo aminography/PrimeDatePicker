@@ -83,13 +83,13 @@ val themeFactory = DarkThemeFactory()
 
 val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
-val datePicker = PrimeDatePicker.bottomSheetWith(today) // or dialogWith(today)
-        .pickMultipleDays(callback)  // Passing callback is optional, can be set later using setDayPickCallback()
-        .minPossibleDate(minDateCalendar)            // Optional
-        .maxPossibleDate(maxDateCalendar)            // Optional
-        .disabledDays(disabledDaysList)              // Optional
-        .firstDayOfWeek(Calendar.MONDAY)             // Optional
-        .applyTheme(themeFactory)                    // Optional
+val datePicker = PrimeDatePicker.bottomSheetWith(today)  // or dialogWith(today)
+        .pickMultipleDays(callback)        // Passing callback is optional, can be set later using setDayPickCallback()
+        .minPossibleDate(minDateCalendar)  // Optional
+        .maxPossibleDate(maxDateCalendar)  // Optional
+        .disabledDays(disabledDaysList)    // Optional
+        .firstDayOfWeek(Calendar.MONDAY)   // Optional
+        .applyTheme(themeFactory)          // Optional
         .build()
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
@@ -110,13 +110,13 @@ BaseThemeFactory themeFactory = new LightThemeFactory();
 
 PrimeCalendar today = new JapaneseCalendar();  // Causes a Japanese date picker, also today as the starting date
 
-PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today) // or bottomSheetWith(today)
-    .pickSingleDay(callback)  // Passing callback is optional, can be set later using setDayPickCallback()
-    .minPossibleDate(minDateCalendar)      // Optional
-    .maxPossibleDate(maxDateCalendar)      // Optional
-    .disabledDays(disabledDaysList)        // Optional
-    .firstDayOfWeek(Calendar.MONDAY)       // Optional
-    .applyTheme(themeFactory)              // Optional
+PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)  // or bottomSheetWith(today)
+    .pickSingleDay(callback)           // Passing callback is optional, can be set later using setDayPickCallback()
+    .minPossibleDate(minDateCalendar)  // Optional
+    .maxPossibleDate(maxDateCalendar)  // Optional
+    .disabledDays(disabledDaysList)    // Optional
+    .firstDayOfWeek(Calendar.MONDAY)   // Optional
+    .applyTheme(themeFactory)          // Optional
     .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
