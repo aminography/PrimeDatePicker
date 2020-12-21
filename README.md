@@ -75,7 +75,7 @@ To enjoy `PrimeDatePicker`, create an instance using a builder pattern, like the
 > Kotlin
 ```kotlin
 
-val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
+val callback = MultipleDaysPickCallback { multipleDays ->
     // TODO
 }
 
@@ -84,7 +84,7 @@ val themeFactory = DarkThemeFactory()
 val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
 
 val datePicker = PrimeDatePicker.bottomSheetWith(today) // or dialogWith(today)
-        .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
+        .pickMultipleDays(callback)  // Passing callback is optional, can be set later using setDayPickCallback()
         .minPossibleDate(minDateCalendar)            // Optional
         .maxPossibleDate(maxDateCalendar)            // Optional
         .disabledDays(disabledDaysList)              // Optional
@@ -99,7 +99,7 @@ datePicker.show(supportFragmentManager, "SOME_TAG")
 
 > Java
 ```java
-SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
+SingleDayPickCallback callback = new SingleDayPickCallback() {
     @Override
     public void onSingleDayPicked(PrimeCalendar singleDay) {
         // TODO
@@ -111,7 +111,7 @@ BaseThemeFactory themeFactory = new LightThemeFactory();
 PrimeCalendar today = new JapaneseCalendar();  // Causes a Japanese date picker, also today as the starting date
 
 PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today) // or bottomSheetWith(today)
-    .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
+    .pickSingleDay(callback)  // Passing callback is optional, can be set later using setDayPickCallback()
     .minPossibleDate(minDateCalendar)      // Optional
     .maxPossibleDate(maxDateCalendar)      // Optional
     .disabledDays(disabledDaysList)        // Optional
