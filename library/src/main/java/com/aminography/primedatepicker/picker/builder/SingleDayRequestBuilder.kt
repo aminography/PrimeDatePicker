@@ -19,7 +19,7 @@ class SingleDayRequestBuilder<T : PrimeDatePicker> internal constructor(
 ) : BaseRequestBuilder<T, SingleDayPickCallback>(clazz, PickType.SINGLE, initialDateCalendar, callback) {
 
     /**
-     * Specifies initially picked day when the date picker is shown first time.
+     * Specifies initially picked day when the date picker has just shown.
      *
      * @param pickedDay The [PrimeCalendar] to use as the picked date.
      *

@@ -20,7 +20,7 @@ class MultipleDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
 ) : BaseRequestBuilder<T, MultipleDaysPickCallback>(clazz, PickType.MULTIPLE, initialDateCalendar, callback) {
 
     /**
-     * Specifies initially picked multiple days when the date picker is shown first time.
+     * Specifies initially picked multiple days when the date picker has just shown.
      *
      * @param pickedDays The list of [PrimeCalendar]s to use as the picked dates.
      *

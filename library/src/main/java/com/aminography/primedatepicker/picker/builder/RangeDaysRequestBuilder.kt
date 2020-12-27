@@ -19,7 +19,7 @@ class RangeDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
 ) : BaseRequestBuilder<T, RangeDaysPickCallback>(clazz, PickType.RANGE_START, initialDateCalendar, callback) {
 
     /**
-     * Specifies initially picked range of days when the date picker is shown first time.
+     * Specifies initially picked range of days when the date picker has just shown.
      *
      * @param startDay The [PrimeCalendar] to use as the start date of picked range.
      * @param endDay The [PrimeCalendar] to use as the end date of picked range.
@@ -33,7 +33,7 @@ class RangeDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
     }
 
     /**
-     * Specifies initially picked start day when the date picker is shown first time.
+     * Specifies initially picked start day when the date picker has just shown.
      *
      * @param startDay The [PrimeCalendar] to use as the start date of picked range.
      * @param pickEndDay Indicates that the date picker initially starts with selecting the end of range.

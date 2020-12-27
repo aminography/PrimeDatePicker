@@ -84,33 +84,60 @@ dependencies {
 <br/>
 
 Usage
------------------
-To enjoy `PrimeDatePicker`, create an instance using a builder pattern, like the following snippets:
+-----
 
-> Kotlin
+To enjoy `PrimeDatePicker`, create an instance using a builder pattern in simple 4 steps.
+
+1. Decide on **BottomSheet** or **Dialog** representation along with an initial calendar:
 ```kotlin
+// To show a date picker with Civil dates, also today as the starting date
+val today = CivilCalendar()
 
-val callback = MultipleDaysPickCallback { multipleDays ->
+val datePicker = PrimeDatePicker.bottomSheetWith(today)  // or dialogWith(today)
+```
+
+2. Decide on picking strategy along with passing a proper callback:
+```kotlin
+val callback = SingleDayPickCallback { day ->
     // TODO
 }
 
-val themeFactory = DarkThemeFactory()
+val today = CivilCalendar()
 
-val today = CivilCalendar()  // To show a date picker with Civil dates, also today as the starting date
+val datePicker = PrimeDatePicker.bottomSheetWith(today)
+        .pickSingleDay(callback)  // or pickRangeDays(callback) or pickMultipleDays(callback)
+```
 
-val datePicker = PrimeDatePicker.bottomSheetWith(today)  // or dialogWith(today)
-        .pickMultipleDays(callback)        // Passing callback is optional, can be set later using setDayPickCallback()
-        .minPossibleDate(minDateCalendar)  // Optional
-        .maxPossibleDate(maxDateCalendar)  // Optional
-        .disabledDays(disabledDaysList)    // Optional
-        .firstDayOfWeek(Calendar.MONDAY)   // Optional
-        .applyTheme(themeFactory)          // Optional
+3. Apply some optional configurations:
+
+```kotlin
+...
+
+val datePicker = PrimeDatePicker.bottomSheetWith(today)
+        .pickSingleDay(callback)
+        .minPossibleDate(minDateCalendar)
+        ...
+```
+
+4. Build the date picker and show it:
+```kotlin
+val callback = SingleDayPickCallback { day ->
+    // TODO
+}
+
+val today = CivilCalendar()
+
+val datePicker = PrimeDatePicker.bottomSheetWith(today)
+        .pickSingleDay(callback)
+        .minPossibleDate(minDateCalendar)
         .build()
-
+        
 datePicker.show(supportFragmentManager, "SOME_TAG")
 ```
 
 <br/>
+
+### Java Usage Example
 
 > Java
 ```java
@@ -121,17 +148,11 @@ SingleDayPickCallback callback = new SingleDayPickCallback() {
     }
 };
 
-BaseThemeFactory themeFactory = new LightThemeFactory();
+// To show a date picker with Japanese dates, also today as the starting date
+PrimeCalendar today = new JapaneseCalendar();  
 
-PrimeCalendar today = new JapaneseCalendar();  // To show a date picker with Japanese dates, also today as the starting date
-
-PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)  // or bottomSheetWith(today)
-    .pickSingleDay(callback)           // Passing callback is optional, can be set later using setDayPickCallback()
-    .minPossibleDate(minDateCalendar)  // Optional
-    .maxPossibleDate(maxDateCalendar)  // Optional
-    .disabledDays(disabledDaysList)    // Optional
-    .firstDayOfWeek(Calendar.MONDAY)   // Optional
-    .applyTheme(themeFactory)          // Optional
+PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)
+    .pickSingleDay(callback)
     .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
@@ -139,22 +160,110 @@ datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 
 <br/>
 
-### Configurations Based on Input Calendar
+### Date Picker Configurations
 
-`PrimeDatePicker` reads some configurations from the input calendar, so they are reflected to the date picker. For example:
+There are several builder functions applying relevant configurations on the date picker.
+
+<br/>
+
+<table>
+
+  <tr>
+    <td><b>Function</b></td>
+    <td><b>Picking Strategy</b></td>
+  </tr>
+
+  <tr>
+    <td><b>• minPossibleDate(minDate: PrimeCalendar)</b></td>
+    <td>ALL</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the minimum feasible date to be shown in date picker, which is selectable.</i></td>
+  </tr>
+
+  <tr>
+    <td><b>• maxPossibleDate(maxDate: PrimeCalendar)</b></td>
+    <td>ALL</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the maximum feasible date to be shown in date picker, which is selectable.</i></td>
+  </tr>
+
+  <tr>
+    <td><b>• firstDayOfWeek(firstDayOfWeek: Int)</b></td>
+    <td>ALL</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the day that should be considered as the start of the week. Possible values are: <b>Calendar.SUNDAY</b>, <b>Calendar.MONDAY</b>, etc.</i></td>
+  </tr>
+
+  <tr>
+    <td><b>• disabledDays(disabledDays: List&lt;PrimeCalendar&gt;)</b></td>
+    <td>ALL</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the list of disabled days, which aren't selectable.</i></td>
+  </tr>
+
+  <tr>
+    <td><b>• applyTheme(themeFactory: ThemeFactory)</b></td>
+    <td>ALL</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies the theme.</i></td>
+  </tr>
+
+  <tr>
+    <td><b>• initiallyPickedSingleDay(pickedDay: PrimeCalendar)</b></td>
+    <td>SingleDay</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies initially picked day when the date picker has just shown.</i></td>
+  </tr>
+
+  <tr>
+    <td><b>• initiallyPickedRangeDays(startDay: PrimeCalendar, endDay: PrimeCalendar)</b></td>
+    <td>RangeDays</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies initially picked range of days when the date picker has just shown.</i></td>
+  </tr>
+
+  <tr>
+    <td><b>• initiallyPickedStartDay(startDay: PrimeCalendar, pickEndDay: Boolean)</b></td>
+    <td>RangeDays</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies initially picked start day when the date picker has just shown.</i></td>
+  </tr>
+
+  <tr>
+    <td><b>• initiallyPickedMultipleDays(pickedDays: List&lt;PrimeCalendar&gt;)</b></td>
+    <td>MultipleDays</td>
+  </tr>
+  <tr>
+    <td colspan="2"><i>Specifies initially picked multiple days when the date picker has just shown.</i></td>
+  </tr>
+
+</table>
+
+<br/>
+
+### Input Calendar Configurations
+
+In addition to the builder functions, `PrimeDatePicker` receives some configurations from the input calendar. For example:
 
 ```kotlin
-// shows a Persian calendar, but in English language which leads to LTR direction
+// shows a Persian calendar, but in English language, which leads to LTR direction
 val calendar = PersianCalendar(Locale.ENGLISH).also {
-    it.year = 1398                       // customizes starting year
-    it.month = 7                         // customizes starting month
+    it.year = 1398                       // determines starting year
+    it.month = 7                         // determines starting month
     it.firstDayOfWeek = Calendar.MONDAY  // sets first day of week to Monday
 }
 
 val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
-                    .pickSingleDay(callback)
-                     ...
-                    .build()
+        ...
+        .build()
 ```
 
 <br/>

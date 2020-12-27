@@ -31,7 +31,7 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
     }
 
     /**
-     * Specifies the minimum feasible date to be shown in date picker which is selectable.
+     * Specifies the minimum feasible date to be shown in date picker, which is selectable.
      *
      * @param minDate The [PrimeCalendar] to use as the minimum feasible date.
      *
@@ -43,7 +43,7 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
     }
 
     /**
-     * Specifies the maximum feasible date to be shown in date picker which is selectable.
+     * Specifies the maximum feasible date to be shown in date picker, which is selectable.
      *
      * @param maxDate The [PrimeCalendar] to use as the maximum feasible date.
      *
@@ -55,10 +55,10 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
     }
 
     /**
-     * Specifies the day which should be considered as start of week.
+     * Specifies the day that should be considered as start of the week.
      *
-     * @param firstDayOfWeek The day to use as start day of week.
-     * Possible values are: [Calendar.SUNDAY], [Calendar.MONDAY], and so on.
+     * @param firstDayOfWeek The day to use as the start day of the week.
+     * Possible values are: [Calendar.SUNDAY], [Calendar.MONDAY], etc.
      *
      * Note that if you specify firstDayOfWeek for the initialDate for example in
      * [PrimeDatePicker.bottomSheetWith], calling this function overrides it.
@@ -71,7 +71,7 @@ abstract class BaseRequestBuilder<T : PrimeDatePicker, C : BaseDayPickCallback> 
     }
 
     /**
-     * Specifies the list of disabled days which aren't selectable.
+     * Specifies the list of disabled days, which aren't selectable.
      *
      * @param disabledDays The list of [PrimeCalendar]s which aren't selectable.
      *
