@@ -37,7 +37,7 @@ The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com
 Main Characteristics
 --------------------
 - Endless Scrolling
-- Fully Customizable Views & Theme
+- Fully Customizable Views & Themes
 - Align With Material Design
 - Fluent UI
 - RTL Support
@@ -81,7 +81,7 @@ val callback = MultipleDaysPickCallback { multipleDays ->
 
 val themeFactory = DarkThemeFactory()
 
-val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
+val today = CivilCalendar()  // To show a date picker with Civil dates, also today as the starting date
 
 val datePicker = PrimeDatePicker.bottomSheetWith(today)  // or dialogWith(today)
         .pickMultipleDays(callback)        // Passing callback is optional, can be set later using setDayPickCallback()
@@ -108,7 +108,7 @@ SingleDayPickCallback callback = new SingleDayPickCallback() {
 
 BaseThemeFactory themeFactory = new LightThemeFactory();
 
-PrimeCalendar today = new JapaneseCalendar();  // Causes a Japanese date picker, also today as the starting date
+PrimeCalendar today = new JapaneseCalendar();  // To show a date picker with Japanese dates, also today as the starting date
 
 PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)  // or bottomSheetWith(today)
     .pickSingleDay(callback)           // Passing callback is optional, can be set later using setDayPickCallback()
@@ -625,7 +625,7 @@ These variables are only accessible programmatically to get or set. (Available b
 
 <br/>
 
-### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
+### 3. Listener (Common in `PrimeMonthView` & `PrimeCalendarView`)
 You can listen to day picking actions by setting an instance of [OnDayPickedListener](library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.java) to the views.
 For example:
 
@@ -741,14 +741,6 @@ Change Log
 
 ### Version 1.0.14
 - Animation for selected days using `animateSelection`, `animationDuration`, and `animationInterpolator` attributes.
-
-<br/>
-
-Third-Party Libraries
----------------------
-**• PrimeCalendar** (<https://github.com/aminography/PrimeCalendar>)
-
-**• PrimeAdapter** (<https://github.com/aminography/PrimeAdapter>)
 
 <br/>
 
