@@ -158,10 +158,11 @@ Almost everything is customizable. For example:
 
 In this way, a set of theme factory class are provided to specify theme parameters.
 By default, there are two concrete subclasses for the them factory:
-[`DarkThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/DarkThemeFactory.kt)
-and
-[`LightThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)
-that you can override their parameters, or inherit a class from, or make your own theme factory.
+
+- [`DarkThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/DarkThemeFactory.kt)
+- [`LightThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)
+
+You can override their parameters, or inherit a class from, or make your own theme factory.
 
 Here is an example of how to override theme parameters in `Kotlin` as well as `Java`:
 
