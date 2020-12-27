@@ -41,6 +41,7 @@ Table of Contents
 - [Stand-Alone Views](#stand-alone-views)
 - [Change Log](#change-log)
 
+<br/>
 
 Core Logic
 ----------
