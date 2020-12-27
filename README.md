@@ -5,7 +5,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1c44ee8a3a14b0e8c963c36c8e586d8)](https://app.codacy.com/manual/aminography/PrimeDatePicker?utm_source=github.com&utm_medium=referral&utm_content=aminography/PrimeDatePicker&utm_campaign=Badge_Grade_Dashboard)
 [![API](https://img.shields.io/badge/minSdkVersion-13-important.svg)](https://android-arsenal.com/api?level=13)
 
-Firstly, **`PrimeDatePicker`** is a tool which provides picking a single day, multiple days, and a range of days. Secondly, you can use its internal `MonthView` and `CalendarView` as stand-alone views in your projects.
+Firstly, **`PrimeDatePicker`** is a tool that provides picking a single day, multiple days, and a range of days. Secondly, you can use its internal `MonthView` and `CalendarView` as stand-alone views in your projects.
 ![](static/prime_logo.png)
 
 <table>
