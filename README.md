@@ -291,60 +291,91 @@ By default, there are two concrete subclasses for the them factory:
 
 You can override their parameters, or inherit a class from, or make your own theme factory.
 
-Here is an example of how to override theme parameters in `Kotlin` as well as `Java`:
+Here is an example of how to override theme parameters to customize it:
 
-> Kotlin
 ```kotlin
 val themeFactory = object : LightThemeFactory() {
 
     override val typefacePath: String?
-        get() = "fonts/Roboto-Regular.ttf"
-        
+        get() = "fonts/Righteous-Regular.ttf"
+    
+    override val dialogBackgroundColor: Int
+        get() = getColor(R.color.yellow100)
+
+    override val calendarViewBackgroundColor: Int
+        get() = getColor(R.color.yellow100)
+
+    override val pickedDayBackgroundShapeType: BackgroundShapeType
+        get() = BackgroundShapeType.ROUND_SQUARE
+
+    override val calendarViewPickedDayBackgroundColor: Int
+        get() = getColor(R.color.green800)
+    
     override val calendarViewPickedDayInRangeBackgroundColor: Int
-        get() = getColor(R.color.red100)
+        get() = getColor(R.color.green400)
 
     override val calendarViewPickedDayInRangeLabelTextColor: Int
         get() = getColor(R.color.gray900)
+
+    override val calendarViewTodayLabelTextColor: Int
+        get() = getColor(R.color.purple200)
 
     override val calendarViewWeekLabelFormatter: LabelFormatter
         get() = { primeCalendar ->
             when (primeCalendar[Calendar.DAY_OF_WEEK]) {
                 Calendar.SATURDAY,
                 Calendar.SUNDAY -> String.format("%s😍", primeCalendar.weekDayNameShort)
-                else -> String.format("%s😁", primeCalendar.weekDayNameShort)
+                else -> String.format("%s", primeCalendar.weekDayNameShort)
             }
         }
 
     override val calendarViewWeekLabelTextColors: SparseIntArray
         get() = SparseIntArray(7).apply {
             val red = getColor(R.color.red300)
-            val green = getColor(R.color.green400)
+            val indigo = getColor(R.color.indigo500)
             put(Calendar.SATURDAY, red)
             put(Calendar.SUNDAY, red)
-            put(Calendar.MONDAY, green)
-            put(Calendar.TUESDAY, green)
-            put(Calendar.WEDNESDAY, green)
-            put(Calendar.THURSDAY, green)
-            put(Calendar.FRIDAY, green)
+            put(Calendar.MONDAY, indigo)
+            put(Calendar.TUESDAY, indigo)
+            put(Calendar.WEDNESDAY, indigo)
+            put(Calendar.THURSDAY, indigo)
+            put(Calendar.FRIDAY, indigo)
         }
-        
-     // Other customizations...
+
+    override val calendarViewShowAdjacentMonthDays: Boolean
+        get() = true
+
+    override val selectionBarBackgroundColor: Int
+        get() = getColor(R.color.brown600)
+
+    override val selectionBarRangeDaysItemBackgroundColor: Int
+        get() = getColor(R.color.orange700)
 }
 ```
+
+<br/>
+
+Using above theme, we can transform normal theme (left picture) to the right one.
+
+<br/>
 
 <table>
 
   <tr>
-    <td><b>Result:</b></td>
+    <td><b>Normal Light Theme</b></td>
+    <td><b>Customized Light Theme</b></td>
   </tr>
 
   <tr>
-    <td><img src="static/theming_result.png" width="400"/></td>
+    <td><img src="static/theme_light.png" width="400"/></td>
+    <td><img src="static/theme_light_customized.png" width="400"/></td>
   </tr>
 
 </table>
 
-> Java
+<br/>
+
+> Java Theme Customization Example
 ```java
 BaseThemeFactory themeFactory = new LightThemeFactory() {
     
