@@ -117,7 +117,7 @@ val datePicker = PrimeDatePicker.bottomSheetWith(today)
 
 val datePicker = PrimeDatePicker.bottomSheetWith(today)
         .pickSingleDay(callback)
-        .minPossibleDate(minDateCalendar)
+        .initiallyPickedSingleDay(pickedDay)
         ...
 ```
 
