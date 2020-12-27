@@ -28,6 +28,20 @@ Firstly, **`PrimeDatePicker`** is a tool that provides picking a single day, mul
 
 <br/>
 
+Table of Contents
+-----------------
+
+- [Core Logic](#core-logic)
+- [Main Characteristics](#main-characteristics)
+- [Download](#download)
+- [Usage](#usage)
+   - [Configurations Based on Input Calendar](#configurations-based-on-input-calendar)
+   - [Customizing Theme](#customizing-theme)
+   - [Customizing Texts](#customizing-texts)
+- [Stand-Alone Views](#stand-alone-views)
+- [Change Log](#change-log)
+
+
 Core Logic
 ----------
 The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com/aminography/PrimeCalendar).
