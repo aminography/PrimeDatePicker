@@ -254,56 +254,8 @@ To see how to use **`PrimeMonthView`** & **`PrimeCalendarView`**, [refer to wiki
 
 Change Log
 ----------
-### Version 3.3.1
-- Ability to specify only from date initially when picking range.
 
-### Version 3.3.0
-- Handling hardware acceleration issue.
-
-### Version 3.2.2
-- Improving Arabic digits.
-
-### Version 3.2.0
-- Ability to show adjacent months' days in the current month (using `showAdjacentMonthDays`) and customize their text color.
-- Ability to change the background shape of the selected days (using `pickedDayBackgroundShapeType` and `pickedDayRoundSquareCornerRadius`).
-- Minor improvements.
-
-### Version 3.1.1
-- Some UI adjustments.
-
-### Version 3.1.0
-- Adding ability to change background and text color of days in selected range.
-- Improvement in japanese text and temporal names.
-- Minor bug fixed.
-
-### Version 3.0.4
-- A minor bug fixed.
-
-### Version 3.0.0
-- Builder mechanism has changed a bit.
-- Adding full customization ability using a user configurable theme factory.
-- Ability to show the date picker as a dialog using `PrimeDatePicker.dialogWith` method as well as `PrimeDatePicker.bottomSheetWith` to show a bottom sheet.
-- Ability to specify a list of disabled days.
-
-### Version 2.0.0
-- Builder mechanism has changed.
-- Picking multiple days has better UX.
-- Adding Goto by tapping on Month-Year.
-- Picking animation has improved.
-- Possibility to change start day of week.
-- Adding RTL support in bottom sheet.```
-
-### Version 1.1.0
-- Migrated to AndroidX
-
-### Version 1.0.16
-- Ability to pick multiple days using `MULTIPLE` <a href="library/src/main/java/com/aminography/primedatepicker/common/PickType.kt">PickType</a>.
-
-### Version 1.0.15
-- A minor bug is fixed.
-
-### Version 1.0.14
-- Animation for selected days using `animateSelection`, `animationDuration`, and `animationInterpolator` attributes.
+The change log is available [here](https://github.com/aminography/PrimeDatePicker/wiki/Change-Log).
 
 <br/>
 
