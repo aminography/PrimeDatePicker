@@ -11,10 +11,10 @@ Firstly, **`PrimeDatePicker`** is a tool that provides picking a single day, mul
 <table>
 
   <tr>
-    <td><b>Picking Multiple Days</b><br/><i>Example for Civil</i></td>
-    <td><b>Picking a Range of Days</b><br/><i>Example for Persian</i></td>
-    <td><b>Picking a Single Day</b><br/><i>Example for Hijri</i></td>
-    <td><b>Goto View</b><br/><i>Example for Japanese</i></td>
+    <td><b>Ex: Multiple Days</b><br/><i>Civil | BottomSheet | Dark</i></td>
+    <td><b>Ex: Range of Days</b><br/><i>Persian | BottomSheet | Light</i></td>
+    <td><b>Ex: Single Day</b><br/><i>Hijri | Dialog | Light</i></td>
+    <td><b>Ex: Goto View</b><br/><i>Japanese | Dialog | Dark</i></td>
   </tr>
 
   <tr>
