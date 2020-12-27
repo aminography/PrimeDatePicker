@@ -196,7 +196,7 @@ There are several builder functions applying relevant configurations on the date
     <td>ALL</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies the day that should be considered as the start of the week. Possible values are: <b>Calendar.SUNDAY</b>, <b>Calendar.MONDAY</b>, etc.</i></td>
+    <td colspan="2"><i>Specifies the day that should be considered as the start of the week. Possible values are: Calendar.SUNDAY, Calendar.MONDAY, etc.</i></td>
   </tr>
 
   <tr>
