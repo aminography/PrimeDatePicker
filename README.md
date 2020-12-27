@@ -270,10 +270,11 @@ val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
 
 <br/>
 
-### Customizing Theme
+Customizing Theme
+-----------------
 
 `PrimeDatePicker` is fully customizable and you can tailor it to what you desire.
-Almost everything is customizable. For example:
+Almost everything you see is customizable. For example:
 - text sizes & colors
 - background & element colors
 - padding & distances
@@ -282,7 +283,7 @@ Almost everything is customizable. For example:
 - calendar animations & transition parameters
 - *etc*
 
-In this way, a set of theme factory class are provided to specify theme parameters.
+In this way, a set of customizable theme factory classes are provided to specify theme parameters.
 By default, there are two concrete subclasses for the them factory:
 
 - [`DarkThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/DarkThemeFactory.kt)
