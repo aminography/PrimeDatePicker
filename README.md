@@ -244,12 +244,13 @@ If you want to change some texts in `PrimeDatePicker`, such as a button text, th
 define some strings in your project's `strings.xml` with equal name defined in the library's `strings.xml`, to override them.
 
 <br/>
-<hr/>
 
 Stand-Alone Views
 -----------------
 
-To see how to use **`PrimeMonthView`** & **`PrimeCalendarView`**, [refer to wiki page](wiki#stand-alone-views) .
+To see how to use **`PrimeMonthView`** & **`PrimeCalendarView`**, [refer to wiki page](https://github.com/aminography/PrimeDatePicker/wiki#stand-alone-views) .
+
+<br/>
 
 Change Log
 ----------
