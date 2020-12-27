@@ -14,7 +14,7 @@ Firstly, **`PrimeDatePicker`** is a tool that provides picking a single day, mul
     <td><b>Multiple Days | Civil</b><br/><i>BottomSheet | Dark</i></td>
     <td><b>Range of Days | Persian</b><br/><i>BottomSheet | Light</i></td>
     <td><b>Single Day | Hijri</b><br/><i>Dialog | Light</i></td>
-    <td><b>Goto View | Japanese</b><br/><i>Dialog | Dark</i></td>
+    <td><b>Goto Feature | Japanese</b><br/><i>Dialog | Dark</i></td>
   </tr>
 
   <tr>
