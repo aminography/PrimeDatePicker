@@ -355,7 +355,7 @@ val themeFactory = object : LightThemeFactory() {
 
 <br/>
 
-Using above theme, we can transform normal theme (left picture) to the right one.
+Using above theme, we can transform normal light theme (left picture) to the right one.
 
 <br/>
 
