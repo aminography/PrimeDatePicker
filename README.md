@@ -131,7 +131,7 @@ val today = CivilCalendar()
 
 val datePicker = PrimeDatePicker.bottomSheetWith(today)
         .pickSingleDay(callback)
-        .minPossibleDate(minDateCalendar)
+        .initiallyPickedSingleDay(pickedDay)
         .build()
         
 datePicker.show(supportFragmentManager, "SOME_TAG")
