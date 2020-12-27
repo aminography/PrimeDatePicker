@@ -35,7 +35,9 @@ Table of Contents
 - [Main Characteristics](#main-characteristics)
 - [Download](#download)
 - [Usage](#usage)
-   - [Configurations Based on Input Calendar](#configurations-based-on-input-calendar)
+   - [Java Example](#java-example)
+   - [Builder Configurations](#builder-configurations)
+   - [Input Calendar Configurations](#input-calendar-configurations)
    - [Customizing Theme](#customizing-theme)
    - [Customizing Texts](#customizing-texts)
 - [Stand-Alone Views](#stand-alone-views)
@@ -137,7 +139,7 @@ datePicker.show(supportFragmentManager, "SOME_TAG")
 
 <br/>
 
-### Java Usage Example
+### Java Example
 
 > Java
 ```java
@@ -160,7 +162,7 @@ datePicker.show(getSupportFragmentManager(), "SOME_TAG");
 
 <br/>
 
-### Date Picker Configurations
+### Builder Configurations
 
 There are several builder functions applying relevant configurations on the date picker.
 
