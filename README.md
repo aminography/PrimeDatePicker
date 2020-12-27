@@ -5,7 +5,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1c44ee8a3a14b0e8c963c36c8e586d8)](https://app.codacy.com/manual/aminography/PrimeDatePicker?utm_source=github.com&utm_medium=referral&utm_content=aminography/PrimeDatePicker&utm_campaign=Badge_Grade_Dashboard)
 [![API](https://img.shields.io/badge/minSdkVersion-13-important.svg)](https://android-arsenal.com/api?level=13)
 
-First, **`PrimeDatePicker`** is a tool which provides picking a single day, multiple days, and a range of days. Second, you can use its `MonthView` and `CalendarView` as stand-alone views in your projects.
+Firstly, **`PrimeDatePicker`** is a tool that provides picking a single day, multiple days, and a range of days. Secondly, you can use internal elements like `MonthView` and `CalendarView` as stand-alone views in your projects.
 ![](static/prime_logo.png)
 
 <table>
@@ -37,14 +37,14 @@ The ❤️ of this library is provided by [**PrimeCalendar**](https://github.com
 Main Characteristics
 --------------------
 - Endless Scrolling
-- Fully Customizable Views & Theme
-- Regarding Material Design
+- Fully Customizable Views & Themes
+- Align With Material Design
 - Fluent UI
 - RTL Support
 - Landscape Support
 - Various Calendar Types
 - Various Date Picking Strategies
-- Showing Both Dialog & BottomSheet
+- Dialog & BottomSheet Presentations
 - Fast Goto
 
 #### :dart: Download [SampleApp.apk](https://github.com/aminography/PrimeDatePicker/releases/download/v3.1.1/sample-app-release.apk)
@@ -70,26 +70,26 @@ dependencies {
 
 Usage
 -----------------
-To enjoy `PrimeDatePicker`, create an instance of it using builder pattern, like the following snippets:
+To enjoy `PrimeDatePicker`, create an instance using a builder pattern, like the following snippets:
 
 > Kotlin
 ```kotlin
 
-val multipleDaysPickCallback = MultipleDaysPickCallback { multipleDays ->
+val callback = MultipleDaysPickCallback { multipleDays ->
     // TODO
 }
 
 val themeFactory = DarkThemeFactory()
 
-val today = CivilCalendar()  // Causes a Civil date picker, also today as the starting date
+val today = CivilCalendar()  // To show a date picker with Civil dates, also today as the starting date
 
-val datePicker = PrimeDatePicker.bottomSheetWith(today) // or dialogWith(today)
-        .pickMultipleDays(multipleDaysPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
-        .minPossibleDate(minDateCalendar)            // Optional
-        .maxPossibleDate(maxDateCalendar)            // Optional
-        .disabledDays(disabledDaysList)              // Optional
-        .firstDayOfWeek(Calendar.MONDAY)             // Optional
-        .applyTheme(themeFactory)                    // Optional
+val datePicker = PrimeDatePicker.bottomSheetWith(today)  // or dialogWith(today)
+        .pickMultipleDays(callback)        // Passing callback is optional, can be set later using setDayPickCallback()
+        .minPossibleDate(minDateCalendar)  // Optional
+        .maxPossibleDate(maxDateCalendar)  // Optional
+        .disabledDays(disabledDaysList)    // Optional
+        .firstDayOfWeek(Calendar.MONDAY)   // Optional
+        .applyTheme(themeFactory)          // Optional
         .build()
 
 datePicker.show(supportFragmentManager, "SOME_TAG")
@@ -99,7 +99,7 @@ datePicker.show(supportFragmentManager, "SOME_TAG")
 
 > Java
 ```java
-SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
+SingleDayPickCallback callback = new SingleDayPickCallback() {
     @Override
     public void onSingleDayPicked(PrimeCalendar singleDay) {
         // TODO
@@ -108,15 +108,15 @@ SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
 
 BaseThemeFactory themeFactory = new LightThemeFactory();
 
-PrimeCalendar today = new JapaneseCalendar();  // Causes a Japanese date picker, also today as the starting date
+PrimeCalendar today = new JapaneseCalendar();  // To show a date picker with Japanese dates, also today as the starting date
 
-PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today) // or bottomSheetWith(today)
-    .pickSingleDay(singleDayPickCallback)  // Passing callback is optional, can be set later using setDayPickCallback()
-    .minPossibleDate(minDateCalendar)      // Optional
-    .maxPossibleDate(maxDateCalendar)      // Optional
-    .disabledDays(disabledDaysList)        // Optional
-    .firstDayOfWeek(Calendar.MONDAY)       // Optional
-    .applyTheme(themeFactory)              // Optional
+PrimeDatePicker datePicker = PrimeDatePicker.Companion.dialogWith(today)  // or bottomSheetWith(today)
+    .pickSingleDay(callback)           // Passing callback is optional, can be set later using setDayPickCallback()
+    .minPossibleDate(minDateCalendar)  // Optional
+    .maxPossibleDate(maxDateCalendar)  // Optional
+    .disabledDays(disabledDaysList)    // Optional
+    .firstDayOfWeek(Calendar.MONDAY)   // Optional
+    .applyTheme(themeFactory)          // Optional
     .build();
 
 datePicker.show(getSupportFragmentManager(), "SOME_TAG");
@@ -137,7 +137,7 @@ val calendar = PersianCalendar(Locale.ENGLISH).also {
 }
 
 val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
-                    .pickSingleDay(singleDayPickCallback)
+                    .pickSingleDay(callback)
                      ...
                     .build()
 ```
@@ -631,7 +631,7 @@ These variables are only accessible programmatically to get or set. (Available b
 
 <br/>
 
-### 3. Listener (Common for `PrimeMonthView` & `PrimeCalendarView`)
+### 3. Listener (Common in `PrimeMonthView` & `PrimeCalendarView`)
 You can listen to day picking actions by setting an instance of [OnDayPickedListener](library/src/main/java/com/aminography/primedatepicker/common/OnDayPickedListener.java) to the views.
 For example:
 
@@ -747,14 +747,6 @@ Change Log
 
 ### Version 1.0.14
 - Animation for selected days using `animateSelection`, `animationDuration`, and `animationInterpolator` attributes.
-
-<br/>
-
-Third-Party Libraries
----------------------
-**• PrimeCalendar** (<https://github.com/aminography/PrimeCalendar>)
-
-**• PrimeAdapter** (<https://github.com/aminography/PrimeAdapter>)
 
 <br/>
 
