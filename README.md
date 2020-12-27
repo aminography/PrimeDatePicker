@@ -146,16 +146,22 @@ val datePicker = PrimeDatePicker.bottomSheetWith(calendar)
 
 ### Customizing Theme
 
-`PrimeDatePicker` is fully customizable and you can fit its view to what you desire.
-Almost everything is customizable, such as: text size & color, background & element color, padding, font typeface, string formatter, calendar animation & transition parameters, *etc*.
+`PrimeDatePicker` is fully customizable and you can tailor it to what you desire.
+Almost everything is customizable. For example:
+- text sizes & colors
+- background & element colors
+- padding & distances
+- font typeface
+- string formatter
+- calendar animations & transition parameters
+- *etc*
 
-In this way, a theme factory class is provided which declares theme parameters.
-A concrete subclass of this class realizes the parameters to be used by views.
-By default, there are two concrete subclasses:
+In this way, a set of theme factory class are provided to specify theme parameters.
+By default, there are two concrete subclasses for the them factory:
 [`DarkThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/DarkThemeFactory.kt)
 and
 [`LightThemeFactory`](library/src/main/java/com/aminography/primedatepicker/picker/theme/LightThemeFactory.kt)
-that you can override their parameters or inherit a class from or make your own theme factory.
+that you can override their parameters, or inherit a class from, or make your own theme factory.
 
 Here is an example of how to override theme parameters in `Kotlin` as well as `Java`:
 
