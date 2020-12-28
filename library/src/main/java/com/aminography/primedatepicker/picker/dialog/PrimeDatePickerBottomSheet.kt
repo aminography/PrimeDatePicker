@@ -67,5 +67,4 @@ internal class PrimeDatePickerBottomSheet : BaseBottomSheetDialogFragment(
     override fun setOnEachDayPickedListener(listener: OnDayPickedListener?) {
         primeDatePicker.setOnEachDayPickedListener(listener)
     }
-
 }

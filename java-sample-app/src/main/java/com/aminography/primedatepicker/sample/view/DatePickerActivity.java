@@ -1,5 +1,6 @@
 package com.aminography.primedatepicker.sample.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -161,6 +162,13 @@ public class DatePickerActivity extends AppCompatActivity {
                 }
 
                 datePicker.show(getSupportFragmentManager(), PICKER_TAG);
+
+                datePicker.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        datePicker = null;
+                    }
+                });
             }
         });
     }
@@ -196,21 +204,21 @@ public class DatePickerActivity extends AppCompatActivity {
         }
     }
 
-    private SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
+    private final SingleDayPickCallback singleDayPickCallback = new SingleDayPickCallback() {
         @Override
         public void onSingleDayPicked(PrimeCalendar singleDay) {
             longToast(singleDay.getLongDateString());
         }
     };
 
-    private RangeDaysPickCallback rangeDaysPickCallback = new RangeDaysPickCallback() {
+    private final RangeDaysPickCallback rangeDaysPickCallback = new RangeDaysPickCallback() {
         @Override
         public void onRangeDaysPicked(PrimeCalendar startDay, PrimeCalendar endDay) {
             longToast(String.format("From: %s\nTo: %s", startDay.getLongDateString(), endDay.getLongDateString()));
         }
     };
 
-    private MultipleDaysPickCallback multipleDaysPickCallback = new MultipleDaysPickCallback() {
+    private final MultipleDaysPickCallback multipleDaysPickCallback = new MultipleDaysPickCallback() {
         @Override
         public void onMultipleDaysPicked(List<PrimeCalendar> multipleDays) {
             List<String> list = new ArrayList<>();

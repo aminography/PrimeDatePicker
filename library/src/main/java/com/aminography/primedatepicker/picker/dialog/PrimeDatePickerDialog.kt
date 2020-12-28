@@ -67,5 +67,4 @@ internal class PrimeDatePickerDialog : BaseDialogFragment(
     override fun setOnEachDayPickedListener(listener: OnDayPickedListener?) {
         primeDatePicker.setOnEachDayPickedListener(listener)
     }
-
 }
