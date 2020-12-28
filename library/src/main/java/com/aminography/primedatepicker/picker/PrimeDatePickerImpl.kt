@@ -46,7 +46,7 @@ import java.util.*
  */
 @Suppress("unused")
 internal class PrimeDatePickerImpl(
-    private val onDismiss: () -> Unit
+    private var onDismiss: (() -> Unit)? = null
 ) : PrimeDatePicker, OnDayPickedListener, OnMonthLabelClickListener {
 
     private lateinit var context: Context
@@ -195,7 +195,7 @@ internal class PrimeDatePickerImpl(
                     (onDayPickCallback as? SingleDayPickCallback)?.onSingleDayPicked(
                         calendarView.pickedSingleDayCalendar!!
                     )
-                    onDismiss()
+                    onDismiss?.invoke()
                 }
             }
             PickType.RANGE_START, PickType.RANGE_END -> {
@@ -206,7 +206,7 @@ internal class PrimeDatePickerImpl(
                         calendarView.pickedRangeStartCalendar!!,
                         calendarView.pickedRangeEndCalendar!!
                     )
-                    onDismiss()
+                    onDismiss?.invoke()
                 }
             }
             PickType.MULTIPLE -> {
@@ -216,7 +216,7 @@ internal class PrimeDatePickerImpl(
                     (onDayPickCallback as? MultipleDaysPickCallback)?.onMultipleDaysPicked(
                         calendarView.pickedMultipleDaysList
                     )
-                    onDismiss()
+                    onDismiss?.invoke()
                 }
             }
             PickType.NOTHING -> {
@@ -237,7 +237,7 @@ internal class PrimeDatePickerImpl(
                     }
                 }
                 it.onPositiveButtonClick = { handleOnPositiveButtonClick(calendarView) }
-                it.onNegativeButtonClick = { onDismiss() }
+                it.onNegativeButtonClick = { onDismiss?.invoke() }
                 it.applyTheme(themeFactory)
             }
         }
@@ -392,6 +392,7 @@ internal class PrimeDatePickerImpl(
         onDismissListener = null
         onDayPickCallback = null
         onDayPickedListener = null
+        onDismiss = null
     }
 
     override fun show(manager: FragmentManager, tag: String?) {

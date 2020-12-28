@@ -66,6 +66,8 @@ class DatePickerActivity : AppCompatActivity() {
             }
 
             datePicker?.show(supportFragmentManager, PICKER_TAG)
+
+            datePicker?.setOnDismissListener { datePicker = null }
         }
     }
 
@@ -77,17 +79,19 @@ class DatePickerActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         datePicker = supportFragmentManager.findFragmentByTag(PICKER_TAG) as? PrimeDatePicker
-        when (datePicker?.pickType) {
-            PickType.SINGLE -> {
-                datePicker?.setDayPickCallback(singleDayPickCallback)
-            }
-            PickType.RANGE_START, PickType.RANGE_END -> {
-                datePicker?.setDayPickCallback(rangeDaysPickCallback)
-            }
-            PickType.MULTIPLE -> {
-                datePicker?.setDayPickCallback(multipleDaysPickCallback)
-            }
-            else -> {
+        datePicker?.let {
+            when (it.pickType) {
+                PickType.SINGLE -> {
+                    it.setDayPickCallback(singleDayPickCallback)
+                }
+                PickType.RANGE_START, PickType.RANGE_END -> {
+                    it.setDayPickCallback(rangeDaysPickCallback)
+                }
+                PickType.MULTIPLE -> {
+                    it.setDayPickCallback(multipleDaysPickCallback)
+                }
+                else -> {
+                }
             }
         }
     }
@@ -133,14 +137,14 @@ class DatePickerActivity : AppCompatActivity() {
     private fun getDefaultTheme(typeface: String): ThemeFactory {
         return when {
             lightThemeRadioButton.isChecked -> object : LightThemeFactory() {
-                override val typefacePath: String?
+                override val typefacePath: String
                     get() = typeface
 
 //                override val pickedDayBackgroundShapeType: BackgroundShapeType
 //                    get() = BackgroundShapeType.ROUND_SQUARE
             }
             else -> object : DarkThemeFactory() {
-                override val typefacePath: String?
+                override val typefacePath: String
                     get() = typeface
 
 //                override val calendarViewShowAdjacentMonthDays: Boolean
