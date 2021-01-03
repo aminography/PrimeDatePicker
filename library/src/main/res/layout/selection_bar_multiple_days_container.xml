@@ -26,13 +26,14 @@
         android:clipChildren="false"
         android:clipToPadding="true"
         android:fadingEdgeLength="@dimen/material_size_2"
-        android:paddingStart="@dimen/material_size_4"
-        android:paddingEnd="@dimen/material_size_4"
+        android:paddingLeft="@dimen/material_size_4"
+        android:paddingRight="@dimen/material_size_4"
         android:requiresFadingEdge="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/list_item_picked_day" />
+        tools:listitem="@layout/list_item_picked_day"
+        tools:targetApi="ice_cream_sandwich" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
