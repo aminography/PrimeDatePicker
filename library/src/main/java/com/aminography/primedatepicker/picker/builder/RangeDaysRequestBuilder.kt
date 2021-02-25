@@ -46,6 +46,18 @@ class RangeDaysRequestBuilder<T : PrimeDatePicker> internal constructor(
         return this
     }
 
+    /**
+     * Specifies automatic selection of picking end day when the start day gets picked.
+     *
+     * @param autoSelect enables automatic selection if `true`, disables otherwise.
+     *
+     * @return current instance of [RangeDaysRequestBuilder].
+     */
+    fun autoSelectPickEndDay(autoSelect: Boolean): RangeDaysRequestBuilder<T> {
+        bundle.putBoolean("autoSelectPickEndDay", autoSelect)
+        return this
+    }
+
 //    /**
 //     * Specifies minimum length of range that can be picked.
 //     *

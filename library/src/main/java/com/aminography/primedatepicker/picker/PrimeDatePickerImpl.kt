@@ -74,6 +74,7 @@ internal class PrimeDatePickerImpl(
     private var gotoView: BaseLazyView? = null
     private var direction: Direction = Direction.LTR
     private var typeface: Typeface? = null
+    private var autoSelectPickEndDay: Boolean = true
     private lateinit var themeFactory: ThemeFactory
 
     internal fun onCreate(context: Context, coroutineScope: CoroutineScope) {
@@ -92,6 +93,10 @@ internal class PrimeDatePickerImpl(
             it != -1
         }?.let {
             initialDateCalendar.firstDayOfWeek = it
+        }
+
+        arguments?.getBoolean("autoSelectPickEndDay", true)?.let {
+            autoSelectPickEndDay = it
         }
 
         arguments?.getString("pickType")?.let { internalPickType = PickType.valueOf(it) }
@@ -330,9 +335,14 @@ internal class PrimeDatePickerImpl(
                 (selectionBarView as SingleDaySelectionBarView).pickedDay = singleDay
             }
             PickType.RANGE_START, PickType.RANGE_END -> {
-                (selectionBarView as RangeDaysSelectionBarView).run {
-                    pickedRangeStartDay = startDay
-                    pickedRangeEndDay = endDay
+                (selectionBarView as RangeDaysSelectionBarView).let {
+                    it.pickedRangeStartDay = startDay
+                    it.pickedRangeEndDay = endDay
+
+                    if (autoSelectPickEndDay && pickType == PickType.RANGE_START && endDay == null) {
+                        it.animateBackground(false)
+                        it.onRangeEndClickListener?.invoke()
+                    }
                 }
             }
             PickType.MULTIPLE -> {
