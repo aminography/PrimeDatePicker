@@ -106,7 +106,7 @@ internal class RangeDaysSelectionBarView(
             }
         }
 
-    private fun animateBackground(isStart: Boolean, duration: Long = 300) {
+    internal fun animateBackground(isStart: Boolean, duration: Long = 300) {
         rootView.backImageView.post {
             ObjectAnimator.ofFloat(
                 rootView.backImageView,
@@ -122,5 +122,4 @@ internal class RangeDaysSelectionBarView(
             }
         }
     }
-
 }

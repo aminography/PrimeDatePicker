@@ -78,7 +78,7 @@ repositories {
 }
   
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.3.2'
+    implementation 'com.aminography:primedatepicker:3.4.0'
     implementation 'com.aminography:primecalendar:1.3.2'
 }
 ```
@@ -232,11 +232,11 @@ There are several builder functions applying relevant configurations on the date
   </tr>
 
   <tr>
-    <td><b>• initiallyPickedStartDay(startDay: PrimeCalendar, pickEndDay: Boolean)</b></td>
+    <td><b>• autoSelectPickEndDay(autoSelect: Boolean)</b></td>
     <td>RangeDays</td>
   </tr>
   <tr>
-    <td colspan="2"><i>Specifies initially picked start day when the date picker has just shown.</i></td>
+    <td colspan="2"><i>Specifies automatic selection of picking end day when the start day gets picked.</i></td>
   </tr>
 
   <tr>
