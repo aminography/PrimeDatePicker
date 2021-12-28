@@ -1,7 +1,7 @@
 # `PrimeDatePicker` :zap:
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-PrimeDatePicker-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/7743)
 [![Android Weekly](https://img.shields.io/badge/Android%20Weekly-%23367-red.svg)](http://androidweekly.net/issues/issue-367)
-[![Bintray](https://img.shields.io/bintray/v/aminography/maven/PrimeDatePicker?label=Bintray)](https://bintray.com/aminography/maven/PrimeDatePicker/_latestVersion)
+![mavenCentral](https://img.shields.io/maven-central/v/com.aminography/primedatepicker?color=blue)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1c44ee8a3a14b0e8c963c36c8e586d8)](https://app.codacy.com/manual/aminography/PrimeDatePicker?utm_source=github.com&utm_medium=referral&utm_content=aminography/PrimeDatePicker&utm_campaign=Badge_Grade_Dashboard)
 [![API](https://img.shields.io/badge/minSdkVersion-13-important.svg)](https://android-arsenal.com/api?level=13)
 
@@ -70,16 +70,12 @@ Main Characteristics
 
 Download
 --------
-**`PrimeDatePicker`** is available on [bintray](https://bintray.com/aminography/maven/PrimeDatePicker) to download using build tools systems. Add the following lines to your `build.gradle` file:
+**`PrimeDatePicker`** is available on `MavenCentral` to download using build tools systems. Add the following lines to your `build.gradle` file:
 
 ```gradle
-repositories {
-    jcenter()
-}
-  
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.4.0'
-    implementation 'com.aminography:primecalendar:1.3.2'
+    implementation 'com.aminography:primedatepicker:3.5.0'
+    implementation 'com.aminography:primecalendar:1.4.0'
 }
 ```
 
