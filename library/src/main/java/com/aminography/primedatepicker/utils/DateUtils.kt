@@ -24,7 +24,7 @@ object DateUtils {
         year == calendar.year && month == calendar.month && dayOfMonth == calendar.dayOfMonth
 
     fun isSame(first: PrimeCalendar, second: PrimeCalendar) =
-        first.year == second.year && first.month == second.month && first.dayOfMonth == second.dayOfMonth
+        first.run { isSame(year, month, dayOfMonth, second) }
 
     fun isBetweenExclusive(year: Int, month: Int, dayOfMonth: Int, start: PrimeCalendar, end: PrimeCalendar): Boolean {
         val offset = year * 12 + month
@@ -48,11 +48,7 @@ object DateUtils {
         } ?: false
 
     fun isBefore(calendar: PrimeCalendar, target: PrimeCalendar?): Boolean =
-        target?.let {
-            calendar.year < it.year ||
-                (calendar.year == it.year && calendar.month < it.month) ||
-                (calendar.year == it.year && calendar.month == it.month && calendar.dayOfMonth < it.dayOfMonth)
-        } ?: false
+        calendar.run { isBefore(year, month, dayOfMonth, target) }
 
     fun isAfter(year: Int, month: Int, dayOfMonth: Int, target: PrimeCalendar?): Boolean =
         target?.let {
@@ -62,11 +58,7 @@ object DateUtils {
         } ?: false
 
     fun isAfter(calendar: PrimeCalendar, target: PrimeCalendar?): Boolean =
-        target?.let {
-            calendar.year > it.year ||
-                (calendar.year == it.year && calendar.month > it.month) ||
-                (calendar.year == it.year && calendar.month == it.month && calendar.dayOfMonth > it.dayOfMonth)
-        } ?: false
+        calendar.run { isAfter(year, month, dayOfMonth, target) }
 
     fun isOutOfRange(year: Int, month: Int, dayOfMonth: Int, minDateCalendar: PrimeCalendar?, maxDateCalendar: PrimeCalendar?): Boolean =
         isBefore(year, month, dayOfMonth, minDateCalendar) || isAfter(year, month, dayOfMonth, maxDateCalendar)

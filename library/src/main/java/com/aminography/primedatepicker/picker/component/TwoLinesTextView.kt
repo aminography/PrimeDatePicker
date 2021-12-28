@@ -261,7 +261,7 @@ internal class TwoLinesTextView @JvmOverloads constructor(
 
     // Save/Restore States -------------------------------------------------------------------------
 
-    override fun onSaveInstanceState(): Parcelable? {
+    override fun onSaveInstanceState(): Parcelable {
         val superState = super.onSaveInstanceState()
         val savedState = SavedState(superState)
 
@@ -298,16 +298,16 @@ internal class TwoLinesTextView @JvmOverloads constructor(
 
     private class SavedState : BaseSavedState {
 
-        internal var topLabelText: String = ""
-        internal var bottomLabelText: String = ""
-        internal var topLabelTextColor: Int = 0
-        internal var bottomLabelTextColor: Int = 0
-        internal var topLabelTextSize: Int = 0
-        internal var bottomLabelTextSize: Int = 0
-        internal var preferredMinWidth: Int = 0
-        internal var gapBetweenLines: Int = 0
+        var topLabelText: String = ""
+        var bottomLabelText: String = ""
+        var topLabelTextColor: Int = 0
+        var bottomLabelTextColor: Int = 0
+        var topLabelTextSize: Int = 0
+        var bottomLabelTextSize: Int = 0
+        var preferredMinWidth: Int = 0
+        var gapBetweenLines: Int = 0
 
-        internal constructor(superState: Parcelable?) : super(superState)
+        constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
             topLabelText = input.readString() ?: ""

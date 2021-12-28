@@ -143,21 +143,46 @@ class PrimeMonthView @JvmOverloads constructor(
     // ---------------------------------------------------------------------------------------------
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes).run {
-            doNotInvalidate {
-                monthLabelTextColor = getColor(R.styleable.PrimeMonthView_monthLabelTextColor, ContextCompat.getColor(context, R.color.blueGray200))
-                weekLabelTextColor = getColor(R.styleable.PrimeMonthView_weekLabelTextColor, ContextCompat.getColor(context, R.color.red300))
+        context.obtainStyledAttributes(attrs, R.styleable.PrimeMonthView, defStyleAttr, defStyleRes)
+            .run {
+                doNotInvalidate {
+                    monthLabelTextColor = getColor(
+                        R.styleable.PrimeMonthView_monthLabelTextColor,
+                        ContextCompat.getColor(context, R.color.blueGray200)
+                    )
+                    weekLabelTextColor = getColor(
+                        R.styleable.PrimeMonthView_weekLabelTextColor,
+                        ContextCompat.getColor(context, R.color.red300)
+                    )
 
-                monthLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize))
-                weekLabelTextSize = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize))
+                    monthLabelTextSize = getDimensionPixelSize(
+                        R.styleable.PrimeMonthView_monthLabelTextSize,
+                        resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTextSize)
+                    )
+                    weekLabelTextSize = getDimensionPixelSize(
+                        R.styleable.PrimeMonthView_weekLabelTextSize,
+                        resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTextSize)
+                    )
 
-                monthLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTopPadding))
-                monthLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_monthLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding))
-                weekLabelTopPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelTopPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding))
-                weekLabelBottomPadding = getDimensionPixelSize(R.styleable.PrimeMonthView_weekLabelBottomPadding, resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding))
+                    monthLabelTopPadding = getDimensionPixelSize(
+                        R.styleable.PrimeMonthView_monthLabelTopPadding,
+                        resources.getDimensionPixelSize(R.dimen.defaultMonthLabelTopPadding)
+                    )
+                    monthLabelBottomPadding = getDimensionPixelSize(
+                        R.styleable.PrimeMonthView_monthLabelBottomPadding,
+                        resources.getDimensionPixelSize(R.dimen.defaultMonthLabelBottomPadding)
+                    )
+                    weekLabelTopPadding = getDimensionPixelSize(
+                        R.styleable.PrimeMonthView_weekLabelTopPadding,
+                        resources.getDimensionPixelSize(R.dimen.defaultWeekLabelTopPadding)
+                    )
+                    weekLabelBottomPadding = getDimensionPixelSize(
+                        R.styleable.PrimeMonthView_weekLabelBottomPadding,
+                        resources.getDimensionPixelSize(R.dimen.defaultWeekLabelBottomPadding)
+                    )
+                }
+                recycle()
             }
-            recycle()
-        }
 
         monthLabelPainter.also {
             it.monthLabelTextSize = monthLabelTextSize
@@ -213,11 +238,10 @@ class PrimeMonthView @JvmOverloads constructor(
 
     override fun setupGotoExtras() {
         super.setupGotoExtras()
-        firstDayOfMonthCalendar?.let {
-            monthLabelFormatter(it)
-        }?.also {
-            monthLabel = it.localizeDigits(locale)
-        }
+
+        firstDayOfMonthCalendar
+            ?.let { monthLabelFormatter(it) }
+            ?.let { monthLabel = it.localizeDigits(locale) }
 
         CalendarFactory.newInstance(calendarType, locale).let {
             weekLabels = Array(7) { dayOfWeek ->
@@ -237,15 +261,17 @@ class PrimeMonthView @JvmOverloads constructor(
         when (event.action) {
             MotionEvent.ACTION_UP -> {
                 if (!super.onTouchEvent(event)) {
-                    isMonthTouched(event.x, event.y).takeIf { it }?.run {
-                        val calendar = CalendarFactory.newInstance(calendarType, locale)
-                        calendar.set(year, month, 1)
-                        onMonthLabelClickListener?.onMonthLabelClicked(
-                            calendar,
-                            event.x.toInt(),
-                            event.y.toInt()
-                        )
-                    }
+                    isMonthTouched(event.x, event.y)
+                        .takeIf { it }
+                        ?.run {
+                            val calendar = CalendarFactory.newInstance(calendarType, locale)
+                            calendar.set(year, month, 1)
+                            onMonthLabelClickListener?.onMonthLabelClicked(
+                                calendar,
+                                event.x.toInt(),
+                                event.y.toInt()
+                            )
+                        }
                 }
             }
         }
@@ -266,21 +292,20 @@ class PrimeMonthView @JvmOverloads constructor(
 
     // Save/Restore States -------------------------------------------------------------------------
 
-    override fun onSaveInstanceState(): Parcelable? {
-        val savedState = SavedState(super.onSaveInstanceState())
+    override fun onSaveInstanceState(): Parcelable {
+        return SavedState(super.onSaveInstanceState())
+            .also {
+                it.monthLabelTextColor = monthLabelTextColor
+                it.weekLabelTextColor = weekLabelTextColor
 
-        savedState.monthLabelTextColor = monthLabelTextColor
-        savedState.weekLabelTextColor = weekLabelTextColor
+                it.monthLabelTextSize = monthLabelTextSize
+                it.weekLabelTextSize = weekLabelTextSize
 
-        savedState.monthLabelTextSize = monthLabelTextSize
-        savedState.weekLabelTextSize = weekLabelTextSize
-
-        savedState.monthLabelTopPadding = monthLabelTopPadding
-        savedState.monthLabelBottomPadding = monthLabelBottomPadding
-        savedState.weekLabelTopPadding = weekLabelTopPadding
-        savedState.weekLabelBottomPadding = weekLabelBottomPadding
-
-        return savedState
+                it.monthLabelTopPadding = monthLabelTopPadding
+                it.monthLabelBottomPadding = monthLabelBottomPadding
+                it.weekLabelTopPadding = weekLabelTopPadding
+                it.weekLabelBottomPadding = weekLabelBottomPadding
+            }
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
@@ -304,18 +329,18 @@ class PrimeMonthView @JvmOverloads constructor(
 
     private class SavedState : BaseSavedState {
 
-        internal var monthLabelTextColor: Int = 0
-        internal var weekLabelTextColor: Int = 0
+        var monthLabelTextColor: Int = 0
+        var weekLabelTextColor: Int = 0
 
-        internal var monthLabelTextSize: Int = 0
-        internal var weekLabelTextSize: Int = 0
+        var monthLabelTextSize: Int = 0
+        var weekLabelTextSize: Int = 0
 
-        internal var monthLabelTopPadding: Int = 0
-        internal var monthLabelBottomPadding: Int = 0
-        internal var weekLabelTopPadding: Int = 0
-        internal var weekLabelBottomPadding: Int = 0
+        var monthLabelTopPadding: Int = 0
+        var monthLabelBottomPadding: Int = 0
+        var weekLabelTopPadding: Int = 0
+        var weekLabelBottomPadding: Int = 0
 
-        internal constructor(superState: Parcelable?) : super(superState)
+        constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
             monthLabelTextColor = input.readInt()

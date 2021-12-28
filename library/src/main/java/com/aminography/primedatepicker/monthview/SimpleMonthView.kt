@@ -21,14 +21,19 @@ import com.aminography.primecalendar.common.CalendarFactory
 import com.aminography.primecalendar.common.CalendarType
 import com.aminography.primecalendar.common.localizeDigits
 import com.aminography.primedatepicker.R
-import com.aminography.primedatepicker.common.*
+import com.aminography.primedatepicker.common.BackgroundShapeType
+import com.aminography.primedatepicker.common.Direction
+import com.aminography.primedatepicker.common.LabelFormatter
+import com.aminography.primedatepicker.common.OnDayPickedListener
+import com.aminography.primedatepicker.common.OnMonthLabelClickListener
+import com.aminography.primedatepicker.common.PickType
 import com.aminography.primedatepicker.monthview.painters.DayLabelsPainter
 import com.aminography.primedatepicker.utils.DateUtils
 import com.aminography.primedatepicker.utils.dp2px
 import com.aminography.primedatepicker.utils.findDirection
 import com.aminography.primedatepicker.utils.isDisplayLandscape
-import java.util.*
-import kotlin.collections.LinkedHashMap
+import java.util.Calendar
+import java.util.Locale
 import kotlin.math.min
 
 
@@ -443,31 +448,87 @@ open class SimpleMonthView @JvmOverloads constructor(
     // ---------------------------------------------------------------------------------------------
 
     init {
-        context.obtainStyledAttributes(attrs, R.styleable.SimpleMonthView, defStyleAttr, defStyleRes).run {
+        context.obtainStyledAttributes(
+            attrs,
+            R.styleable.SimpleMonthView,
+            defStyleAttr,
+            defStyleRes
+        ).run {
             doNotInvalidate {
-                calendarType = CalendarType.values()[getInt(R.styleable.SimpleMonthView_calendarType, DEFAULT_CALENDAR_TYPE.ordinal)]
+                calendarType = CalendarType.values()[getInt(
+                    R.styleable.SimpleMonthView_calendarType,
+                    DEFAULT_CALENDAR_TYPE.ordinal
+                )]
 
-                dayLabelTextColor = getColor(R.styleable.SimpleMonthView_dayLabelTextColor, ContextCompat.getColor(context, R.color.gray900))
-                todayLabelTextColor = getColor(R.styleable.SimpleMonthView_todayLabelTextColor, ContextCompat.getColor(context, R.color.green400))
-                pickedDayLabelTextColor = getColor(R.styleable.SimpleMonthView_pickedDayLabelTextColor, ContextCompat.getColor(context, R.color.white))
-                pickedDayInRangeLabelTextColor = getColor(R.styleable.SimpleMonthView_pickedDayInRangeLabelTextColor, ContextCompat.getColor(context, R.color.white))
-                pickedDayBackgroundColor = getColor(R.styleable.SimpleMonthView_pickedDayBackgroundColor, ContextCompat.getColor(context, R.color.red300))
-                pickedDayInRangeBackgroundColor = getColor(R.styleable.SimpleMonthView_pickedDayInRangeBackgroundColor, ContextCompat.getColor(context, R.color.red300))
-                disabledDayLabelTextColor = getColor(R.styleable.SimpleMonthView_disabledDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
-                adjacentMonthDayLabelTextColor = getColor(R.styleable.SimpleMonthView_adjacentMonthDayLabelTextColor, ContextCompat.getColor(context, R.color.gray400))
+                dayLabelTextColor = getColor(
+                    R.styleable.SimpleMonthView_dayLabelTextColor,
+                    ContextCompat.getColor(context, R.color.gray900)
+                )
+                todayLabelTextColor = getColor(
+                    R.styleable.SimpleMonthView_todayLabelTextColor,
+                    ContextCompat.getColor(context, R.color.green400)
+                )
+                pickedDayLabelTextColor = getColor(
+                    R.styleable.SimpleMonthView_pickedDayLabelTextColor,
+                    ContextCompat.getColor(context, R.color.white)
+                )
+                pickedDayInRangeLabelTextColor = getColor(
+                    R.styleable.SimpleMonthView_pickedDayInRangeLabelTextColor,
+                    ContextCompat.getColor(context, R.color.white)
+                )
+                pickedDayBackgroundColor = getColor(
+                    R.styleable.SimpleMonthView_pickedDayBackgroundColor,
+                    ContextCompat.getColor(context, R.color.red300)
+                )
+                pickedDayInRangeBackgroundColor = getColor(
+                    R.styleable.SimpleMonthView_pickedDayInRangeBackgroundColor,
+                    ContextCompat.getColor(context, R.color.red300)
+                )
+                disabledDayLabelTextColor = getColor(
+                    R.styleable.SimpleMonthView_disabledDayLabelTextColor,
+                    ContextCompat.getColor(context, R.color.gray400)
+                )
+                adjacentMonthDayLabelTextColor = getColor(
+                    R.styleable.SimpleMonthView_adjacentMonthDayLabelTextColor,
+                    ContextCompat.getColor(context, R.color.gray400)
+                )
 
-                dayLabelTextSize = getDimensionPixelSize(R.styleable.SimpleMonthView_dayLabelTextSize, resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize))
+                dayLabelTextSize = getDimensionPixelSize(
+                    R.styleable.SimpleMonthView_dayLabelTextSize,
+                    resources.getDimensionPixelSize(R.dimen.defaultDayLabelTextSize)
+                )
 
-                dayLabelVerticalPadding = getDimensionPixelSize(R.styleable.SimpleMonthView_dayLabelVerticalPadding, resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding))
+                dayLabelVerticalPadding = getDimensionPixelSize(
+                    R.styleable.SimpleMonthView_dayLabelVerticalPadding,
+                    resources.getDimensionPixelSize(R.dimen.defaultDayLabelVerticalPadding)
+                )
 
-                pickedDayBackgroundShapeType = BackgroundShapeType.values()[getInt(R.styleable.SimpleMonthView_pickedDayBackgroundShapeType, DEFAULT_BACKGROUND_SHAPE_TYPE.ordinal)]
-                pickedDayRoundSquareCornerRadius = getDimensionPixelSize(R.styleable.SimpleMonthView_pickedDayRoundSquareCornerRadius, resources.getDimensionPixelSize(R.dimen.defaultPickedDayRoundSquareCornerRadius))
+                pickedDayBackgroundShapeType = BackgroundShapeType.values()[getInt(
+                    R.styleable.SimpleMonthView_pickedDayBackgroundShapeType,
+                    DEFAULT_BACKGROUND_SHAPE_TYPE.ordinal
+                )]
+                pickedDayRoundSquareCornerRadius = getDimensionPixelSize(
+                    R.styleable.SimpleMonthView_pickedDayRoundSquareCornerRadius,
+                    resources.getDimensionPixelSize(R.dimen.defaultPickedDayRoundSquareCornerRadius)
+                )
 
-                showTwoWeeksInLandscape = getBoolean(R.styleable.SimpleMonthView_showTwoWeeksInLandscape, resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape))
-                showAdjacentMonthDays = getBoolean(R.styleable.SimpleMonthView_showAdjacentMonthDays, resources.getBoolean(R.bool.defaultShowAdjacentMonthDays))
+                showTwoWeeksInLandscape = getBoolean(
+                    R.styleable.SimpleMonthView_showTwoWeeksInLandscape,
+                    resources.getBoolean(R.bool.defaultShowTwoWeeksInLandscape)
+                )
+                showAdjacentMonthDays = getBoolean(
+                    R.styleable.SimpleMonthView_showAdjacentMonthDays,
+                    resources.getBoolean(R.bool.defaultShowAdjacentMonthDays)
+                )
 
-                animateSelection = getBoolean(R.styleable.SimpleMonthView_animateSelection, resources.getBoolean(R.bool.defaultAnimateSelection))
-                animationDuration = getInteger(R.styleable.SimpleMonthView_animationDuration, resources.getInteger(R.integer.defaultAnimationDuration))
+                animateSelection = getBoolean(
+                    R.styleable.SimpleMonthView_animateSelection,
+                    resources.getBoolean(R.bool.defaultAnimateSelection)
+                )
+                animationDuration = getInteger(
+                    R.styleable.SimpleMonthView_animationDuration,
+                    resources.getInteger(R.integer.defaultAnimationDuration)
+                )
             }
             recycle()
         }
@@ -479,7 +540,8 @@ open class SimpleMonthView @JvmOverloads constructor(
             it.typeface = typeface
             it.shouldAnimateDayBackground = { dayOfMonth -> shouldAnimateDayBackground(dayOfMonth) }
             it.findDayState = { dayOfMonth -> findDayState(dayOfMonth) }
-            it.findDayLabelTextColor = { dayOfMonth, dayState -> findDayLabelTextColor(dayOfMonth, dayState) }
+            it.findDayLabelTextColor =
+                { dayOfMonth, dayState -> findDayLabelTextColor(dayOfMonth, dayState) }
             it.dayLabelFormatter = { dayOfMonth -> findDayLabelText(dayOfMonth) }
         }
 
@@ -736,7 +798,11 @@ open class SimpleMonthView @JvmOverloads constructor(
                     hasChanged = true
                 }
                 PickType.RANGE_END -> {
-                    if (pickedRangeStartCalendar != null && !DateUtils.isBefore(calendar, pickedRangeStartCalendar)) {
+                    if (pickedRangeStartCalendar != null && !DateUtils.isBefore(
+                            calendar,
+                            pickedRangeStartCalendar
+                        )
+                    ) {
                         pickedRangeEndCalendar = calendar
                         hasChanged = true
                     }
@@ -825,48 +891,47 @@ open class SimpleMonthView @JvmOverloads constructor(
     // Save/Restore States -------------------------------------------------------------------------
 
     override fun onSaveInstanceState(): Parcelable? {
-        val savedState = SavedState(super.onSaveInstanceState())
+        return SavedState(super.onSaveInstanceState()).also {
+            it.calendarType = calendarType.ordinal
+            it.firstDayOfWeek = firstDayOfWeek
+            it.locale = locale.language
 
-        savedState.calendarType = calendarType.ordinal
-        savedState.firstDayOfWeek = firstDayOfWeek
-        savedState.locale = locale.language
+            it.year = year
+            it.month = month
 
-        savedState.year = year
-        savedState.month = month
+            it.minDateCalendar = DateUtils.storeCalendar(minDateCalendar)
+            it.maxDateCalendar = DateUtils.storeCalendar(maxDateCalendar)
 
-        savedState.minDateCalendar = DateUtils.storeCalendar(minDateCalendar)
-        savedState.maxDateCalendar = DateUtils.storeCalendar(maxDateCalendar)
+            it.pickType = pickType.name
+            it.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
+            it.pickedRangeStartCalendar = DateUtils.storeCalendar(pickedRangeStartCalendar)
 
-        savedState.pickType = pickType.name
-        savedState.pickedSingleDayCalendar = DateUtils.storeCalendar(pickedSingleDayCalendar)
-        savedState.pickedRangeStartCalendar = DateUtils.storeCalendar(pickedRangeStartCalendar)
+            it.pickedMultipleDaysList = pickedMultipleDaysMap
+                ?.values
+                ?.mapNotNull { day -> DateUtils.storeCalendar(day) }
+                ?: arrayListOf()
 
-        savedState.pickedMultipleDaysList = pickedMultipleDaysMap?.values?.map {
-            DateUtils.storeCalendar(it)!!
-        } ?: arrayListOf()
+            disabledDaysSet?.run { it.disabledDaysList = toList() }
 
-        disabledDaysSet?.let { savedState.disabledDaysList = it.toList() }
+            it.dayLabelTextColor = dayLabelTextColor
+            it.todayLabelTextColor = todayLabelTextColor
+            it.pickedDayLabelTextColor = pickedDayLabelTextColor
+            it.pickedDayInRangeLabelTextColor = pickedDayInRangeLabelTextColor
+            it.pickedDayBackgroundColor = pickedDayBackgroundColor
+            it.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
+            it.disabledDayLabelTextColor = disabledDayLabelTextColor
+            it.adjacentMonthDayLabelTextColor = adjacentMonthDayLabelTextColor
+            it.dayLabelTextSize = dayLabelTextSize
+            it.dayLabelVerticalPadding = dayLabelVerticalPadding
+            it.showTwoWeeksInLandscape = showTwoWeeksInLandscape
+            it.showAdjacentMonthDays = showAdjacentMonthDays
 
-        savedState.dayLabelTextColor = dayLabelTextColor
-        savedState.todayLabelTextColor = todayLabelTextColor
-        savedState.pickedDayLabelTextColor = pickedDayLabelTextColor
-        savedState.pickedDayInRangeLabelTextColor = pickedDayInRangeLabelTextColor
-        savedState.pickedDayBackgroundColor = pickedDayBackgroundColor
-        savedState.pickedDayInRangeBackgroundColor = pickedDayInRangeBackgroundColor
-        savedState.disabledDayLabelTextColor = disabledDayLabelTextColor
-        savedState.adjacentMonthDayLabelTextColor = adjacentMonthDayLabelTextColor
-        savedState.dayLabelTextSize = dayLabelTextSize
-        savedState.dayLabelVerticalPadding = dayLabelVerticalPadding
-        savedState.showTwoWeeksInLandscape = showTwoWeeksInLandscape
-        savedState.showAdjacentMonthDays = showAdjacentMonthDays
+            it.pickedDayBackgroundShapeType = pickedDayBackgroundShapeType.ordinal
+            it.pickedDayRoundSquareCornerRadius = pickedDayRoundSquareCornerRadius
 
-        savedState.pickedDayBackgroundShapeType = pickedDayBackgroundShapeType.ordinal
-        savedState.pickedDayRoundSquareCornerRadius = pickedDayRoundSquareCornerRadius
-
-        savedState.animateSelection = animateSelection
-        savedState.animationDuration = animationDuration
-
-        return savedState
+            it.animateSelection = animateSelection
+            it.animationDuration = animationDuration
+        }
     }
 
     override fun onRestoreInstanceState(state: Parcelable?) {
@@ -886,7 +951,8 @@ open class SimpleMonthView @JvmOverloads constructor(
 
             pickType = savedState.pickType?.let { PickType.valueOf(it) } ?: PickType.NOTHING
             pickedSingleDayCalendar = DateUtils.restoreCalendar(savedState.pickedSingleDayCalendar)
-            pickedRangeStartCalendar = DateUtils.restoreCalendar(savedState.pickedRangeStartCalendar)
+            pickedRangeStartCalendar =
+                DateUtils.restoreCalendar(savedState.pickedRangeStartCalendar)
             pickedRangeEndCalendar = DateUtils.restoreCalendar(savedState.pickedRangeEndCalendar)
 
             linkedMapOf<String, PrimeCalendar>().apply {
@@ -910,7 +976,8 @@ open class SimpleMonthView @JvmOverloads constructor(
             showTwoWeeksInLandscape = savedState.showTwoWeeksInLandscape
             showAdjacentMonthDays = savedState.showAdjacentMonthDays
 
-            pickedDayBackgroundShapeType = BackgroundShapeType.values()[savedState.pickedDayBackgroundShapeType]
+            pickedDayBackgroundShapeType =
+                BackgroundShapeType.values()[savedState.pickedDayBackgroundShapeType]
             pickedDayRoundSquareCornerRadius = savedState.pickedDayRoundSquareCornerRadius
 
             animateSelection = savedState.animateSelection
@@ -925,119 +992,123 @@ open class SimpleMonthView @JvmOverloads constructor(
 
     private class SavedState : BaseSavedState {
 
-        internal var calendarType: Int = 0
-        internal var firstDayOfWeek: Int = 0
-        internal var locale: String? = null
-        internal var year: Int = 0
-        internal var month: Int = 0
+        var calendarType: Int = 0
+        var firstDayOfWeek: Int = 0
+        var locale: String? = null
+        var year: Int = 0
+        var month: Int = 0
 
-        internal var minDateCalendar: String? = null
-        internal var maxDateCalendar: String? = null
+        var minDateCalendar: String? = null
+        var maxDateCalendar: String? = null
 
-        internal var pickType: String? = null
-        internal var pickedSingleDayCalendar: String? = null
-        internal var pickedRangeStartCalendar: String? = null
-        internal var pickedRangeEndCalendar: String? = null
-        internal var pickedMultipleDaysList: List<String>? = null
+        var pickType: String? = null
+        var pickedSingleDayCalendar: String? = null
+        var pickedRangeStartCalendar: String? = null
+        var pickedRangeEndCalendar: String? = null
+        var pickedMultipleDaysList: List<String>? = null
 
-        internal var disabledDaysList: List<String>? = null
+        var disabledDaysList: List<String>? = null
 
-        internal var dayLabelTextColor: Int = 0
-        internal var todayLabelTextColor: Int = 0
-        internal var pickedDayLabelTextColor: Int = 0
-        internal var pickedDayInRangeLabelTextColor: Int = 0
-        internal var pickedDayBackgroundColor: Int = 0
-        internal var pickedDayInRangeBackgroundColor: Int = 0
-        internal var disabledDayLabelTextColor: Int = 0
-        internal var adjacentMonthDayLabelTextColor: Int = 0
-        internal var dayLabelTextSize: Int = 0
-        internal var dayLabelVerticalPadding: Int = 0
-        internal var showTwoWeeksInLandscape: Boolean = false
-        internal var showAdjacentMonthDays: Boolean = false
+        var dayLabelTextColor: Int = 0
+        var todayLabelTextColor: Int = 0
+        var pickedDayLabelTextColor: Int = 0
+        var pickedDayInRangeLabelTextColor: Int = 0
+        var pickedDayBackgroundColor: Int = 0
+        var pickedDayInRangeBackgroundColor: Int = 0
+        var disabledDayLabelTextColor: Int = 0
+        var adjacentMonthDayLabelTextColor: Int = 0
+        var dayLabelTextSize: Int = 0
+        var dayLabelVerticalPadding: Int = 0
+        var showTwoWeeksInLandscape: Boolean = false
+        var showAdjacentMonthDays: Boolean = false
 
-        internal var pickedDayBackgroundShapeType: Int = 0
-        internal var pickedDayRoundSquareCornerRadius: Int = 0
+        var pickedDayBackgroundShapeType: Int = 0
+        var pickedDayRoundSquareCornerRadius: Int = 0
 
-        internal var animateSelection: Boolean = false
-        internal var animationDuration: Int = 0
+        var animateSelection: Boolean = false
+        var animationDuration: Int = 0
 
-        internal constructor(superState: Parcelable?) : super(superState)
+        constructor(superState: Parcelable?) : super(superState)
 
         private constructor(input: Parcel) : super(input) {
-            calendarType = input.readInt()
-            firstDayOfWeek = input.readInt()
-            locale = input.readString()
-            year = input.readInt()
-            month = input.readInt()
+            input.run {
+                calendarType = readInt()
+                firstDayOfWeek = readInt()
+                locale = readString()
+                year = readInt()
+                month = readInt()
 
-            minDateCalendar = input.readString()
-            maxDateCalendar = input.readString()
+                minDateCalendar = readString()
+                maxDateCalendar = readString()
 
-            pickType = input.readString()
-            pickedSingleDayCalendar = input.readString()
-            pickedRangeStartCalendar = input.readString()
-            pickedRangeEndCalendar = input.readString()
-            input.readStringList(pickedMultipleDaysList ?: mutableListOf())
+                pickType = readString()
+                pickedSingleDayCalendar = readString()
+                pickedRangeStartCalendar = readString()
+                pickedRangeEndCalendar = readString()
+                readStringList(pickedMultipleDaysList ?: mutableListOf())
 
-            disabledDaysList?.let { input.readStringList(it) }
+                disabledDaysList?.let { readStringList(it) }
 
-            dayLabelTextColor = input.readInt()
-            todayLabelTextColor = input.readInt()
-            pickedDayLabelTextColor = input.readInt()
-            pickedDayInRangeLabelTextColor = input.readInt()
-            pickedDayBackgroundColor = input.readInt()
-            pickedDayInRangeBackgroundColor = input.readInt()
-            disabledDayLabelTextColor = input.readInt()
-            adjacentMonthDayLabelTextColor = input.readInt()
-            dayLabelTextSize = input.readInt()
-            dayLabelVerticalPadding = input.readInt()
-            showTwoWeeksInLandscape = input.readInt() == 1
-            showAdjacentMonthDays = input.readInt() == 1
+                dayLabelTextColor = readInt()
+                todayLabelTextColor = readInt()
+                pickedDayLabelTextColor = readInt()
+                pickedDayInRangeLabelTextColor = readInt()
+                pickedDayBackgroundColor = readInt()
+                pickedDayInRangeBackgroundColor = readInt()
+                disabledDayLabelTextColor = readInt()
+                adjacentMonthDayLabelTextColor = readInt()
+                dayLabelTextSize = readInt()
+                dayLabelVerticalPadding = readInt()
+                showTwoWeeksInLandscape = readInt() == 1
+                showAdjacentMonthDays = readInt() == 1
 
-            pickedDayBackgroundShapeType = input.readInt()
-            pickedDayRoundSquareCornerRadius = input.readInt()
+                pickedDayBackgroundShapeType = readInt()
+                pickedDayRoundSquareCornerRadius = readInt()
 
-            animateSelection = input.readInt() == 1
-            animationDuration = input.readInt()
+                animateSelection = readInt() == 1
+                animationDuration = readInt()
+            }
         }
 
         override fun writeToParcel(out: Parcel, flags: Int) {
             super.writeToParcel(out, flags)
-            out.writeInt(calendarType)
-            out.writeInt(firstDayOfWeek)
-            out.writeString(locale)
-            out.writeInt(year)
-            out.writeInt(month)
+            out.run {
+                writeInt(calendarType)
+                writeInt(firstDayOfWeek)
+                writeString(locale)
+                writeInt(year)
+                writeInt(month)
 
-            out.writeString(minDateCalendar)
-            out.writeString(maxDateCalendar)
+                writeString(minDateCalendar)
+                writeString(maxDateCalendar)
 
-            out.writeString(pickType)
-            out.writeString(pickedSingleDayCalendar)
-            out.writeString(pickedRangeStartCalendar)
-            out.writeString(pickedRangeEndCalendar)
-            out.writeStringList(pickedMultipleDaysList)
+                writeString(pickType)
+                writeString(pickedSingleDayCalendar)
+                writeString(pickedRangeStartCalendar)
+                writeString(pickedRangeEndCalendar)
+                writeStringList(pickedMultipleDaysList)
 
-            out.writeStringList(disabledDaysList)
+                writeStringList(disabledDaysList)
 
-            out.writeInt(dayLabelTextColor)
-            out.writeInt(todayLabelTextColor)
-            out.writeInt(pickedDayLabelTextColor)
-            out.writeInt(pickedDayInRangeLabelTextColor)
-            out.writeInt(pickedDayBackgroundColor)
-            out.writeInt(pickedDayInRangeBackgroundColor)
-            out.writeInt(disabledDayLabelTextColor)
-            out.writeInt(adjacentMonthDayLabelTextColor)
-            out.writeInt(dayLabelTextSize)
-            out.writeInt(dayLabelVerticalPadding)
-            out.writeInt(if (showTwoWeeksInLandscape) 1 else 0)
-            out.writeInt(if (showAdjacentMonthDays) 1 else 0)
+                writeInt(dayLabelTextColor)
+                writeInt(todayLabelTextColor)
+                writeInt(pickedDayLabelTextColor)
+                writeInt(pickedDayInRangeLabelTextColor)
+                writeInt(pickedDayBackgroundColor)
+                writeInt(pickedDayInRangeBackgroundColor)
+                writeInt(disabledDayLabelTextColor)
+                writeInt(adjacentMonthDayLabelTextColor)
+                writeInt(dayLabelTextSize)
+                writeInt(dayLabelVerticalPadding)
+                writeInt(if (showTwoWeeksInLandscape) 1 else 0)
+                writeInt(if (showAdjacentMonthDays) 1 else 0)
 
-            out.writeInt(pickedDayBackgroundShapeType)
-            out.writeInt(pickedDayRoundSquareCornerRadius)
+                writeInt(pickedDayBackgroundShapeType)
+                writeInt(pickedDayRoundSquareCornerRadius)
 
-            out.writeInt(if (animateSelection) 1 else 0)
-            out.writeInt(animationDuration)
+                writeInt(if (animateSelection) 1 else 0)
+                writeInt(animationDuration)
+            }
         }
 
         companion object {

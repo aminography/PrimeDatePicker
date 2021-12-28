@@ -1,15 +1,12 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-android-extensions'
 }
 
 apply from: rootProject.file('scripts/android.gradle')
-apply from: rootProject.file('scripts/kotlin.gradle')
 
 android {
     defaultConfig {
-        applicationId "com.aminography.primedatepicker.sample"
+        applicationId "com.aminography.primedatepicker.sample_java"
         vectorDrawables.useSupportLibrary = true
     }
 }
