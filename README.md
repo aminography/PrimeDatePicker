@@ -74,8 +74,8 @@ Download
 
 ```gradle
 dependencies {
-    implementation 'com.aminography:primedatepicker:3.5.0'
-    implementation 'com.aminography:primecalendar:1.4.0'
+    implementation 'com.aminography:primedatepicker:3.6.0'
+    implementation 'com.aminography:primecalendar:1.7.0'
 }
 ```
 

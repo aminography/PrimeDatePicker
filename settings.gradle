@@ -7,7 +7,7 @@ enableFeaturePreview('VERSION_CATALOGS')
 dependencyResolutionManagement {
     versionCatalogs {
         dep {
-            alias('primecalendar').to('com.aminography:primecalendar:1.4.0')
+            alias('primecalendar').to('com.aminography:primecalendar:1.7.0')
             alias('androidx-lifecycleKtx').to('androidx.lifecycle:lifecycle-runtime-ktx:2.2.0')
 
             version('coroutines', '1.5.2')
