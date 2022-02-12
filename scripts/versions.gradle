@@ -2,7 +2,7 @@
 def semantic = [
         'major': 3,
         'minor': 6,
-        'patch': 0,
+        'patch': 1,
 ]
 ext.libVersion = [
         'code': semantic.major * 1000000 + semantic.minor * 1000 + semantic.patch,
