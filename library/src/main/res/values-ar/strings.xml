@@ -2,7 +2,7 @@
 <resources>
     <string name="action_today">الیوم</string>
     <string name="action_cancel">إلغاء</string>
-    <string name="action_select">انتخاب</string>
+    <string name="action_select">اختيار</string>
 
     <string name="prime_date_picker_selected_day">اليوم المحدد</string>
     <string name="prime_date_picker_from">من</string>
