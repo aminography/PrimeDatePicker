@@ -101,8 +101,10 @@ internal class RangeDaysSelectionBarView(
         set(value) {
             field = value
             rootView.rangeEndBackView.setOnClickListener {
-                animateBackground(false)
-                value?.invoke()
+                if (pickedRangeStartDay != null) {
+                    animateBackground(false)
+                    value?.invoke()
+                }
             }
         }
 

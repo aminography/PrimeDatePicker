@@ -298,10 +298,12 @@ internal class PrimeDatePickerImpl(
                     }
                 }
                 it.onRangeEndClickListener = {
-                    calendarView.pickType = PickType.RANGE_END
-                    calendarView.pickedRangeEndCalendar?.let { day ->
-                        day.firstDayOfWeek = initialDateCalendar.firstDayOfWeek
-                        calendarView.goto(day, true)
+                    if (calendarView.pickedRangeStartCalendar != null) {
+                        calendarView.pickType = PickType.RANGE_END
+                        calendarView.pickedRangeEndCalendar?.let { day ->
+                            day.firstDayOfWeek = initialDateCalendar.firstDayOfWeek
+                            calendarView.goto(day, true)
+                        }
                     }
                 }
             }
