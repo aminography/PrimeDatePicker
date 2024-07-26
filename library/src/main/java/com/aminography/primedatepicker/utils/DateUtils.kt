@@ -112,7 +112,7 @@ object DateUtils {
 
     fun dateString(calendar: PrimeCalendar?): String? =
         calendar?.run {
-            "${year}-${month}-${dayOfMonth}"
+            "${month}-${dayOfMonth}-${year}"
         }
 
     fun dateString(year: Int, month: Int, dayOfMonth: Int) = "${year}-${month}-${dayOfMonth}"
